@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useHistory } from 'react-router-dom';
+import { useHistory, Link } from 'react-router-dom';
 
 // assets
 import logo from '../../assets/images/logo.png';
@@ -25,11 +25,18 @@ function Header({ ...rest }) {
   return (
     <header {...rest} id="header-app">
       <div className="content">
-        {!errorLoadLogo ? (
-          <img src={logo} alt="logo" className="logo" onError={setErrorLogo} />
-        ) : (
-          <h2>TEM CRÉDITO</h2>
-        )}
+        <Link to="/">
+          {!errorLoadLogo ? (
+            <img
+              src={logo}
+              alt="logo"
+              className="logo"
+              onError={setErrorLogo}
+            />
+          ) : (
+            <h2>TEM CRÉDITO</h2>
+          )}
+        </Link>
         <Button reverse icon="fa-sign-in-alt" onClick={handleLogin}>
           Entrar
         </Button>
