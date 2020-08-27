@@ -1,0 +1,51 @@
+button.btn {
+  color: #fff;
+  cursor: pointer;
+  padding: 1.2rem;
+  font-size: 1.6rem;
+  border-width: 1px;
+  position: relative;
+  border-style: solid;
+  border-color: #fff;
+  border-radius: 0.8rem;
+  font-family: "Roboto";
+}
+
+button.btn i {
+  width: 30px;
+}
+
+/* primary color */
+button.btn.primary {
+  background-color: var(--color-primary);
+  border-color: var(--color-primary-dark);
+}
+button.btn.primary:hover {
+  background-color: var(--color-primary-light);
+}
+
+button.btn.primary.reverse {
+  border-color: var(--color-primary);
+  background-color: var(--color-primary-dark);
+}
+button.btn.primary.reverse:hover {
+  background-color: var(--color-primary-dark-light);
+}
+
+
+/* secondary color */
+button.btn.secondary {
+  background-color: var(--color-secondary);
+  border-color: var(--color-secondary-dark);
+}
+button.btn.secondary:hover {
+  background-color: var(--color-secondary-light);
+}
+
+button.btn.secondary.reverse {
+  border-color: var(--color-secondary);
+  background-color: var(--color-secondary-dark);
+}
+button.btn.secondary.reverse:hover {
+  background-color: var(--color-secondary-dark-light);
+}

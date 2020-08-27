@@ -1,0 +1,31 @@
+/* versão mobile */
+:root {
+  font-size: 60%;
+  background-color: #f7f0f0;
+
+  /* colors */
+  --color-black: #2d2d2d;
+  --color-primary: #e14142;
+  --color-primary-dark: #b41c1c;
+  --color-secondary: #41e1ac;
+  --color-secondary-dark: #3cce9e;
+
+  /* colors - light */
+  --color-primary-light: #ce3c3d;
+  --color-primary-dark-light: #c71f1f;
+  --color-secondary-light: #46f4ba;
+  --color-secondary-dark-light: #41e1ac;
+
+  /* colors - gradient */
+  --color-primary-gradient: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(9,9,121,1) 35%, rgba(0,212,255,1) 100%);
+
+  /* font */
+  font-family: "Open Sans", sans-serif;
+}
+
+/* versão desktop */
+@media (min-width: 700px) {
+  :root {
+    font-size: 62.5%;
+  }
+}
