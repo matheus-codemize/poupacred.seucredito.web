@@ -9,10 +9,12 @@ button.btn {
   border-color: #fff;
   border-radius: 0.8rem;
   font-family: "Roboto";
+  outline: none;
 }
 
-button.btn i {
-  width: 30px;
+i.btn-icon {
+  margin-left: 0.4rem;
+  margin-right: 0.4rem;
 }
 
 /* primary color */
@@ -48,4 +50,30 @@ button.btn.secondary.reverse {
 }
 button.btn.secondary.reverse:hover {
   background-color: var(--color-secondary-dark-light);
+}
+
+button.btn.success{
+  background-color: #27AE60;
+  border-color: #27AE60;
+}
+button.btn.success:hover{
+  background-color: #239c56
+}
+
+
+button.link{
+  border: none;
+  outline: none;
+  cursor: pointer;
+  padding: 1.2rem;
+
+  color: var(--color-black);
+  font-size: 1.6rem;
+  font-family: "Roboto";
+
+  background: transparent;
+}
+
+button.link:hover{
+  text-decoration: underline;
 }

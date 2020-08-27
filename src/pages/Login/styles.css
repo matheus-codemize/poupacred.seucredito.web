@@ -1,0 +1,54 @@
+#login-page{
+  min-height: 100vh;
+}
+
+#login-page .box .title{
+  width: 100%;
+  font-size: 3.2rem;
+  text-align: center;
+  color: var(--color-black);
+  font-family: 'Roboto', sans-serif;
+}
+
+
+
+#login-page .box form{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 80%;
+  max-width: 504px;
+}
+
+#login-page .box form .form-group{
+  width: 90%;
+}
+#login-page .box form .forgot-password{
+  width: 100%;
+  text-align: right;
+  font-size: 1.2rem;
+}
+#login-page .box form .forgot-password button{
+  padding: 0.2rem;
+  margin: 0.4rem;
+  margin-right: 1.4rem;
+  font-size: 1.4rem;
+}
+
+#login-page .box button.btn{
+  width: 75%;
+  margin: 1%;
+}
+
+#login-page .box form button.btn{
+  width: 90%;
+}
+
+@media (min-width: 700px) {
+
+  #login-page .box button.btn{
+    width: 30%;
+  }
+
+}

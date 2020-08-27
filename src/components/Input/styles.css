@@ -1,0 +1,44 @@
+.form-group{
+  display: flex;
+  flex-direction: column;
+  margin: 0.8rem;
+}
+
+.form-group label{
+  font-family: 'Open-Sans', sans-serif;
+  font-size: 1.4rem;
+  color: var(--color-black);
+  margin-bottom: 0.4rem;
+}
+
+.form-group input{
+  padding: 1.2rem;
+  font-size: 1.6rem;
+  color: var(--color-black);
+  background: #FCFAFA;
+  font-family: 'Open-Sans', sans-serif;
+  border: 1px solid #D0D0D0;
+  border-radius: 0.8rem;
+  outline: none;
+}
+
+.form-group input::placeholder{
+  color: #CCBCBC;
+}
+
+.form-group small.help{
+  color: #999;
+  font-size: 1rem;
+  font-family: 'Open-Sans', sans-serif;
+
+  margin-top: 0.4rem;
+
+}
+
+.form-group small.input-error{
+  color: #E14142;
+}
+
+.form-group small.input-success{
+  color: #27AE60;
+}
