@@ -1,0 +1,29 @@
+.fieldset{
+  width: 100%;
+  margin: 0.8rem;
+}
+
+.fieldset .fields{
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.fieldset .fieldset-title{
+  margin: 0.4rem 0;
+
+  font-size: 2.4rem;
+  color: var(--color-black);
+  font-family: 'Roboto', sans-serif;
+
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+.fieldset .fieldset-title::after{
+  content: '';
+  height: 1px;
+  width: 100%;
+  margin-top: 0.4rem;
+  border-bottom: 1px solid #D0D0D0;
+}

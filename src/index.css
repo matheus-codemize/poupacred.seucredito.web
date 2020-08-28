@@ -21,6 +21,8 @@
 
   /* font */
   font-family: "Open Sans", sans-serif;
+
+  min-width: 350px;
 }
 
 /* versão desktop */
