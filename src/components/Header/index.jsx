@@ -10,7 +10,7 @@ import './style.css';
 // components
 import Button from '../Button';
 
-function Header({ ...rest }) {
+function Header({ showMenu, onClickMenu, ...rest }) {
   const [errorLoadLogo, setErrorLoadLogo] = useState(false);
   const history = useHistory();
 
@@ -23,8 +23,13 @@ function Header({ ...rest }) {
   }
 
   return (
-    <header {...rest} id="header-app">
+    <header id="header-app">
       <div className="content">
+        {showMenu && (
+          <button className="menu-button" onClick={onClickMenu}>
+            <i className="fa fa-bars" aria-hidden="true" />
+          </button>
+        )}
         <Link to="/">
           {!errorLoadLogo ? (
             <img

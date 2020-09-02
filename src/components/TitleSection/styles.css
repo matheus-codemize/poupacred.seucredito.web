@@ -1,16 +1,14 @@
-
-#title-section{
+#title-section {
   height: 24rem;
   padding-top: 12rem;
   padding-left: 4.0rem;
   padding-right: 4.0rem;
-
   text-align: center;
-  background-color: var(--color-primary-dark);
+  background: var(--color-primary-dark);
 }
 
-#title-section .title{
-  color:#fff;
+#title-section .title {
+  color: #fff;
   font-size: 3.2rem;
   font-family: 'Roboto', sans-serif;
 }

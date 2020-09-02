@@ -18,62 +18,65 @@ i.btn-icon {
 }
 
 /* primary color */
+
 button.btn.primary {
-  background-color: var(--color-primary);
+  background: var(--color-primary);
   border-color: var(--color-primary-dark);
 }
+
 button.btn.primary:hover {
-  background-color: var(--color-primary-light);
+  background: var(--color-primary-light);
 }
 
 button.btn.primary.reverse {
   border-color: var(--color-primary);
-  background-color: var(--color-primary-dark);
-}
-button.btn.primary.reverse:hover {
-  background-color: var(--color-primary-dark-light);
+  background: var(--color-primary-dark);
 }
 
+button.btn.primary.reverse:hover {
+  background: var(--color-primary-dark-light);
+}
 
 /* secondary color */
+
 button.btn.secondary {
-  background-color: var(--color-secondary);
+  background: var(--color-secondary);
   border-color: var(--color-secondary-dark);
 }
+
 button.btn.secondary:hover {
-  background-color: var(--color-secondary-light);
+  background: var(--color-secondary-light);
 }
 
 button.btn.secondary.reverse {
   border-color: var(--color-secondary);
-  background-color: var(--color-secondary-dark);
-}
-button.btn.secondary.reverse:hover {
-  background-color: var(--color-secondary-dark-light);
+  background: var(--color-secondary-dark);
 }
 
-button.btn.success{
-  background-color: #27AE60;
+button.btn.secondary.reverse:hover {
+  background: var(--color-secondary-dark-light);
+}
+
+button.btn.success {
+  background: #27AE60;
   border-color: #27AE60;
 }
-button.btn.success:hover{
-  background-color: #239c56
+
+button.btn.success:hover {
+  background: #239c56
 }
 
-
-button.link{
+button.link {
   border: none;
   outline: none;
   cursor: pointer;
   padding: 1.2rem;
-
   color: var(--color-black);
   font-size: 1.6rem;
   font-family: "Roboto";
-
   background: transparent;
 }
 
-button.link:hover{
+button.link:hover {
   text-decoration: underline;
 }

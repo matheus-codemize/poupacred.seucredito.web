@@ -13,6 +13,6 @@ function Fieldset({ title, children }) {
 
 Fieldset.propTypes = {
   title: PropTypes.string.isRequired,
-  children: PropTypes.element.isRequired,
+  children: PropTypes.arrayOf(PropTypes.element).isRequired,
 };
 export default Fieldset;
