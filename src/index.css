@@ -1,3 +1,8 @@
+#root {
+  width: 100vw;
+  height: 100vh;
+}
+
 /* versão mobile */
 :root {
   font-size: 60%;
@@ -5,19 +10,38 @@
 
   /* colors */
   --color-black: #2d2d2d;
-  --color-primary: #e14142;
-  --color-primary-dark: #b41c1c;
-  --color-secondary: #41e1ac;
-  --color-secondary-dark: #3cce9e;
+  --color-disabled: #d0d0d0;
+  --color-not-selected: #525252;
 
-  /* colors - light */
-  --color-primary-light: #ce3c3d;
-  --color-primary-dark-light: #c71f1f;
-  --color-secondary-light: #46f4ba;
-  --color-secondary-dark-light: #41e1ac;
+  /* color primary */
+  --color-primary: 28, 122, 82;
+  --color-primary-dark: 21, 84, 59;
+  --color-primary-light: 47, 181, 121;
+  --color-primary-gradient: linear-gradient(
+    to right,
+    rgb(var(--color-primary)),
+    rgb(var(--color-primary-light))
+  );
+  --color-primary-gradient-reverse: linear-gradient(
+    to left,
+    rgb(var(--color-primary)),
+    rgb(var(--color-primary-light))
+  );
 
-  /* colors - gradient */
-  --color-primary-gradient: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(9,9,121,1) 35%, rgba(0,212,255,1) 100%);
+  /* color secondary */
+  --color-secondary: 102, 105, 107;
+  --color-secondary-dark: 64, 66, 67;
+  --color-secondary-light: 138, 142, 144;
+  --color-secondary-gradient: linear-gradient(
+    to right,
+    rgb(var(--color-secondary)),
+    rgb(var(--color-secondary-light))
+  );
+  --color-secondary-gradient-reverse: linear-gradient(
+    to left,
+    rgb(var(--color-secondary)),
+    rgb(var(--color-secondary-light))
+  );
 
   /* font */
   font-family: "Open Sans", sans-serif;

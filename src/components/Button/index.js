@@ -4,13 +4,31 @@ import PropTypes from "prop-types"
 // style
 import "./style.css"
 
-function Button({ color, reverse, icon, iconPosition, children, ...rest }) {
+function Button({
+  icon,
+  type,
+  dark,
+  light,
+  gradient,
+  htmlType,
+  children,
+  iconPosition,
+  ...rest
+}) {
   const renderIcon = useMemo(() => {
     return icon && <i className={`fa ${icon}`} />
   }, [icon])
 
+  const classBtn = useMemo(() => {
+    let classItem = `btn ${type}`
+    if (light) classItem += " light"
+    else if (dark) classItem += " dark"
+    else if (gradient) classItem += " gradient"
+    return classItem
+  }, [type, light, gradient, dark])
+
   return (
-    <button {...rest} className={`btn ${color} ${reverse ? "reverse" : ""}`}>
+    <button {...rest} type={htmlType} className={classBtn}>
       {iconPosition === "left" && renderIcon}
       {children}
       {iconPosition === "right" && renderIcon}
@@ -20,18 +38,22 @@ function Button({ color, reverse, icon, iconPosition, children, ...rest }) {
 
 Button.defaultProps = {
   icon: "",
-  reverse: false,
-  type: "button",
-  color: "primary",
+  dark: false,
+  light: false,
+  gradient: false,
+  type: "primary",
+  htmlType: "button",
   iconPosition: "left",
 }
 
 Button.propTypes = {
+  dark: PropTypes.bool,
+  light: PropTypes.bool,
   icon: PropTypes.string,
-  reverse: PropTypes.bool,
-  color: PropTypes.oneOf(["primary", "secondary"]),
+  gradient: PropTypes.bool,
+  type: PropTypes.oneOf(["primary", "secondary"]),
   iconPosition: PropTypes.oneOf(["left", "right"]),
-  type: PropTypes.oneOf(["button", "submit", "reset"]),
+  htmlType: PropTypes.oneOf(["button", "submit", "reset"]),
 }
 
 export default Button
