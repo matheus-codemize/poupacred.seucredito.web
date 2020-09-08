@@ -76,12 +76,15 @@ function Login() {
         ) : (
           <>
             <h2 className="title">Entrar como:</h2>
-            <Button icon="fa-user" onClick={() => handleLoginType('agent')}>
+            <Button
+              icon="fa-user"
+              onClick={() => handleLoginType('agent')}
+              color="secondary"
+            >
               Agente
             </Button>
             <Button
               icon="fa-user-tie"
-              color="secondary"
               onClick={() => handleLoginType('client')}
             >
               Cliente

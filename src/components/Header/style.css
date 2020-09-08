@@ -1,6 +1,7 @@
 #header-app {
   width: 100%;
-  z-index: 999;
+  z-index: 1;
+  /*caso alterar z-index, verificar o z-index da sidebar*/
   position: fixed;
 }
 
@@ -21,19 +22,26 @@
   width: 20rem;
 }
 
-#header-app .menu-button {
+#header-app .content>div.first-element, #header-app .content>div.last-element {
+  flex-grow: 1;
+  display: flex;
+  align-items: center;
+}
+
+#header-app .content>div.last-element {
+  justify-content: flex-end;
+}
+
+#header-app .content .menu-button {
   padding: 0.8rem 1.2rem;
   font-size: 2.4rem;
   color: #fff;
   border: none;
   border-color: var(--color-primary);
-  background: var(--color-primary-dark);
+  background: var(--color-primary-gradient);
   cursor: pointer;
   border-radius: 0.8rem;
   outline: var(--color-primary-dark);
   transition: background 0.4s;
-}
-
-#header-app .menu-button:hover {
-  background-color: var(--color-primary-dark-light);
+  margin-right: 2rem;
 }

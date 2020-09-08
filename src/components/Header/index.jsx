@@ -25,26 +25,39 @@ function Header({ showMenu, onClickMenu, ...rest }) {
   return (
     <header id="header-app">
       <div className="content">
-        {showMenu && (
-          <button className="menu-button" onClick={onClickMenu}>
-            <i className="fa fa-bars" aria-hidden="true" />
-          </button>
-        )}
-        <Link to="/">
-          {!errorLoadLogo ? (
-            <img
-              src={logo}
-              alt="logo"
-              className="logo"
-              onError={setErrorLogo}
-            />
-          ) : (
-            <h2>TEM CRÉDITO</h2>
+        <div className="first-element">
+          {showMenu && (
+            <button className="menu-button" onClick={onClickMenu}>
+              <i className="fa fa-bars" aria-hidden="true" />
+            </button>
           )}
-        </Link>
-        <Button reverse icon="fa-sign-in-alt" onClick={handleLogin}>
-          Entrar
-        </Button>
+          <Link to="/">
+            {!errorLoadLogo ? (
+              <img
+                src={logo}
+                alt="logo"
+                className="logo"
+                onError={setErrorLogo}
+              />
+            ) : (
+              <h2>SEU CRÉDITO</h2>
+            )}
+          </Link>
+        </div>
+
+        <div className="last-element">
+          {!showMenu && (
+            <Button
+              reverse
+              icon="fa-sign-in-alt"
+              onClick={handleLogin}
+              sm="100"
+              lg="25"
+            >
+              Entrar
+            </Button>
+          )}
+        </div>
       </div>
     </header>
   );

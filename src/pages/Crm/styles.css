@@ -1,0 +1,30 @@
+#crm-page .filters {
+  width: 100%;
+}
+
+#crm-page .filter-actions button.outline {
+  color: #FFF;
+  border: 1px solid #FFF;
+  border-radius: 1.2rem;
+  background: transparent;
+  padding: 0.4rem 0.8rem;
+  outline: none;
+  cursor: pointer;
+  font-size: 1.2rem;
+}
+
+#crm-page .filter-actions button.outline:first-child {
+  margin-right: 1.2rem;
+}
+
+.filter-actions.hidden {
+  display: none;
+}
+
+.filters {
+  display: none;
+}
+
+.filters.visible {
+  display: block;
+}

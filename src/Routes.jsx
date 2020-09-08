@@ -16,33 +16,19 @@ function Routes() {
         return <Crm />;
       },
     },
-    {
-      path: '/login',
-      main: function render() {
-        return <Login />;
-      },
-    },
   ];
-  // const privateRoutes = (
-  //   <BrowserRouter>
-  //     <Switch>
-  //       <Route path="/crm" component={() => <Crm />} />
-  //     </Switch>
-  //   </BrowserRouter>
-  // );
-
-  // if (!logged) {
-  //   return (
-  //     <BrowserRouter>
-  //       <Switch>
-  //         <Route exact path="/" component={() => <Landing />} />
-  //         <Route path="/login" component={() => <Login />} />
-  //         <Route path="/form" component={() => <Form />} />
-  //       </Switch>
-  //     </BrowserRouter>
-  //   );
-  // }
   return <Sidebar routes={privateRoutes} />;
+
+  // se usuario nao estiver logado deve acessar apenas as seguintes rotas
+  return (
+    <BrowserRouter>
+      <Switch>
+        <Route exact path="/" component={() => <Landing />} />
+        <Route path="/login" component={() => <Login />} />
+        <Route path="/form" component={() => <Form />} />
+      </Switch>
+    </BrowserRouter>
+  );
 }
 
 export default Routes;

@@ -12,6 +12,16 @@ button.btn {
   outline: none;
 }
 
+button.sm-100 {
+  width: 98%;
+  margin: 1%;
+}
+
+button.sm-25 {
+  width: 23%;
+  margin: 1%;
+}
+
 i.btn-icon {
   margin-left: 0.4rem;
   margin-right: 0.4rem;
@@ -21,7 +31,7 @@ i.btn-icon {
 
 button.btn.primary {
   background: var(--color-primary);
-  border-color: var(--color-primary-dark);
+  border-color: var(--color-primary-gradient);
 }
 
 button.btn.primary:hover {
@@ -30,7 +40,7 @@ button.btn.primary:hover {
 
 button.btn.primary.reverse {
   border-color: var(--color-primary);
-  background: var(--color-primary-dark);
+  background: var(--color-primary-gradient);
 }
 
 button.btn.primary.reverse:hover {
@@ -40,12 +50,12 @@ button.btn.primary.reverse:hover {
 /* secondary color */
 
 button.btn.secondary {
-  background: var(--color-secondary);
-  border-color: var(--color-secondary-dark);
+  background: var(--color-secondary-gradient);
+  border-color: var(--color-black);
 }
 
 button.btn.secondary:hover {
-  background: var(--color-secondary-light);
+  background: var(--color-black);
 }
 
 button.btn.secondary.reverse {
@@ -79,4 +89,15 @@ button.link {
 
 button.link:hover {
   text-decoration: underline;
+}
+
+@media (min-width:700px) {
+  button.lg-100 {
+    width: 98%;
+    margin: 1%;
+  }
+  button.lg-25 {
+    width: 23%;
+    margin: 1%;
+  }
 }

@@ -1,59 +1,70 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import './styles.css';
-import { BrowserRouter, Link, Switch, Route, NavLink } from 'react-router-dom';
+import ReactSidebar from 'react-sidebar';
+
 import Header from '../Header';
-import Button from '../Button';
+import SidebarNavLink from './SidebarNavLink';
+
+import './styles.css';
 function Sidebar({ routes }) {
   const [open, setOpen] = useState(false);
-  function sidebarToggle() {
-    // setOpen(!open);
-    document.getElementById('sidebar').classList.toggle('sidebar-open');
-    document.getElementById('sidebar').classList.toggle('sidebar-close');
-    document.getElementById('main').classList.toggle('main-open');
+  const [width, setWidth] = useState('50%');
+  useEffect(() => {
+    handleResize();
+    window.addEventListener('resize', handleResize);
+  }, []);
+
+  function handleResize() {
+    console.log(window.matchMedia(`(min-width: 700px)`).matches);
+    if (window.matchMedia(`(min-width: 700px)`).matches) {
+      setWidth('25%');
+    } else setWidth('50%');
   }
+
+  function toggleOpen() {
+    setOpen(!open);
+  }
+
   return (
     <BrowserRouter>
-      <div style={{ display: 'flex' }}>
-        <div id="sidebar" className="sidebar-close">
-          <div className="user">
-            <span className="text">
-              Bem vindo,
-              <br /> Fulano
-            </span>
-          </div>
-          <ul>
-            <li>
-              <NavLink to="/login" activeClassName="active-menu">
-                Login
-              </NavLink>
-            </li>
-            <li>
-              <NavLink to="/crm" activeClassName="active-menu">
-                CRM
-              </NavLink>
-            </li>
-            <li>
-              <NavLink to="/shoelaces" activeClassName="active-menu">
-                Shoelaces
-              </NavLink>
-            </li>
-          </ul>
-        </div>
-        <div id="main">
-          {/* <div className="click-zone"></div> */}
-          <Header showMenu={true} onClickMenu={sidebarToggle} />
-          <Switch>
-            {routes.map((route, index) => (
-              // Render more <Route>s with the same paths as
-              // above, but different components this time.
-              <Route key={index} path={route.path} exact={route.exact}>
-                <route.main />
-              </Route>
-            ))}
-          </Switch>
-        </div>
-      </div>
+      <ReactSidebar
+        sidebarClassName="sidebar"
+        open={open}
+        onSetOpen={toggleOpen}
+        styles={{
+          sidebar: {
+            background: 'var(--color-background)',
+            width: width,
+            zIndex: 5,
+          },
+          overlay: {
+            zIndex: 4,
+          },
+        }}
+        sidebar={
+          <>
+            <div className="user">
+              <span className="text">
+                Bem vindo,
+                <br /> Fulano
+              </span>
+            </div>
+            <ul>
+              <SidebarNavLink to="/crm" title="CRM" onClick={toggleOpen} />
+            </ul>
+          </>
+        }
+      >
+        <Header showMenu={true} onClickMenu={toggleOpen} />
+        <Switch>
+          {routes.map((route, index) => (
+            <Route key={index} path={route.path} exact={route.exact}>
+              <route.main />
+            </Route>
+          ))}
+        </Switch>
+      </ReactSidebar>
     </BrowserRouter>
   );
 }

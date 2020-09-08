@@ -1,14 +1,25 @@
 #title-section {
-  height: 24rem;
+  min-height: 24rem;
   padding-top: 12rem;
   padding-left: 4.0rem;
   padding-right: 4.0rem;
-  text-align: center;
-  background: var(--color-primary-dark);
+  background: var(--color-primary-gradient);
 }
 
 #title-section .title {
   color: #fff;
   font-size: 3.2rem;
+  text-align: center;
   font-family: 'Roboto', sans-serif;
+}
+
+#title-section .content {
+  padding: 2rem 0;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+#title-section .content .form-group label {
+  color: #FFF;
 }
