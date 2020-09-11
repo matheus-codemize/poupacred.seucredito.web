@@ -1,17 +1,18 @@
 import React, { useState } from 'react';
 
+import { doLogin } from '../../services/auth';
+
 // component
 import Header from '../../components/Header';
 import Button from '../../components/Button';
 import Box from '../../components/Box';
 import TitleSection from '../../components/TitleSection';
-
-import './styles.css';
 import Input from '../../components/Input';
 
+import './styles.css';
 const defaultLoginData = {
   type: '',
-  login: '',
+  userame: '',
   password: '',
 };
 
@@ -31,7 +32,9 @@ function Login() {
   }
 
   function submitForm(e) {
+    const { username, password } = loginData;
     e.preventDefault();
+    doLogin(username, password);
     alert('submit');
     console.log(loginData);
   }
@@ -49,7 +52,7 @@ function Login() {
           <form onSubmit={submitForm}>
             <Input
               label="CPF"
-              name="login"
+              name="username"
               htmlType="text"
               onChange={onChangeInput}
               placeholder="Digite seu CPF..."

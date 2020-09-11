@@ -51,6 +51,11 @@ function Sidebar({ routes }) {
               </span>
             </div>
             <ul>
+              <SidebarNavLink
+                to="/propostas"
+                title="Propostas"
+                onClick={toggleOpen}
+              />
               <SidebarNavLink to="/crm" title="CRM" onClick={toggleOpen} />
             </ul>
           </>
