@@ -6,6 +6,8 @@ import Button from '../../components/Button';
 import InputDateRange from '../../components/InputDateRange';
 
 import './styles.css';
+import Card from '../../components/Card';
+import InfoField from '../../components/InfoField';
 function Crm() {
   const [showFilter, setShowFilter] = useState(false);
 
@@ -42,7 +44,21 @@ function Crm() {
           </Button>
         </div>
       </TitleSection>
-      <p>cards...</p>
+      <div className="content">
+        <Card>
+          <div className="card-header">
+            <span className="card-title">Solicitacao: 32434</span>
+            <span className="card-title">Ativo</span>
+          </div>
+          <div className="crm-info">
+            <InfoField title="Convênio" info="36613 - GOVERNO SP" />
+            <InfoField title="Qtde. Solicitada" info="2" />
+            <InfoField title="Qtde. Trabalhada" info="2" />
+            <InfoField title="Prazo para trabalhar" info="20/10/2020" />
+          </div>
+          <Button>Atender Mailing</Button>
+        </Card>
+      </div>
     </div>
   );
 }

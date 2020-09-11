@@ -23,7 +23,7 @@ function Routes() {
       },
     },
   ];
-  // return <Sidebar routes={privateRoutes} />;
+  return <Sidebar routes={privateRoutes} />;
 
   // se usuario nao estiver logado deve acessar apenas as seguintes rotas
   return (

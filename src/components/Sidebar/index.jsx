@@ -16,7 +16,6 @@ function Sidebar({ routes }) {
   }, []);
 
   function handleResize() {
-    console.log(window.matchMedia(`(min-width: 700px)`).matches);
     if (window.matchMedia(`(min-width: 700px)`).matches) {
       setWidth('25%');
     } else setWidth('50%');

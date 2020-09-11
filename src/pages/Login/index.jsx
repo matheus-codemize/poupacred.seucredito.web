@@ -1,7 +1,5 @@
 import React, { useState } from 'react';
 
-import { doLogin } from '../../services/auth';
-
 // component
 import Header from '../../components/Header';
 import Button from '../../components/Button';
@@ -34,9 +32,6 @@ function Login() {
   function submitForm(e) {
     const { username, password } = loginData;
     e.preventDefault();
-    doLogin(username, password);
-    alert('submit');
-    console.log(loginData);
   }
 
   function onBack() {
