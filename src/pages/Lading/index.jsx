@@ -6,6 +6,7 @@ import './styles.css';
 // components
 import Header from '../../components/Header';
 import Button from '../../components/Button';
+import FeatureItem from './FeatureItem';
 
 function Landing() {
   const history = useHistory();
@@ -18,32 +19,54 @@ function Landing() {
       <Header />
       <main>
         <div className="content-sig-in">
-          <h1>Lorem Ipsum é simplesmente uma simulação de texto </h1>
+          <h1>Realize Seus Planos Simule, Compare e Contrate.</h1>
           <p>
-            Ao contrário do que se acredita, Lorem Ipsum não é simplesmente um
-            texto randômico. Com mais de 2000 anos
+            Crédito Pessoal ou Consignado, várias opções e você escolhe a que
+            mais lhe convém.
           </p>
           <div className="content-actions">
             <Button
+              icon="fa-file-text"
+              onClick={() => {
+                handleSignIn('cliente');
+              }}
+            >
+              Simule e Contrate
+            </Button>
+            <Button
               icon="fa-user"
+              onClick={() => {
+                handleSignIn('cliente');
+              }}
+            >
+              Já sou Cliente
+            </Button>
+            <Button
+              icon="fa-briefcase"
+              color="secondary"
               onClick={() => {
                 handleSignIn('agente');
               }}
             >
               Seja um Agente
             </Button>
-            <Button
-              icon="fa-user-tie"
-              color="secondary"
-              onClick={() => {
-                handleSignIn('cliente');
-              }}
-            >
-              Seja um Cliente
-            </Button>
           </div>
         </div>
-        <div className="content-feature">features ...</div>
+        <div className="content-feature">
+          <FeatureItem icon="fa-money" title="Cliente">
+            Encontre a melhor opção para você
+            <br />
+            Nossa missão é acabar com os juros abusivos
+            <br />
+            Juros a partir de 1,29% ao mês
+          </FeatureItem>
+          <FeatureItem icon="fa-money" title="Agente">
+            Você também pode realizar seus sonhos
+            <br /> Nossa equipe vai agilizar suas operações
+            <br />
+            Várias modalidades de crádito
+          </FeatureItem>
+        </div>
       </main>
     </div>
   );
