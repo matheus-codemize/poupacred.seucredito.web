@@ -10,7 +10,6 @@ import Card from '../../components/Card';
 import InfoField from '../../components/InfoField';
 function Crm() {
   const [showFilter, setShowFilter] = useState(false);
-
   function handleShowFilter() {
     setShowFilter(!showFilter);
   }

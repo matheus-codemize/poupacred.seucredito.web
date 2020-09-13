@@ -11,7 +11,7 @@ export default function auth(state = initialState, action) {
     case '@auth/SIGN_IN_REQUEST':
       return {
         ...state,
-        loadingSignInRequest: false,
+        loadingSignInRequest: true,
       };
     case '@auth/SIGN_IN_SUCCESS':
       return {
@@ -25,6 +25,10 @@ export default function auth(state = initialState, action) {
       return {
         ...initialState,
         error: true,
+      };
+    case '@auth/LOGOUT':
+      return {
+        ...initialState,
       };
     default:
       return state;

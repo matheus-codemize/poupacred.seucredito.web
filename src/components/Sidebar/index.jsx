@@ -1,19 +1,31 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import ReactSidebar from 'react-sidebar';
+import { useDispatch } from 'react-redux';
+
+import { logout } from '../../redux/modules/auth/actions';
 
 import Header from '../Header';
 import SidebarNavLink from './SidebarNavLink';
 
 import './styles.css';
 function Sidebar({ routes }) {
+  const dispatch = useDispatch();
   const [open, setOpen] = useState(false);
   const [width, setWidth] = useState('50%');
   useEffect(() => {
     handleResize();
     window.addEventListener('resize', handleResize);
   }, []);
+
+  const routesMemo = useMemo(() => {
+    return routes.map((route, index) => (
+      <Route key={index} path={route.path} exact={route.exact}>
+        <route.main />
+      </Route>
+    ));
+  }, [routes]);
 
   function handleResize() {
     if (window.matchMedia(`(min-width: 700px)`).matches) {
@@ -23,6 +35,10 @@ function Sidebar({ routes }) {
 
   function toggleOpen() {
     setOpen(!open);
+  }
+
+  function handleLogout() {
+    dispatch(logout());
   }
 
   return (
@@ -44,10 +60,15 @@ function Sidebar({ routes }) {
         sidebar={
           <>
             <div className="user">
-              <span className="text">
-                Bem vindo,
-                <br /> Fulano
-              </span>
+              <div className="user-content">
+                <span className="text">
+                  Bem vindo,
+                  <br /> Fulano
+                </span>
+                <a href="/" onClick={handleLogout}>
+                  Sair
+                </a>
+              </div>
             </div>
             <ul>
               <SidebarNavLink
@@ -61,13 +82,7 @@ function Sidebar({ routes }) {
         }
       >
         <Header showMenu={true} onClickMenu={toggleOpen} />
-        <Switch>
-          {routes.map((route, index) => (
-            <Route key={index} path={route.path} exact={route.exact}>
-              <route.main />
-            </Route>
-          ))}
-        </Switch>
+        <Switch>{routesMemo}</Switch>
       </ReactSidebar>
     </BrowserRouter>
   );

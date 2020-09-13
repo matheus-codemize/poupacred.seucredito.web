@@ -12,6 +12,8 @@ function Button({
   children,
   sm,
   lg,
+  loading,
+  onClick,
   ...rest
 }) {
   const renderIcon = useMemo(() => {
@@ -24,11 +26,27 @@ function Button({
     color === 'link' ? 'link' : `btn ${color} ${reverse ? 'reverse' : ''}`
   } ${lgSize} ${smSize}`;
 
+  function handleOnClick() {
+    if (!loading) {
+      if (typeof onClick === 'function') {
+        onClick();
+      }
+    }
+  }
   return (
-    <button {...rest} className={buttonClasses}>
-      {iconPosition === 'left' && renderIcon}
-      {children}
-      {iconPosition === 'right' && renderIcon}
+    <button {...rest} className={buttonClasses} onClick={handleOnClick}>
+      {loading ? (
+        <span>
+          <i className="fa fa-spinner fa-spin" />
+          &nbsp;Carregando...
+        </span>
+      ) : (
+        <>
+          {iconPosition === 'left' && renderIcon}
+          {children}
+          {iconPosition === 'right' && renderIcon}
+        </>
+      )}
     </button>
   );
 }
@@ -41,10 +59,12 @@ Button.defaultProps = {
   iconPosition: 'left',
   lg: '',
   sm: '',
+  loading: false,
 };
 
 Button.propTypes = {
   icon: PropTypes.string,
+  loading: PropTypes.bool,
   reverse: PropTypes.bool,
   color: PropTypes.oneOf(['primary', 'secondary', 'success', 'link']),
   iconPosition: PropTypes.oneOf(['left', 'right']),
@@ -52,6 +72,7 @@ Button.propTypes = {
   children: PropTypes.string,
   lg: PropTypes.string,
   sm: PropTypes.string,
+  onClick: PropTypes.func,
 };
 
 export default Button;

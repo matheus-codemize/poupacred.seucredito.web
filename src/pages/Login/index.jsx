@@ -18,11 +18,10 @@ const defaultLoginData = {
 };
 
 function Login() {
+  const dispatch = useDispatch();
   const [loginData, setLoginData] = useState({ ...defaultLoginData });
   const [showForm, setShowForm] = useState(false);
-  const authState = useSelector(state => state.auth);
-  const dispatch = useDispatch();
-  console.log(authState);
+  const { loadingSignInRequest } = useSelector(state => state.auth);
   function handleLoginType(type) {
     setShowForm(true);
     setLoginData(prevLoginData => ({ ...prevLoginData, type }));
@@ -49,6 +48,7 @@ function Login() {
     setLoginData({ ...defaultLoginData });
     setShowForm(false);
   }
+
   return (
     <div id="login-page">
       <Header />
@@ -78,6 +78,7 @@ function Login() {
               color="success"
               icon="fa-sign-in"
               iconPosition="right"
+              loading={loadingSignInRequest}
             >
               Entrar
             </Button>

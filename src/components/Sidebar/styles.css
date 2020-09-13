@@ -10,7 +10,18 @@
   background: var(--color-primary-gradient);
 }
 
-.sidebar .user .text {
+.sidebar .user .user-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.sidebar .user .user-content a {
+  font-size: 1.2rem;
+  color: #FFF;
+}
+
+.sidebar .user .user-content .text {
   /* font-size: 1.6rem; */
   line-height: 2rem;
   font-weight: 700;
