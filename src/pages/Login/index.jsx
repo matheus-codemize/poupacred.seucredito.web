@@ -1,4 +1,7 @@
 import React, { useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+
+import { signInRequest } from '../../redux/modules/auth/actions';
 
 // component
 import Header from '../../components/Header';
@@ -10,14 +13,16 @@ import Input from '../../components/Input';
 import './styles.css';
 const defaultLoginData = {
   type: '',
-  userame: '',
+  username: '',
   password: '',
 };
 
 function Login() {
   const [loginData, setLoginData] = useState({ ...defaultLoginData });
   const [showForm, setShowForm] = useState(false);
-
+  const authState = useSelector(state => state.auth);
+  const dispatch = useDispatch();
+  console.log(authState);
   function handleLoginType(type) {
     setShowForm(true);
     setLoginData(prevLoginData => ({ ...prevLoginData, type }));
@@ -32,6 +37,12 @@ function Login() {
   function submitForm(e) {
     const { username, password } = loginData;
     e.preventDefault();
+    dispatch(
+      signInRequest({
+        username,
+        password,
+      }),
+    );
   }
 
   function onBack() {
