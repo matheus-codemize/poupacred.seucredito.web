@@ -7,7 +7,18 @@ import Input from '../../components/Input';
 import Fieldset from '../../components/Fieldset';
 import Button from '../../components/Button';
 import InputFile from '../../components/InputFile';
-
+/**
+ *
+ *
+ *
+ *
+ * TODO: MUDAR O NOME DO COMPONENTE, COLOQUEI FORM APENAS PARA TESTE
+ *
+ *
+ *
+ *
+ *
+ */
 import './styles.css';
 function Form() {
   return (

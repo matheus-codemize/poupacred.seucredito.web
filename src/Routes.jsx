@@ -34,7 +34,7 @@ function Routes() {
         <Switch>
           <Route exact path="/" component={() => <Landing />} />
           <Route path="/login" component={() => <Login />} />
-          <Route path="/form" component={() => <Form />} />
+          <Route path="/cadastro-agente" component={() => <Form />} />
         </Switch>
       </BrowserRouter>
     );
