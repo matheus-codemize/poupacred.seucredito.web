@@ -10,39 +10,8 @@ import Sidebar from './components/Sidebar';
 import Proposal from './pages/Proposal';
 function Routes() {
   const { isAuthenticated } = useSelector(state => state.auth);
-  // const publicRoutesMemo = useMemo(
-  //   () => (
-  //     <BrowserRouter>
-  //       <Switch>
-  //         <Route exact path="/" component={() => <Landing />} />
-  //         <Route path="/login" component={() => <Login />} />
-  //         <Route path="/form" component={() => <Form />} />
-  //       </Switch>
-  //     </BrowserRouter>
-  //   ),
-  //   [],
-  // );
-
-  // const privateRoutesMemo = useMemo(() => {
-  //   const privateRoutes = [
-  //     {
-  //       path: '/crm',
-  //       main: function render() {
-  //         return <Crm />;
-  //       },
-  //     },
-  //     {
-  //       path: '/propostas',
-  //       main: function render() {
-  //         return <Proposal />;
-  //       },
-  //     },
-  //   ];
-  //   return <Sidebar routes={privateRoutes} />;
-  // }, []);
 
   const render = useMemo(() => {
-    console.log('memo');
     if (isAuthenticated) {
       const privateRoutes = [
         {
@@ -71,7 +40,6 @@ function Routes() {
     );
   }, [isAuthenticated]);
 
-  // se usuario nao estiver logado deve acessar apenas as seguintes rotas
   return render;
 }
 
