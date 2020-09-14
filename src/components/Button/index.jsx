@@ -42,9 +42,9 @@ function Button({
         </span>
       ) : (
         <>
-          {iconPosition === 'left' && renderIcon}
+          {iconPosition === 'left' && <>{renderIcon}&nbsp;</>}
           {children}
-          {iconPosition === 'right' && renderIcon}
+          {iconPosition === 'right' && <>&nbsp;{renderIcon}</>}
         </>
       )}
     </button>

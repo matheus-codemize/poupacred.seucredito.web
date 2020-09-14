@@ -29,6 +29,12 @@
   display: block;
 }
 
+#proposal-page .content {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
 #proposal-page .content .card .card-header {
   width: 100%;
   display: flex;

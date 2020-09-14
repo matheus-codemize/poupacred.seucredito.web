@@ -18,7 +18,7 @@ function Landing() {
     <div id="landing-page">
       <Header />
       <main>
-        <div className="content-sig-in">
+        <div className="content-sign-in">
           <h1>Realize Seus Planos Simule, Compare e Contrate.</h1>
           <p>
             Crédito Pessoal ou Consignado, várias opções e você escolhe a que
