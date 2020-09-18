@@ -2,12 +2,16 @@ import React, { useMemo } from 'react';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
-import Landing from './pages/Lading';
+import Landing from './pages/Landing';
 import Login from './pages/Login';
 import Form from './pages/Form';
 import Crm from './pages/Crm';
-import Sidebar from './components/Sidebar';
 import Proposal from './pages/Proposal';
+
+// components
+import Header from './components/Header';
+import Sidebar from './components/Sidebar';
+
 function Routes() {
   const { isAuthenticated } = useSelector(state => state.auth);
 
@@ -31,6 +35,7 @@ function Routes() {
     }
     return (
       <BrowserRouter>
+        <Header />
         <Switch>
           <Route exact path="/" component={() => <Landing />} />
           <Route path="/login" component={() => <Login />} />

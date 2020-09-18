@@ -1,0 +1,69 @@
+{
+  "header.title": "SEU CRÉDITO",
+  "header.button.sigin.text": "Entrar",
+
+  "landing.title": "Realize Seus Planos - Simule, Compare e Contrate.",
+  "landing.subtitle": "Crédito Pessoal ou Consignado, várias opções e você escolhe a que mais lhe convém.",
+  "landing.button.simulation.text": "Simule e Contrate",
+  "landing.button.client.text": "Já sou Cliente",
+  "landing.button.agent.text": "Seja um Agente",
+  "landing.features": [
+    {
+      "icon": "fa-user",
+      "title": "Cliente",
+      "descriptions": [
+        "Encontre a melhor opção para você",
+        "Nossa missão é acabar com os juros abusivos",
+        "Juros a partir de 1,29% ao mês"
+      ]
+    },
+    {
+      "icon": "fa-user-tie",
+      "title": "Agente",
+      "descriptions": [
+        "Você também pode realizar seus sonhos",
+        "Nossa equipe vai agilizar suas operações",
+        "Várias modalidades de crádito"
+      ]
+    }
+  ],
+  "landing.step.title": "Consiga seu crédito em apenas 4 passos:",
+  "landing.step.subtitle": "É fácil, rápido e totalmente seguro!",
+  "landing.steps": [
+    {
+      "title": "Cadastro",
+      "description": "Complete o seu cadastro online. Não se preocupe, seu dados estão seguros com a gente!"
+    },
+    {
+      "title": "Simulação",
+      "description": "Nosso time simula o valor escolhido por você de acordo com o produto selecionado"
+    },
+    {
+      "title": "Documentação",
+      "description": "Você entrega os documentos necessários e aguarda o nosso contato"
+    },
+    {
+      "title": "Dinheiro na conta!",
+      "description": "Assim que aprovado, o dinheiro será depositado na sua conta bancária"
+    }
+  ],
+  "landing.advantage.title": "Porque contratar empréstimo com a SEUCRÉDITO",
+  "landing.advantages": [
+    {
+      "title": "Confiança é fundamental",
+      "description": "Temos um time com grande experiência no mercado de empréstimo e nossa operação tem como princípios, agilidade com solidez e segurança, além disso seguimos rigorosamente os regulamentos do Banco Central do Brasil. <p>Pode confiar na SEU<span style='font-weight: 700; font-style: italic'>CRÉDITO</span></p>"
+    },
+    {
+      "title": "Oferta Personalizada",
+      "description": "Respeitamos seu perfil de crédito e sua capacidade de pagamento e geramos alternativas de mais de uma instituição financeira desenhadas pra você."
+    },
+    {
+      "title": "Plataforma Online e Política de Juros",
+      "description": "Nascemos no mundo digital, que permite que você simule, compare e contrate online, com o objetivo de facilitar a sua vida de forma segura e tornar os empréstimos com juros mais acessíveis do que o modelo de atendimento pessoal."
+    },
+    {
+      "title": "O melhor atendimento",
+      "description": "Nossa plataforma foi desenhada para você se auto servir, mas se sentir necessidade de esclarecer alguma dúvida, temos consultores financeiros trabalhando em horários específicos, prontos para atendê-lo."
+    }
+  ]
+}

@@ -2,24 +2,32 @@
 
 :root {
   font-size: 60%;
-  background-color: #F0F2F1;
+  background-color: #f0f2f1;
   /* colors */
-  --color-black: #2d2d2d;
-  --color-background: #F5FEFA;
-  --color-primary: #08A558;
+  --color-black: 45, 45, 45;
+  --color-background: 245, 254, 250;
+  --color-primary: #08a558;
   --color-primary-dark: rgba(28, 122, 82, 1);
   --color-secondary: #41e1ac;
   --color-secondary-dark: #3cce9e;
   /* colors - light */
-  --color-primary-light: #2FB579;
-  --color-primary-dark-light: #08A558;
+  --color-primary-light: #2fb579;
+  --color-primary-dark-light: #08a558;
   --color-secondary-light: #46f4ba;
   --color-secondary-dark-light: #41e1ac;
   /* colors - gradient */
-  --color-primary-gradient: linear-gradient(0deg, rgba(28, 122, 82, 1) 0%, rgba(47, 181, 121, 1) 83%);
-  --color-secondary-gradient: linear-gradient(90deg, rgb(64, 66, 67) 0%, rgb(138, 142, 144) 100%);
+  --color-primary-gradient: linear-gradient(
+    0deg,
+    rgba(28, 122, 82, 1) 0%,
+    rgba(47, 181, 121, 1) 83%
+  );
+  --color-secondary-gradient: linear-gradient(
+    90deg,
+    rgb(64, 66, 67) 0%,
+    rgb(138, 142, 144) 100%
+  );
   /* font */
-  font-family: "Open Sans", sans-serif;
+  font-family: 'Open Sans', sans-serif;
   min-width: 350px;
 }
 
