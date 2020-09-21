@@ -2,8 +2,12 @@
   "header.title": "SEU CRÉDITO",
   "header.button.sigin.text": "Entrar",
 
-  "landing.title": "Realize Seus Planos - Simule, Compare e Contrate.",
-  "landing.subtitle": "Crédito Pessoal ou Consignado, várias opções e você escolhe a que mais lhe convém.",
+  "landing.banners": [
+    {
+      "title": "Realize Seus Planos - Simule, Compare e Contrate.",
+      "subtitle": "Crédito Pessoal ou Consignado, várias opções e você escolhe a que mais lhe convém."
+    }
+  ],
   "landing.button.simulation.text": "Simule e Contrate",
   "landing.button.client.text": "Já sou Cliente",
   "landing.button.agent.text": "Seja um Agente",
@@ -23,7 +27,7 @@
       "descriptions": [
         "Você também pode realizar seus sonhos",
         "Nossa equipe vai agilizar suas operações",
-        "Várias modalidades de crádito"
+        "Várias modalidades de crédito"
       ]
     }
   ],
@@ -36,7 +40,7 @@
     },
     {
       "title": "Simulação",
-      "description": "Nosso time simula o valor escolhido por você de acordo com o produto selecionado"
+      "description": "Nosso simulador encontra para você a melhor oportunidade para o valor escolhido de acordo com o produto selecionado."
     },
     {
       "title": "Documentação",
