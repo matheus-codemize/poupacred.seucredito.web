@@ -4,8 +4,17 @@
 
   "landing.banners": [
     {
+      "position": "30%",
       "title": "Realize Seus Planos - Simule, Compare e Contrate.",
       "subtitle": "Crédito Pessoal ou Consignado, várias opções e você escolhe a que mais lhe convém."
+    },
+    {
+      "position": "30%",
+      "title": "Tenha as melhores taxas do mercado na tela do seu celular."
+    },
+    {
+      "position": "-30%",
+      "title": "Crédito rápido para militares e servidores públicos."
     }
   ],
   "landing.button.simulation.text": "Simule e Contrate",
@@ -69,5 +78,31 @@
       "title": "O melhor atendimento",
       "description": "Nossa plataforma foi desenhada para você se auto servir, mas se sentir necessidade de esclarecer alguma dúvida, temos consultores financeiros trabalhando em horários específicos, prontos para atendê-lo."
     }
-  ]
+  ],
+  "landing.footer": {
+    "links": [
+      {
+        "text": "Termo de Uso",
+        "url": ""
+      },
+      {
+        "text": "Política de privacidade",
+        "url": ""
+      }
+    ],
+    "contacts": [
+      {
+        "icon": "fa-envelope",
+        "text": "atendimento@temcredito.com.br"
+      },
+      {
+        "icon": "fa-phone-alt",
+        "text": "0800 123 1234"
+      },
+      {
+        "icon": "fa-map-marker-alt",
+        "text": "<a target='_blank' href='https://www.google.com/maps/place/R.+Dr.+Cyro+Bueno,+126+-+Jardim+Morumbi,+Pres.+Prudente+-+SP,+19060-560/@-22.1261481,-51.4165589,17z/data=!3m1!4b1!4m5!3m4!1s0x9493f46b6e4bd56d:0x29f64a405827ddc!8m2!3d-22.1261481!4d-51.4143702'>Rua Cyro Bueno, 126, Jardim Morumbi. Presidente Prudente – SP</a>"
+      }
+    ]
+  }
 }

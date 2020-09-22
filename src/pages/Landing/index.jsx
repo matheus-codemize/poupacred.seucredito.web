@@ -1,5 +1,5 @@
 /* eslint-disable camelcase */
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useMemo, useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import $ from 'jquery';
 
@@ -75,10 +75,11 @@ function Landing() {
     styles.advantage,
     styles.advantage_title,
     styles.animation_visible,
+    navigator.userAgent,
   ]);
 
   useEffect(() => {
-    const selectors = ['slider_item', 'container_title', 'selector_item'];
+    const selectors = ['slider_item', 'selector_item'];
 
     selectors.forEach(selector =>
       $(`.${styles[selector]}`).each(function (i) {
@@ -113,7 +114,7 @@ function Landing() {
     initIntervalBanner();
   }
 
-  function setBanner(index) {
+  async function setBanner(index) {
     if (index !== undefined) {
       setIndexBanner(index);
       return restartIntervalBanner();
@@ -152,6 +153,31 @@ function Landing() {
 
   function handleAgent() {}
 
+  const renderTitle = useMemo(() => {
+    if (indexBanner < language['landing.banners'].length) {
+      const { title, subtitle, position } = language['landing.banners'][
+        indexBanner
+      ];
+      return (
+        <div
+          id="container-title"
+          className={styles.container_title}
+          style={
+            width >= 700
+              ? {
+                  transform: `translateX(${position})`,
+                }
+              : {}
+          }
+        >
+          <h1>{title}</h1>
+          {subtitle && <p>{subtitle}</p>}
+        </div>
+      );
+    }
+    return <></>;
+  }, [width, indexBanner]);
+
   return (
     <div className={styles.container}>
       <section className={styles.section_header}>
@@ -160,14 +186,10 @@ function Landing() {
             key={index}
             src={banner}
             alt={`banner${index}`}
-            className={styles.slider_item} />
+            className={styles.slider_item}
+          />
         ))}
-        {language['landing.banners'].map((banners, index) => (
-          <div key={index} className={styles.container_title}>
-            <h1>{banners.title}</h1>
-            <p>{banners.subtitle}</p>
-          </div>
-        ))}
+        {renderTitle}
         <div className={styles.container_action}>
           <Button icon="fa-calculator" onClick={handleSimulation}>
             {language['landing.button.simulation.text']}
@@ -184,20 +206,10 @@ function Landing() {
             <div
               key={index}
               onClick={() => setBanner(index)}
-              className={styles.selector_item} />
+              className={styles.selector_item}
+            />
           ))}
         </div>
-      </section>
-      <section className={styles.section_feature}>
-        {language['landing.features'].map((feature, index) => (
-          <div key={index} className={styles.feature}>
-            <i className={`fa ${feature.icon}`} />
-            <h1>{feature.title}</h1>
-            {feature.descriptions.map((description, indexD) => (
-              <p key={indexD}>{description}</p>
-            ))}
-          </div>
-        ))}
       </section>
       <section className={styles.container_step}>
         <h1 className={styles.container_step_title}>
@@ -225,9 +237,43 @@ function Landing() {
             <h1>{advantage.title}</h1>
             <div
               className={styles.advantage_item_description}
-              dangerouslySetInnerHTML={{ __html: advantage.description }} />
+              dangerouslySetInnerHTML={{ __html: advantage.description }}
+            />
           </div>
         ))}
+      </section>
+      <section className={styles.section_feature}>
+        {language['landing.features'].map((feature, index) => (
+          <div key={index} className={styles.feature}>
+            <i className={`fa ${feature.icon}`} />
+            <h1>{feature.title}</h1>
+            {feature.descriptions.map((description, indexD) => (
+              <p key={indexD}>{description}</p>
+            ))}
+          </div>
+        ))}
+      </section>
+      <section className={styles.section_footer}>
+        <div className={styles.container_term_policy}>
+          <h1>{language['header.title']}</h1>
+          <ul>
+            {language['landing.footer'].links.map((link, index) => (
+              <li key={index}>
+                <a href={link.url} className={styles.footer_link}>
+                  {link.text}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </div>
+        <div className={styles.container_contacts}>
+          {language['landing.footer'].contacts.map((contact, index) => (
+            <div key={index}>
+              <i className={`fa ${contact.icon}`} />
+              <div dangerouslySetInnerHTML={{ __html: contact.text }} />
+            </div>
+          ))}
+        </div>
       </section>
     </div>
   );
