@@ -3,18 +3,19 @@
 :root {
   font-size: 60%;
   background-color: #f0f2f1;
+
   /* colors */
   --color-black: 45, 45, 45;
-  --color-background: 245, 254, 250;
-  --color-primary: #08a558;
-  --color-primary-dark: rgba(28, 122, 82, 1);
-  --color-secondary: #41e1ac;
-  --color-secondary-dark: #3cce9e;
-  /* colors - light */
-  --color-primary-light: #2fb579;
-  --color-primary-dark-light: #08a558;
-  --color-secondary-light: #46f4ba;
-  --color-secondary-dark-light: #41e1ac;
+  --color-white: 245, 254, 250;
+
+  --color-primary: 28, 122, 82;
+  --color-primary-dark: 28, 122, 82;
+  --color-primary-light: 47, 181, 121;
+
+  --color-secondary: 102, 105, 107;
+  --color-secondary-dark: 64, 66, 67;
+  --color-secondary-light: 136, 142, 144;
+
   /* colors - gradient */
   --color-primary-gradient: linear-gradient(
     0deg,

@@ -1,0 +1,19 @@
+.button {
+  outline: none;
+  cursor: pointer;
+  padding: 1.2rem;
+  font-size: 1.6rem;
+  position: relative;
+  border-radius: 0.8rem;
+  font-family: 'Roboto';
+  transition: 0.5s ease;
+  color: rgb(var(--color-white));
+  border: 1px solid rgb(var(--color-white));
+}
+
+.button i {
+  text-align: center;
+  align-items: center;
+  margin-right: 1.2rem;
+  justify-content: center;
+}

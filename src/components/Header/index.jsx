@@ -37,8 +37,11 @@ function Header() {
     <header
       className={styles.header}
       style={{
-        backgroundColor: `rgba(var(--color-background), ${opactity})`,
-        boxShadow: opactity === 1 ? '0px 1px 3px 1px #ccc' : undefined,
+        backgroundColor: `rgba(var(--color-white), ${opactity})`,
+        boxShadow:
+          opactity === 1
+            ? '0px 1px 3px 1px rgba(var(--color-black), 0.2)'
+            : undefined,
       }}
     >
       <Link to="/">
@@ -50,10 +53,10 @@ function Header() {
             onError={() => setLoadLogo(false)}
           />
         ) : (
-          <h2>{language['header.title']}</h2>
+          <h2>{language['title']}</h2>
         )}
       </Link>
-      <Button icon="fa-sign-in-alt" onClick={handleLogin}>
+      <Button icon="fa fa-sign-in-alt" onClick={handleLogin}>
         {language['header.button.sigin.text']}
       </Button>
     </header>

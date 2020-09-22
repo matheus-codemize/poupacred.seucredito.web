@@ -12,6 +12,10 @@ import Button from '../../components/Button';
 // utils
 import language from '../../utils/language';
 
+// assets
+import Term from '../../assets/documents/politica_privacidade.pdf';
+import Polity from '../../assets/documents/politica_privacidade.pdf';
+
 const bannersDesktop = [
   require('../../assets/images/landing/desktop/banner1.png'),
   require('../../assets/images/landing/desktop/banner2.png'),
@@ -19,14 +23,13 @@ const bannersDesktop = [
 ];
 
 const bannersMobile = [
-  require('../../assets/images/landing/desktop/banner1.png'),
-  require('../../assets/images/landing/desktop/banner2.png'),
-  require('../../assets/images/landing/desktop/banner3.png'),
+  require('../../assets/images/landing/mobile/banner1.png'),
+  require('../../assets/images/landing/mobile/banner2.png'),
+  require('../../assets/images/landing/mobile/banner2.png'),
 ];
 
 function Landing() {
   const history = useHistory();
-
   /**
    * State para controle das animações JS
    */
@@ -178,26 +181,65 @@ function Landing() {
     return <></>;
   }, [width, indexBanner]);
 
+  const bannerPosition = useMemo(() => {
+    if (navigator.userAgent.toLowerCase().includes('mobile')) {
+      // mobile
+      switch (indexBanner) {
+        case 0:
+          return '20%';
+
+        case 1:
+          return '25%';
+
+        case 2:
+          return '65%';
+
+        default:
+          break;
+      }
+    } else {
+      // desktop
+      switch (indexBanner) {
+        case 1:
+          return '30%';
+
+        case 2:
+          return '65%';
+
+        default:
+          break;
+      }
+    }
+    return 0;
+  }, [indexBanner]);
+
   return (
     <div className={styles.container}>
       <section className={styles.section_header}>
         {bannersDesktop.map((banner, index) => (
-          <img
+          <div
             key={index}
-            src={banner}
-            alt={`banner${index}`}
             className={styles.slider_item}
+            style={{
+              backgroundImage: `url(${banner})`,
+              backgroundPosition: bannerPosition,
+            }}
           />
         ))}
         {renderTitle}
         <div className={styles.container_action}>
-          <Button icon="fa-calculator" onClick={handleSimulation}>
+          <Button icon="fa fa-calculator" onClick={handleSimulation}>
             {language['landing.button.simulation.text']}
           </Button>
-          <Button icon="fa-user" onClick={handleClient}>
+          <Button icon="fa fa-user" onClick={handleClient}>
             {language['landing.button.client.text']}
           </Button>
-          <Button color="secondary" icon="fa-user-tie" onClick={handleAgent}>
+          <Button
+            gradient
+            type="secondary"
+            icon="fa fa-user-tie"
+            onClick={handleAgent}
+          >
             {language['landing.button.agent.text']}
           </Button>
         </div>
@@ -211,14 +253,12 @@ function Landing() {
           ))}
         </div>
       </section>
-      <section className={styles.container_step}>
-        <h1 className={styles.container_step_title}>
-          {language['landing.step.title']}
-        </h1>
-        <p className={styles.container_step_description}>
+      <section className={styles.section_step}>
+        <h1 className={styles.step_title}>{language['landing.step.title']}</h1>
+        <p className={styles.step_description}>
           {language['landing.step.subtitle']}
         </p>
-        <div className={styles.section_step}>
+        <div className={styles.container_step}>
           {language['landing.steps'].map((step, index) => (
             <div key={index} className={styles.step}>
               <div className={styles.step_number}>{index + 1}</div>
@@ -255,20 +295,23 @@ function Landing() {
       </section>
       <section className={styles.section_footer}>
         <div className={styles.container_term_policy}>
-          <h1>{language['header.title']}</h1>
+          <h1>{language['title']}</h1>
           <ul>
-            {language['landing.footer'].links.map((link, index) => (
-              <li key={index}>
-                <a href={link.url} className={styles.footer_link}>
-                  {link.text}
-                </a>
-              </li>
-            ))}
+            <li>
+              <a href={Term} target="_blank" className={styles.footer_link}>
+                {language['term']}
+              </a>
+            </li>
+            <li>
+              <a href={Polity} target="_blank" className={styles.footer_link}>
+                {language['polity']}
+              </a>
+            </li>
           </ul>
         </div>
         <div className={styles.container_contacts}>
           {language['landing.footer'].contacts.map((contact, index) => (
-            <div key={index}>
+            <div className={styles.contact} key={index}>
               <i className={`fa ${contact.icon}`} />
               <div dangerouslySetInnerHTML={{ __html: contact.text }} />
             </div>

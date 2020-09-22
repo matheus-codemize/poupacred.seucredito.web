@@ -1,5 +1,8 @@
 {
-  "header.title": "SEU CRÉDITO",
+  "title": "SEU CRÉDITO",
+  "term": "Termos de Uso",
+  "polity": "Política de Privacidade",
+
   "header.button.sigin.text": "Entrar",
 
   "landing.banners": [
@@ -80,16 +83,6 @@
     }
   ],
   "landing.footer": {
-    "links": [
-      {
-        "text": "Termo de Uso",
-        "url": ""
-      },
-      {
-        "text": "Política de privacidade",
-        "url": ""
-      }
-    ],
     "contacts": [
       {
         "icon": "fa-envelope",
