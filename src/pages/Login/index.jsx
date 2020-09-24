@@ -4,7 +4,7 @@ import styles from './style.module.css';
 
 // redux
 import { useDispatch } from 'react-redux';
-import actions from '../../react-redux/actions/auth'
+import actions from '../../react-redux/actions/auth';
 
 // utils
 import language from '../../utils/language';
@@ -37,8 +37,8 @@ function Login() {
 
       const url = `/${type}es/login`;
       const request = convertKeys(data);
-      const { nome, token } = await api.post(url, request);
-      const response = { ...data, name: nome, token, type };
+      const { uid, nome, token } = await api.post(url, request);
+      const response = { ...data, name: nome, uid, token, type };
       setLoading(false);
       return dispatch(actions.signIn(response));
     } catch (err) {
@@ -46,7 +46,7 @@ function Login() {
       setLoading(false);
       setError(message);
       setData(prevData => ({ ...prevData, password: '' }));
-    } 
+    }
   }
 
   function handleForgotPassword() {}

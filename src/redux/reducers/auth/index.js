@@ -1,6 +1,7 @@
 import actionsTypes from '../../constants/auth';
 
 const inital_state = {
+  uid: '',
   name: '',
   login: '',
   token: '',
