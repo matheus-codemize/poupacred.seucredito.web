@@ -13,10 +13,10 @@ import Header from './components/Header';
 import Sidebar from './components/Sidebar';
 
 function Routes() {
-  const { isAuthenticated } = useSelector(state => state.auth);
+  const { token } = useSelector(state => state.auth);
 
   const render = useMemo(() => {
-    if (isAuthenticated) {
+    if (token) {
       const privateRoutes = [
         {
           path: '/crm',
@@ -37,13 +37,21 @@ function Routes() {
       <BrowserRouter>
         <Header />
         <Switch>
-          <Route exact path="/" component={() => <Landing />} />
-          <Route path="/login" component={() => <Login />} />
-          <Route path="/cadastro-agente" component={() => <Form />} />
+          {token ? (
+            <>
+              <Route exact path="/" component={() => <Landing />} />
+            </>
+          ) : (
+            <>
+              <Route exact path="/" component={() => <Landing />} />
+              <Route path="/login" component={() => <Login />} />
+              <Route path="/cadastro-agente" component={() => <Form />} />
+            </>
+          )}
         </Switch>
       </BrowserRouter>
     );
-  }, [isAuthenticated]);
+  }, [token]);
 
   return render;
 }

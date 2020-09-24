@@ -7,6 +7,7 @@
   /* colors */
   --color-black: 45, 45, 45;
   --color-white: 245, 254, 250;
+  --color-disabled: 233, 236, 239;
 
   --color-primary: 30, 122, 83;
   --color-primary-dark: 22, 84, 59;
@@ -20,11 +21,6 @@
   --color-primary-hover: 39, 159, 108;
   --color-primary-dark-hover: 32, 121, 85;
   --color-primary-light-hover: 37, 145, 96;
-  --color-primary-gradient-hover: linear-gradient(
-    to left,
-    rgb(22, 84, 59) 0%,
-    rgb(46, 182, 121) 83%
-  );
 
   --color-secondary: 102, 105, 104;
   --color-secondary-dark: 64, 66, 67;
@@ -35,7 +31,9 @@
     rgb(139, 143, 145) 100%
   );
   /* hover */
-  --color-secondary-gradient-hover: rgb(64, 66, 67);
+  --color-secondary-hover: 138, 142, 141;
+  --color-secondary-dark-hover: 99, 102, 104;
+  --color-secondary-light-hover: 104, 107, 108;
 
   /* font */
   font-family: 'Open Sans', sans-serif;

@@ -1,38 +1,49 @@
-import React from 'react';
+import React, { useCallback, useMemo } from 'react';
 import PropTypes from 'prop-types';
+import styles from './style.module.css';
+
+// utils
+import language from '../../utils/language';
 
 // components
 import Button from '../Button';
 
-import './styles.css';
-function Box({ children, backVisible, onBack, ...rest }) {
-  function handleBack() {
-    if (typeof onBack === 'function') {
-      onBack();
-    }
-  }
+function Box({ onBack, children, ...rest }) {
+  const handleBack = useCallback(() => {
+    if (onBack && typeof onBack === 'function') onBack();
+  }, [onBack]);
+
+  const renderBack = useMemo(() => {
+    return (
+      onBack && (
+        <Button
+          type="link"
+          onClick={handleBack}
+          icon="fa fa-angle-left"
+          style={{ top: '2rem', left: '2rem', position: 'absolute' }}
+        >
+          {language['component.box']['button.back.text']}
+        </Button>
+      )
+    );
+  }, [handleBack, onBack]);
+
   return (
-    <div id="box" {...rest}>
-      {backVisible && (
-        <div className="box-header">
-          <Button color="link" icon="fa-chevron-left" onClick={handleBack}>
-            Voltar
-          </Button>
-        </div>
-      )}
+    <div className={styles.container} data-back={onBack ? 'visible' : 'hidden'}>
+      {renderBack}
       {children}
     </div>
   );
 }
 
 Box.defaultProps = {
-  backVisible: false,
+  onBack: false,
+  children: <></>,
 };
 
 Box.propTypes = {
   children: PropTypes.element,
-  backVisible: PropTypes.bool,
-  onBack: PropTypes.func,
+  onBack: PropTypes.oneOfType([PropTypes.func, PropTypes.bool]),
 };
 
 export default Box;

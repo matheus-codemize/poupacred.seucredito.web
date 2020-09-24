@@ -1,5 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React, { useMemo, useEffect, useState } from 'react';
 import { useHistory, Link } from 'react-router-dom';
+
+// redux
+import { useSelector } from 'react-redux';
 
 // css
 import styles from './style.module.css';
@@ -15,6 +18,8 @@ import Button from '../Button';
 
 function Header() {
   const history = useHistory();
+  const { token } = useSelector(state => state.auth);
+
   const [opactity, setOpactity] = useState(0);
   const [loadLogo, setLoadLogo] = useState(true);
 
@@ -29,9 +34,15 @@ function Header() {
     });
   }, [opactity]);
 
-  function handleLogin() {
-    history.push('/login');
-  }
+  const renderButtonSignin = useMemo(() => {
+    if (token || history.location.pathname.includes('login')) return <></>;
+
+    return (
+      <Button icon="fa fa-sign-in-alt" onClick={() => history.push('/login')}>
+        {language['header.button.sigin.text']}
+      </Button>
+    );
+  }, [token, history, history.location, history.location.pathname]);
 
   return (
     <header
@@ -56,9 +67,7 @@ function Header() {
           <h2>{language['title']}</h2>
         )}
       </Link>
-      <Button icon="fa fa-sign-in-alt" onClick={handleLogin}>
-        {language['header.button.sigin.text']}
-      </Button>
+      {renderButtonSignin}
     </header>
   );
 }

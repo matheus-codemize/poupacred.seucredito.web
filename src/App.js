@@ -1,12 +1,14 @@
 import React from 'react';
+
+// redux
 import { Provider } from 'react-redux';
-import { store } from './redux';
+import { store, persistor } from './react-redux/store';
 
 import Routes from './Routes';
 
 function App() {
   return (
-    <Provider store={store}>
+    <Provider store={store} persistor={persistor}>
       <Routes />
     </Provider>
   );
