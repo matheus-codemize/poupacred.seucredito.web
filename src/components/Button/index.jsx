@@ -7,16 +7,17 @@ function Button({ type, dark, light, children, icon, gradient, ...rest }) {
     return icon && <i className={icon} />;
   }, [icon]);
 
-  const style = useMemo(() => {
-    return {
-      background: gradient
-        ? `var(--color-${type}-gradient)`
-        : `rgb(var(--color-${type}${light ? '-light' : dark ? '-dark' : ''}))`,
-    };
+  const classNameComponent = useMemo(() => {
+    let c = styles.button;
+    if (light) c += ` ${styles[type + '-light']}`;
+    else if (dark) c += ` ${styles[type + '-dark']}`;
+    else if (gradient) c += ` ${styles[type + '-gradient']}`;
+    else c += ` ${styles[type]}`;
+    return c;
   }, [type, dark, light, gradient]);
 
   return (
-    <button {...rest} className={styles.button} style={style}>
+    <button {...rest} className={classNameComponent}>
       {renderIcon}
       {children}
     </button>

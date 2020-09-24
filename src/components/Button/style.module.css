@@ -6,7 +6,8 @@
   position: relative;
   border-radius: 0.8rem;
   font-family: 'Roboto';
-  transition: 0.5s ease;
+  background-size: 150% auto;
+  transition: 0.5s ease-in-out;
   color: rgb(var(--color-white));
   border: 1px solid rgb(var(--color-white));
 }
@@ -16,4 +17,65 @@
   align-items: center;
   margin-right: 1.2rem;
   justify-content: center;
+}
+
+.primary {
+  background: rgb(var(--color-primary));
+}
+
+.primary-light {
+  background: rgb(var(--color-primary-light));
+}
+
+.primary-dark {
+  background: rgb(var(--color-primary-dark));
+}
+
+.primary-gradient {
+  background-image: var(--color-primary-gradient);
+}
+
+.primary:hover {
+  background: rgb(var(--color-primary-hover));
+}
+
+.primary-light:hover {
+  background: rgb(var(--color-primary-light-hover));
+}
+
+.primary-dark:hover {
+  background: rgb(var(--color-primary-dark-hover));
+}
+
+.secondary {
+  background: rgb(var(--color-secondary));
+}
+
+.secondary-light {
+  background: rgb(var(--color-secondary-light));
+}
+
+.secondary-dark {
+  background: rgb(var(--color-secondary-dark));
+}
+
+.secondary-gradient {
+  background-image: var(--color-secondary-gradient);
+}
+
+.secondary:hover {
+  background: rgb(var(--color-secondary-hover));
+}
+
+.secondary-light:hover {
+  background: rgb(var(--color-secondary-light-hover));
+}
+
+.secondary-dark:hover {
+  background: rgb(var(--color-secondary-dark-hover));
+}
+
+.primary-gradient:hover,
+.secondary-gradient:hover {
+  background-position: right center;
 }

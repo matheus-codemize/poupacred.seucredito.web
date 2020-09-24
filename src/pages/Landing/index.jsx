@@ -17,15 +17,9 @@ import Term from '../../assets/documents/politica_privacidade.pdf';
 import Polity from '../../assets/documents/politica_privacidade.pdf';
 
 const bannersDesktop = [
-  require('../../assets/images/landing/desktop/banner1.png'),
-  require('../../assets/images/landing/desktop/banner2.png'),
-  require('../../assets/images/landing/desktop/banner3.png'),
-];
-
-const bannersMobile = [
-  require('../../assets/images/landing/mobile/banner1.png'),
-  require('../../assets/images/landing/mobile/banner2.png'),
-  require('../../assets/images/landing/mobile/banner2.png'),
+  require('../../assets/images/landing/desktop/banner1.jpg'),
+  require('../../assets/images/landing/desktop/banner2.jpg'),
+  require('../../assets/images/landing/desktop/banner3.jpg'),
 ];
 
 function Landing() {
@@ -174,7 +168,7 @@ function Landing() {
           }
         >
           <h1>{title}</h1>
-          {subtitle && <p>{subtitle}</p>}
+          {/* {subtitle && <p>{subtitle}</p>} */}
         </div>
       );
     }
@@ -186,13 +180,13 @@ function Landing() {
       // mobile
       switch (indexBanner) {
         case 0:
-          return '20%';
+          return '15%';
 
         case 1:
-          return '25%';
+          return '20%';
 
         case 2:
-          return '65%';
+          return '70%';
 
         default:
           break;
@@ -204,7 +198,7 @@ function Landing() {
           return '30%';
 
         case 2:
-          return '65%';
+          return '70%';
 
         default:
           break;

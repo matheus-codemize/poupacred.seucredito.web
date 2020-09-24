@@ -8,25 +8,35 @@
   --color-black: 45, 45, 45;
   --color-white: 245, 254, 250;
 
-  --color-primary: 28, 122, 82;
-  --color-primary-dark: 28, 122, 82;
-  --color-primary-light: 47, 181, 121;
-
-  --color-secondary: 102, 105, 107;
-  --color-secondary-dark: 64, 66, 67;
-  --color-secondary-light: 136, 142, 144;
-
-  /* colors - gradient */
+  --color-primary: 30, 122, 83;
+  --color-primary-dark: 22, 84, 59;
+  --color-primary-light: 46, 182, 121;
   --color-primary-gradient: linear-gradient(
-    0deg,
-    rgba(28, 122, 82, 1) 0%,
-    rgba(47, 181, 121, 1) 83%
+    to right,
+    rgb(22, 84, 59) 0%,
+    rgb(46, 182, 121) 83%
   );
+  /* hover */
+  --color-primary-hover: 39, 159, 108;
+  --color-primary-dark-hover: 32, 121, 85;
+  --color-primary-light-hover: 37, 145, 96;
+  --color-primary-gradient-hover: linear-gradient(
+    to left,
+    rgb(22, 84, 59) 0%,
+    rgb(46, 182, 121) 83%
+  );
+
+  --color-secondary: 102, 105, 104;
+  --color-secondary-dark: 64, 66, 67;
+  --color-secondary-light: 139, 143, 145;
   --color-secondary-gradient: linear-gradient(
-    90deg,
+    to right,
     rgb(64, 66, 67) 0%,
-    rgb(138, 142, 144) 100%
+    rgb(139, 143, 145) 100%
   );
+  /* hover */
+  --color-secondary-gradient-hover: rgb(64, 66, 67);
+
   /* font */
   font-family: 'Open Sans', sans-serif;
   min-width: 350px;
