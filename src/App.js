@@ -2,7 +2,7 @@ import React from 'react';
 
 // redux
 import { Provider } from 'react-redux';
-import { store, persistor } from './react-redux/store';
+import { store, persistor } from './redux/store';
 
 import Routes from './Routes';
 

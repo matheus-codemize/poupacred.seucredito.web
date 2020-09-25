@@ -4,7 +4,7 @@ import styles from './style.module.css';
 
 // redux
 import { useDispatch } from 'react-redux';
-import actions from '../../react-redux/actions/auth';
+import actions from '../../redux/actions/auth';
 
 // utils
 import language from '../../utils/language';

@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import ReactSidebar from 'react-sidebar';
 import { useDispatch } from 'react-redux';
 
-import { logout } from '../../redux/modules/auth/actions';
+// import { logout } from '../../redux/modules/auth/actions';
 
 import Header from '../Header';
 import SidebarNavLink from './SidebarNavLink';
@@ -38,7 +38,7 @@ function Sidebar({ routes }) {
   }
 
   function handleLogout() {
-    dispatch(logout());
+    // dispatch(logout());
   }
 
   return (
