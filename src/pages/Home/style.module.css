@@ -1,0 +1,46 @@
+.container {
+  width: 100%;
+  margin: 0 auto;
+  margin-top: -2rem;
+  font-family: 'Roboto';
+  max-width: calc(100% - 4rem);
+}
+
+.container_report {
+  display: flex;
+  padding: 1rem;
+  flex-wrap: wrap;
+  color: rgb(var(--color-white));
+}
+
+.report {
+  text-align: center;
+  border-radius: 1rem;
+  margin: 0 0.5rem 1rem;
+  width: calc(50% - 1rem);
+  background-color: rgb(var(--color-primary));
+}
+
+.report i {
+  font-size: 2.7rem;
+  margin-bottom: 1rem;
+}
+
+.report h1 {
+  font-size: 2rem;
+  line-height: 2.5rem;
+  word-wrap: break-word;
+}
+
+.report a {
+  padding: 2rem;
+  display: block;
+  text-decoration: none;
+  color: rgb(var(--color-white));
+}
+
+@media (min-width: 700px) {
+  .container {
+    max-width: 500px;
+  }
+}

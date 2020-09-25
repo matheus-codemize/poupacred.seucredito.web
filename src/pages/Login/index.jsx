@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import _ from 'lodash';
+import { useHistory } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
 import styles from './style.module.css';
 
 // redux
-import { useDispatch } from 'react-redux';
 import actions from '../../redux/actions/auth';
 
 // utils
@@ -23,12 +24,21 @@ import Input from '../../components/Input';
 import Button from '../../components/Button';
 
 function Login() {
+  const history = useHistory();
   const dispatch = useDispatch();
+
+  const auth = useSelector(state => state.auth);
 
   const [type, setType] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const [data, setData] = useState({ ...dataDefault });
+
+  useEffect(() => {
+    if (auth.token) {
+      dispatch(actions.logout());
+    }
+  }, [auth]);
 
   async function handleLogin(event) {
     try {
@@ -39,8 +49,9 @@ function Login() {
       const request = convertKeys(data);
       const { uid, nome, token } = await api.post(url, request);
       const response = { ...data, name: nome, uid, token, type };
+      history.push('/home');
       setLoading(false);
-      return dispatch(actions.signIn(response));
+      dispatch(actions.signIn(response));
     } catch (err) {
       const message = _.get(err, 'response.data.erro', err.message);
       setLoading(false);
@@ -48,8 +59,6 @@ function Login() {
       setData(prevData => ({ ...prevData, password: '' }));
     }
   }
-
-  function handleForgotPassword() {}
 
   function handleChange(event) {
     const { id, value } = event.target;

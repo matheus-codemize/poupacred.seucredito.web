@@ -21,8 +21,8 @@ Panel.defaultProps = {
 };
 
 Panel.propTypes = {
-  title: PropTypes.string,
   children: PropTypes.element,
+  title: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
 };
 
 export default Panel;
