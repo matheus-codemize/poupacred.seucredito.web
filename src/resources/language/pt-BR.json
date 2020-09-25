@@ -3,6 +3,10 @@
   "term": "Termos de Uso",
   "polity": "Política de Privacidade",
 
+  "component.box": {
+    "button.back.text": "Voltar"
+  },
+
   "header.button.sigin.text": "Entrar",
 
   "landing.banners": [
@@ -97,5 +101,42 @@
         "text": "<a target='_blank' href='https://www.google.com/maps/place/R.+Dr.+Cyro+Bueno,+126+-+Jardim+Morumbi,+Pres.+Prudente+-+SP,+19060-560/@-22.1261481,-51.4165589,17z/data=!3m1!4b1!4m5!3m4!1s0x9493f46b6e4bd56d:0x29f64a405827ddc!8m2!3d-22.1261481!4d-51.4143702'>Rua Cyro Bueno, 126, Jardim Morumbi. Presidente Prudente – SP</a>"
       }
     ]
-  }
+  },
+
+  "login.title": "Área exclusiva para clientes e agentes",
+  "login.enterby": {
+    "title": "Entrar como:",
+    "agent": "Agente",
+    "client": "Cliente"
+  },
+  "login.form": {
+    "login.label": "CPF",
+    "password.label": "Senha",
+    "button.sigin": "Entrar",
+    "button.forgot": "Esqueci minha senha"
+  },
+
+  "home.title": "Comissionamento",
+  "home.reports": [
+    {
+      "icon": "fas fa-calendar-day",
+      "title": "Produção Diária",
+      "path": "/report/producao-diaria"
+    },
+    {
+      "icon": "fas fa-chart-pie",
+      "title": "Produção por Produto",
+      "path": "/report/producao-por-produto"
+    },
+    {
+      "icon": "fas fa-chart-line",
+      "title": "Produção Total",
+      "path": "/report/producao-total"
+    },
+    {
+      "icon": "fas fa-file-invoice-dollar",
+      "title": "Comissionamento",
+      "path": "/report/comissionamento"
+    }
+  ]
 }

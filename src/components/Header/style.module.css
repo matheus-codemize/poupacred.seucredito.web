@@ -1,20 +1,29 @@
 .header {
   width: 100%;
-  z-index: 999;
-  height: 40px;
+  z-index: 3;
+  height: 4rem;
   display: flex;
   position: fixed;
-  padding: 14px 0;
   flex-direction: row;
+  padding: 1.4rem 0 2rem 2rem;
   justify-content: space-between;
   transition: box-shadow 0.5s ease;
 }
 
 .header button {
-  margin-right: 2rem;
+  margin-right: 5rem;
+}
+
+.btn_open_sidebar {
+  font-size: 2rem;
+  cursor: pointer;
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  background-color: transparent;
+  color: rgb(var(--color-white));
+  border: 1px solid rgb(var(--color-white));
 }
 
 .logo {
   width: 20rem;
-  margin-left: 2rem;
 }

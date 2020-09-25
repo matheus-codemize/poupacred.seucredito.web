@@ -1,0 +1,55 @@
+.container {
+  width: 100%;
+  min-height: 60vh;
+  display: flex;
+  position: relative;
+  background-size: cover;
+  justify-content: center;
+  background-repeat: no-repeat;
+  background-image: url('../../assets/images/login-bg-mobile.jpg');
+}
+
+.form {
+  width: 100%;
+  margin-top: -2rem;
+  max-width: calc(100% - 4rem);
+}
+
+.container_type {
+  width: 100%;
+}
+
+.container_type h1 {
+  font-size: 3.2rem;
+  text-align: center;
+  color: rgb(var(--color-black));
+}
+
+.container_type button {
+  font-size: 2.2rem;
+  margin: 4rem 0.5rem 0;
+  width: calc(50% - 1rem);
+}
+
+.container_login button {
+  width: 100%;
+}
+
+.container_login button[data-type='link'] {
+  width: auto;
+  float: right;
+  color: grey;
+}
+
+.container_login button[data-type='link']:hover {
+  color: rgb(var(--color-black));
+}
+
+@media (min-width: 700px) {
+  .container {
+    background-image: url('../../assets/images/login-bg.jpg');
+  }
+  .form {
+    max-width: 500px;
+  }
+}

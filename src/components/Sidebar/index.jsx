@@ -1,94 +1,97 @@
-import React, { useState, useEffect, useMemo } from 'react';
-import { BrowserRouter, Switch, Route } from 'react-router-dom';
-import PropTypes from 'prop-types';
-import ReactSidebar from 'react-sidebar';
-import { useDispatch } from 'react-redux';
+import React, { useMemo, useEffect, useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { useHistory, Link } from 'react-router-dom';
+import styles from './style.module.css';
 
-import { logout } from '../../redux/modules/auth/actions';
+// redux
+import actions from '../../redux/actions/sidebar';
+import actionsAuth from '../../redux/actions/auth';
 
-import Header from '../Header';
-import SidebarNavLink from './SidebarNavLink';
+// utils
+import language from '../../utils/language';
 
-import './styles.css';
-function Sidebar({ routes }) {
+// resources
+import { routesAgent, routesClient } from '../../resources/data/sidebar/routes';
+
+function Sidebar() {
+  const history = useHistory();
   const dispatch = useDispatch();
-  const [open, setOpen] = useState(false);
-  const [width, setWidth] = useState('50%');
+
+  const auth = useSelector(state => state.auth);
+  const sidebar = useSelector(state => state.sidebar);
+
+  const [routes, setRoutes] = useState([]);
+  const [className, setClassName] = useState('');
+
   useEffect(() => {
-    handleResize();
-    window.addEventListener('resize', handleResize);
-  }, []);
+    let styleClass = styles.sidebar;
 
-  const routesMemo = useMemo(() => {
-    return routes.map((route, index) => (
-      <Route key={index} path={route.path} exact={route.exact}>
-        <route.main />
-      </Route>
-    ));
-  }, [routes]);
+    if (sidebar.open) {
+      styleClass += ` ${styles.siderbar_open}`;
+    }
 
-  function handleResize() {
-    if (window.matchMedia(`(min-width: 700px)`).matches) {
-      setWidth('25%');
-    } else setWidth('50%');
-  }
+    setClassName(styleClass);
+  }, [sidebar, sidebar.open]);
 
-  function toggleOpen() {
-    setOpen(!open);
+  useEffect(() => {
+    switch (auth.type) {
+      case 'client':
+        setRoutes([...routesClient]);
+        break;
+
+      case 'agent':
+        setRoutes([...routesAgent]);
+        break;
+
+      default:
+        setRoutes([]);
+        break;
+    }
+  }, [auth, auth.type]);
+
+  function handleSidebar() {
+    if (sidebar.open) {
+      dispatch(actions.close());
+    } else {
+      dispatch(actions.open());
+    }
   }
 
   function handleLogout() {
-    dispatch(logout());
+    history.push('/');
+    dispatch(actions.close());
+    dispatch(actionsAuth.logout());
   }
 
+  const renderHeader = useMemo(() => {
+    return (
+      <div className={styles.header}>
+        {language['title']}
+        {/* <button onClick={handleSidebar}>
+          <i className="fa fa-close" />
+        </button> */}
+      </div>
+    );
+  }, [sidebar, sidebar.open]);
+
   return (
-    <BrowserRouter>
-      <ReactSidebar
-        sidebarClassName="sidebar"
-        open={open}
-        onSetOpen={toggleOpen}
-        styles={{
-          sidebar: {
-            background: 'var(--color-background)',
-            width: width,
-            zIndex: 5,
-          },
-          overlay: {
-            zIndex: 4,
-          },
-        }}
-        sidebar={
-          <>
-            <div className="user">
-              <div className="user-content">
-                <span className="text">
-                  Bem vindo,
-                  <br /> Fulano
-                </span>
-                <a href="/" onClick={handleLogout}>
-                  Sair
-                </a>
-              </div>
-            </div>
-            <ul>
-              <SidebarNavLink
-                to="/propostas"
-                title="Propostas"
-                onClick={toggleOpen}
-              />
-              <SidebarNavLink to="/crm" title="CRM" onClick={toggleOpen} />
-            </ul>
-          </>
-        }
-      >
-        <Header showMenu={true} onClickMenu={toggleOpen} />
-        <Switch>{routesMemo}</Switch>
-      </ReactSidebar>
-    </BrowserRouter>
+    <div className={className}>
+      {renderHeader}
+      <ul>
+        {routes.map((route, index) => (
+          <li key={index}>
+            <Link to={route.path} onClick={handleSidebar}>
+              <i className={route.icon} /> {route.name}
+            </Link>
+          </li>
+        ))}
+      </ul>
+      <button className={styles.btn_logout} onClick={handleLogout}>
+        <i className="fa fa-sign-out-alt" />
+        Sair
+      </button>
+    </div>
   );
 }
 
-Sidebar.propTypes = {
-  routes: PropTypes.array.isRequired,
-};
 export default Sidebar;

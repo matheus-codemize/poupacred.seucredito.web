@@ -1,0 +1,19 @@
+.container {
+  height: 40vh;
+  display: flex;
+  overflow: hidden;
+  position: relative;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+  padding: 8rem 2rem 2rem;
+  max-height: calc(40vh - 10rem);
+  background-color: rgb(var(--color-primary));
+}
+
+.title {
+  font-size: 4rem;
+  text-align: center;
+  font-family: 'Roboto';
+  color: rgb(var(--color-white));
+}

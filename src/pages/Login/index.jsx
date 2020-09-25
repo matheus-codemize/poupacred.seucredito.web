@@ -1,104 +1,137 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import _ from 'lodash';
+import { useHistory } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
+import styles from './style.module.css';
 
-import { signInRequest } from '../../redux/modules/auth/actions';
+// redux
+import actions from '../../redux/actions/auth';
+
+// utils
+import language from '../../utils/language';
+import cpfFormat from '../../utils/cpfFormat';
+
+// services
+import api from '../../services/api';
+
+// resources
+import dataDefault, { convertKeys } from '../../resources/data/user/register';
 
 // component
-import Header from '../../components/Header';
-import Button from '../../components/Button';
 import Box from '../../components/Box';
-import TitleSection from '../../components/TitleSection';
+import Panel from '../../components/Panel';
 import Input from '../../components/Input';
-
-import './styles.css';
-const defaultLoginData = {
-  type: '',
-  username: '',
-  password: '',
-};
+import Button from '../../components/Button';
 
 function Login() {
+  const history = useHistory();
   const dispatch = useDispatch();
-  const [loginData, setLoginData] = useState({ ...defaultLoginData });
-  const [showForm, setShowForm] = useState(false);
-  const { loadingSignInRequest } = useSelector(state => state.auth);
-  function handleLoginType(type) {
-    setShowForm(true);
-    setLoginData(prevLoginData => ({ ...prevLoginData, type }));
+
+  const auth = useSelector(state => state.auth);
+
+  const [type, setType] = useState('');
+  const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [data, setData] = useState({ ...dataDefault });
+
+  useEffect(() => {
+    if (auth.token) {
+      dispatch(actions.logout());
+    }
+  }, [auth]);
+
+  async function handleLogin(event) {
+    try {
+      event.preventDefault();
+      setLoading(true);
+
+      const url = `/${type}es/login`;
+      const request = convertKeys(data);
+      const { uid, nome, token } = await api.post(url, request);
+      const response = { ...data, name: nome, uid, token, type };
+      history.push('/home');
+      setLoading(false);
+      dispatch(actions.signIn(response));
+    } catch (err) {
+      const message = _.get(err, 'response.data.erro', err.message);
+      setLoading(false);
+      setError(message);
+      setData(prevData => ({ ...prevData, password: '' }));
+    }
   }
 
-  function onChangeInput(e) {
-    const { value, name } = e.target;
+  function handleChange(event) {
+    const { id, value } = event.target;
 
-    setLoginData(prevLoginData => ({ ...prevLoginData, [name]: value }));
-  }
-
-  function submitForm(e) {
-    const { username, password } = loginData;
-    e.preventDefault();
-    dispatch(
-      signInRequest({
-        username,
-        password,
-      }),
-    );
-  }
-
-  function onBack() {
-    setLoginData({ ...defaultLoginData });
-    setShowForm(false);
+    setError('');
+    setData(prevData => ({
+      ...prevData,
+      [id]: id === 'login' ? cpfFormat(value, data.login) : value,
+    }));
   }
 
   return (
-    <div id="login-page">
-      <Header />
-      <TitleSection title="Área exclusiva para clientes e agentes" />
-      <Box className="box" backVisible={showForm} onBack={onBack}>
-        {showForm ? (
-          <form onSubmit={submitForm}>
-            <Input
-              label="CPF"
-              name="username"
-              htmlType="text"
-              onChange={onChangeInput}
-              placeholder="Digite seu CPF..."
-            />
-            <Input
-              label="Senha"
-              name="password"
-              htmlType="password"
-              onChange={onChangeInput}
-              placeholder="Digite sua senha"
-            />
-            <div className="forgot-password">
-              <Button color="link">Esqueci minha senha</Button>
-            </div>
-            <Button
-              type="submit"
-              color="success"
-              icon="fa-sign-in"
-              iconPosition="right"
-              loading={loadingSignInRequest}
-            >
-              Entrar
-            </Button>
-          </form>
-        ) : (
-          <>
-            <h2 className="title">Entrar como:</h2>
-            <Button icon="fa-user" onClick={() => handleLoginType('client')}>
-              Cliente
-            </Button>
-            <Button
-              icon="fa-briefcase"
-              onClick={() => handleLoginType('agent')}
-              color="secondary"
-            >
-              Agente
-            </Button>
-          </>
-        )}
-      </Box>
+    <div>
+      <Panel title={language['login.title']} />
+      <div className={styles.container}>
+        <div className={styles.form}>
+          <Box onBack={type ? () => setType('') : false}>
+            {type ? (
+              <form onSubmit={handleLogin}>
+                <div className={styles.container_login}>
+                  <Input
+                    id="login"
+                    disabled={loading}
+                    onChange={handleChange}
+                    value={data.login || ''}
+                    placeholder="000.000.000-00"
+                    label={language['login.form']['login.label']}
+                  />
+                  <Input
+                    help={error}
+                    id="password"
+                    disabled={loading}
+                    htmlType="password"
+                    onChange={handleChange}
+                    value={data.password || ''}
+                    label={language['login.form']['password.label']}
+                  />
+                  {/* <Button
+                    type="link"
+                    disabled={loading}
+                    onClick={handleForgotPassword}
+                  >
+                    {language['login.form']['button.forgot']}
+                  </Button> */}
+                  <Button
+                    light
+                    loading={loading}
+                    htmlType="submit"
+                    icon="fa fa-sign-in"
+                    disabled={!data.login || !data.password}
+                  >
+                    {language['login.form']['button.sigin']}
+                  </Button>
+                </div>
+              </form>
+            ) : (
+              <div className={styles.container_type}>
+                <h1>{language['login.enterby']['title']}</h1>
+                <Button icon="fa fa-user" onClick={() => setType('client')}>
+                  {language['login.enterby']['client']}
+                </Button>
+                <Button
+                  type="secondary"
+                  icon="fa fa-user-tie"
+                  onClick={() => setType('agent')}
+                >
+                  {language['login.enterby']['agent']}
+                </Button>
+              </div>
+            )}
+          </Box>
+        </div>
+      </div>
     </div>
   );
 }
