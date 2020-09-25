@@ -1,5 +1,5 @@
 import React, { useMemo, useEffect, useState } from 'react';
-import { useHistory, Link } from 'react-router-dom';
+import { useHistory, useLocation, Link } from 'react-router-dom';
 
 // redux
 import { useSelector } from 'react-redux';
@@ -18,6 +18,7 @@ import Button from '../Button';
 
 function Header() {
   const history = useHistory();
+  const location = useLocation();
   const { token } = useSelector(state => state.auth);
 
   const [opactity, setOpactity] = useState(0);
@@ -35,14 +36,14 @@ function Header() {
   }, [opactity]);
 
   const renderButtonSignin = useMemo(() => {
-    if (token || history.location.pathname.includes('login')) return <></>;
+    if (token || location.pathname.includes('login')) return <></>;
 
     return (
       <Button icon="fa fa-sign-in-alt" onClick={() => history.push('/login')}>
         {language['header.button.sigin.text']}
       </Button>
     );
-  }, [token, history, history.location, history.location.pathname]);
+  }, [token, location]);
 
   return (
     <header

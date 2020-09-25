@@ -15,11 +15,8 @@ function Button({
   ...rest
 }) {
   const renderIcon = useMemo(() => {
-    return (
-      type !== 'link' &&
-      icon && <i className={loading ? 'fas fa-spinner fa-spin' : icon} />
-    );
-  }, [type, icon, loading]);
+    return icon && <i className={loading ? 'fas fa-spinner fa-spin' : icon} />;
+  }, [icon, loading]);
 
   const classNameComponent = useMemo(() => {
     let c = styles.button;
