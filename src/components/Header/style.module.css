@@ -1,8 +1,8 @@
 .header {
   width: 100%;
   z-index: 3;
-  height: 6rem;
   display: flex;
+  height: 4.5rem;
   position: fixed;
   flex-direction: row;
   padding: 1.4rem 0 2rem 2rem;
