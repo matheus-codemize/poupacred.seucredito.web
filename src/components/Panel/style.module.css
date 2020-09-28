@@ -1,13 +1,13 @@
 .container {
-  height: 40vh;
+  height: 30vh;
   display: flex;
   overflow: hidden;
   position: relative;
   align-items: center;
   flex-direction: column;
   justify-content: center;
-  padding: 8rem 2rem 2rem;
-  max-height: calc(40vh - 10rem);
+  padding: 4rem 2rem;
+  max-height: calc(30vh - 8rem);
   background-color: rgb(var(--color-primary));
 }
 

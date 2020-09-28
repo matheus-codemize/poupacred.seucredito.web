@@ -1,0 +1,5 @@
+{
+    "empty": "[field] deve ser informado.",
+    "invalid": "[field] informado é inválido.",
+    "password": "Essas senhas não coincidem."
+}

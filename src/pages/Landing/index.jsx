@@ -144,11 +144,17 @@ function Landing() {
     );
   }
 
-  function handleSimulation() {}
+  function handleSimulation() {
+    history.push('/register/client');
+  }
 
-  function handleClient() {}
+  function handleClient() {
+    history.push('/login?type=client');
+  }
 
-  function handleAgent() {}
+  function handleAgent() {
+    history.push('/register/agent');
+  }
 
   const renderTitle = useMemo(() => {
     if (indexBanner < language['landing.banners'].length) {

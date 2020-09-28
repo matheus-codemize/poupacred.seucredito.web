@@ -16,9 +16,12 @@ import Container from './components/Container';
 import Home from './pages/Home';
 import Login from './pages/Login';
 import Landing from './pages/Landing';
+import RegisterAgent from './pages/RegisterAgent';
+import RegisterClient from './pages/RegisterClient';
 
 // resources
 import { routesAgent, routesClient } from './resources/data/sidebar/routes';
+
 
 const pages = {
   Home,
@@ -53,9 +56,19 @@ function App() {
         <Route exact path="/">
           <Landing />
         </Route>
-        <Route exact path="/login">
-          <Login />
-        </Route>
+        {!routes.length && (
+          <>
+            <Route path="/login">
+              <Login />
+            </Route>
+            <Route exact path="/register/agent">
+              <RegisterAgent />
+            </Route>
+            <Route exact path="/register/client">
+              <RegisterClient />
+            </Route>
+          </>
+        )}
         {routes.map((route, index) => (
           <Route key={index} path={route.path}>
             {React.createElement(pages[route.component])}

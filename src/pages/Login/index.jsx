@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import _ from 'lodash';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import styles from './style.module.css';
 
@@ -25,6 +25,7 @@ import Button from '../../components/Button';
 
 function Login() {
   const history = useHistory();
+  const location = useLocation();
   const dispatch = useDispatch();
 
   const auth = useSelector(state => state.auth);
@@ -33,6 +34,14 @@ function Login() {
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const [data, setData] = useState({ ...dataDefault });
+
+  useEffect(() => {
+    const params = new URLSearchParams(location.search);
+    const typeParam = params.get('type');
+    if (typeParam && ['agent', 'client'].includes(typeParam)) {
+      setType(typeParam);
+    }
+  }, [location.search]);
 
   useEffect(() => {
     if (auth.token) {

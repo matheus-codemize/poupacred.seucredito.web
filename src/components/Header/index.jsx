@@ -70,6 +70,7 @@ function Header() {
   const renderButtonSignin = useMemo(() => {
     if (
       location.pathname.includes('login') ||
+      location.pathname.includes('register') ||
       (auth.token && location.pathname !== '/')
     )
       return <></>;

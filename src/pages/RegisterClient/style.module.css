@@ -1,0 +1,68 @@
+.container {
+  display: flex;
+  margin: 0 auto;
+  margin-top: -4rem;
+  justify-content: center;
+  width: calc(100% - 4rem);
+}
+
+.container h1 {
+  padding: 2rem 0;
+  font-size: 2rem;
+  font-weight: 500;
+  text-align: center;
+  border-bottom: 2px solid rgb(var(--color-disabled));
+}
+
+.container[data-step='0'] h1 {
+  text-align: left;
+}
+
+.container form {
+  display: flex;
+  position: relative;
+  padding: 2rem 1rem 0;
+  flex-direction: column;
+  width: calc(100% - 2rem);
+  justify-content: space-between;
+}
+
+.container form div {
+  margin-bottom: 1rem;
+}
+
+.container form p {
+  font-size: 1.5rem;
+  line-height: 2rem;
+  color: rgb(var(--color-black));
+}
+
+.container form p a {
+  font-weight: 700;
+  text-decoration: none;
+  color: rgb(var(--color-primary-dark));
+}
+
+@media (min-width: 700px) {
+  .container:not([data-step='0']) h1,
+  .container:not([data-step='0']) form {
+    width: 70%;
+    margin: 0 auto;
+    max-width: 500px;
+  }
+
+  .container[data-step='0'] h1,
+  .container[data-step='0'] form {
+    flex-wrap: wrap;
+    flex-direction: row;
+  }
+
+  .container[data-step='0'] form div {
+    width: 32%;
+  }
+
+  .container[data-step='0'] form button {
+    margin: 0 auto;
+    min-width: 32%;
+  }
+}

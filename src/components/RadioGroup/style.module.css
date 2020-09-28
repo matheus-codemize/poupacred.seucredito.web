@@ -1,0 +1,21 @@
+.container {
+  width: 100%;
+  display: flex;
+  position: relative;
+  flex-direction: column;
+  color: rgb(var(--color-black));
+}
+
+.content_options {
+  display: flex;
+  flex-wrap: wrap;
+  margin-top: 2rem;
+  position: relative;
+  flex-direction: row;
+  width: 100% !important;
+  justify-content: space-around;
+}
+
+.container label {
+  font-size: 1.8rem;
+}

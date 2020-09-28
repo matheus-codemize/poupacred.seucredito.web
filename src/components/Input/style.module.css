@@ -1,4 +1,5 @@
 .container {
+  width: 100%;
   display: flex;
   padding: 0 0 2rem;
   position: relative;
@@ -19,6 +20,7 @@
   background-color: #fff;
   width: calc(100% - 2.4rem);
   border: 1px solid #ced4da;
+  box-shadow: 0px 2px 4px 1px #999;
 }
 
 .container input:disabled {
@@ -61,5 +63,5 @@
 .help {
   color: red;
   font-size: 1.5rem;
-  margin-top: 0.5rem;
+  margin-top: 1rem;
 }

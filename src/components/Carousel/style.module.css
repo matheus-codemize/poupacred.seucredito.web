@@ -1,0 +1,23 @@
+.container {
+  overflow: hidden;
+}
+
+.carousel {
+  width: 100%;
+  display: flex;
+  transition: 0.4s;
+  flex-wrap: nowrap;
+  flex-direction: row;
+}
+
+.step {
+  width: 100%;
+  height: auto;
+  max-height: 0;
+  flex-shrink: 0;
+  transition: 0.4s;
+}
+
+.step[data-visible='on'] {
+  max-height: 10000px;
+}
