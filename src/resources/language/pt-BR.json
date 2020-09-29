@@ -179,8 +179,79 @@
     }
   },
   "register.client.success": {
-    "text": "Entrar",
+    "text": "Entrar Agora!",
     "title": "Cadastro Realizado com Sucesso",
     "description": "Seu cadastro foi realizado com sucesso. Clique no botão abaixo para realizar o login"
+  },
+
+  "register.agent.title": "Cadastro de Agente",
+  "register.agent.step0.title": "Dados Pessoais",
+  "register.agent.step1.title": "Endereço",
+  "register.agent.step2.title": "Currículo / Certificações",
+  "register.agent.input": {
+    "nome": {
+      "label": "Nome"
+    },
+    "cpf": {
+      "label": "CPF",
+      "placeholder": "000.000.000-00"
+    },
+    "nascimento": {
+      "label": "Data de Nascimento",
+      "placeholder": "DD / MM / AAAA"
+    },
+    "celular": {
+      "label": "Celular",
+      "placeholder": "(99) 99999-9999"
+    },
+    "email": {
+      "label": "E-mail",
+      "placeholder": "Informe um e-mail válido e ativo"
+    },
+    "sexo": {
+      "label": "Gênero"
+    },
+    "rg_cnh": {
+      "label": "RG / CNH",
+      "placeholder": "Selecione um documento"
+    },
+    "cep": {
+      "label": "CEP"
+    },
+    "estado": {
+      "label": "Estado"
+    },
+    "cidade": {
+      "label": "Cidade"
+    },
+    "bairro": {
+      "label": "Bairro"
+    },
+    "endereco": {
+      "label": "Logradouro"
+    },
+    "numero_endereco": {
+      "label": "Nº"
+    },
+    "complemento": {
+      "label": "Complemento"
+    },
+    "comprovante_endereco": {
+      "label": "Comprovante de Residência",
+      "placeholder": "Selecione o comprovante"
+    },
+    "senha": {
+      "label": "Senha",
+      "placeholder": "Senha"
+    },
+    "confirma_senha": {
+      "label": "Senha",
+      "placeholder": "Confirme sua senha"
+    }
+  },
+  "register.agent.success": {
+    "text": "Ok, Entendi!",
+    "title": "Dados Enviados com Sucesso",
+    "description": "Estamos analisando seu cadastro, fique atento na sua caixa de email ou SMS com futuras instruções."
   }
 }
