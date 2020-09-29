@@ -1,5 +1,7 @@
 {
-    "empty": "[field] deve ser informado.",
-    "invalid": "[field] informado é inválido.",
-    "password": "Essas senhas não coincidem."
+  "empty": "[field] deve ser informado.",
+  "invalid": "[field] informado é inválido.",
+  "password": "Essas senhas não coincidem.",
+  "length": "[field] deve ter pelo menos [length] caracteres.",
+  "register": "Não foi possível realizar seu cadastro"
 }
