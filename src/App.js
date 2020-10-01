@@ -1,11 +1,18 @@
-import React, { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
+import React, { useCallback, useEffect, useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import {
   Route,
   Switch,
   Redirect,
   BrowserRouter as Router,
 } from 'react-router-dom';
+
+// redux
+import actionsNavigator from './redux/actions/navigator';
+
+// component toast
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 // components
 import Header from './components/Header';
@@ -16,20 +23,48 @@ import Container from './components/Container';
 import Home from './pages/Home';
 import Login from './pages/Login';
 import Landing from './pages/Landing';
+import Success from './pages/Success';
 import RegisterAgent from './pages/RegisterAgent';
 import RegisterClient from './pages/RegisterClient';
 
 // resources
 import { routesAgent, routesClient } from './resources/data/sidebar/routes';
 
-
 const pages = {
   Home,
 };
 
 function App() {
-  const [routes, setRoutes] = useState([]);
+  const dispatch = useDispatch();
   const auth = useSelector(state => state.auth);
+
+  const [routes, setRoutes] = useState([]);
+
+  /**
+   * esse efeito tem por objetivo salvar no redux o tamanho da tela
+   */
+  const windowResize = useCallback(() => {
+    const { innerHeight, innerWidth } = window;
+    dispatch(actionsNavigator.window_size({ y: innerHeight, x: innerWidth }));
+  }, [window, window.innerHeight, window.innerWidth]);
+
+  useEffect(() => {
+    windowResize();
+    window.addEventListener('resize', windowResize);
+  }, [windowResize]);
+
+  /**
+   * esse efeito tem por objetivo salvar no redux o tipo de aparelho usado
+   * type: one of ['mobile', 'desktop']
+   */
+  useEffect(() => {
+    let type = 'desktop';
+
+    if (navigator.userAgent.toLowerCase().includes('mobile')) {
+      type = 'mobile';
+    }
+    dispatch(actionsNavigator.navigator_type(type));
+  }, [navigator, navigator.userAgent]);
 
   useEffect(() => {
     switch (auth.type) {
@@ -56,6 +91,9 @@ function App() {
         <Route exact path="/">
           <Landing />
         </Route>
+        <Route path="/success">
+          <Success />
+        </Route>
         {!routes.length && (
           <>
             <Route path="/login">
@@ -75,6 +113,7 @@ function App() {
           </Route>
         ))}
       </Switch>
+      <ToastContainer />
     </Router>
   );
 }

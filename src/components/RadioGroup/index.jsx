@@ -5,7 +5,7 @@ import styles from './style.module.css';
 // components
 import Radio from '../Radio';
 
-function RadioGroup({ id, value, label, options, onChange, ...rest }) {
+function RadioGroup({ id, col, value, label, options, onChange, ...rest }) {
   const renderOptions = useMemo(() => {
     return options.map((option, index) => (
       <Radio
@@ -24,14 +24,26 @@ function RadioGroup({ id, value, label, options, onChange, ...rest }) {
   }
 
   return (
-    <div className={styles.container}>
+    <div
+      className={styles.container}
+      data-col={typeof col === 'function' ? col(id) : col}
+    >
       <label>{label}</label>
       <div className={styles.content_options}>{renderOptions}</div>
     </div>
   );
 }
 
+RadioGroup.defaultProps = {
+  col: 16,
+};
+
 RadioGroup.propTypes = {
+  id: PropTypes.string.isRequired,
+  label: PropTypes.string.isRequired,
+  onChange: PropTypes.func.isRequired,
+  col: PropTypes.oneOfType([PropTypes.func, PropTypes.number]),
+  value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
   options: PropTypes.arrayOf(
     PropTypes.shape({
       label: PropTypes.string.isRequired,
@@ -39,10 +51,6 @@ RadioGroup.propTypes = {
         .isRequired,
     }),
   ),
-  id: PropTypes.string.isRequired,
-  label: PropTypes.string.isRequired,
-  onChange: PropTypes.func.isRequired,
-  value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
 };
 
 export default RadioGroup;

@@ -1,21 +1,82 @@
 .container {
   width: 100%;
   display: flex;
+  padding: 0 0 2rem;
   position: relative;
   flex-direction: column;
   color: rgb(var(--color-black));
 }
 
 .content_options {
+  width: 100%;
   display: flex;
   flex-wrap: wrap;
   margin-top: 2rem;
   position: relative;
   flex-direction: row;
-  width: 100% !important;
   justify-content: space-around;
 }
 
 .container label {
   font-size: 1.8rem;
+}
+
+.container[data-col='1'] {
+  width: calc(100% * 0.0625 - 2rem);
+}
+
+.container[data-col='2'] {
+  width: calc(100% * 0.125 - 2rem);
+}
+
+.container[data-col='3'] {
+  width: calc(100% * 0.1875 - 2rem);
+}
+
+.container[data-col='4'] {
+  width: calc(100% * 0.25 - 2rem);
+}
+
+.container[data-col='5'] {
+  width: calc(100% * 0.3125 - 2rem);
+}
+
+.container[data-col='6'] {
+  width: calc(100% * 0.375 - 2rem);
+}
+
+.container[data-col='7'] {
+  width: calc(100% * 0.4375 - 2rem);
+}
+
+.container[data-col='8'] {
+  width: calc(100% * 0.5 - 2rem);
+}
+
+.container[data-col='9'] {
+  width: calc(100% * 0.5625 - 2rem);
+}
+
+.container[data-col='10'] {
+  width: calc(100% * 0.625 - 2rem);
+}
+
+.container[data-col='11'] {
+  width: calc(100% * 0.6875 - 2rem);
+}
+
+.container[data-col='12'] {
+  width: calc(100% * 0.75 - 2rem);
+}
+
+.container[data-col='13'] {
+  width: calc(100% * 0.8125 - 2rem);
+}
+
+.container[data-col='14'] {
+  width: calc(100% * 0.875 - 2rem);
+}
+
+.container[data-col='15'] {
+  width: calc(100% * 0.9375 - 2rem);
 }

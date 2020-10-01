@@ -149,7 +149,7 @@ function Landing() {
   }
 
   function handleClient() {
-    history.push('/login?type=client');
+    history.push('/login', { type: 'client' });
   }
 
   function handleAgent() {

@@ -23,7 +23,6 @@ function Header() {
   const location = useLocation();
 
   const auth = useSelector(state => state.auth);
-  const sidebar = useSelector(state => state.sidebar);
 
   const [opactity, setOpactity] = useState(0);
   const [loadLogo, setLoadLogo] = useState(true);
@@ -52,7 +51,7 @@ function Header() {
       );
 
     return (
-      <Link to="/">
+      <Link to={location.pathname.includes('success') ? '#' : '/'}>
         {loadLogo ? (
           <img
             src={logo}
@@ -70,16 +69,14 @@ function Header() {
   const renderButtonSignin = useMemo(() => {
     if (
       location.pathname.includes('login') ||
+      location.pathname.includes('success') ||
       location.pathname.includes('register') ||
       (auth.token && location.pathname !== '/')
     )
       return <></>;
 
     return (
-      <Button
-        icon="fa fa-sign-in-alt"
-        onClick={() => history.push('/login')}
-      >
+      <Button icon="fa fa-sign-in-alt" onClick={() => history.push('/login')}>
         {language['header.button.sigin.text']}
       </Button>
     );

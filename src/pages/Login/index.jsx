@@ -8,8 +8,8 @@ import styles from './style.module.css';
 import actions from '../../redux/actions/auth';
 
 // utils
+import format from '../../utils/format';
 import language from '../../utils/language';
-import cpfFormat from '../../utils/cpfFormat';
 
 // services
 import api from '../../services/api';
@@ -36,12 +36,16 @@ function Login() {
   const [data, setData] = useState({ ...dataDefault });
 
   useEffect(() => {
-    const params = new URLSearchParams(location.search);
-    const typeParam = params.get('type');
-    if (typeParam && ['agent', 'client'].includes(typeParam)) {
-      setType(typeParam);
+    const { state = {} } = location;
+
+    if (state.type && ['agent', 'client'].indexOf(state.type)) {
+      setType(state.type);
     }
-  }, [location.search]);
+
+    if (state.login) {
+      setData(prevData => ({ ...prevData, login: state.login }));
+    }
+  }, [location.state]);
 
   useEffect(() => {
     if (auth.token) {
@@ -75,7 +79,7 @@ function Login() {
     setError('');
     setData(prevData => ({
       ...prevData,
-      [id]: id === 'login' ? cpfFormat(value, data.login) : value,
+      [id]: id === 'login' ? format.cpf(value, data.login) : value,
     }));
   }
 

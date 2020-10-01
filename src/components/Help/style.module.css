@@ -1,0 +1,24 @@
+.help {
+  margin-top: 1rem;
+  font-size: 1.5rem;
+
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.help[data-type='info'] {
+  color: blue;
+}
+
+.help[data-type='error'] {
+  color: red;
+}
+
+.help[data-type='warning'] {
+  color: orange;
+}
+
+.help[data-type='success'] {
+  color: green;
+}

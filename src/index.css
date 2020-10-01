@@ -1,8 +1,16 @@
+.Toastify__toast-body {
+  font-size: 1.7rem;
+  font-family: 'Asap';
+}
+
 /* versão mobile */
 
 :root {
   font-size: 60%;
   background-color: #f0f2f1;
+
+  /* grid */
+  --col-size: 6.25;
 
   /* colors */
   --color-black: 45, 45, 45;
