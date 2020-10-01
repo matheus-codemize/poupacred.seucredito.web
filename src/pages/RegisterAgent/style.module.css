@@ -42,19 +42,6 @@
   width: 100%;
 }
 
-.container form p {
-  margin: 1rem 0;
-  font-size: 1.5rem;
-  line-height: 2rem;
-  color: rgb(var(--color-black));
-}
-
-.container form p a {
-  font-weight: 700;
-  text-decoration: none;
-  color: rgb(var(--color-primary-dark));
-}
-
 @media (min-width: 800px) {
   .container[data-step='2'] h1,
   .container[data-step='2'] form {

@@ -63,8 +63,17 @@ function InputFile({
   }, [value, multiple, placeholder]);
 
   const renderLabel = useMemo(() => {
-    return label && <Label htmlFor={id} text={label} />;
-  }, [id, label]);
+    return (
+      label && (
+        <Label
+          htmlFor={id}
+          text={label}
+          display={display}
+          required={required}
+        />
+      )
+    );
+  }, [id, label, display, required]);
 
   const renderHelp = useMemo(() => {
     return help && <Help text={help} type={helpType} />;
@@ -83,7 +92,13 @@ function InputFile({
       data-label={label ? 'on' : 'off'}
       data-col={typeof col === 'function' ? col(id) : col}
     >
-      <input id={id} type="file" multiple={multiple} onChange={handleChange} />
+      <input
+        {...rest}
+        id={id}
+        type="file"
+        multiple={multiple}
+        onChange={handleChange}
+      />
       {renderLabel}
       <div className={styles.content}>
         <label htmlFor={id}>{getValueSelected()}</label>

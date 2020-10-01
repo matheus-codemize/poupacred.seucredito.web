@@ -38,7 +38,7 @@ function Login() {
   useEffect(() => {
     const { state = {} } = location;
 
-    if (state.type && ['agent', 'client'].indexOf(state.type)) {
+    if (state.type && ['agent', 'client'].includes(state.type)) {
       setType(state.type);
     }
 

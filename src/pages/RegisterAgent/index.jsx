@@ -1,4 +1,4 @@
-import React, { useMemo, useEffect, useState } from 'react';
+import React, { useMemo, useEffect, useState, useCallback } from 'react';
 import _ from 'lodash';
 import { useSelector, useDispatch } from 'react-redux';
 import { useHistory, useLocation } from 'react-router-dom';
@@ -14,6 +14,8 @@ import registerDefault from '../../resources/data/register/agent';
 // services
 import api from '../../services/api';
 import cepApi from '../../services/cep';
+import * as estadoApi from '../../services/estado';
+import * as cidadeApi from '../../services/cidade';
 
 // utils
 import toast from '../../utils/toast';
@@ -23,18 +25,16 @@ import getColSize from '../../utils/getColSize';
 import cpfValidator from '../../utils/cpfValidator';
 import language, { errors as errorsLanguage } from '../../utils/language';
 
-// assets
-import Term from '../../assets/documents/politica_privacidade.pdf';
-import Polity from '../../assets/documents/politica_privacidade.pdf';
-
 // components
 import Box from '../../components/Box';
 import Panel from '../../components/Panel';
 import Input from '../../components/Input';
+import Select from '../../components/Select';
 import Button from '../../components/Button';
 import Carousel from '../../components/Carousel';
-import RadioGroup from '../../components/RadioGroup';
 import InputFile from '../../components/InputFile';
+import RadioGroup from '../../components/RadioGroup';
+import TermPolity from '../../components/TermPolity';
 
 const keysByStep = {
   0: ['cpf', 'sexo', 'nome', 'email', 'celular', 'nascimento', 'rg_cnh'],
@@ -54,13 +54,34 @@ function RegisterAgent() {
   const [errors, setErrors] = useState({});
   const [loading, setLoading] = useState(false);
   const [register, setRegister] = useState(registerDefault);
-  const [confirmPassword, setConfirmPassword] = useState('');
+
+  // state - lists
+  const [estados, setEstados] = useState([]);
+  const [cidades, setCidades] = useState([]);
+
+  useEffect(() => {
+    getEstados();
+  }, []);
 
   useEffect(() => {
     if (auth.token) {
       dispatch(actionsAuth.logout());
     }
   }, [auth, auth.token]);
+
+  useEffect(() => {
+    getCidades();
+  }, [register.estado]);
+
+  async function getEstados() {
+    const data = await estadoApi.list();
+    setEstados(data);
+  }
+
+  async function getCidades() {
+    const data = await cidadeApi.listByEstado(register.estado);
+    setCidades(data);
+  }
 
   function handleChange(event) {
     let { id, value } = event.target;
@@ -82,6 +103,13 @@ function RegisterAgent() {
         value = format.zipcode(value, register[id]);
         break;
 
+      case 'estado':
+        return setRegister(prevRegister => ({
+          ...prevRegister,
+          [id]: value,
+          cidade: '',
+        }));
+
       default:
         break;
     }
@@ -94,10 +122,11 @@ function RegisterAgent() {
     let message = '';
     const { id, value } = event.target;
 
-    const setMessage = (type = 'invalid', length = '') => {
-      message = errorsLanguage[type]
-        .replace('[field]', language['register.agent.input'][id].label)
-        .replace('[length]', length);
+    const setMessage = () => {
+      message = errorsLanguage.invalid.replace(
+        '[field]',
+        language['register.agent.input'][id].label,
+      );
     };
 
     /**
@@ -109,12 +138,13 @@ function RegisterAgent() {
       handleLoading();
       if (dataCep) {
         const { id, uf, localidade, logradouro, ...restDataCep } = dataCep;
+        const estadoSelected = estados.find(estado => estado.label === uf);
         return setRegister(prevRegister => ({
           ...prevRegister,
           ...restDataCep,
-          estado: uf,
-          cidade: localidade,
+          cidade: id,
           endereco: logradouro,
+          estado: estadoSelected ? estadoSelected.value : '',
         }));
       }
     }
@@ -132,11 +162,6 @@ function RegisterAgent() {
 
         case 'nascimento':
           if (!moment(value, 'DD/MM/YYYY').validate()) setMessage();
-          break;
-
-        case 'senha':
-        case 'confirma_senha':
-          if (value.length < 6) setMessage('length', '6');
           break;
 
         default:
@@ -157,18 +182,16 @@ function RegisterAgent() {
 
       handleLoading('on');
       const url = '/agentes/cadastrar';
-      const request = await api.post(url, register);
+      const { estado, ...data } = register;
+      const request = await api.post(url, data);
 
-      if (!request.id) {
-        return toast.error(errorsLanguage.register);
-      }
       setTimeout(() => {
         return history.push('/success', {
           ...language['register.agent.success'],
           path: '/login',
           state: { type: 'agent', login: register.cpf },
         });
-      }, 1000);
+      }, 500);
     } catch (err) {
       const error = _.get(err, 'response.data', err.message);
 
@@ -205,9 +228,12 @@ function RegisterAgent() {
     });
   }
 
-  function getCol(id) {
-    return getColSize(id, inputsize);
-  }
+  const getCol = useCallback(
+    id => {
+      return getColSize(id, inputsize);
+    },
+    [navigator.window.size],
+  );
 
   const disabledBtnSubmit = useMemo(() => {
     return (
@@ -218,13 +244,13 @@ function RegisterAgent() {
         key => keysByStep[step].includes(key) && errors[key],
       ).length > 0
     );
-  }, [step, register, errors]);
+  }, [step, loading, register, errors]);
 
   return (
     <div>
       <Panel title={language['register.agent.title']} />
       <div className={styles.container} data-step={step}>
-        <Box onBack={step === 1 ? handleStep : undefined}>
+        <Box onBack={step ? handleStep : undefined}>
           <Carousel step={step}>
             <Carousel.Step>
               <h1>{language['register.agent.step0.title']}</h1>
@@ -303,6 +329,7 @@ function RegisterAgent() {
                   helpType="error"
                   onChange={handleChange}
                   help={errors.rg_cnh || ''}
+                  accept=".png, .jpeg, .jpg, .pdf"
                   {...language['register.agent.input'].rg_cnh}
                 />
                 <div>
@@ -310,7 +337,7 @@ function RegisterAgent() {
                     loading={loading}
                     htmlType="submit"
                     icon="fa fa-angle-right"
-                    // disabled={disabledBtnSubmit}
+                    disabled={disabledBtnSubmit}
                   >
                     {language['component.button.next.text']}
                   </Button>
@@ -331,10 +358,11 @@ function RegisterAgent() {
                   value={register.cep || ''}
                   {...language['register.agent.input'].cep}
                 />
-                <Input
+                <Select
                   id="estado"
                   col={getCol}
                   helpType="error"
+                  options={estados}
                   disabled={loading}
                   onBlur={handleBlur}
                   onChange={handleChange}
@@ -342,10 +370,11 @@ function RegisterAgent() {
                   value={register.estado || ''}
                   {...language['register.agent.input'].estado}
                 />
-                <Input
+                <Select
                   id="cidade"
                   col={getCol}
                   helpType="error"
+                  options={cidades}
                   disabled={loading}
                   onBlur={handleBlur}
                   onChange={handleChange}
@@ -400,6 +429,7 @@ function RegisterAgent() {
                   helpType="error"
                   onChange={handleChange}
                   id="comprovante_endereco"
+                  accept=".png, .jpeg, .jpg, .pdf"
                   help={errors.comprovante_endereco || ''}
                   {...language['register.agent.input'].comprovante_endereco}
                 />
@@ -418,27 +448,32 @@ function RegisterAgent() {
             <Carousel.Step>
               <h1>{language['register.agent.step2.title']}</h1>
               <form onSubmit={handleSave}>
-                <p>
-                  <div
-                    dangerouslySetInnerHTML={{
-                      __html: language['agree.term.polity']
-                        .replace(
-                          '$term',
-                          `<a href=${Term} target='_blank'>${language['term']}</a>`,
-                        )
-                        .replace(
-                          '$polity',
-                          `<a href=${Polity} target='_blank'>${language['polity']}</a>`,
-                        ),
-                    }}
-                  />
-                </p>
+                <Input
+                  col={getCol}
+                  id="certificacao"
+                  helpType="error"
+                  disabled={loading}
+                  onChange={handleChange}
+                  help={errors.certificacao || ''}
+                  value={register.certificacao || ''}
+                  {...language['register.agent.input'].certificacao}
+                />
+                <InputFile
+                  col={getCol}
+                  id="curriculo"
+                  helpType="error"
+                  onChange={handleChange}
+                  help={errors.curriculo || ''}
+                  accept=".png, .jpeg, .jpg, .pdf"
+                  {...language['register.agent.input'].curriculo}
+                />
+                <TermPolity />
                 <div>
                   <Button
                     htmlType="submit"
                     icon="fa fa-check"
                     loading={loading}
-                    disabled={disabledBtnSubmit}
+                    disabled={loading || disabledBtnSubmit}
                   >
                     {language['component.button.register.text']}
                   </Button>

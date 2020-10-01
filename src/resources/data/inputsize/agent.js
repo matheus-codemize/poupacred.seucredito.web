@@ -11,9 +11,9 @@ const inputsize = {
 
     // endereço
     cep: 4,
-    estado: 3,
+    estado: 5,
     bairro: 7,
-    cidade: 9,
+    cidade: 7,
     endereco: 9,
     complemento: 6,
     numero_endereco: 3,
@@ -30,14 +30,14 @@ const inputsize = {
     rg_cnh: 5,
 
     // endereço
-    cep: 3,
-    estado: 2,
-    bairro: 5,
+    cep: 4,
+    estado: 6,
+    bairro: 6,
     cidade: 6,
-    endereco: 5,
-    complemento: 4,
-    numero_endereco: 2,
-    comprovante_endereco: 5,
+    endereco: 6,
+    complemento: 8,
+    numero_endereco: 4,
+    comprovante_endereco: 8,
   },
 };
 

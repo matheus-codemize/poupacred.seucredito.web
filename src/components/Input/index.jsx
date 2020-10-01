@@ -34,8 +34,9 @@ function Input({
       label && (
         <Label
           htmlFor={id}
+          text={label}
           display={display}
-          text={label + (required ? ' *' : '')}
+          required={required}
         />
       )
     );

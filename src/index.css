@@ -12,6 +12,11 @@
   /* grid */
   --col-size: 6.25;
 
+  /* css to elements in form */
+  --input-focus-border-color: rgb(38, 132, 255);
+  --input-box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 0px 1px,
+    rgba(0, 0, 0, 0.1) 0px 4px 11px;
+
   /* colors */
   --color-black: 45, 45, 45;
   --color-white: 245, 254, 250;

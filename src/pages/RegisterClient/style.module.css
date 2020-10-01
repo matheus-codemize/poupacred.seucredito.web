@@ -10,12 +10,12 @@
   padding: 2rem 0;
   font-size: 2rem;
   font-weight: 500;
-  text-align: center;
+  text-align: left;
   border-bottom: 2px solid rgb(var(--color-disabled));
 }
 
-.container[data-step='0'] h1 {
-  text-align: left;
+.container[data-step='1'] h1 {
+  text-align: center;
 }
 
 .container form {
@@ -27,43 +27,37 @@
   justify-content: space-between;
 }
 
-.container form div {
+.container form > div {
   margin-bottom: 1rem;
 }
 
-.container form p {
-  margin: 1rem 0;
-  font-size: 1.5rem;
-  line-height: 2rem;
-  color: rgb(var(--color-black));
+.container form > div:last-child {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
 }
 
-.container form p a {
-  font-weight: 700;
-  text-decoration: none;
-  color: rgb(var(--color-primary-dark));
+.container form > div:last-child button[type='submit'] {
+  width: 100%;
 }
 
 @media (min-width: 700px) {
-  .container:not([data-step='0']) h1,
-  .container:not([data-step='0']) form {
+  .container[data-step='1'] h1,
+  .container[data-step='1'] form {
     width: 70%;
     margin: 0 auto;
     max-width: 500px;
   }
 
-  .container[data-step='0'] h1,
-  .container[data-step='0'] form {
+  .container h1,
+  .container form {
     flex-wrap: wrap;
     flex-direction: row;
+    align-items: stretch;
   }
 
-  .container[data-step='0'] form div {
-    width: 32%;
-  }
-
-  .container[data-step='0'] form button {
-    margin: 0 auto;
-    min-width: 32%;
+  .container form > div:last-child button[type='submit'] {
+    max-width: 32%;
   }
 }
