@@ -2,6 +2,10 @@ import React, { useRef, useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
 import styles from './style.module.css';
 
+// components
+import Help from '../Help';
+import Label from '../Label';
+
 function Input({
   id,
   help,
@@ -10,6 +14,9 @@ function Input({
   required,
   htmlType,
   disabled,
+  helpType,
+
+  col, // to width
   ...rest
 }) {
   const inputRef = useRef(null);
@@ -25,17 +32,18 @@ function Input({
   const renderLabel = useMemo(() => {
     return (
       label && (
-        <label htmlFor={id}>
-          {label}
-          {required ? ' *' : ''}
-        </label>
+        <Label
+          htmlFor={id}
+          display={display}
+          text={label + (required ? ' *' : '')}
+        />
       )
     );
-  }, [id, label, required]);
+  }, [id, label, display, required]);
 
   const renderHelp = useMemo(() => {
-    return help && <span className={styles.help}>{help}</span>;
-  }, [help]);
+    return help && <Help text={help} type={helpType} />;
+  }, [help, helpType]);
 
   const renderAddonPassword = useMemo(() => {
     return htmlType === 'password' ? (
@@ -53,6 +61,7 @@ function Input({
       data-display={display}
       className={styles.container}
       data-label={label ? 'on' : 'off'}
+      data-col={typeof col === 'function' ? col(id) : col}
     >
       {renderLabel}
       <input
@@ -70,6 +79,7 @@ function Input({
 }
 
 Input.defaultProps = {
+  col: 16,
   help: '',
   label: '',
   required: false,
@@ -83,9 +93,11 @@ Input.propTypes = {
   label: PropTypes.string,
   required: PropTypes.bool,
   disabled: PropTypes.bool,
+  helpType: PropTypes.string,
   id: PropTypes.string.isRequired,
   display: PropTypes.oneOf(['vertical', 'horizontal']),
   htmlType: PropTypes.oneOf(['text', 'password', 'email']),
+  col: PropTypes.oneOfType([PropTypes.func, PropTypes.number]),
 };
 
 export default Input;

@@ -1,0 +1,12 @@
+.label {
+  font-size: 1.8rem;
+  color: rgb(var(--color-black));
+}
+
+.label[data-display='vertical'] {
+  margin-bottom: 1rem;
+}
+
+.label[data-display='horizontal'] {
+  margin-right: 1rem;
+}

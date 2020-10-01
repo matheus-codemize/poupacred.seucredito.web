@@ -9,6 +9,9 @@
   font-size: 60%;
   background-color: #f0f2f1;
 
+  /* grid */
+  --col-size: 6.25;
+
   /* colors */
   --color-black: 45, 45, 45;
   --color-white: 245, 254, 250;

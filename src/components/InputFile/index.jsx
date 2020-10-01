@@ -1,45 +1,130 @@
-import React, { useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import $ from 'jquery';
 import PropTypes from 'prop-types';
+import styles from './style.module.css';
 
-import './styles.css';
-function InputFile({ label, placeholder, name }) {
-  const [filePlaceholder, setFilePlaceholder] = useState(placeholder);
+// utils
+import language from '../../utils/language';
 
-  function handleSelectFile(e) {
-    try {
-      setFilePlaceholder(e.target.files[0].name);
-    } catch (err) {
-      setFilePlaceholder(placeholder);
+// components
+import Help from '../Help';
+import Label from '../Label';
+
+function InputFile({
+  id,
+  help,
+  label,
+  display,
+  required,
+  disabled,
+  multiple,
+  helpType,
+  onChange,
+  useCamera,
+  placeholder,
+
+  col, // to width
+  ...rest
+}) {
+  const [value, setValue] = useState(multiple ? [] : null);
+
+  useEffect(() => {
+    if (typeof onChange === 'function' && (multiple ? value.lenth : value)) {
+      onChange({ target: { id, value } });
+    }
+  }, [value]);
+
+  function handleChange(event) {
+    const { files } = event.target;
+
+    if (!files.length) return;
+
+    if (!multiple) {
+      setValue(files[0]);
+    } else {
+      setValue(files);
     }
   }
+
+  function selectFile() {
+    $(`#${id}`).click();
+  }
+
+  function openCamera() {}
+
+  const getValueSelected = useCallback(() => {
+    if (value) {
+      return multiple
+        ? `${value.length} arquivo(s) selecionado(s)`
+        : value.name;
+    }
+
+    return placeholder;
+  }, [value, multiple, placeholder]);
+
+  const renderLabel = useMemo(() => {
+    return label && <Label htmlFor={id} text={label} />;
+  }, [id, label]);
+
+  const renderHelp = useMemo(() => {
+    return help && <Help text={help} type={helpType} />;
+  }, [help, helpType]);
+
+  const renderIconBtn = useMemo(() => {
+    if (useCamera && !navigator.userAgent.toLowerCase().includes('mobile'))
+      return 'fas fa-camera';
+    return 'fas fa-file-upload';
+  }, [useCamera, navigator.userAgent]);
+
   return (
-    <div className="form-group-input-file">
-      <label>{label}</label>
-      <div className="input-file-wrapper">
-        <div className="input-div">
-          <span className="placeholder">{filePlaceholder}</span>
-        </div>
-        <div className="button-label">
-          <label htmlFor={name}>
-            <i className="fa fa-upload" />
-          </label>
-        </div>
+    <div
+      data-display={display}
+      className={styles.container}
+      data-label={label ? 'on' : 'off'}
+      data-col={typeof col === 'function' ? col(id) : col}
+    >
+      <input id={id} type="file" multiple={multiple} onChange={handleChange} />
+      {renderLabel}
+      <div className={styles.content}>
+        <label htmlFor={id}>{getValueSelected()}</label>
+        <button
+          type="button"
+          onClick={
+            !useCamera || navigator.userAgent.toLowerCase().includes('mobile')
+              ? selectFile
+              : openCamera
+          }
+        >
+          <i className={renderIconBtn} />
+        </button>
       </div>
-      <input
-        id={name}
-        name={name}
-        type="file"
-        value=""
-        onChange={handleSelectFile}
-      />
+      {renderHelp}
     </div>
   );
 }
 
+InputFile.defaultProps = {
+  col: 16,
+  help: '',
+  label: '',
+  multiple: false,
+  useCamera: false,
+  display: 'vertical',
+  placeholder: language['component.inputfile.placeholder'],
+};
+
 InputFile.propTypes = {
-  label: PropTypes.string.isRequired,
-  placeholder: PropTypes.string.isRequired,
-  name: PropTypes.string.isRequired,
+  help: PropTypes.string,
+  label: PropTypes.string,
+  required: PropTypes.bool,
+  disabled: PropTypes.bool,
+  multiple: PropTypes.bool,
+  useCamera: PropTypes.bool,
+  helpType: PropTypes.string,
+  id: PropTypes.string.isRequired,
+  onChange: PropTypes.func.isRequired,
+  display: PropTypes.oneOf(['vertical', 'horizontal']),
+  col: PropTypes.oneOfType([PropTypes.func, PropTypes.number]),
 };
 
 export default InputFile;

@@ -9,6 +9,7 @@
   },
   "component.button.next.text": "Avançar",
   "component.button.register.text": "Continuar",
+  "component.inputfile.placeholder": "Selecione um arquivo",
 
   "header.button.sigin.text": "Entrar",
 
@@ -247,6 +248,13 @@
     "confirma_senha": {
       "label": "Senha",
       "placeholder": "Confirme sua senha"
+    },
+    "certificacao": {
+      "label": "Número Certificação ANEPS"
+    },
+    "curriculo": {
+      "label": "Currículo",
+      "placeholder": "Selecione o currículo"
     }
   },
   "register.agent.success": {
