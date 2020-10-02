@@ -64,14 +64,7 @@ function Sidebar() {
   }
 
   const renderHeader = useMemo(() => {
-    return (
-      <div className={styles.header}>
-        {language['title']}
-        {/* <button onClick={handleSidebar}>
-          <i className="fa fa-close" />
-        </button> */}
-      </div>
-    );
+    return <div className={styles.header}>{language['title']}</div>;
   }, [sidebar, sidebar.open]);
 
   return (
@@ -86,7 +79,11 @@ function Sidebar() {
           </li>
         ))}
       </ul>
-      <button className={styles.btn_logout} onClick={handleLogout}>
+      <button
+        type="button"
+        onClick={handleLogout}
+        className={styles.btn_logout}
+      >
         <i className="fa fa-sign-out-alt" />
         Sair
       </button>

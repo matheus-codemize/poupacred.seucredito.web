@@ -64,10 +64,10 @@ function RegisterAgent() {
   }, []);
 
   useEffect(() => {
-    if (auth.token) {
+    if (auth.uid) {
       dispatch(actionsAuth.logout());
     }
-  }, [auth, auth.token]);
+  }, [auth, auth.uid]);
 
   useEffect(() => {
     getCidades();
@@ -138,7 +138,7 @@ function RegisterAgent() {
       handleLoading();
       if (dataCep) {
         const { id, uf, localidade, logradouro, ...restDataCep } = dataCep;
-        const estadoSelected = estados.find(estado => estado.label === uf);
+        const estadoSelected = estados.find(estado => estado.uf === uf);
         return setRegister(prevRegister => ({
           ...prevRegister,
           ...restDataCep,
@@ -183,15 +183,13 @@ function RegisterAgent() {
       handleLoading('on');
       const url = '/agentes/cadastrar';
       const { estado, ...data } = register;
-      const request = await api.post(url, data);
+      await api.post(url, data);
 
-      setTimeout(() => {
-        return history.push('/success', {
-          ...language['register.agent.success'],
-          path: '/login',
-          state: { type: 'agent', login: register.cpf },
-        });
-      }, 500);
+      return history.push('/success', {
+        ...language['register.agent.success'],
+        path: '/login',
+        state: { type: 'agent', login: register.cpf },
+      });
     } catch (err) {
       const error = _.get(err, 'response.data', err.message);
 
@@ -206,6 +204,10 @@ function RegisterAgent() {
             type: 'agent',
             login: register.cpf,
           });
+
+        case 32: // Agente com cadastro em aanálise
+          toast.info(error.erro);
+          return history.push('/');
 
         default:
           toast.warning(error.erro);

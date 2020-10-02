@@ -43,12 +43,17 @@ function Header() {
   }
 
   const renderLogo = useMemo(() => {
-    if (auth.token && location.pathname !== '/')
-      return (
-        <button onClick={handleSidebar} className={styles.btn_open_sidebar}>
-          <i className="fa fa-bars" />
-        </button>
-      );
+    if (location.pathname !== '/') {
+      if (auth.uid) {
+        return auth.primeiro_acesso ? (
+          <></>
+        ) : (
+          <button onClick={handleSidebar} className={styles.btn_open_sidebar}>
+            <i className="fa fa-bars" />
+          </button>
+        );
+      }
+    }
 
     return (
       <Link to={location.pathname.includes('success') ? '#' : '/'}>
@@ -64,23 +69,22 @@ function Header() {
         )}
       </Link>
     );
-  }, [auth, loadLogo, location]);
+  }, [auth, auth.uid, loadLogo, location]);
 
   const renderButtonSignin = useMemo(() => {
     if (
       location.pathname.includes('login') ||
       location.pathname.includes('success') ||
       location.pathname.includes('register') ||
-      (auth.token && location.pathname !== '/')
+      (auth.uid && location.pathname !== '/')
     )
       return <></>;
-
     return (
       <Button icon="fa fa-sign-in-alt" onClick={() => history.push('/login')}>
         {language['header.button.sigin.text']}
       </Button>
     );
-  }, [auth.token, location.pathname]);
+  }, [auth, auth.uid, location.pathname]);
 
   return (
     <header

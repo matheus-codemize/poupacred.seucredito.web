@@ -49,10 +49,10 @@ function RegisterClient() {
   const [register, setRegister] = useState(registerDefault);
 
   useEffect(() => {
-    if (auth.token) {
+    if (auth.uid) {
       dispatch(actionsAuth.logout());
     }
-  }, [auth, auth.token]);
+  }, [auth, auth.uid]);
 
   function handleChange(event) {
     let { id, value } = event.target;

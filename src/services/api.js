@@ -1,5 +1,8 @@
 import axios from 'axios';
 
+// redux
+import { store } from '../redux/store';
+
 const api = axios.create({
   baseURL: process.env.REACT_APP_API_URL,
   timeout: process.env.REACT_APP_API_TIMEOUT,
@@ -15,6 +18,7 @@ const fileToBase64 = file => {
 
 api.interceptors.request.use(async config => {
   const { data } = config;
+  const { auth } = store.getState();
 
   /**
    * Conversão de arquivos para base64
@@ -22,7 +26,7 @@ api.interceptors.request.use(async config => {
   if (data) {
     const allPromise = Object.keys(data).map(async key => {
       if (data[key] && data[key] instanceof File) {
-        data[key] = await fileToBase64(data[key])
+        data[key] = await fileToBase64(data[key]);
       }
     });
     await Promise.all(allPromise);
@@ -31,11 +35,10 @@ api.interceptors.request.use(async config => {
   /**
    * Setando o token no "header" da requisição
    */
-  // const authentication = Store.getState().authentication || {}
-  // const { type, token } = authentication
-  // if (type && token && !config.url.includes('/auth-api')) {
-  //   config.headers.Authorization = `${type} ${token}`
-  // }
+  if (auth.token && !config.url.includes('/login')) {
+    config.headers.token = auth.token;
+  }
+
   return config;
 });
 

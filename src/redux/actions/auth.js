@@ -7,6 +7,10 @@ const actions = {
     }),
     logout: () => ({
         type: actionsTypes.LOGOUT
+    }),
+    first: (data) => ({
+        type: actionsTypes.FIRST,
+        payload: data
     })
 }
 

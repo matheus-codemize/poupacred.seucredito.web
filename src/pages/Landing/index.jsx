@@ -1,7 +1,11 @@
 /* eslint-disable camelcase */
 import React, { useMemo, useEffect, useState } from 'react';
-import { useHistory } from 'react-router-dom';
 import $ from 'jquery';
+import { useHistory } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
+
+// redux
+import actionsAuth from '../../redux/actions/auth';
 
 // css
 import styles from './style.module.css';
@@ -24,6 +28,9 @@ const bannersDesktop = [
 
 function Landing() {
   const history = useHistory();
+  const dispatch = useDispatch();
+
+  const auth = useSelector(state => state.auth);
   /**
    * State para controle das animações JS
    */
@@ -33,6 +40,12 @@ function Landing() {
   const [intervalStep, setIntervalStep] = useState(null);
 
   const [width, setWidth] = useState(window.innerWidth);
+
+  useEffect(() => {
+    if (auth.uid) {
+      dispatch(actionsAuth.logout());
+    }
+  }, [auth, auth.uid]);
 
   useEffect(() => {
     window.removeEventListener('resize', this);

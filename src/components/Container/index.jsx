@@ -11,12 +11,7 @@ import actionsSidebar from '../../redux/actions/sidebar';
  */
 function Container() {
   const dispatch = useDispatch();
-  const auth = useSelector(state => state.auth);
   const sidebar = useSelector(state => state.sidebar);
-
-  useEffect(() => {
-    if (auth.token && sidebar.open) closeSidebar();
-  }, [auth, auth.token]);
 
   function closeSidebar() {
     dispatch(actionsSidebar.close());

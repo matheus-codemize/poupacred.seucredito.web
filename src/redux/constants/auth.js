@@ -1,6 +1,7 @@
 const actionsTypes = {
-    SIGNIN: '@auth/SIGNIN',
-    LOGOUT: '@auth/LOGOUT'
-}
+  FIRST: '@auth/FIRST',
+  SIGNIN: '@auth/SIGNIN',
+  LOGOUT: '@auth/LOGOUT',
+};
 
-export default actionsTypes
+export default actionsTypes;

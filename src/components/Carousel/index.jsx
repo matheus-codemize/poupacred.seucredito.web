@@ -1,4 +1,5 @@
 import React, { useMemo, useEffect, useState } from 'react';
+import $ from 'jquery';
 import PropTypes from 'prop-types';
 import styles from './style.module.css';
 
@@ -11,7 +12,10 @@ function Carousel({ step, children, ...rest }) {
 
   const renderChildren = useMemo(() => {
     return React.Children.map(children, (child, index) => {
-      return React.cloneElement(child, { visible: index === step });
+      return React.cloneElement(child, {
+        id: `tab${index}`,
+        visible: index === step,
+      });
     });
   }, [children]);
 
@@ -27,16 +31,28 @@ function Carousel({ step, children, ...rest }) {
   );
 }
 
-Carousel.Step = ({ visible, ...props }) => {
+function Step({ id, visible, ...props }) {
+  useEffect(() => {
+    const inputTypes = ['a', 'input', 'select', 'button'];
+    inputTypes.forEach(inputType => {
+      $(`#${id} ${inputType}`).each(function () {
+        $(this).attr('tabindex', visible ? 0 : -1);
+      });
+    });
+  }, [id, visible]);
+
   return (
     <div
       {...props}
+      id={id}
       visible={visible}
       className={styles.step}
       data-visible={visible ? 'on' : 'off'}
     />
   );
-};
+}
+
+Carousel.Step = Step;
 
 Carousel.propTypes = {
   step: PropTypes.number.isRequired,

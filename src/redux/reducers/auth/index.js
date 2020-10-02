@@ -2,10 +2,11 @@ import actionsTypes from '../../constants/auth';
 
 const inital_state = {
   uid: '',
-  name: '',
+  nome: '',
   login: '',
   token: '',
-  password: '',
+  senha: '',
+  primeiro_acesso: false,
   type: '', // client or agent
 };
 
@@ -14,10 +15,13 @@ const reducers = (state = inital_state, action) => {
 
   switch (type) {
     case actionsTypes.SIGNIN:
-      return { ...payload };
+      return { ...state, ...payload };
 
     case actionsTypes.LOGOUT:
       return { ...inital_state };
+
+    case actionsTypes.FIRST:
+      return { ...state, primeiro_acesso: payload };
 
     default:
       return state;

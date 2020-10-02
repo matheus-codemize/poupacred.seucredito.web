@@ -31,7 +31,11 @@ export async function list() {
   try {
     const url = '/estados/listar';
     const data = await api.get(url);
-    return data.map(item => ({ value: item.id, label: item.nome }));
+    return data.map(item => ({
+      ...item,
+      value: item.id,
+      label: `${item.nome} - ${item.uf}`,
+    }));
   } catch (err) {
     const message = _.get(err, 'reponse.data.erro', err.message);
     toast.error(message);

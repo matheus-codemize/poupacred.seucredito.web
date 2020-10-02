@@ -4,7 +4,17 @@ import styles from './style.module.css';
 
 function Panel({ title, children, ...rest }) {
   const renderTitle = useMemo(() => {
-    return title && <h1 className={styles.title}>{title}</h1>;
+    return (
+      title && (
+        <h1 className={styles.title}>
+          {typeof title === 'string' ? (
+            <div dangerouslySetInnerHTML={{ __html: title }} />
+          ) : (
+            title
+          )}
+        </h1>
+      )
+    );
   }, [title]);
 
   return (

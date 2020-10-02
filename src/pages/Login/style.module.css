@@ -31,6 +31,14 @@
   width: calc(50% - 1rem);
 }
 
+.container_login h1 {
+  font-size: 2rem;
+  line-height: 3rem;
+  text-align: center;
+  margin: 1rem 0 3rem;
+  color: rgb(var(--color-black));
+}
+
 .container_login button {
   width: 100%;
 }

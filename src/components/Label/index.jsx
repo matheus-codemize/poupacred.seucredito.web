@@ -19,7 +19,7 @@ Label.defaultProps = {
 Label.propTypes = {
   required: PropTypes.bool,
   display: PropTypes.oneOf(['vertical', 'horizontal']),
-  label: PropTypes.oneOfType([PropTypes.string, PropTypes.element]).isRequired,
+  text: PropTypes.oneOfType([PropTypes.string, PropTypes.element]).isRequired,
 };
 
 export default Label;

@@ -114,11 +114,33 @@
     "agent": "Agente",
     "client": "Cliente"
   },
-  "login.form": {
-    "login.label": "CPF",
-    "password.label": "Senha",
-    "button.sigin": "Entrar",
-    "button.forgot": "Esqueci minha senha"
+  "login.input": {
+    "login": {
+      "label": "CPF",
+      "placeholder": "000.000.000-00"
+    },
+    "senha": {
+      "label": "Senha"
+    },
+    "btn_sigin": {
+      "text": "Entrar"
+    }
+  },
+  "login.first.title": "Olá [name], esse é seu 1º acesso à plataforma",
+  "login.first.subtitle": "Por favor, digite e confirme sua nova senha de acesso",
+  "login.first.input": {
+    "senha": {
+      "label": "Nova Senha",
+      "placeholder": "Digite sua nova senha",
+      "help": "Mínimo de 6 caracteres"
+    },
+    "confirma_senha": {
+      "label": "Nova Senha",
+      "placeholder": "Confirme sua senha"
+    },
+    "btn_sigin": {
+      "text": "Confirmar"
+    }
   },
 
   "home.title": "Comissionamento",

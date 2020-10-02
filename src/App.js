@@ -94,23 +94,25 @@ function App() {
         <Route path="/success">
           <Success />
         </Route>
-        {!routes.length && (
-          <>
-            <Route path="/login">
-              <Login />
-            </Route>
-            <Route exact path="/register/agent">
-              <RegisterAgent />
-            </Route>
-            <Route exact path="/register/client">
-              <RegisterClient />
-            </Route>
-          </>
-        )}
+        <Route exact path="/register/agent">
+          <RegisterAgent />
+        </Route>
+        <Route exact path="/register/client">
+          <RegisterClient />
+        </Route>
+        <Route path="/login">
+          {auth.uid && !auth.primeiro_acesso ? (
+            <Redirect push from="/login" to="/home" />
+          ) : (
+            <Login />
+          )}
+        </Route>
         {routes.map((route, index) => (
-          <Route key={index} path={route.path}>
-            {React.createElement(pages[route.component])}
-          </Route>
+          <Route
+            key={index}
+            path={route.path}
+            component={pages[route.component]}
+          />
         ))}
       </Switch>
       <ToastContainer />
