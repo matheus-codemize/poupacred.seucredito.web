@@ -7,10 +7,14 @@
   "component.box": {
     "button.back.text": "Voltar"
   },
+
   "component.button.next.text": "Avançar",
+  "component.button.filter.text": "Filtrar",
+  "component.button.search.text": "Pesquisar",
   "component.button.register.text": "Continuar",
-  "component.inputfile.placeholder": "Selecione um arquivo",
+
   "component.select.placeholder": "Selecione",
+  "component.inputfile.placeholder": "Selecione um arquivo",
 
   "header.button.sigin.text": "Entrar",
 
@@ -286,5 +290,37 @@
     "text": "Ok, Entendi!",
     "title": "Dados Enviados com Sucesso",
     "description": "Estamos analisando seu cadastro, fique atento na sua caixa de email ou SMS com futuras instruções."
+  },
+
+  "proposal.title": "Consultar Propostas",
+  "proposal.filter.input": {
+    "filtro_por": {
+      "label": "Filtrar por"
+    },
+    "proposta": {
+      "label": "Nº Proposta"
+    },
+    "cpf": {
+      "label": "CPF",
+      "placeholder": "000.000.000-00"
+    },
+    "nome": {
+      "label": "Nome"
+    },
+    "periodo": {
+      "label": "Período"
+    },
+    "banco": {
+      "label": "Banco"
+    },
+    "setor": {
+      "label": "Setor do Convênio"
+    },
+    "convenio": {
+      "label": "Convênio"
+    },
+    "produto": {
+      "label": "Produto"
+    }
   }
 }

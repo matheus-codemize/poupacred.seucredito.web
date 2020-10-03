@@ -7,6 +7,7 @@ import reducers from '../reducers';
 const persistConfig = {
   key: 'root',
   storage,
+  blacklist: ['sidebar', 'filter']
 };
 
 const persistedReducer = persistReducer(persistConfig, reducers);

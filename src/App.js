@@ -22,6 +22,7 @@ import Container from './components/Container';
 // pages
 import Home from './pages/Home';
 import Login from './pages/Login';
+import Proposal from './pages/Proposal';
 import Landing from './pages/Landing';
 import Success from './pages/Success';
 import RegisterAgent from './pages/RegisterAgent';
@@ -32,6 +33,7 @@ import { routesAgent, routesClient } from './resources/data/sidebar/routes';
 
 const pages = {
   Home,
+  Proposal,
 };
 
 function App() {

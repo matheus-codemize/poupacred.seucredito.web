@@ -1,3 +1,7 @@
+body {
+  overflow: hidden;
+}
+
 .Toastify__toast-body {
   font-size: 1.7rem;
   font-family: 'Asap';
