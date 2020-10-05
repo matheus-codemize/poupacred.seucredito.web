@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import PropTypes from 'prop-types';
 import { useHistory, useLocation } from 'react-router-dom';
 import styles from './style.module.css';
 
 // components
 import Button from '../../components/Button';
 
-function ContainerSuccess({ ...rest }) {
+function ContainerSuccess() {
   const history = useHistory();
   const location = useLocation();
 
@@ -51,16 +50,5 @@ function ContainerSuccess({ ...rest }) {
     </div>
   );
 }
-
-ContainerSuccess.defaultProps = {
-  description: '',
-};
-
-ContainerSuccess.propTypes = {
-  description: PropTypes.string,
-  text: PropTypes.string.isRequired,
-  title: PropTypes.string.isRequired,
-  onConfirm: PropTypes.func.isRequired,
-};
 
 export default ContainerSuccess;

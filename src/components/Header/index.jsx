@@ -48,7 +48,13 @@ function Header() {
         return auth.primeiro_acesso ? (
           <></>
         ) : (
-          <button onClick={handleSidebar} className={styles.btn_open_sidebar}>
+          <button
+            onClick={handleSidebar}
+            className={styles.btn_open_sidebar}
+            style={{
+              backgroundColor: `rgba(var(--color-primary), ${opactity}) !important`,
+            }}
+          >
             <i className="fa fa-bars" />
           </button>
         );
@@ -69,7 +75,7 @@ function Header() {
         )}
       </Link>
     );
-  }, [auth, auth.uid, loadLogo, location]);
+  }, [opactity, auth, auth.uid, loadLogo, location]);
 
   const renderButtonSignin = useMemo(() => {
     if (
@@ -84,7 +90,7 @@ function Header() {
         {language['header.button.sigin.text']}
       </Button>
     );
-  }, [auth, auth.uid, location.pathname]);
+  }, [opactity, auth, auth.uid, location.pathname]);
 
   return (
     <header

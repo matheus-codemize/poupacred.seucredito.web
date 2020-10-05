@@ -159,97 +159,103 @@ function Login() {
               )
             : language['login.title']
         }
-      />
-      <div className={styles.container}>
-        <div className={styles.form}>
-          <Box
-            onBack={!auth.primeiro_acesso && type ? () => setType('') : false}
-          >
-            {auth.primeiro_acesso ? (
-              <form onSubmit={handleFirsAccess}>
-                <div className={styles.container_login}>
-                  <h1>{language['login.first.subtitle']}</h1>
-                  <Input
-                    id="senha"
-                    value={senha}
-                    htmlType="password"
-                    onChange={handleSenha}
-                    help={language['login.first.input'].senha.help}
-                    placeholder={
-                      language['login.first.input'].senha.placeholder
-                    }
-                  />
-                  <Input
-                    help={error}
-                    helpType="error"
-                    id="confirma_senha"
-                    htmlType="password"
-                    value={confirma_senha}
-                    onChange={handleSenha}
-                    placeholder={
-                      language['login.first.input'].confirma_senha.placeholder
-                    }
-                  />
-                  <Button
-                    light
-                    loading={loading}
-                    htmlType="submit"
-                    icon="fa fa-sign-in"
-                    disabled={!senha || !confirma_senha || !!error}
-                  >
-                    {language['login.first.input'].btn_sigin.text}
-                  </Button>
-                </div>
-              </form>
-            ) : type ? (
-              <form onSubmit={handleLogin}>
-                <div className={styles.container_login}>
-                  <Input
-                    id="login"
-                    disabled={loading}
-                    onChange={handleChange}
-                    value={register.login || ''}
-                    {...language['login.input'].login}
-                  />
-                  <Input
-                    id="senha"
-                    help={error}
-                    helpType="error"
-                    disabled={loading}
-                    htmlType="password"
-                    onChange={handleChange}
-                    value={register.senha || ''}
-                    {...language['login.input'].senha}
-                  />
-                  <Button
-                    light
-                    loading={loading}
-                    htmlType="submit"
-                    icon="fa fa-sign-in"
-                    disabled={!register.login || !register.senha}
-                  >
-                    {language['login.input'].btn_sigin.text}
-                  </Button>
-                </div>
-              </form>
-            ) : (
-              <div className={styles.container_type}>
-                <h1>{language['login.enterby'].title}</h1>
-                <Button icon="fa fa-user" onClick={() => setType('client')}>
-                  {language['login.enterby'].client}
-                </Button>
-                <Button
-                  type="secondary"
-                  icon="fa fa-user-tie"
-                  onClick={() => setType('agent')}
-                >
-                  {language['login.enterby'].agent}
-                </Button>
-              </div>
-            )}
-          </Box>
-        </div>
-      </div>
+      >
+        <Panel.Body>
+          <div className={styles.container}>
+            <div className={styles.form}>
+              <Box
+                onBack={
+                  !auth.primeiro_acesso && type ? () => setType('') : false
+                }
+              >
+                {auth.primeiro_acesso ? (
+                  <form onSubmit={handleFirsAccess}>
+                    <div className={styles.container_login}>
+                      <h1>{language['login.first.subtitle']}</h1>
+                      <Input
+                        id="senha"
+                        value={senha}
+                        htmlType="password"
+                        onChange={handleSenha}
+                        help={language['login.first.input'].senha.help}
+                        placeholder={
+                          language['login.first.input'].senha.placeholder
+                        }
+                      />
+                      <Input
+                        help={error}
+                        helpType="error"
+                        id="confirma_senha"
+                        htmlType="password"
+                        value={confirma_senha}
+                        onChange={handleSenha}
+                        placeholder={
+                          language['login.first.input'].confirma_senha
+                            .placeholder
+                        }
+                      />
+                      <Button
+                        light
+                        loading={loading}
+                        htmlType="submit"
+                        icon="fa fa-sign-in"
+                        disabled={!senha || !confirma_senha || !!error}
+                      >
+                        {language['login.first.input'].btn_sigin.text}
+                      </Button>
+                    </div>
+                  </form>
+                ) : type ? (
+                  <form onSubmit={handleLogin}>
+                    <div className={styles.container_login}>
+                      <Input
+                        id="login"
+                        disabled={loading}
+                        onChange={handleChange}
+                        value={register.login || ''}
+                        {...language['login.input'].login}
+                      />
+                      <Input
+                        id="senha"
+                        help={error}
+                        helpType="error"
+                        disabled={loading}
+                        htmlType="password"
+                        onChange={handleChange}
+                        value={register.senha || ''}
+                        {...language['login.input'].senha}
+                      />
+                      <Button
+                        light
+                        loading={loading}
+                        htmlType="submit"
+                        icon="fa fa-sign-in"
+                        disabled={!register.login || !register.senha}
+                      >
+                        {language['login.input'].btn_sigin.text}
+                      </Button>
+                    </div>
+                  </form>
+                ) : (
+                  <div className={styles.container_type}>
+                    <h1>{language['login.enterby'].title}</h1>
+                    <Button icon="fa fa-user" onClick={() => setType('client')}>
+                      {language['login.enterby'].client}
+                    </Button>
+                    <Button
+                      type="secondary"
+                      icon="fa fa-user-tie"
+                      onClick={() => setType('agent')}
+                    >
+                      {language['login.enterby'].agent}
+                    </Button>
+                  </div>
+                )}
+              </Box>
+            </div>
+          </div>
+        </Panel.Body>
+      </Panel>
     </div>
   );
 }

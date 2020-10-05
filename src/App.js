@@ -47,7 +47,7 @@ function App() {
    */
   const windowResize = useCallback(() => {
     const { innerHeight, innerWidth } = window;
-    dispatch(actionsNavigator.window_size({ y: innerHeight, x: innerWidth }));
+    dispatch(actionsNavigator.windowSize({ y: innerHeight, x: innerWidth }));
   }, [window, window.innerHeight, window.innerWidth]);
 
   useEffect(() => {
@@ -65,7 +65,7 @@ function App() {
     if (navigator.userAgent.toLowerCase().includes('mobile')) {
       type = 'mobile';
     }
-    dispatch(actionsNavigator.navigator_type(type));
+    dispatch(actionsNavigator.navigatorType(type));
   }, [navigator, navigator.userAgent]);
 
   useEffect(() => {

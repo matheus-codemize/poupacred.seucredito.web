@@ -5,11 +5,11 @@
 }
 
 .section_header {
+  height: 16rem;
   overflow: hidden;
   padding: 8rem 2rem 0;
   transition: 0.4s ease;
   width: calc(100% - 4rem);
-  height: calc(30vh - 8rem);
   background-color: rgb(var(--color-primary));
 }
 
@@ -17,32 +17,10 @@
   height: calc(100vh - 8rem) !important;
 }
 
-.section_header[data-open='true'] > div {
-  top: 4.8rem;
-  overflow-y: auto;
-  position: relative;
-  width: calc(100% - 1rem);
-  max-height: calc(100vh - 30rem);
-}
-
-.section_header[data-open='true'] > i {
-  top: calc(100vh - 4rem);
-}
-
-.section_header[data-size='2'] {
-  height: calc(42.5vh - 8rem);
-}
-
+.section_header[data-size='2'],
 .section_header[data-filter='true'] {
-  height: calc(50vh - 8rem);
-}
-
-.section_header[data-size='1'] > i {
-  top: calc(40vh - 1.5rem);
-}
-
-.section_header[data-size='2'] > i {
-  top: calc(50vh - 1.5rem);
+  z-index: 2;
+  height: calc(16rem + 10rem);
 }
 
 .section_header > h1 {
@@ -56,94 +34,144 @@
   color: rgb(var(--color-white));
 }
 
-.section_header > div {
-  top: 4rem;
+.section_header > button {
+  z-index: 2;
+  left: 4rem;
+  bottom: 7rem;
+  color: white;
+  position: absolute;
+  width: calc(100% - 8rem);
+  background-color: transparent;
+}
+
+.container_filter {
+  top: 3rem;
   display: flex;
   margin: 0 auto;
   flex-wrap: wrap;
   overflow: hidden;
-  position: absolute;
+  position: relative;
   align-items: center;
+  flex-direction: row;
   width: calc(100% - 4rem);
-  top: calc(30vh - 4.8rem);
   justify-content: space-around;
+  max-height: calc(100vh - 30rem);
+}
+
+.section_header[data-open='true'] .container_filter {
+  overflow-y: auto;
 }
 
 /* personalizar a barra em geral, aqui estou definindo 10px de largura para a barra vertical
 e 10px de altura para a barra horizontal */
-.section_header > div::-webkit-scrollbar {
+.container_filter::-webkit-scrollbar {
   width: 10px;
   height: 10px;
 }
 
 /* aqui é para personalizar o fundo da barra, neste caso estou colocando um fundo cinza escuro*/
-.section_header > div::-webkit-scrollbar-track {
+.container_filter::-webkit-scrollbar-track {
   background: rgba(var(--color-black), 0.2);
 }
 
 /* aqui é a alça da barra, que demonstra a altura que você está na página
   estou colocando uma cor azul clara nela*/
-.section_header > div::-webkit-scrollbar-thumb {
+.container_filter::-webkit-scrollbar-thumb {
   background: rgb(var(--color-black));
 }
 
-.section_header > i {
-  display: none;
-  font-size: 3rem;
-  cursor: pointer;
+.container_action {
+  left: 0;
+  z-index: 2;
+  width: 100%;
+  display: flex;
   position: absolute;
-  border-radius: 50%;
-  left: calc(50% - 1.5rem);
-  top: calc(30vh - 1.5rem);
-  color: rgb(var(--color-white));
-  background-color: rgb(var(--color-primary));
-  box-shadow: rgb(var(--color-primary)) 0px 0px 0px 2px,
-    rgb(var(--color-primary)) 0px 4px 11px;
+  flex-direction: row;
+  align-items: center;
+  transition: 0.4s ease;
+  justify-content: center;
+  top: calc(16rem + 7rem);
 }
 
-.section_header[data-filter='true'] > i {
-  display: block;
+.container_action > i {
+  margin: 0 2rem;
+  font-size: 3rem;
+  cursor: pointer;
+  border-radius: 50%;
+  color: rgb(var(--color-white));
+  background-color: rgb(var(--color-primary));
+  box-shadow: rgb(var(--color-primary)) 0px 0px 0px 10px,
+    rgb(var(--color-primary)) 0px 6px 40px;
+}
+
+.section_header[data-open='true'] .container_action {
+  top: calc(100vh - 4rem) !important;
+}
+
+.section_header[data-size='2'] .container_action {
+  top: calc(23rem + 10rem);
 }
 
 .section_body {
-  padding: 2rem;
-  height: calc(70vh - 4rem);
+  width: 100%;
+  position: absolute;
+  transition: 0.4s ease;
+  top: calc(16rem + 8rem);
+  height: calc(100vh - 16rem - 8rem);
 }
 
-.section_body[data-size='2'] {
-  height: calc(57.5vh - 4rem);
-}
-
+.section_body[data-size='2'],
 .section_body[data-filter='true'] {
-  height: calc(50vh - 4rem);
+  z-index: 1;
+  top: calc(16rem + 8rem + 10rem);
+  height: calc(100vh - 16rem - 8rem - 10rem);
+}
+
+.section_body[data-open='true'] {
+  overflow: hidden;
+}
+
+.section_body[data-open='true'][data-size='2'],
+.section_body[data-open='true'][data-filter='true'] {
+  max-height: calc(100vh - 16rem - 8rem - 10rem);
 }
 
 @media (min-width: 700px) {
-  .section_header[data-filter='true'] {
-    height: calc(40vh - 8rem);
-  }
-
-  .section_header:not([data-size='0']):not([data-open='true']) > i {
-    top: calc(40vh - 1.5rem);
-  }
-
+  .section_body,
+  .section_body[data-size='2'],
   .section_body[data-filter='true'] {
-    height: calc(60vh - 4rem);
+    top: calc(16rem + 8rem);
+    height: calc(100vh - 16rem - 8rem);
   }
 
-  .section_header[data-size='2'] > div div {
-    flex: 0 0 calc(50% - 2rem);
+  .section_body[data-open='true'][data-size='2'],
+  .section_body[data-open='true'][data-filter='true'] {
+    max-height: calc(100vh - 16rem - 8rem);
   }
 
-  .section_header[data-size='3'] > div div {
-    flex: 0 0 calc(30% - 2rem);
+  .section_header {
+    height: 16rem !important;
   }
 
-  .section_header[data-size='4'] > div div {
-    flex: 0 0 calc(25% - 2rem);
+  .section_header[data-size]:not([data-open='true']) .container_filter > div {
+    width: calc(25% - 2rem);
   }
 
-  .section_header[data-open='true'] > div {
-    top: 3rem;
+  .section_header:not([data-open='true'])[data-size='1']
+    .container_filter
+    > div,
+  .section_header:not([data-open='true'])[data-size='2']
+    .container_filter
+    > div {
+    width: calc(50% - 2rem);
+  }
+
+  .section_header > button {
+    width: 40rem;
+    left: calc(50% - 20rem);
+  }
+
+  .container_action {
+    top: calc(16rem + 7rem) !important;
   }
 }

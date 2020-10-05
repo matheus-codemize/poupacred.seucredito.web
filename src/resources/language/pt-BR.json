@@ -12,6 +12,9 @@
   "component.button.filter.text": "Filtrar",
   "component.button.search.text": "Pesquisar",
   "component.button.register.text": "Continuar",
+  "component.button.details": {
+    "text": "Ver detalhes"
+  },
 
   "component.select.placeholder": "Selecione",
   "component.inputfile.placeholder": "Selecione um arquivo",

@@ -7,30 +7,7 @@ import api from './api';
 import toast from '../utils/toast';
 
 /**
- * Função para buscar cidade da api conforme ID
- * @param {string|number} id
- */
-export async function find(id) {
-  try {
-    if (id) {
-      const url = `/cidades/buscar?id=${id}`;
-      const data = await api.get(url, {
-        headers: {
-          token:
-            'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOjEsImlhdCI6MTYwMDA5NjU2MCwiZXhwIjoxNjMxNjMyNTYwfQ.hMZipf4NstzJ3JYOgoMRTYHKLIHAS92X9CA0QXErrfg',
-        },
-      });
-      return { value: data.id, label: data.nome };
-    }
-  } catch (err) {
-    const message = _.get(err, 'reponse.data.erro', err.message);
-    toast.error(message);
-  }
-  return null;
-}
-
-/**
- * Função para carregar uma lista de cidades da api conforme estado
+ * Função para carregar uma lista de cidades da api pelo estado
  * @param {string|number} estado
  */
 export async function listByEstado(estado) {
@@ -45,4 +22,23 @@ export async function listByEstado(estado) {
     toast.error(message);
   }
   return [];
+}
+
+
+/**
+ * Função para buscar cidade da api pelo ID
+ * @param {string|number} id
+ */
+export async function find(id) {
+  try {
+    if (id) {
+      const url = `/cidades/buscar?id=${id}`;
+      const data = await api.get(url);
+      return { value: data.id, label: data.nome };
+    }
+  } catch (err) {
+    const message = _.get(err, 'reponse.data.erro', err.message);
+    toast.error(message);
+  }
+  return null;
 }

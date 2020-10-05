@@ -1,25 +1,31 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-  <meta charset="utf-8" />
-  <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="theme-color" content="#000000" />
-  <meta name="description" content="Web site created using create-react-app" />
-  <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
-  <!--
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#000000" />
+    <meta
+      name="description"
+      content="Web site created using create-react-app"
+    />
+    <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
+    <!--
       manifest.json provides metadata used when your web app is installed on a
       user's mobile device or desktop. See https://developers.google.com/web/fundamentals/web-app-manifest/
     -->
-  <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
-  <!-- Font Style CSS -->
-  <link
-    href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&family=Roboto:wght@400;600;700&family=Asap:wght@400;600;700&display=swap"
-    rel="stylesheet" />
-  <!-- Font Awesome - Icons -->
-  <script src="https://kit.fontawesome.com/6e8a693074.js" crossorigin="anonymous"></script>
-  <!--
+    <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
+    <!-- Font Style CSS -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&family=Roboto:wght@400;600;700&family=Asap:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <!-- Font Awesome - Icons -->
+    <script
+      src="https://kit.fontawesome.com/6e8a693074.js"
+      crossorigin="anonymous"
+    ></script>
+    <!--
       Notice the use of %PUBLIC_URL% in the tags above.
       It will be replaced with the URL of the `public` folder during the build.
       Only files inside the `public` folder can be referenced from the HTML.
@@ -28,82 +34,98 @@
       work correctly both with client-side routing and a non-root public URL.
       Learn how to configure a non-root public URL by running `npm run build`.
     -->
-  <title>SEU CRÉDITO</title>
+    <title>SEU CRÉDITO</title>
 
-  <!-- Global site tag (gtag.js) - Google Ads: 593805436 -->
+    <!-- Global site tag (gtag.js) - Google Ads: 593805436 -->
 
-  <script async src="https://www.googletagmanager.com/gtag/js?id=AW-593805436"></script>
+    <script
+      async
+      src="https://www.googletagmanager.com/gtag/js?id=AW-593805436"
+    ></script>
 
-  <script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
 
-    window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
 
-    function gtag() { dataLayer.push(arguments); }
+      gtag('js', new Date());
 
-    gtag('js', new Date());
+      gtag('config', 'AW-593805436');
+    </script>
 
+    <!-- Facebook Pixel Code -->
 
+    <script>
+      !(function (f, b, e, v, n, t, s) {
+        if (f.fbq) return;
+        n = f.fbq = function () {
+          n.callMethod
+            ? n.callMethod.apply(n, arguments)
+            : n.queue.push(arguments);
+        };
 
-    gtag('config', 'AW-593805436');
+        if (!f._fbq) f._fbq = n;
+        n.push = n;
+        n.loaded = !0;
+        n.version = '2.0';
 
-  </script>
+        n.queue = [];
+        t = b.createElement(e);
+        t.async = !0;
 
-  <!-- Facebook Pixel Code -->
+        t.src = v;
+        s = b.getElementsByTagName(e)[0];
 
-  <script>
+        s.parentNode.insertBefore(t, s);
+      })(
+        window,
+        document,
+        'script',
 
-    !function (f, b, e, v, n, t, s) {
-      if (f.fbq) return; n = f.fbq = function () {
-        n.callMethod ?
+        'https://connect.facebook.net/en_US/fbevents.js',
+      );
 
-          n.callMethod.apply(n, arguments) : n.queue.push(arguments)
-      };
+      fbq('init', '2548002218755500');
 
-      if (!f._fbq) f._fbq = n; n.push = n; n.loaded = !0; n.version = '2.0';
+      fbq('track', 'PageView');
+    </script>
 
-      n.queue = []; t = b.createElement(e); t.async = !0;
+    <noscript
+      ><img
+        height="1"
+        width="1"
+        style="display: none"
+        src="https://www.facebook.com/tr?id=2548002218755500&ev=PageView&noscript=1"
+    /></noscript>
 
-      t.src = v; s = b.getElementsByTagName(e)[0];
+    <!-- End Facebook Pixel Code !-->
 
-      s.parentNode.insertBefore(t, s)
-    }(window, document, 'script',
+    <!-- Global site tag (gtag.js) - Google Analytics -->
 
-      'https://connect.facebook.net/en_US/fbevents.js');
+    <script
+      async
+      src="https://www.googletagmanager.com/gtag/js?id=UA-177152471-1"
+    ></script>
 
-    fbq('init', '2548002218755500');
+    <script>
+      window.dataLayer = window.dataLayer || [];
 
-    fbq('track', 'PageView');
+      function gtag() {
+        dataLayer.push(arguments);
+      }
 
-  </script>
+      gtag('js', new Date());
 
-  <noscript><img height="1" width="1" style="display:none"
-      src="https://www.facebook.com/tr?id=2548002218755500&ev=PageView&noscript=1" /></noscript>
+      gtag('config', 'UA-177152471-1');
+    </script>
+  </head>
 
-  <!-- End Facebook Pixel Code !-->
-
-  <!-- Global site tag (gtag.js) - Google Analytics -->
-
-  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-177152471-1"></script>
-
-  <script>
-
-    window.dataLayer = window.dataLayer || [];
-
-    function gtag() { dataLayer.push(arguments); }
-
-    gtag('js', new Date());
-
-
-
-    gtag('config', 'UA-177152471-1');
-
-  </script>
-</head>
-
-<body>
-  <noscript>You need to enable JavaScript to run this app.</noscript>
-  <div id="root"></div>
-  <!--
+  <body>
+    <noscript>You need to enable JavaScript to run this app.</noscript>
+    <div id="root"></div>
+    <!--
       This HTML file is a template.
       If you open it directly in the browser, you will see an empty page.
 
@@ -113,6 +135,5 @@
       To begin the development, run `npm start` or `yarn start`.
       To create a production bundle, use `npm run build` or `yarn build`.
     -->
-</body>
-
+  </body>
 </html>

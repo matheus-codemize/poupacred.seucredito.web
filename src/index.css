@@ -1,14 +1,14 @@
-body {
-  overflow: hidden;
-}
-
 .Toastify__toast-body {
   font-size: 1.7rem;
   font-family: 'Asap';
 }
 
-/* versão mobile */
+button:focus,
+a:focus {
+  outline: none;
+}
 
+/* versão mobile */
 :root {
   font-size: 60%;
   background-color: #f0f2f1;

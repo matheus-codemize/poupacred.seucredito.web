@@ -42,7 +42,7 @@ Box.defaultProps = {
 };
 
 Box.propTypes = {
-  children: PropTypes.element,
+  children: PropTypes.node,
   onBack: PropTypes.oneOfType([PropTypes.func, PropTypes.bool]),
 };
 

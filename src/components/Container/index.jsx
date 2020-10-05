@@ -1,4 +1,5 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
+import $ from 'jquery';
 import { useSelector, useDispatch } from 'react-redux';
 import styles from './style.module.css';
 
@@ -12,6 +13,24 @@ import actionsSidebar from '../../redux/actions/sidebar';
 function Container() {
   const dispatch = useDispatch();
   const sidebar = useSelector(state => state.sidebar);
+  const navigator = useSelector(state => state.navigator);
+
+  const [block, setBlock] = useState(false);
+
+  useEffect(() => {
+    setBlock(sidebar.open || navigator.loading);
+  }, [sidebar.open, navigator.loading]);
+
+  useEffect(() => {
+    const all = ['a', 'tab', 'button', 'input', 'select'];
+    $('body').css('overflow', block ? 'hidden' : 'auto');
+    all.forEach(type =>
+      $(`body ${type}`).each(function () {
+        $(this).attr('disabled', block);
+        $(this).attr('tabIndex', block ? -1 : 0);
+      }),
+    );
+  }, [block, navigator.loading]);
 
   function closeSidebar() {
     dispatch(actionsSidebar.close());
@@ -21,8 +40,10 @@ function Container() {
     <div
       onClick={closeSidebar}
       className={styles.container}
-      style={{ display: sidebar.open ? 'block' : 'none' }}
-    />
+      style={{ display: block ? 'block' : 'none' }}
+    >
+      {navigator.loading && <i className="fas fa-spinner fa-spin" />}
+    </div>
   );
 }
 

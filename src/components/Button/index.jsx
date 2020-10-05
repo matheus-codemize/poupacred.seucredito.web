@@ -64,9 +64,9 @@ Button.propTypes = {
   loading: PropTypes.bool,
   disabled: PropTypes.bool,
   gradient: PropTypes.bool,
-  children: PropTypes.element,
   type: PropTypes.oneOf(['link', 'primary', 'secondary']),
   htmlType: PropTypes.oneOf(['button', 'submit', 'reset']),
+  children: PropTypes.oneOfType([PropTypes.node, PropTypes.string]),
 };
 
 export default Button;
