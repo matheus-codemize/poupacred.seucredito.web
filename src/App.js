@@ -28,12 +28,16 @@ import Success from './pages/Success';
 import RegisterAgent from './pages/RegisterAgent';
 import RegisterClient from './pages/RegisterClient';
 
+// pages others versions
+import Home1 from './pages/Home1';
+
 // resources
 import { routesAgent, routesClient } from './resources/data/sidebar/routes';
 
 const pages = {
   Home,
   Proposal,
+  Home1,
 };
 
 function App() {

@@ -15,6 +15,10 @@
   "component.button.details": {
     "text": "Ver detalhes"
   },
+  "component.button.more": {
+    "text": "Ver mais",
+    "title": "Clique para ver mais"
+  },
 
   "component.select.placeholder": "Selecione",
   "component.inputfile.placeholder": "Selecione um arquivo",
