@@ -31,6 +31,7 @@ import RegisterClient from './pages/RegisterClient';
 // pages others versions
 import Home1 from './pages/Home1';
 import Home2 from './pages/Home2';
+import Home3 from './pages/Home3';
 
 // resources
 import { routesAgent, routesClient } from './resources/data/sidebar/routes';
@@ -40,6 +41,7 @@ const pages = {
   Proposal,
   Home1,
   Home2,
+  Home3,
 };
 
 function App() {

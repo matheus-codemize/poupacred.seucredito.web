@@ -161,6 +161,7 @@
       "secondColor": "#fb8c00",
       "icon": "fas fa-calendar-day",
       "title": "Produção Diária",
+      "subtitle": "Hoje [value]",
       "path": "/report/producao-diaria"
     },
     {
@@ -168,6 +169,7 @@
       "secondColor": "#43a047",
       "icon": "fas fa-chart-pie",
       "title": "Produção por Produto",
+      "subtitle": "[value] seu produto mais adquirido",
       "path": "/report/producao-por-produto"
     },
     {
@@ -175,6 +177,7 @@
       "secondColor": "#e53935",
       "icon": "fas fa-chart-line",
       "title": "Produção Total",
+      "subtitle": "Sua produção até agora [value]",
       "path": "/report/producao-total"
     },
     {
@@ -182,6 +185,7 @@
       "secondColor": "#00acc1",
       "icon": "fas fa-file-invoice-dollar",
       "title": "Comissionamento",
+      "subtitle": "Seu comissionamento até agora [value]",
       "path": "/report/comissionamento"
     }
   ],
