@@ -1,7 +1,6 @@
 .container {
   display: flex;
-  margin: 0 auto;
-  margin-top: -4rem;
+  margin: -4rem auto 1rem;
   justify-content: center;
   width: calc(100% - 4rem);
 }

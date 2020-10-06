@@ -250,241 +250,244 @@ function RegisterAgent() {
 
   return (
     <div>
-      <Panel title={language['register.agent.title']} />
-      <div className={styles.container} data-step={step}>
-        <Box onBack={step ? handleStep : undefined}>
-          <Carousel step={step}>
-            <Carousel.Step>
-              <h1>{language['register.agent.step0.title']}</h1>
-              <form onSubmit={handleSave}>
-                <Input
-                  id="nome"
-                  col={getCol}
-                  helpType="error"
-                  disabled={loading}
-                  onBlur={handleBlur}
-                  value={register.nome}
-                  onChange={handleChange}
-                  help={errors.nome || ''}
-                  {...language['register.agent.input'].nome}
-                />
-                <Input
-                  id="cpf"
-                  col={getCol}
-                  helpType="error"
-                  disabled={loading}
-                  onBlur={handleBlur}
-                  value={register.cpf}
-                  onChange={handleChange}
-                  help={errors.cpf || ''}
-                  {...language['register.agent.input'].cpf}
-                />
-                <Input
-                  col={getCol}
-                  id="nascimento"
-                  helpType="error"
-                  disabled={loading}
-                  onBlur={handleBlur}
-                  onChange={handleChange}
-                  value={register.nascimento}
-                  help={errors.nascimento || ''}
-                  {...language['register.agent.input'].nascimento}
-                />
-                <Input
-                  id="celular"
-                  col={getCol}
-                  helpType="error"
-                  disabled={loading}
-                  onBlur={handleBlur}
-                  onChange={handleChange}
-                  value={register.celular}
-                  help={errors.celular || ''}
-                  {...language['register.agent.input'].celular}
-                />
-                <Input
-                  id="email"
-                  col={getCol}
-                  helpType="error"
-                  htmlType="email"
-                  disabled={loading}
-                  onBlur={handleBlur}
-                  value={register.email}
-                  onChange={handleChange}
-                  help={errors.email || ''}
-                  {...language['register.agent.input'].email}
-                />
-                <RadioGroup
-                  id="sexo"
-                  col={getCol}
-                  disabled={loading}
-                  value={register.sexo}
-                  onChange={handleChange}
-                  options={[
-                    { value: 1, label: 'Masculino' },
-                    { value: 2, label: 'Feminino' },
-                  ]}
-                  {...language['register.agent.input'].sexo}
-                />
-                <InputFile
-                  id="rg_cnh"
-                  col={getCol}
-                  helpType="error"
-                  onChange={handleChange}
-                  help={errors.rg_cnh || ''}
-                  accept=".png, .jpeg, .jpg, .pdf"
-                  {...language['register.agent.input'].rg_cnh}
-                />
-                <div>
-                  <Button
-                    loading={loading}
-                    htmlType="submit"
-                    icon="fa fa-angle-right"
-                    disabled={disabledBtnSubmit}
-                  >
-                    {language['component.button.next.text']}
-                  </Button>
-                </div>
-              </form>
-            </Carousel.Step>
-            <Carousel.Step>
-              <h1>{language['register.agent.step1.title']}</h1>
-              <form onSubmit={handleSave}>
-                <Input
-                  id="cep"
-                  col={getCol}
-                  helpType="error"
-                  disabled={loading}
-                  onBlur={handleBlur}
-                  onChange={handleChange}
-                  help={errors.cep || ''}
-                  value={register.cep || ''}
-                  {...language['register.agent.input'].cep}
-                />
-                <Select
-                  id="estado"
-                  col={getCol}
-                  helpType="error"
-                  options={estados}
-                  disabled={loading}
-                  onBlur={handleBlur}
-                  onChange={handleChange}
-                  help={errors.estado || ''}
-                  value={register.estado || ''}
-                  {...language['register.agent.input'].estado}
-                />
-                <Select
-                  id="cidade"
-                  col={getCol}
-                  helpType="error"
-                  options={cidades}
-                  disabled={loading}
-                  onBlur={handleBlur}
-                  onChange={handleChange}
-                  help={errors.cidade || ''}
-                  value={register.cidade || ''}
-                  {...language['register.agent.input'].cidade}
-                />
-                <Input
-                  id="bairro"
-                  col={getCol}
-                  helpType="error"
-                  disabled={loading}
-                  onBlur={handleBlur}
-                  onChange={handleChange}
-                  help={errors.bairro || ''}
-                  value={register.bairro || ''}
-                  {...language['register.agent.input'].bairro}
-                />
-                <Input
-                  id="endereco"
-                  col={getCol}
-                  helpType="error"
-                  disabled={loading}
-                  onBlur={handleBlur}
-                  onChange={handleChange}
-                  help={errors.endereco || ''}
-                  value={register.endereco || ''}
-                  {...language['register.agent.input'].endereco}
-                />
-                <Input
-                  col={getCol}
-                  helpType="error"
-                  disabled={loading}
-                  id="numero_endereco"
-                  onChange={handleChange}
-                  help={errors.numero_endereco || ''}
-                  value={register.numero_endereco || ''}
-                  {...language['register.agent.input'].numero_endereco}
-                />
-                <Input
-                  col={getCol}
-                  id="complemento"
-                  helpType="error"
-                  disabled={loading}
-                  onChange={handleChange}
-                  help={errors.complemento || ''}
-                  value={register.complemento || ''}
-                  {...language['register.agent.input'].complemento}
-                />
-                <InputFile
-                  col={getCol}
-                  helpType="error"
-                  onChange={handleChange}
-                  id="comprovante_endereco"
-                  accept=".png, .jpeg, .jpg, .pdf"
-                  help={errors.comprovante_endereco || ''}
-                  {...language['register.agent.input'].comprovante_endereco}
-                />
-                <div>
-                  <Button
-                    loading={loading}
-                    htmlType="submit"
-                    icon="fa fa-angle-right"
-                    disabled={disabledBtnSubmit}
-                  >
-                    {language['component.button.next.text']}
-                  </Button>
-                </div>
-              </form>
-            </Carousel.Step>
-            <Carousel.Step>
-              <h1>{language['register.agent.step2.title']}</h1>
-              <form onSubmit={handleSave}>
-                <Input
-                  col={getCol}
-                  id="certificacao"
-                  helpType="error"
-                  disabled={loading}
-                  onChange={handleChange}
-                  help={errors.certificacao || ''}
-                  value={register.certificacao || ''}
-                  {...language['register.agent.input'].certificacao}
-                />
-                <InputFile
-                  col={getCol}
-                  id="curriculo"
-                  helpType="error"
-                  onChange={handleChange}
-                  help={errors.curriculo || ''}
-                  accept=".png, .jpeg, .jpg, .pdf"
-                  {...language['register.agent.input'].curriculo}
-                />
-                <TermPolity />
-                <div>
-                  <Button
-                    htmlType="submit"
-                    icon="fa fa-check"
-                    loading={loading}
-                    disabled={loading || disabledBtnSubmit}
-                  >
-                    {language['component.button.register.text']}
-                  </Button>
-                </div>
-              </form>
-            </Carousel.Step>
-          </Carousel>
-        </Box>
-      </div>
+      <Panel title={language['register.agent.title']}>
+        <Panel.Body>
+          <div className={styles.container} data-step={step}>
+            <Box onBack={step ? handleStep : undefined}>
+              <Carousel step={step}>
+                <Carousel.Step>
+                  <h1>{language['register.agent.step0.title']}</h1>
+                  <form onSubmit={handleSave}>
+                    <Input
+                      id="nome"
+                      col={getCol}
+                      helpType="error"
+                      disabled={loading}
+                      onBlur={handleBlur}
+                      value={register.nome}
+                      onChange={handleChange}
+                      help={errors.nome || ''}
+                      {...language['register.agent.input'].nome}
+                    />
+                    <Input
+                      id="cpf"
+                      col={getCol}
+                      helpType="error"
+                      disabled={loading}
+                      onBlur={handleBlur}
+                      value={register.cpf}
+                      onChange={handleChange}
+                      help={errors.cpf || ''}
+                      {...language['register.agent.input'].cpf}
+                    />
+                    <Input
+                      col={getCol}
+                      id="nascimento"
+                      helpType="error"
+                      disabled={loading}
+                      onBlur={handleBlur}
+                      onChange={handleChange}
+                      value={register.nascimento}
+                      help={errors.nascimento || ''}
+                      {...language['register.agent.input'].nascimento}
+                    />
+                    <Input
+                      id="celular"
+                      col={getCol}
+                      helpType="error"
+                      disabled={loading}
+                      onBlur={handleBlur}
+                      onChange={handleChange}
+                      value={register.celular}
+                      help={errors.celular || ''}
+                      {...language['register.agent.input'].celular}
+                    />
+                    <Input
+                      id="email"
+                      col={getCol}
+                      helpType="error"
+                      htmlType="email"
+                      disabled={loading}
+                      onBlur={handleBlur}
+                      value={register.email}
+                      onChange={handleChange}
+                      help={errors.email || ''}
+                      {...language['register.agent.input'].email}
+                    />
+                    <RadioGroup
+                      id="sexo"
+                      col={getCol}
+                      disabled={loading}
+                      value={register.sexo}
+                      onChange={handleChange}
+                      options={[
+                        { value: 1, label: 'Masculino' },
+                        { value: 2, label: 'Feminino' },
+                      ]}
+                      {...language['register.agent.input'].sexo}
+                    />
+                    <InputFile
+                      id="rg_cnh"
+                      col={getCol}
+                      helpType="error"
+                      onChange={handleChange}
+                      help={errors.rg_cnh || ''}
+                      accept=".png, .jpeg, .jpg, .pdf"
+                      {...language['register.agent.input'].rg_cnh}
+                    />
+                    <div>
+                      <Button
+                        loading={loading}
+                        htmlType="submit"
+                        icon="fa fa-angle-right"
+                        disabled={disabledBtnSubmit}
+                      >
+                        {language['component.button.next.text']}
+                      </Button>
+                    </div>
+                  </form>
+                </Carousel.Step>
+                <Carousel.Step>
+                  <h1>{language['register.agent.step1.title']}</h1>
+                  <form onSubmit={handleSave}>
+                    <Input
+                      id="cep"
+                      col={getCol}
+                      helpType="error"
+                      disabled={loading}
+                      onBlur={handleBlur}
+                      onChange={handleChange}
+                      help={errors.cep || ''}
+                      value={register.cep || ''}
+                      {...language['register.agent.input'].cep}
+                    />
+                    <Select
+                      id="estado"
+                      col={getCol}
+                      helpType="error"
+                      options={estados}
+                      disabled={loading}
+                      onBlur={handleBlur}
+                      onChange={handleChange}
+                      help={errors.estado || ''}
+                      value={register.estado || ''}
+                      {...language['register.agent.input'].estado}
+                    />
+                    <Select
+                      id="cidade"
+                      col={getCol}
+                      helpType="error"
+                      options={cidades}
+                      disabled={loading}
+                      onBlur={handleBlur}
+                      onChange={handleChange}
+                      help={errors.cidade || ''}
+                      value={register.cidade || ''}
+                      {...language['register.agent.input'].cidade}
+                    />
+                    <Input
+                      id="bairro"
+                      col={getCol}
+                      helpType="error"
+                      disabled={loading}
+                      onBlur={handleBlur}
+                      onChange={handleChange}
+                      help={errors.bairro || ''}
+                      value={register.bairro || ''}
+                      {...language['register.agent.input'].bairro}
+                    />
+                    <Input
+                      id="endereco"
+                      col={getCol}
+                      helpType="error"
+                      disabled={loading}
+                      onBlur={handleBlur}
+                      onChange={handleChange}
+                      help={errors.endereco || ''}
+                      value={register.endereco || ''}
+                      {...language['register.agent.input'].endereco}
+                    />
+                    <Input
+                      col={getCol}
+                      helpType="error"
+                      disabled={loading}
+                      id="numero_endereco"
+                      onChange={handleChange}
+                      help={errors.numero_endereco || ''}
+                      value={register.numero_endereco || ''}
+                      {...language['register.agent.input'].numero_endereco}
+                    />
+                    <Input
+                      col={getCol}
+                      id="complemento"
+                      helpType="error"
+                      disabled={loading}
+                      onChange={handleChange}
+                      help={errors.complemento || ''}
+                      value={register.complemento || ''}
+                      {...language['register.agent.input'].complemento}
+                    />
+                    <InputFile
+                      col={getCol}
+                      helpType="error"
+                      onChange={handleChange}
+                      id="comprovante_endereco"
+                      accept=".png, .jpeg, .jpg, .pdf"
+                      help={errors.comprovante_endereco || ''}
+                      {...language['register.agent.input'].comprovante_endereco}
+                    />
+                    <div>
+                      <Button
+                        loading={loading}
+                        htmlType="submit"
+                        icon="fa fa-angle-right"
+                        disabled={disabledBtnSubmit}
+                      >
+                        {language['component.button.next.text']}
+                      </Button>
+                    </div>
+                  </form>
+                </Carousel.Step>
+                <Carousel.Step>
+                  <h1>{language['register.agent.step2.title']}</h1>
+                  <form onSubmit={handleSave}>
+                    <Input
+                      col={getCol}
+                      id="certificacao"
+                      helpType="error"
+                      disabled={loading}
+                      onChange={handleChange}
+                      help={errors.certificacao || ''}
+                      value={register.certificacao || ''}
+                      {...language['register.agent.input'].certificacao}
+                    />
+                    <InputFile
+                      col={getCol}
+                      id="curriculo"
+                      helpType="error"
+                      onChange={handleChange}
+                      help={errors.curriculo || ''}
+                      accept=".png, .jpeg, .jpg, .pdf"
+                      {...language['register.agent.input'].curriculo}
+                    />
+                    <TermPolity />
+                    <div>
+                      <Button
+                        htmlType="submit"
+                        icon="fa fa-check"
+                        loading={loading}
+                        disabled={loading || disabledBtnSubmit}
+                      >
+                        {language['component.button.register.text']}
+                      </Button>
+                    </div>
+                  </form>
+                </Carousel.Step>
+              </Carousel>
+            </Box>
+          </div>
+        </Panel.Body>
+      </Panel>
     </div>
   );
 }
