@@ -1,18 +1,21 @@
 .container {
+  top: 0;
+  right: 0;
+  bottom: 0;
   width: 100%;
-  display: block;
+  height: 100%;
   display: flex;
-  position: relative;
+  position: absolute;
   background-size: cover;
   justify-content: center;
-  height: calc(60vh - 9.5px);
   background-repeat: no-repeat;
   background-image: url('../../assets/images/login-bg-mobile.jpg');
 }
 
 .form {
+  top: -5rem;
   width: 100%;
-  margin-top: -2rem;
+  position: absolute;
   max-width: calc(100% - 4rem);
 }
 
@@ -58,6 +61,7 @@
   .container {
     background-image: url('../../assets/images/login-bg.jpg');
   }
+
   .form {
     max-width: 500px;
   }
