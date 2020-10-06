@@ -52,7 +52,7 @@ function Panel({ title, onSearch, children, ...rest }) {
     let searchChildLength = 0;
 
     React.Children.forEach(children, child => {
-      if (child.type.name === 'PanelSearch') {
+      if (child.type === PanelSearch) {
         React.Children.forEach(child.props.children, (searchChild, index) => {
           searchChildLength++;
           if (open) {
@@ -99,7 +99,7 @@ function Panel({ title, onSearch, children, ...rest }) {
   const renderContent = useMemo(() => {
     let component = <></>;
     React.Children.forEach(children, child => {
-      if (child.type.name === 'PanelBody') {
+      if (child.type === PanelBody) {
         component = child;
       }
     });
