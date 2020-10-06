@@ -1,5 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react';
-import $ from 'jquery';
+import React, { useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import styles from './style.module.css';
