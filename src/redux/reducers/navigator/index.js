@@ -2,6 +2,7 @@ import actionsTypes from '../../constants/navigator';
 
 const inital_state = {
   loading: false,
+  background: false,
   window: {
     size: { y: 0, x: 0 },
   },

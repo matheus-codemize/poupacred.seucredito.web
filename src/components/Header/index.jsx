@@ -52,7 +52,12 @@ function Header() {
             onClick={handleSidebar}
             className={styles.btn_open_sidebar}
             style={{
-              backgroundColor: `rgba(var(--color-primary), ${opactity}) !important`,
+              color: opactity
+                ? `rgba(var(--color-primary), ${opactity})`
+                : 'rgb(var(--color-white))',
+              borderColor: opactity
+                ? `rgba(var(--color-primary), ${opactity})`
+                : 'rgb(var(--color-white))',
             }}
           >
             <i className="fa fa-bars" />
