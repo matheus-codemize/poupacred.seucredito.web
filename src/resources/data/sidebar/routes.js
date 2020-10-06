@@ -1,5 +1,5 @@
 export const routesAgent = [
-  // { path: '/home', component: 'Home', name: 'Home', icon: 'fa fa-home' },
+  { path: '/home', component: 'Home', name: 'Home', icon: 'fa fa-home' },
   { path: '/proposta', component: 'Proposal', name: 'Propostas', icon: 'fab fa-buffer' },
 
   /* others versions */

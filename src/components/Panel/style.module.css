@@ -1,3 +1,13 @@
+/* declaração de variáveis */
+:root {
+  --top-base: 8rem;
+
+  --header-height: 17rem;
+  --height-2: 10rem;
+
+  --action-top-base: 6rem;
+}
+
 .container {
   display: flex;
   position: relative;
@@ -5,22 +15,22 @@
 }
 
 .section_header {
-  height: 16rem;
   overflow: hidden;
-  padding: 8rem 2rem 0;
   transition: 0.4s ease;
   width: calc(100% - 4rem);
+  height: var(--header-height);
+  padding: var(--top-base) 2rem 0;
   background-color: rgb(var(--color-primary));
 }
 
 .section_header[data-open='true'] {
-  height: calc(100vh - 8rem) !important;
+  height: calc(100vh - var(--top-base)) !important;
 }
 
 .section_header[data-size='2'],
 .section_header[data-filter='true'] {
   z-index: 2;
-  height: calc(16rem + 10rem);
+  height: calc(var(--header-height) + var(--height-2));
 }
 
 .section_header > h1 {
@@ -40,8 +50,8 @@
   bottom: 7rem;
   color: white;
   position: absolute;
-  width: calc(100% - 8rem);
   background-color: transparent;
+  width: calc(100% - var(--top-base));
 }
 
 .container_filter {
@@ -90,7 +100,7 @@ e 10px de altura para a barra horizontal */
   align-items: center;
   transition: 0.4s ease;
   justify-content: center;
-  top: calc(16rem + 7rem);
+  top: calc(var(--header-height) + var(--action-top-base));
 }
 
 .container_action > i {
@@ -108,21 +118,26 @@ e 10px de altura para a barra horizontal */
   top: calc(100vh - 4rem) !important;
 }
 
-.section_header[data-size='2'] .container_action {
-  top: calc(23rem + 10rem);
+.section_header[data-size='2'] .container_action,
+.section_header[data-filter='true'] .container_action {
+  top: calc(var(--header-height) + var(--action-top-base) + var(--height-2));
 }
 
 .section_body {
   width: 100%;
-  position: relative;
+  position: absolute;
   transition: 0.4s ease;
-  height: calc(100vh - 16rem - 8rem);
+  top: calc(var(--header-height) + var(--top-base));
+  height: calc(100vh - var(--header-height) - var(--top-base));
 }
 
 .section_body[data-size='2'],
 .section_body[data-filter='true'] {
   z-index: 1;
-  height: calc(100vh - 16rem - 8rem - 10rem);
+  top: calc(var(--header-height) + var(--top-base) + var(--height-2));
+  height: calc(
+    100vh - var(--header-height) - var(--top-base) - var(--height-2)
+  );
 }
 
 .section_body[data-open='true'] {
@@ -131,23 +146,26 @@ e 10px de altura para a barra horizontal */
 
 .section_body[data-open='true'][data-size='2'],
 .section_body[data-open='true'][data-filter='true'] {
-  max-height: calc(100vh - 16rem - 8rem - 10rem);
+  max-height: calc(
+    100vh - var(--header-height) - var(--top-base) - var(--height-2)
+  );
 }
 
 @media (min-width: 700px) {
   .section_body,
   .section_body[data-size='2'],
   .section_body[data-filter='true'] {
-    height: calc(100vh - 16rem - 8rem);
+    top: calc(var(--header-height) + var(--top-base));
+    height: calc(100vh - var(--header-height) - var(--top-base));
   }
 
   .section_body[data-open='true'][data-size='2'],
   .section_body[data-open='true'][data-filter='true'] {
-    max-height: calc(100vh - 16rem - 8rem);
+    max-height: calc(100vh - var(--header-height) - var(--top-base));
   }
 
   .section_header {
-    height: 16rem !important;
+    height: var(--header-height) !important;
   }
 
   .section_header[data-size]:not([data-open='true']) .container_filter > div {
@@ -169,6 +187,6 @@ e 10px de altura para a barra horizontal */
   }
 
   .container_action {
-    top: calc(16rem + 7rem) !important;
+    top: calc(var(--header-height) + var(--action-top-base)) !important;
   }
 }
