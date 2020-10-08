@@ -1,8 +1,18 @@
-.container_dataset {
+.container {
   padding: 2rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.content {
   display: flex;
   flex-wrap: wrap;
   flex-direction: row;
   align-items: center;
   justify-content: space-around;
+}
+
+.pagination {
+  float: right;
+  margin: 2rem 0;
 }

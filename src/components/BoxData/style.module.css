@@ -75,7 +75,7 @@
   font-weight: 600;
 }
 
-@media (min-width: 600px) {
+/* @media (min-width: 600px) {
   .container {
     max-width: 48%;
   }
@@ -91,4 +91,4 @@
   .container {
     max-width: 23.5%;
   }
-}
+} */

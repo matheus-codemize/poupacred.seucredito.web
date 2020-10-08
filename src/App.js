@@ -21,9 +21,11 @@ import Container from './components/Container';
 import SelectList from './components/SelectList';
 
 // pages
+import Crm from './pages/Crm';
 import Home from './pages/Home';
-import Login from './pages/Login';
 import Proposal from './pages/Proposal';
+
+import Login from './pages/Login';
 import Landing from './pages/Landing';
 import Success from './pages/Success';
 import RegisterAgent from './pages/RegisterAgent';
@@ -38,6 +40,7 @@ import Home3 from './pages/Home3';
 import { routesAgent, routesClient } from './resources/data/sidebar/routes';
 
 const pages = {
+  Crm,
   Home,
   Proposal,
   Home1,
