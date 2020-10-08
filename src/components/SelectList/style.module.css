@@ -1,0 +1,43 @@
+.container {
+  left: 0;
+  top: 5rem;
+  z-index: 3;
+  width: 100%;
+  display: none;
+  padding: 2rem 0;
+  overflow-y: auto;
+  overflow-x: hidden;
+  position: absolute;
+  box-sizing: border-box;
+  background-color: #fff;
+  box-shadow: var(--input-box-shadow);
+}
+
+.container[data-open='true'] {
+  display: block;
+}
+
+.container li {
+  padding: 2rem;
+  cursor: pointer;
+  font-size: 1.6rem;
+  font-family: 'Roboto';
+  color: rgb(var(--color-black));
+}
+
+.container li:hover {
+  background-color: rgb(222, 235, 255);
+}
+
+.container li[data-selected='on'] {
+  color: rgb(var(--color-white));
+  background-color: rgb(38, 132, 255);
+}
+
+.empty {
+  width: 100%;
+  color: grey;
+  font-size: 1.5rem;
+  text-align: center;
+  font-family: 'Roboto';
+}

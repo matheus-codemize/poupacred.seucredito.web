@@ -18,6 +18,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import Header from './components/Header';
 import Sidebar from './components/Sidebar';
 import Container from './components/Container';
+import SelectList from './components/SelectList';
 
 // pages
 import Home from './pages/Home';
@@ -60,7 +61,15 @@ function App() {
 
   useEffect(() => {
     windowResize();
+    window.addEventListener('load', windowResize);
     window.addEventListener('resize', windowResize);
+    window.addEventListener('scroll', windowResize);
+
+    return () => {
+      window.removeEventListener('load', windowResize);
+      window.removeEventListener('resize', windowResize);
+      window.removeEventListener('scroll', windowResize);
+    };
   }, [windowResize]);
 
   /**
@@ -97,6 +106,7 @@ function App() {
       <Header />
       {routes.length > 0 && <Sidebar />}
       <Container />
+      <SelectList />
       <Switch>
         <Route exact path="/">
           <Landing />

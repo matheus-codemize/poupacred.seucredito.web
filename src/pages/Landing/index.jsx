@@ -48,45 +48,27 @@ function Landing() {
   }, [auth, auth.uid]);
 
   useEffect(() => {
-    window.removeEventListener('resize', this);
-    window.addEventListener('resize', () => {
-      const { innerWidth } = window;
-      setWidth(innerWidth);
-    });
-
     /**
      * Iniciando as animações
      */
-    initIntervalBanner();
     initIntervalStep();
+    initIntervalBanner();
   }, []);
 
   useEffect(() => {
-    const { advantage_title, advantage, animation_visible } = styles;
-    const classes = [advantage_title, advantage];
+    window.addEventListener('resize', resizeWindow);
 
     if (!navigator.userAgent.toLowerCase().includes('mobile')) {
-      $(window).on('scroll', () => {
-        classes.forEach(classSelector => {
-          $(`.${classSelector}`).each(function () {
-            const top_of_object = $(this).offset().top;
-            const bottom_of_window = $(window).scrollTop() + $(window).height();
-            if (parseInt(bottom_of_window) >= parseInt(top_of_object)) {
-              $(this).addClass(animation_visible);
-            } else {
-              $(this).removeClass(animation_visible);
-            }
-          });
-        });
-      });
+      window.addEventListener('scroll', scrollWindow);
     }
-  }, [
-    styles,
-    styles.advantage,
-    styles.advantage_title,
-    styles.animation_visible,
-    navigator.userAgent,
-  ]);
+
+    return () => {
+      window.removeEventListener('resize', resizeWindow);
+      if (!navigator.userAgent.toLowerCase().includes('mobile')) {
+        window.removeEventListener('scroll', scrollWindow);
+      }
+    };
+  }, [navigator.userAgent]);
 
   useEffect(() => {
     const selectors = ['slider_item', 'selector_item'];
@@ -112,6 +94,28 @@ function Landing() {
       }
     });
   }, [indexStep]);
+
+  function resizeWindow() {
+    const { innerWidth } = window;
+    setWidth(innerWidth);
+  }
+
+  function scrollWindow() {
+    const { advantage_title, advantage, animation_visible } = styles;
+    const classes = [advantage_title, advantage];
+
+    classes.forEach(classSelector => {
+      $(`.${classSelector}`).each(function () {
+        const top_of_object = $(this).offset().top;
+        const bottom_of_window = $(window).scrollTop() + $(window).height();
+        if (parseInt(bottom_of_window) >= parseInt(top_of_object)) {
+          $(this).addClass(animation_visible);
+        } else {
+          $(this).removeClass(animation_visible);
+        }
+      });
+    });
+  }
 
   function initIntervalBanner() {
     const idInterval = setInterval(setBanner, 5000);

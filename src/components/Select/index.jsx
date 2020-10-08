@@ -1,7 +1,11 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import $ from 'jquery';
+import { useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
 import styles from './style.module.css';
+
+// redux
+import actions from '../../redux/actions/select';
 
 // utils
 import language from '../../utils/language';
@@ -27,7 +31,7 @@ function Select({
   placeholder,
   ...rest
 }) {
-  /** para controle da posição da lista */
+  const dispatch = useDispatch();
 
   /** para filtro e busca de uma opção da lista */
   const [filter, setFilter] = useState('');
@@ -35,6 +39,19 @@ function Select({
   /** para controle do input e da lista */
   const [text, setText] = useState('');
   const [open, setOpen] = useState(false);
+
+  useEffect(() => {
+    dispatch(
+      actions.update({
+        id,
+        open,
+        value,
+        options,
+        onChange: selectOption,
+        filter: async ? '' : filter,
+      }),
+    );
+  }, [async, open, filter, value, options]);
 
   useEffect(() => {
     setFilter('');
@@ -97,28 +114,6 @@ function Select({
     );
   }, [value, label]);
 
-  const renderOptions = useMemo(() => {
-    let optionsMap = JSON.parse(JSON.stringify(options));
-
-    if (async) {
-    } else {
-      optionsMap = optionsMap.filter(option =>
-        option.label.toLowerCase().includes(filter.toLowerCase()),
-      );
-    }
-
-    return optionsMap.map((option, index) => (
-      <li
-        {...option.optionProps}
-        key={index}
-        onMouseDown={() => selectOption(option.value)}
-        data-selected={option.value === value ? 'on' : 'off'}
-      >
-        {option.label}
-      </li>
-    ));
-  }, [async, value, filter, options]);
-
   return (
     <div
       className={styles.container}
@@ -136,13 +131,6 @@ function Select({
         placeholder={(open && text) || placeholder}
       />
       {renderBtnClear}
-      <div
-        data-label={label ? 'on' : 'off'}
-        data-visible={open ? 'on' : 'off'}
-        className={styles.content_dataset}
-      >
-        <ul>{renderOptions}</ul>
-      </div>
       {renderHelp}
     </div>
   );

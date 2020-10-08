@@ -8,6 +8,8 @@
     "button.back.text": "Voltar"
   },
 
+  "component.select.empty": "Sem dados",
+
   "component.button.next.text": "Avançar",
   "component.button.filter.text": "Filtrar",
   "component.button.search.text": "Pesquisar",
