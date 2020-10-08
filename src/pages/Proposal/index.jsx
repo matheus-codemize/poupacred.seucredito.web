@@ -25,6 +25,7 @@ import Input from '../../components/Input';
 import Select from '../../components/Select';
 import Button from '../../components/Button';
 import BoxData from '../../components/BoxData';
+import InputDateRange from '../../components/InputDateRange';
 
 function Proposal({ ...rest }) {
   const dispatch = useDispatch();
@@ -118,11 +119,11 @@ function Proposal({ ...rest }) {
             onChange={handleChangeFilter}
             {...language['proposal.filter.input'].nome}
           />
-          <Input
+          <InputDateRange
             id="periodo"
             col={getCol}
-            value={filter.periodo || ''}
             onChange={handleChangeFilter}
+            value={filter.periodo || null}
             {...language['proposal.filter.input'].periodo}
           />
           <Select
