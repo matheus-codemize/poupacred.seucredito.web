@@ -7,21 +7,6 @@ import api from './api';
 import toast from '../utils/toast';
 
 /**
- * Função para listar os convênios
- */
-export async function list() {
-  try {
-    const url = '/convenios/listar';
-    const data = await api.get(url);
-    return data.map(item => ({ ...item, value: item.id, label: item.nome }));
-  } catch (err) {
-    const message = _.get(err, 'response.data.erro', err.message);
-    toast.error(message);
-  }
-  return [];
-}
-
-/**
  * Função para buscar um convênio pelo ID
  * @param {string|number} id
  */
@@ -37,4 +22,19 @@ export async function getById(id) {
     toast.error(message);
   }
   return null;
+}
+
+/**
+ * Função para listar os convênios
+ */
+export async function list() {
+  try {
+    const url = '/convenios/listar';
+    const data = await api.get(url);
+    return data.map(item => ({ ...item, value: item.id, label: item.nome }));
+  } catch (err) {
+    const message = _.get(err, 'response.data.erro', err.message);
+    toast.error(message);
+  }
+  return [];
 }

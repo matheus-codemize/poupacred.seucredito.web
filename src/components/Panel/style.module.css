@@ -182,7 +182,8 @@ e 10px de altura para a barra horizontal */
   }
 
   .section_header[data-size]:not([data-open='true']) .container_filter > div {
-    width: calc(25% - 2rem);
+    flex: 1;
+    margin: 0 1rem;
   }
 
   .section_header:not([data-open='true'])[data-size='1']
@@ -191,7 +192,7 @@ e 10px de altura para a barra horizontal */
   .section_header:not([data-open='true'])[data-size='2']
     .container_filter
     > div {
-    width: calc(50% - 2rem);
+    flex: 0 0 calc(50% - 2rem);
   }
 
   .container_filter,

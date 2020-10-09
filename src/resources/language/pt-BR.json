@@ -318,10 +318,24 @@
     "description": "Estamos analisando seu cadastro, fique atento na sua caixa de email ou SMS com futuras instruções."
   },
 
-  "proposal.title": "Consultar Propostas",
-  "proposal.filter.input": {
-    "filtro_por": {
-      "label": "Filtrar por"
+  "page.proposal": {
+    "title": "Consultar Propostas",
+    "list": {
+      "status": []
+    }
+  },
+
+  "page.crm": {
+    "title": "CRM",
+    "create": "Nova Solicitação",
+    "list": {
+      "status": []
+    }
+  },
+
+  "component.form.props": {
+    "status": {
+      "label": "Status"
     },
     "proposta": {
       "label": "Nº Proposta"
@@ -338,9 +352,6 @@
     },
     "banco": {
       "label": "Banco"
-    },
-    "setor": {
-      "label": "Setor do Convênio"
     },
     "convenio": {
       "label": "Convênio"

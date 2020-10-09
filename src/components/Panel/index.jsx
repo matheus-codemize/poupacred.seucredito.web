@@ -97,7 +97,7 @@ function Panel({ title, onSearch, onCreate, children, labelCreate, ...rest }) {
         </div>
         <div className={styles.container_filter_action}>
           {open && onCreate && labelCreate && (
-            <Button gradient icon="fas fa-plus clicle" onClick={handleCreate}>
+            <Button gradient onClick={handleCreate} icon="fas fa-plus clicle">
               {labelCreate}
             </Button>
           )}

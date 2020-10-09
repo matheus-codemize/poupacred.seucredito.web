@@ -7,6 +7,7 @@ import actionsNavigator from '../../redux/actions/navigator';
 
 // services
 import api from '../../services/api';
+import * as bancoApi from '../../services/banco';
 import * as produtoApi from '../../services/produto';
 import * as convenioApi from '../../services/convenio';
 
@@ -26,7 +27,10 @@ import Button from '../../components/Button';
 import BoxDataList from '../../components/BoxDataList';
 import InputDateRange from '../../components/InputDateRange';
 
-function Proposal({ ...rest }) {
+const languagePage = language['page.proposal'];
+const languageForm = language['component.form.props'];
+
+function Proposal() {
   const dispatch = useDispatch();
   const navigator = useSelector(state => state.navigator);
 
@@ -51,13 +55,19 @@ function Proposal({ ...rest }) {
 
   async function initComponent() {
     dispatch(actionsNavigator.startLoading());
-    await Promise.all([getProdutos(), getConvenios()]);
-    await getDados();
+    await Promise.all([getProdutos(), getBancos(), getConvenios()]).then(
+      getDados,
+    );
   }
 
   async function getProdutos() {
     const data = await produtoApi.list();
     setProdutos(data);
+  }
+
+  async function getBancos() {
+    const data = await bancoApi.list();
+    setBancos(data);
   }
 
   async function getConvenios() {
@@ -107,7 +117,7 @@ function Proposal({ ...rest }) {
       const message = _.get(err, 'response.data.erro', err.message);
       toast.error(message);
     } finally {
-      setTimeout(() => dispatch(actionsNavigator.finishLoading()), 2000);
+      dispatch(actionsNavigator.finishLoading());
     }
   }
 
@@ -127,43 +137,43 @@ function Proposal({ ...rest }) {
 
   return (
     <div>
-      <Panel onSearch={getDados} title={language['proposal.title']}>
+      <Panel onSearch={getDados} title={languagePage.title}>
         <Panel.Search>
           <Select
             col={getCol}
-            id="filtro_por"
-            options={produtos}
+            id="status"
+            value={filter.status || ''}
             onChange={handleChangeFilter}
-            value={filter.filtro_por || ''}
-            {...language['proposal.filter.input'].filtro_por}
+            options={languagePage.list.status}
+            {...languageForm.status}
           />
           <Input
             col={getCol}
             id="proposta"
             value={filter.proposta || ''}
             onChange={handleChangeFilter}
-            {...language['proposal.filter.input'].proposta}
+            {...languageForm.proposta}
           />
           <Input
             id="cpf"
             col={getCol}
             value={filter.cpf || ''}
             onChange={handleChangeFilter}
-            {...language['proposal.filter.input'].cpf}
+            {...languageForm.cpf}
           />
           <Input
             id="nome"
             col={getCol}
             value={filter.nome || ''}
             onChange={handleChangeFilter}
-            {...language['proposal.filter.input'].nome}
+            {...languageForm.nome}
           />
           <InputDateRange
             id="periodo"
             col={getCol}
             onChange={handleChangeFilter}
             value={filter.periodo || null}
-            {...language['proposal.filter.input'].periodo}
+            {...languageForm.periodo}
           />
           <Select
             id="banco"
@@ -171,7 +181,7 @@ function Proposal({ ...rest }) {
             options={bancos}
             value={filter.banco || ''}
             onChange={handleChangeFilter}
-            {...language['proposal.filter.input'].banco}
+            {...languageForm.banco}
           />
           <Select
             col={getCol}
@@ -179,7 +189,7 @@ function Proposal({ ...rest }) {
             options={convenios}
             value={filter.convenio || ''}
             onChange={handleChangeFilter}
-            {...language['proposal.filter.input'].convenio}
+            {...languageForm.convenio}
           />
           <Select
             id="produto"
@@ -187,7 +197,7 @@ function Proposal({ ...rest }) {
             options={produtos}
             value={filter.produto || ''}
             onChange={handleChangeFilter}
-            {...language['proposal.filter.input'].produto}
+            {...languageForm.produto}
           />
         </Panel.Search>
         <Panel.Body>

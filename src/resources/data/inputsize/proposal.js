@@ -1,6 +1,6 @@
 const inputsize = {
   md: {
-    filtro_por: 6,
+    status: 6,
     proposta: 5,
     cpf: 5,
     nome: 6,
@@ -10,7 +10,7 @@ const inputsize = {
     produto: 8,
   },
   lg: {
-    filtro_por: 6,
+    status: 6,
     proposta: 5,
     cpf: 5,
     nome: 6,

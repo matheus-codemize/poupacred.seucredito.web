@@ -95,7 +95,13 @@ function BoxDataList({ data, dataFooter, pagination, onPagination, ...rest }) {
     <div className={styles.container}>
       <div data-size={data.length} className={styles.content}>
         {data.map((item, index) => (
-          <BoxData {...item} key={index} footer={dataFooter} />
+          <BoxData
+            {...item}
+            key={index}
+            footer={
+              typeof dataFooter === 'function' ? dataFooter(item) : dataFooter
+            }
+          />
         ))}
         {data.length === 0 && (
           <h1>{language['component.boxdatalist.empty']}</h1>
@@ -112,14 +118,14 @@ BoxDataList.defaultProps = {
 };
 
 BoxDataList.propTypes = {
-  dataFooter: PropTypes.node,
+  onPagination: PropTypes.func,
+  data: PropTypes.arrayOf(PropTypes.object).isRequired,
+  dataFooter: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
   pagination: PropTypes.shape({
     size: PropTypes.number,
     total: PropTypes.number,
     current: PropTypes.number,
   }).isRequired,
-  onPagination: PropTypes.func,
-  data: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
 
 export default BoxDataList;
