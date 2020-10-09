@@ -8,6 +8,10 @@
     "button.back.text": "Voltar"
   },
 
+  "component.sidebar": {
+    "logout": "Sair"
+  },
+
   "component.select.empty": "Sem dados",
 
   "component.boxdatalist.empty": "Ops .. Não há informações",

@@ -13,6 +13,8 @@ import language from '../../utils/language';
 // resources
 import { routesAgent, routesClient } from '../../resources/data/sidebar/routes';
 
+const languageComponent = language['component.sidebar'];
+
 function Sidebar() {
   const history = useHistory();
   const dispatch = useDispatch();
@@ -81,11 +83,12 @@ function Sidebar() {
       </ul>
       <button
         type="button"
+        id="btn_logout"
         onClick={handleLogout}
         className={styles.btn_logout}
       >
         <i className="fa fa-sign-out-alt" />
-        Sair
+        {languageComponent.logout}
       </button>
     </div>
   );

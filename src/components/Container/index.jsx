@@ -26,8 +26,10 @@ function Container() {
     $('body').css('overflow', block ? 'hidden' : 'auto');
     all.forEach(type =>
       $(`body ${type}`).each(function () {
-        $(this).attr('disabled', block);
-        $(this).attr('tabIndex', block ? -1 : 0);
+        if ($(this).attr('id') !== 'btn_logout') {
+          $(this).attr('disabled', block);
+          $(this).attr('tabIndex', block ? -1 : 0);
+        }
       }),
     );
   }, [block, navigator.loading]);
