@@ -51,7 +51,7 @@ function Select({
         filter: async ? '' : filter,
       }),
     );
-  }, [async, open, filter, value, options]);
+  }, [id, open, async, filter, value, options]);
 
   useEffect(() => {
     setFilter('');

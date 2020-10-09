@@ -7,45 +7,39 @@ import styles from './style.module.css';
 import language from '../../utils/language';
 
 function SelectList() {
+  const idSelector = '#container_select_list';
   const select = useSelector(state => state.select);
   const navigator = useSelector(state => state.navigator);
 
-  /** state para controle da posição da listagem */
-  const [left, setLeft] = useState(0);
-  const [width, setWidth] = useState(0);
-  const [bottom, setBottom] = useState(0);
-  const [maxWidth, setMaxWidth] = useState(0);
-
   const element = useMemo(() => {
-    return document.getElementById(select.id);
-  }, [select, select.id]);
+    return select.open ? document.getElementById(select.id) : null;
+  }, [select.id, select.open]);
 
   useEffect(() => {
-    if (element) {
-      setPosition(element.getBoundingClientRect());
-    }
-  }, [select, select.id]);
+    setPosition(element && element.getBoundingClientRect());
+  }, [element]);
 
   useEffect(() => {
-    if (element) {
-      setTimeout(() => {
-        setPosition(element.getBoundingClientRect());
-      }, 300);
-    }
+    setTimeout(() => {
+      setPosition(element && element.getBoundingClientRect());
+    }, 300);
   }, [navigator.window.size]);
 
-  useEffect(() => {
-    $('#container_select_list').css('left', left);
-    $('#container_select_list').css('width', width);
-    $('#container_select_list').css('top', `calc(${bottom}px + 0.5rem)`);
-    $('#container_select_list').css('max-height', `calc(${maxWidth}px - 1rem)`);
-  }, [left, width, bottom, maxWidth]);
-
   function setPosition(rect) {
-    setLeft(rect.left);
-    setWidth(rect.width);
-    setBottom(rect.bottom + window.scrollY);
-    setMaxWidth(navigator.window.size.y - rect.bottom);
+    if (!rect) {
+      return;
+    }
+
+    $(idSelector).css('left', rect.left);
+    $(idSelector).css('width', rect.width);
+    $(idSelector).css(
+      'top',
+      `calc(${rect.bottom + window.scrollY}px + 0.5rem)`,
+    );
+    $(idSelector).css(
+      'max-height',
+      `calc(${navigator.window.size.y - rect.bottom}px - 1rem)`,
+    );
   }
 
   const handleChange = useCallback(
@@ -54,7 +48,7 @@ function SelectList() {
         select.onChange(value);
       }
     },
-    [select, select.onChange],
+    [select.onChange],
   );
 
   const renderOptions = useMemo(() => {
@@ -83,13 +77,13 @@ function SelectList() {
     ) : (
       <div className={styles.empty}>{language['component.select.empty']}</div>
     );
-  }, [select, select.value, select.filter, select.options]);
+  }, [select]);
 
   return (
     <div
       data-open={select.open}
-      id="container_select_list"
       className={styles.container}
+      id={idSelector.replace('#', '')}
     >
       <ul>{renderOptions}</ul>
     </div>

@@ -17,7 +17,7 @@ function PanelBody({ ...rest }) {
   return <div {...rest} />;
 }
 
-function Panel({ title, onSearch, children, ...rest }) {
+function Panel({ title, onSearch, onCreate, children, labelCreate, ...rest }) {
   const navigator = useSelector(state => state.navigator);
 
   const [open, setOpen] = useState(false);
@@ -31,6 +31,11 @@ function Panel({ title, onSearch, children, ...rest }) {
   function handleSearch() {
     setOpen(false);
     if (typeof onSearch === 'function') onSearch();
+  }
+
+  function handleCreate() {
+    setOpen(false);
+    if (typeof onCreate === 'function') onCreate();
   }
 
   const renderTitle = useMemo(() => {
@@ -82,19 +87,29 @@ function Panel({ title, onSearch, children, ...rest }) {
 
     return (
       <>
-        <div className={styles.container_filter}>
+        <div
+          data-create={!!(onCreate && labelCreate)}
+          className={styles.container_filter}
+        >
           {components.map((component, index) =>
             React.cloneElement(component, { key: index }),
           )}
         </div>
-        {open && (
-          <Button icon="fas fa-search" onClick={handleSearch}>
-            {language['component.button.search.text']}
-          </Button>
-        )}
+        <div className={styles.container_filter_action}>
+          {open && onCreate && labelCreate && (
+            <Button gradient icon="fas fa-plus clicle" onClick={handleCreate}>
+              {labelCreate}
+            </Button>
+          )}
+          {open && (
+            <Button gradient icon="fas fa-search" onClick={handleSearch}>
+              {language['component.button.search.text']}
+            </Button>
+          )}
+        </div>
       </>
     );
-  }, [open, children, navigator.window.size.x]);
+  }, [open, children, onCreate, labelCreate, navigator.window.size.x]);
 
   const renderContent = useMemo(() => {
     let component = <></>;
@@ -118,6 +133,9 @@ function Panel({ title, onSearch, children, ...rest }) {
         {renderTitle}
         {renderSearch}
         <div className={styles.container_action}>
+          {!open && onCreate && labelCreate && (
+            <i className="fas fa-plus-circle" />
+          )}
           {!open && childrenLength > 0 && (
             <i onClick={handleSearch} className="fas fa-search" />
           )}
@@ -150,10 +168,14 @@ Panel.defaultProps = {
   title: '',
   children: null,
   onSearch: null,
+  onCreate: null,
+  labelCreate: '',
 };
 
 Panel.propTypes = {
   onSearch: PropTypes.func,
+  onCreate: PropTypes.func,
+  labelCreate: PropTypes.string,
   title: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
   children: PropTypes.oneOfType([
     PropTypes.node,

@@ -1,8 +1,8 @@
 .container {
   left: 0;
+  width: 0;
   top: 5rem;
   z-index: 3;
-  width: 100%;
   display: none;
   padding: 2rem 0;
   overflow-y: auto;

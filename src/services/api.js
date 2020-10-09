@@ -33,6 +33,17 @@ api.interceptors.request.use(async config => {
   }
 
   /**
+   * Convertendo as propriedades da paginação
+   */
+  if (data && Object.prototype.hasOwnProperty.call(data, 'pagination')) {
+    const { pagination } = data;
+    if (typeof pagination === 'object' && pagination.current) {
+      data.pagina = pagination.current;
+      delete data.pagination;
+    }
+  }
+
+  /**
    * Setando o token no "header" da requisição
    */
   if (auth.token && !config.url.includes('/login')) {

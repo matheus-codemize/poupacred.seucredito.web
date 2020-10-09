@@ -44,16 +44,6 @@
   color: rgb(var(--color-white));
 }
 
-.section_header > button {
-  z-index: 2;
-  left: 4rem;
-  bottom: 7rem;
-  color: white;
-  position: absolute;
-  background-color: transparent;
-  width: calc(100% - var(--top-base));
-}
-
 .container_filter {
   top: 3rem;
   display: flex;
@@ -65,7 +55,11 @@
   flex-direction: row;
   width: calc(100% - 4rem);
   justify-content: space-around;
-  max-height: calc(100vh - 30rem);
+  max-height: calc(100vh - 28rem);
+}
+
+.container_filter[data-create='true'] {
+  max-height: calc(100vh - 36rem);
 }
 
 .section_header[data-open='true'] .container_filter {
@@ -88,6 +82,25 @@ e 10px de altura para a barra horizontal */
   estou colocando uma cor azul clara nela*/
 .container_filter::-webkit-scrollbar-thumb {
   background: rgb(var(--color-black));
+}
+
+.container_filter_action {
+  left: 0;
+  right: 0;
+  bottom: 6rem;
+  display: flex;
+  flex-wrap: wrap;
+  position: absolute;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+
+.container_filter_action > button {
+  color: white;
+  margin: 1rem 0;
+  background-color: transparent;
+  width: calc(100% - var(--top-base));
 }
 
 .container_action {
@@ -181,9 +194,14 @@ e 10px de altura para a barra horizontal */
     width: calc(50% - 2rem);
   }
 
-  .section_header > button {
+  .container_filter,
+  .container_filter[data-create='true'] {
+    max-height: calc(100vh - 28rem);
+  }
+
+  .container_filter_action > button {
     width: 40rem;
-    left: calc(50% - 20rem);
+    margin: 0 1rem;
   }
 
   .container_action {

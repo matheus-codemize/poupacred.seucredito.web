@@ -1,34 +1,95 @@
-import React, { useMemo } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
 import styles from './style.module.css';
+
+// utils
+import language from '../../utils/language';
 
 // components
 import BoxData from '../BoxData';
 
-function BoxDataList({
-  data,
-  footer,
-  dataFooter,
-  pagination,
-  onPagination,
-  ...rest
-}) {
+function BoxDataList({ data, dataFooter, pagination, onPagination, ...rest }) {
+  const [currentPage, setCurrentPage] = useState(0);
+
+  useEffect(() => {
+    setCurrentPage(pagination.current);
+  }, [pagination.current]);
+
   function handlePagination(current) {
     if (typeof onPagination === 'function') {
       onPagination({ ...pagination, current });
     }
   }
 
-  const renderFooter = useMemo(() => {
-    if (footer) {
-      return <div className={styles.footer}>{footer}</div>;
+  function handleCurrentPagination(event) {
+    let { value } = event.target;
+    if (
+      value &&
+      (!isFinite(value) ||
+        isNaN(parseInt(value)) ||
+        parseInt(value) > pagination.total)
+    ) {
+      value = currentPage;
     }
-    return <></>;
-  }, [footer]);
+    setCurrentPage(value && parseInt(value));
+  }
+
+  function blurCurrentPagination() {
+    handlePagination(currentPage || pagination.current);
+    if (!currentPage) setCurrentPage(pagination.current);
+  }
 
   const renderPagination = useMemo(() => {
-    return <></>;
-  }, [pagination, pagination.size, pagination.total, pagination.current]);
+    const { current, total } = pagination;
+
+    if (!data.length || total - 1 <= 0) return <></>;
+
+    return (
+      <div className={styles.pagination}>
+        <p>
+          {language['component.boxdatalist.pagination'].legend
+            .replace('[current]', current)
+            .replace('[total]', total)}
+        </p>
+        <div className={styles.pagination_page}>
+          {current === total && current - 2 > 0 && (
+            <div onClick={() => handlePagination(current - 2)}>
+              {current - 2}
+            </div>
+          )}
+          {current - 1 > 0 && (
+            <div onClick={() => handlePagination(current - 1)}>
+              {current - 1}
+            </div>
+          )}
+          <input
+            value={currentPage}
+            onBlur={blurCurrentPagination}
+            onChange={handleCurrentPagination}
+            onKeyPress={event =>
+              event.key === 'Enter' && blurCurrentPagination()
+            }
+          />
+          {current + 1 <= total && (
+            <div onClick={() => handlePagination(current + 1)}>
+              {current + 1}
+            </div>
+          )}
+          {current === 1 && current + 2 <= total && (
+            <div onClick={() => handlePagination(current + 2)}>
+              {current + 2}
+            </div>
+          )}
+        </div>
+      </div>
+    );
+  }, [
+    data,
+    currentPage,
+    pagination.size,
+    pagination.total,
+    pagination.current,
+  ]);
 
   return (
     <div className={styles.container}>
@@ -38,26 +99,22 @@ function BoxDataList({
         ))}
       </div>
       {renderPagination}
-      {renderFooter}
     </div>
   );
 }
 
 BoxDataList.defaultProps = {
-  footer: null,
   dataFooter: null,
   onPagination: null,
-  pagination: { size: 20, total: 0, current: 1 },
 };
 
 BoxDataList.propTypes = {
-  footer: PropTypes.node,
   dataFooter: PropTypes.node,
   pagination: PropTypes.shape({
     size: PropTypes.number,
     total: PropTypes.number,
     current: PropTypes.number,
-  }),
+  }).isRequired,
   onPagination: PropTypes.func,
   data: PropTypes.arrayOf(PropTypes.object).isRequired,
 };

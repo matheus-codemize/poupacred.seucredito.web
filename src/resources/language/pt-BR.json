@@ -10,6 +10,10 @@
 
   "component.select.empty": "Sem dados",
 
+  "component.boxdatalist.pagination": {
+    "legend": "[current] de [total] página(s)"
+  },
+
   "component.button.next.text": "Avançar",
   "component.button.filter.text": "Filtrar",
   "component.button.search.text": "Pesquisar",
