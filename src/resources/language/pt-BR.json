@@ -10,6 +10,7 @@
 
   "component.select.empty": "Sem dados",
 
+  "component.boxdatalist.empty": "Ops .. Não há informações",
   "component.boxdatalist.pagination": {
     "legend": "[current] de [total] página(s)"
   },

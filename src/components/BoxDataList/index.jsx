@@ -93,10 +93,13 @@ function BoxDataList({ data, dataFooter, pagination, onPagination, ...rest }) {
 
   return (
     <div className={styles.container}>
-      <div className={styles.content}>
+      <div data-size={data.length} className={styles.content}>
         {data.map((item, index) => (
           <BoxData {...item} key={index} footer={dataFooter} />
         ))}
+        {data.length === 0 && (
+          <h1>{language['component.boxdatalist.empty']}</h1>
+        )}
       </div>
       {renderPagination}
     </div>
