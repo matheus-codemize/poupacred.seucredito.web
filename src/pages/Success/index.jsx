@@ -32,7 +32,7 @@ function ContainerSuccess() {
 
   function handleConfirm() {
     const { path, state = {} } = location.state;
-    if (path) history.push(path, state);
+    if (path) history.replace(path, state);
   }
 
   return (
