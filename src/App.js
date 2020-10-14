@@ -24,6 +24,7 @@ import SelectList from './components/SelectList';
 import Crm from './pages/Crm';
 import Home from './pages/Home';
 import Proposal from './pages/Proposal';
+import Simulation from './pages/Simulation';
 
 import Login from './pages/Login';
 import Landing from './pages/Landing';
@@ -43,6 +44,7 @@ const pages = {
   Crm,
   Home,
   Proposal,
+  Simulation,
   Home1,
   Home2,
   Home3,

@@ -39,11 +39,7 @@ function Proposal() {
   const [dataset, setDataset] = useState([]);
   const [produtos, setProdutos] = useState([]);
   const [convenios, setConvenios] = useState([]);
-  const [pagination, setPagination] = useState({
-    size: 20,
-    total: 10,
-    current: 1,
-  });
+  const [pagination, setPagination] = useState({ total: 0, current: 1 });
 
   useEffect(() => {
     initComponent();

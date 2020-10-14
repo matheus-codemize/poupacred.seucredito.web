@@ -34,11 +34,7 @@ function Crm() {
   const [filter, setFilter] = useState({});
   const [dataset, setDataset] = useState([]);
   const [convenios, setConvenios] = useState([]);
-  const [pagination, setPagination] = useState({
-    size: 20,
-    total: 0,
-    current: 1,
-  });
+  const [pagination, setPagination] = useState({ total: 0, current: 1 });
 
   useEffect(() => {
     initComponent();
@@ -79,14 +75,14 @@ function Crm() {
   }
 
   function handleCreate() {
-    history.push('/crm/create');
+    history.push('/crm/novo');
   }
 
   function renderFooterBoxData(item) {
     return <></>;
   }
 
-  if (location.pathname.includes('create')) {
+  if (location.pathname.includes('novo')) {
     return <Create />;
   }
 

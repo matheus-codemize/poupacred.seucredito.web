@@ -13,11 +13,11 @@
   },
 
   "component.select.empty": "Sem dados",
-
-  "component.boxdatalist.empty": "Ops .. Não há informações",
-  "component.boxdatalist.pagination": {
+  "component.pagination": {
     "legend": "[current] de [total] página(s)"
   },
+
+  "component.boxdatalist.empty": "Ops .. Não há informações",
 
   "component.button.next": {
     "text": "Avançar"
@@ -351,6 +351,11 @@
     "list": {
       "status": []
     }
+  },
+
+  "page.simulation": {
+    "title": "Simulação",
+    "create": "Nova Simulação"
   },
 
   "component.form.props": {

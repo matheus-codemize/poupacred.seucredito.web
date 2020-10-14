@@ -1,0 +1,36 @@
+.container {
+  width: 100%;
+  margin: 1rem 0;
+  position: relative;
+  border-radius: 1rem;
+  font-family: 'Roboto';
+  border: 1px solid #efe1e1;
+  background-color: rgb(var(--color-white));
+}
+
+.header {
+  border-bottom: 1px solid #efe1e1;
+}
+
+.header,
+.footer {
+  padding: 2rem;
+  width: calc(100% - 4rem - 5rem);
+}
+
+.button {
+  top: -1px;
+  width: 5rem;
+  right: -1px;
+  bottom: -1px;
+  display: flex;
+  cursor: pointer;
+  font-size: 2.5rem;
+  position: absolute;
+  align-items: center;
+  justify-content: center;
+  border-top-right-radius: 1rem;
+  color: rgb(var(--color-white));
+  border-bottom-right-radius: 1rem;
+  background: var(--color-primary-gradient);
+}
