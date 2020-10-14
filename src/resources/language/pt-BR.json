@@ -19,6 +19,10 @@
     "legend": "[current] de [total] página(s)"
   },
 
+  "component.button.next": {
+    "text": "Avançar"
+  },
+
   "component.button.next.text": "Avançar",
   "component.button.filter.text": "Filtrar",
   "component.button.search.text": "Pesquisar",
@@ -332,6 +336,18 @@
   "page.crm": {
     "title": "CRM",
     "create": "Nova Solicitação",
+    "register": "Solicitar Mailing",
+    "success": {
+      "text": "Ok, Entendi!",
+      "title": "Solicitação realizada com Sucesso",
+      "description": "Estamos analisando sua solicitação. Acompanhe o status da sua solicitação na página CRM."
+    },
+    "createTitle": "CRM <br /> Solicitação de Mailing",
+    "details": {
+      "agente": "Agente",
+      "convenioId": "Código do Convênio",
+      "convenio": "Convênio"
+    },
     "list": {
       "status": []
     }

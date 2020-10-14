@@ -134,7 +134,10 @@ function Panel({ title, onSearch, onCreate, children, labelCreate, ...rest }) {
         {renderSearch}
         <div className={styles.container_action}>
           {!open && onCreate && labelCreate && (
-            <i className="fas fa-plus-circle" />
+            <span onClick={handleCreate}>
+              <i className="fas fa-plus-circle" />
+              {labelCreate}
+            </span>
           )}
           {!open && childrenLength > 0 && (
             <i onClick={handleSearch} className="fas fa-search" />
@@ -176,7 +179,7 @@ Panel.propTypes = {
   onSearch: PropTypes.func,
   onCreate: PropTypes.func,
   labelCreate: PropTypes.string,
-  title: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
+  title: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
   children: PropTypes.oneOfType([
     PropTypes.node,
     PropTypes.arrayOf(PropTypes.node),

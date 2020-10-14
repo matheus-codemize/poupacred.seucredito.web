@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import _ from 'lodash';
 import { useDispatch } from 'react-redux';
+import { useHistory, useLocation } from 'react-router-dom';
 
 // redux
 import actionsNavigator from '../../redux/actions/navigator';
@@ -19,11 +20,16 @@ import Select from '../../components/Select';
 import BoxDataList from '../../components/BoxDataList';
 import InputDateRange from '../../components/InputDateRange';
 
+// components internal
+import Create from './components/CreateCrm';
+
 const languagePage = language['page.crm'];
 const languageForm = language['component.form.props'];
 
 function Crm() {
   const dispatch = useDispatch();
+  const history = useHistory();
+  const location = useLocation();
 
   const [filter, setFilter] = useState({});
   const [dataset, setDataset] = useState([]);
@@ -72,10 +78,16 @@ function Crm() {
     setFilter(prevFilter => ({ ...prevFilter, [id]: value }));
   }
 
-  function handleCreate() {}
+  function handleCreate() {
+    history.push('/crm/create');
+  }
 
   function renderFooterBoxData(item) {
     return <></>;
+  }
+
+  if (location.pathname.includes('create')) {
+    return <Create />;
   }
 
   return (

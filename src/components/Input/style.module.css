@@ -14,7 +14,6 @@
   border-radius: 0.8rem;
   background-color: #fff;
   border: 1px solid #ced4da;
-  box-shadow: var(--input-box-shadow);
 }
 
 .container input:focus {
