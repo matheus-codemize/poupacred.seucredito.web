@@ -36,10 +36,10 @@ function Simulation() {
   const [pagination, setPagination] = useState({ current: 1, total: 3 });
 
   useEffect(() => {
-    if (location.pathname === '/simulacao' && !location.state) {
+    if (location.pathname === '/simulacao') {
       getDados();
     }
-  }, [pagination.current, location.pathname, location.state]);
+  }, [pagination.current, location.pathname]);
 
   function handleChangeFilter(event) {
     let { id, value } = event.target;
