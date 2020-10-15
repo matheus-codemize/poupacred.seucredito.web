@@ -8,41 +8,54 @@ import language from '../../utils/language';
 // components
 import Button from '../Button';
 
-function Box({ onBack, children, ...rest }) {
+function Box({ help, onBack, children, ...rest }) {
   const handleBack = useCallback(() => {
     if (onBack && typeof onBack === 'function') onBack();
   }, [onBack]);
 
-  const renderBack = useMemo(() => {
-    return (
-      onBack && (
-        <Button
-          type="link"
-          onClick={handleBack}
-          icon="fa fa-angle-left"
-          style={{ top: '2rem', left: '2rem', position: 'absolute' }}
-        >
-          {language['component.box']['button.back.text']}
-        </Button>
-      )
+  const renderHelp = useMemo(() => {
+    return help && typeof help === 'string' ? (
+      <div dangerouslySetInnerHTML={{ __html: help }} />
+    ) : (
+      help
     );
-  }, [handleBack, onBack]);
+  }, [help]);
 
   return (
-    <div className={styles.container} data-back={onBack ? 'visible' : 'hidden'}>
-      {renderBack}
+    <div className={styles.container}>
+      {onBack && (
+        <div className={styles.back}>
+          <Button
+            type="link"
+            onClick={handleBack}
+            icon="fa fa-angle-left"
+            style={{ marginBottom: '2rem' }}
+          >
+            {language['component.button.back'].text}
+          </Button>
+        </div>
+      )}
       {children}
+      {help && (
+        <div className={styles.help}>
+          <Button type="link" icon="fa fa-help">
+            {language['component.button.help'].text}
+          </Button>
+        </div>
+      )}
     </div>
   );
 }
 
 Box.defaultProps = {
+  help: '',
   onBack: false,
   children: <></>,
 };
 
 Box.propTypes = {
   children: PropTypes.node,
+  help: PropTypes.oneOfType([PropTypes.node, PropTypes.string]),
   onBack: PropTypes.oneOfType([PropTypes.func, PropTypes.bool]),
 };
 

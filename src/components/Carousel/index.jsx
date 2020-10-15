@@ -36,19 +36,14 @@ function Step({ id, visible, ...props }) {
     const inputTypes = ['a', 'input', 'select', 'button'];
     inputTypes.forEach(inputType => {
       $(`#${id} ${inputType}`).each(function () {
+        $(this).attr('data-unique', true);
         $(this).attr('tabindex', visible ? 0 : -1);
       });
     });
   }, [id, visible]);
 
   return (
-    <div
-      {...props}
-      id={id}
-      visible={visible}
-      className={styles.step}
-      data-visible={visible ? 'on' : 'off'}
-    />
+    <div {...props} id={id} data-visible={visible} className={styles.step} />
   );
 }
 

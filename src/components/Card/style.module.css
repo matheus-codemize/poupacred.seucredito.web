@@ -34,3 +34,8 @@
   border-bottom-right-radius: 1rem;
   background: var(--color-primary-gradient);
 }
+
+.button[data-disabled='true'] {
+  background: #999;
+  cursor: not-allowed;
+}

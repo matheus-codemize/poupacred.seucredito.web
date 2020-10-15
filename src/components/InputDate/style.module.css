@@ -15,7 +15,6 @@
   background-color: #fff;
   width: calc(100% - 2.4rem);
   border: 1px solid #ced4da;
-  box-shadow: var(--input-box-shadow);
 }
 
 .container input:focus {

@@ -9,6 +9,10 @@
   background-color: rgb(var(--color-white));
 }
 
-.container[data-back='visible'] {
-  padding-top: 7rem;
+.back {
+  margin: 0 0 1rem;
+}
+
+.help {
+  margin: 1rem 0 0;
 }

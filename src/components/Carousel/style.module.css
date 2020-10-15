@@ -18,6 +18,6 @@
   transition: 0.4s;
 }
 
-.step[data-visible='on'] {
+.step[data-visible='true'] {
   max-height: 10000px;
 }

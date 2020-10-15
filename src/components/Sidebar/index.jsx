@@ -83,7 +83,7 @@ function Sidebar() {
       </ul>
       <button
         type="button"
-        id="btn_logout"
+        data-unique="true"
         onClick={handleLogout}
         className={styles.btn_logout}
       >

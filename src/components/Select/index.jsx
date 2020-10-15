@@ -80,7 +80,7 @@ function Select({
   }
 
   function selectOption(valueSelected = '') {
-    if (typeof onChange === 'function') {
+    if (typeof onChange === 'function' && value !== valueSelected) {
       onChange({ target: { id, value: valueSelected } });
     }
   }

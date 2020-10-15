@@ -37,7 +37,7 @@ function Pagination({ show, current, size, total, onChange, ...rest }) {
   }
 
   return (
-    total > 0 && (
+    total > 1 && (
       <div className={styles.container}>
         <p>
           {languageComponent.legend

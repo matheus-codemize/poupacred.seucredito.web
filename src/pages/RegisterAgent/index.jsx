@@ -21,8 +21,8 @@ import * as cidadeApi from '../../services/cidade';
 import toast from '../../utils/toast';
 import moment from '../../utils/moment';
 import format from '../../utils/format';
+import validator from '../../utils/validator';
 import getColSize from '../../utils/getColSize';
-import cpfValidator from '../../utils/cpfValidator';
 import language, { errors as errorsLanguage } from '../../utils/language';
 
 // components
@@ -157,7 +157,7 @@ function RegisterAgent() {
     } else {
       switch (id) {
         case 'cpf':
-          if (!cpfValidator(value)) setMessage();
+          if (!validator.cpf(value)) setMessage();
           break;
 
         case 'nascimento':

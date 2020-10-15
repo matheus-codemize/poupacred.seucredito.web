@@ -17,7 +17,7 @@ import cpfFormat from '../../utils/format/cpf';
 
 // components
 import Panel from '../../components/Panel';
-import Input from '../../components/Input';
+import Select from '../../components/Select';
 import CardList from '../../components/CardList';
 
 // components internal
@@ -33,7 +33,7 @@ function Simulation() {
 
   const [filter, setFilter] = useState({});
   const [dataset, setDataset] = useState([]);
-  const [pagination, setPagination] = useState({ current: 1, total: 3 });
+  const [pagination, setPagination] = useState({ current: 1, total: 0 });
 
   useEffect(() => {
     if (location.pathname === '/simulacao') {
@@ -65,14 +65,12 @@ function Simulation() {
       dispatch(actionsNavigator.startLoading());
 
       const url = '/simulacoes/listar';
-      const response = await api.get(url);
-      setDataset(response);
-      console.log('response', response);
-      // setDataset(response.dados);
-      // setPagination(prevPagination => ({
-      //   ...prevPagination,
-      //   total: response.total,
-      // }));
+      const response = await api.post(url, { ...filter, pagination });
+      setDataset(response.dados);
+      setPagination(prevPagination => ({
+        ...prevPagination,
+        total: response.total,
+      }));
     } catch (err) {
       const message = _.get(err, 'response.data.erro', err.message);
       toast.error(message);
@@ -95,7 +93,16 @@ function Simulation() {
           <p>{item.status}</p>
         </div>
       ),
-      onClick: () => history.push('/simulacao/rascunho', { id: item.id }),
+      disabled: item.status === '',
+      onClick: () =>
+        history.push(
+          `/simulacao/${
+            item.status.toLowerCase().includes('rascunho')
+              ? 'rascunho'
+              : 'margem'
+          }`,
+          { id: item.id },
+        ),
     }));
   }, [dataset]);
 
@@ -112,17 +119,12 @@ function Simulation() {
         labelCreate={languagePage.create}
       >
         <Panel.Search>
-          <Input
-            id="cpf"
-            value={filter.cpf || ''}
+          <Select
+            id="status"
+            options={[]}
+            value={filter.status || ''}
             onChange={handleChangeFilter}
-            {...languageForm.cpf}
-          />
-          <Input
-            id="nome"
-            value={filter.nome || ''}
-            onChange={handleChangeFilter}
-            {...languageForm.nome}
+            {...languageForm.status}
           />
         </Panel.Search>
         <Panel.Body>

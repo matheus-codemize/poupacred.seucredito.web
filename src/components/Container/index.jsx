@@ -25,14 +25,14 @@ function Container() {
     const all = ['a', 'tab', 'button', 'input', 'select'];
     $('body').css('overflow', block ? 'hidden' : 'auto');
     all.forEach(type =>
-      $(`body ${type}`).each(function () {
-        if ($(this).attr('id') !== 'btn_logout') {
+      $(`body ${type}:not([data-unique])`).each(
+        function () {
           $(this).attr('disabled', block);
           $(this).attr('tabIndex', block ? -1 : 0);
-        }
-      }),
+        },
+      ),
     );
-  }, [block, navigator.loading]);
+  }, [block]);
 
   function closeSidebar() {
     dispatch(actionsSidebar.close());

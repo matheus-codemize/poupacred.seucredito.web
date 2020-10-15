@@ -1,4 +1,5 @@
 import React, { useMemo } from 'react';
+import $ from 'jquery';
 import PropTypes from 'prop-types';
 import styles from './style.module.css';
 

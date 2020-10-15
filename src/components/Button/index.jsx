@@ -38,7 +38,7 @@ function Button({
       type={htmlType}
       data-type={type}
       className={classNameComponent}
-      disabled={loading || disabled}
+      disabled={disabled || loading}
     >
       {renderIcon}
       {children}

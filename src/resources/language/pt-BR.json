@@ -4,10 +4,6 @@
   "polity": "Política de Privacidade",
   "agree.term.polity": "Continuando, você aceita e condorda com os $term e $polity",
 
-  "component.box": {
-    "button.back.text": "Voltar"
-  },
-
   "component.sidebar": {
     "logout": "Sair"
   },
@@ -20,20 +16,31 @@
   "component.boxdatalist.empty": "Ops .. Não há informações",
 
   "component.button.next": {
-    "text": "Avançar"
+    "text": "Avançar",
+    "icon": "fas fa-chevron-right"
+  },
+  "component.button.help": {
+    "text": "Ajuda"
+  },
+  "component.button.back": {
+    "text": "Voltar"
+  },
+  "component.button.more": {
+    "text": "Ver mais",
+    "title": "Clique para ver mais"
+  },
+  "component.button.register": {
+    "text": "Continuar",
+    "icon": "fas fa-check"
+  },
+  "component.button.details": {
+    "text": "Ver detalhes"
   },
 
   "component.button.next.text": "Avançar",
   "component.button.filter.text": "Filtrar",
   "component.button.search.text": "Pesquisar",
   "component.button.register.text": "Continuar",
-  "component.button.details": {
-    "text": "Ver detalhes"
-  },
-  "component.button.more": {
-    "text": "Ver mais",
-    "title": "Clique para ver mais"
-  },
 
   "component.select.placeholder": "Selecione",
   "component.inputfile.placeholder": "Selecione um arquivo",
@@ -355,7 +362,8 @@
 
   "page.simulation": {
     "title": "Simulação",
-    "create": "Nova Simulação"
+    "create": "Nova Simulação",
+    "createTitle": "Nova Simulação"
   },
 
   "component.form.props": {
@@ -383,6 +391,22 @@
     },
     "produto": {
       "label": "Produto"
+    },
+    "nascimento": {
+      "label": "Data de Nascimento",
+      "placeholder": "DD / MM / AAAA"
+    },
+    "celular": {
+      "label": "Celular",
+      "placeholder": "(99) 99999-9999"
+    },
+    "email": {
+      "label": "E-mail",
+      "placeholder": "Informe um e-mail válido e ativo"
+    },
+    "margem": {
+      "label": "Margem",
+      "placeholder": "R$"
     }
   }
 }
