@@ -185,11 +185,6 @@ function CreateSimulation({ ...rest }) {
           ) {
             setSteps(prevSteps => prevSteps.slice(0, index + 1));
             return setRegister(prevRegister => {
-              console.log(
-                Object.keys(prevRegister).slice(
-                  Object.keys(prevRegister).indexOf(steps[index].id) + 1,
-                ),
-              );
               Object.keys(prevRegister)
                 .slice(Object.keys(prevRegister).indexOf(steps[index].id) + 1)
                 .forEach(key => {
