@@ -6,15 +6,25 @@ import styles from './style.module.css';
 import Help from '../Help';
 import Label from '../Label';
 
+// utils
+import format from '../../utils/format';
+import language from '../../utils/language';
+
+const languageComp = language['component.input'];
+
 function Input({
   id,
+  type,
   help,
   label,
+  value,
   display,
+  onChange,
   required,
   htmlType,
   disabled,
   helpType,
+  placeholder,
 
   col, // to width
   ...rest
@@ -28,6 +38,60 @@ function Input({
       inputRef.current.focus();
     }
   }
+
+  function handleChange(event) {
+    let { value: valueSelected } = event.target;
+
+    switch (type) {
+      case 'cpf':
+        valueSelected = format.cpf(valueSelected, value);
+        break;
+
+      case 'money':
+        valueSelected = valueSelected.replace(/[^\d]/g, '');
+        valueSelected = valueSelected && parseFloat(valueSelected);
+        break;
+
+      case 'number':
+        valueSelected = valueSelected.replace(/[^\d]/g, '');
+        valueSelected = valueSelected && parseInt(valueSelected);
+        break;
+
+      default:
+        break;
+    }
+
+    if (typeof onChange === 'function') {
+      onChange({ target: { id, value: valueSelected } });
+    }
+  }
+
+  const renderPlaceholder = useMemo(() => {
+    switch (type) {
+      case 'cpf':
+      case 'money':
+        return languageComp.placeholder[type];
+
+      default:
+        break;
+    }
+
+    return placeholder;
+  }, [type, placeholder]);
+
+  const renderValue = useMemo(() => {
+    if (value) {
+      switch (type) {
+        case 'money':
+          return `${language.currency} ${value}`;
+
+        default:
+          break;
+      }
+    }
+
+    return value;
+  }, [type, value]);
 
   const renderLabel = useMemo(() => {
     return (
@@ -71,6 +135,9 @@ function Input({
         ref={inputRef}
         required={required}
         disabled={disabled}
+        value={renderValue}
+        onChange={handleChange}
+        placeholder={renderPlaceholder}
         type={showPassword ? 'text' : htmlType}
       />
       {renderHelp}
@@ -83,6 +150,7 @@ Input.defaultProps = {
   col: 16,
   help: '',
   label: '',
+  type: 'text',
   required: false,
   disabled: false,
   htmlType: 'text',
@@ -96,9 +164,11 @@ Input.propTypes = {
   disabled: PropTypes.bool,
   helpType: PropTypes.string,
   id: PropTypes.string.isRequired,
+  onChange: PropTypes.func.isRequired,
   display: PropTypes.oneOf(['vertical', 'horizontal']),
   htmlType: PropTypes.oneOf(['text', 'password', 'email']),
   col: PropTypes.oneOfType([PropTypes.func, PropTypes.number]),
+  type: PropTypes.oneOf(['text', 'cpf', 'money', 'number']),
 };
 
 export default Input;

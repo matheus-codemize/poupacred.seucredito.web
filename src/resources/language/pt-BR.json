@@ -1,4 +1,5 @@
 {
+  "currency": "R$",
   "title": "SEU CRÉDITO",
   "term": "Termos de Uso",
   "polity": "Política de Privacidade",
@@ -8,6 +9,14 @@
     "logout": "Sair"
   },
 
+  "component.input": {
+    "placeholder": {
+      "number": "0",
+      "money": "R$ 0,00",
+      "cpf": "000.000.000-00"
+    }
+  },
+
   "component.select.empty": "Sem dados",
   "component.pagination": {
     "legend": "[current] de [total] página(s)"
@@ -15,6 +24,9 @@
 
   "component.boxdatalist.empty": "Ops .. Não há informações",
 
+  "component.margin": {
+    "btn_not": "Não sei a margem"
+  },
   "component.button.next": {
     "text": "Avançar",
     "icon": "fas fa-chevron-right"
@@ -363,7 +375,11 @@
   "page.simulation": {
     "title": "Simulação",
     "create": "Nova Simulação",
-    "createTitle": "Nova Simulação"
+    "createTitle": "Nova Simulação",
+    "proposalTitle": "Escolha a proposta ou simule com outro valor",
+    "proposalSubtitle": "Sujeito à analise de crédito",
+    "proposalChoose": "Quero este!",
+    "simulationOther": "Simular outro valor"
   },
 
   "component.form.props": {

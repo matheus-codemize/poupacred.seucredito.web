@@ -22,6 +22,7 @@ import CardList from '../../components/CardList';
 
 // components internal
 import Create from './components/CreateSimulation';
+import Proposal from './components/ProposalSimulation';
 
 const languagePage = language['page.simulation'];
 const languageForm = language['component.form.props'];
@@ -105,6 +106,10 @@ function Simulation() {
         ),
     }));
   }, [dataset]);
+
+  if (location.pathname === '/simulacao/propostas') {
+    return <Proposal />
+  }
 
   if (location.pathname !== '/simulacao') {
     return <Create />;

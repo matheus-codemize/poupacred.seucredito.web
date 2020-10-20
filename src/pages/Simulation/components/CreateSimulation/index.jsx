@@ -13,7 +13,6 @@ import * as simulacaoApi from '../../../../services/simulacao';
 
 // utils
 import toast from '../../../../utils/toast';
-import format from '../../../../utils/format';
 import validator from '../../../../utils/validator';
 import language, { errors as errorsLanguage } from '../../../../utils/language';
 
@@ -24,17 +23,27 @@ import registerDefault from '../../../../resources/data/simulacao/register';
 import Box from '../../../../components/Box';
 import Panel from '../../../../components/Panel';
 import Input from '../../../../components/Input';
+import Margin from '../../../../components/Margin';
 import Button from '../../../../components/Button';
 import Select from '../../../../components/Select';
 import Carousel from '../../../../components/Carousel';
 import InputDate from '../../../../components/InputDate';
+import RadioGroup from '../../../../components/RadioGroup';
 
 const languagePage = language['page.simulation'];
 const languageForm = language['component.form.props'];
 
-const components = { Input, Select, InputDate };
 const mapKeyProps = { opcoes: 'options', multiplo: 'multiple' };
 const keysStep = ['cpf', 'nome', 'nascimento', 'celular', 'email', 'produto'];
+const components = {
+  input: Input,
+  money: Input,
+  number: Input,
+  select: Select,
+  margem: Margin,
+  radio: RadioGroup,
+  inputdate: InputDate,
+};
 
 function CreateSimulation({ ...rest }) {
   const history = useHistory();
@@ -43,6 +52,7 @@ function CreateSimulation({ ...rest }) {
   const [step, setStep] = useState(0);
   const [error, setError] = useState({});
   const [steps, setSteps] = useState([]);
+  const [lastStep, setLastStep] = useState(false);
   const [register, setRegister] = useState({ ...registerDefault });
 
   // lists
@@ -55,6 +65,18 @@ function CreateSimulation({ ...rest }) {
   useEffect(() => {
     getClientByCpf();
   }, [register.cpf]);
+
+  useEffect(() => {
+    if (
+      steps.length &&
+      step - keysStep.length === steps.length - 1 &&
+      !_.get(steps[step - keysStep.length], 'propriedades.step', false)
+    ) {
+      setLastStep(true);
+    } else {
+      setLastStep(false);
+    }
+  }, [step, steps]);
 
   async function getClientByCpf() {
     try {
@@ -91,8 +113,7 @@ function CreateSimulation({ ...rest }) {
       if (
         steps.length &&
         step - keysStep.length === steps.length - 1 &&
-        steps[step - keysStep.length].propriedades &&
-        steps[step - keysStep.length].propriedades.step
+        _.get(steps[step - keysStep.length], 'propriedades.step', false)
       ) {
         dispatch(actionsNavigator.startLoading());
         response = await api.post(url, {
@@ -102,6 +123,7 @@ function CreateSimulation({ ...rest }) {
         setSteps(prevSteps => [...prevSteps, ...response]);
       }
 
+      setLastStep(false);
       setStep(prevStep => prevStep + 1);
     } catch (err) {
       const message = _.get(err, 'response.data.erro', err.message);
@@ -114,38 +136,11 @@ function CreateSimulation({ ...rest }) {
   async function handleSave(event) {
     try {
       event.preventDefault();
-
-      let url, response;
-
-      if (
-        step !== keysStep.length - 1 &&
-        step - keysStep.length < steps.length - 1 &&
-        (!steps.length || !steps[step - keysStep.length].propriedades.step)
-      ) {
-        return setStep(prevStep => prevStep + 1);
-      }
-
-      url = '/simulacoes/produtos/campos';
       dispatch(actionsNavigator.startLoading());
 
-      // último step conhecido (produto)
-      if (step === keysStep.length - 1) {
-        response = await api.post(url, register);
-        setSteps(response);
-        return setStep(prevStep => prevStep + 1);
-      }
-
-      if (
-        steps[step - keysStep.length].propriedades &&
-        steps[step - keysStep.length].propriedades.step
-      ) {
-        response = await api.post(url, {
-          ...register,
-          step: steps[step - keysStep.length].propriedades.step,
-        });
-        setSteps(prevSteps => [...prevSteps, ...response]);
-        return setStep(prevStep => prevStep + 1);
-      }
+      const url = '/simulacoes/simular';
+      const response = await api.post(url, register);
+      return history.push('/simulacao/propostas', { simulation: response });
     } catch (err) {
       const message = _.get(err, 'response.data.erro', err.message);
       toast.error(message);
@@ -159,10 +154,6 @@ function CreateSimulation({ ...rest }) {
     setError(prevError => ({ ...prevError, [id]: '' }));
 
     switch (id) {
-      case 'cpf':
-        value = format.cpf(value, register[id]);
-        break;
-
       case 'produto':
         setSteps([]);
         return setRegister(prevRegister => {
@@ -180,8 +171,7 @@ function CreateSimulation({ ...rest }) {
           if (
             index >= 0 &&
             index < steps.length - 1 &&
-            steps[index].propriedades &&
-            steps[index].propriedades.step
+            _.get(steps[index], 'propriedades.step', false)
           ) {
             setSteps(prevSteps => prevSteps.slice(0, index + 1));
             return setRegister(prevRegister => {
@@ -206,7 +196,12 @@ function CreateSimulation({ ...rest }) {
 
     switch (id) {
       case 'cpf':
-        if (!validator.cpf(value)) {
+        if (!value) {
+          message = errorsLanguage.empty.replace(
+            '[field]',
+            languageForm.cpf.label,
+          );
+        } else if (!validator.cpf(value)) {
           message = errorsLanguage.invalid.replace(
             '[field]',
             languageForm.cpf.label,
@@ -224,16 +219,7 @@ function CreateSimulation({ ...rest }) {
   const renderBtnNext = useMemo(() => {
     let key, disabled;
     const languageButton =
-      language[
-        `component.button.${
-          steps.length > 0 &&
-          step - keysStep.length === steps.length - 1 &&
-          (!steps[steps.length - 1].propriedades ||
-            !steps[steps.length - 1].propriedades.step)
-            ? 'register'
-            : 'next'
-        }`
-      ];
+      language[`component.button.${lastStep ? 'register' : 'next'}`];
 
     if (step < keysStep.length) {
       key = keysStep[step];
@@ -255,7 +241,7 @@ function CreateSimulation({ ...rest }) {
         {languageButton.text}
       </Button>
     );
-  }, [step, steps, error, register]);
+  }, [lastStep, step, steps, error, register]);
 
   const renderSteps = useMemo(() => {
     return steps.map((item, index) => {
@@ -282,27 +268,19 @@ function CreateSimulation({ ...rest }) {
         });
       }
 
-      if (
-        Object.prototype.hasOwnProperty.call(
-          components,
-          item.tipo.charAt(0).toUpperCase() + item.tipo.slice(1),
-        )
-      ) {
+      if (Object.prototype.hasOwnProperty.call(components, item.tipo)) {
         return (
           <Carousel.Step key={index}>
-            {React.createElement(
-              components[
-                item.tipo.charAt(0).toUpperCase() + item.tipo.slice(1)
-              ],
-              {
-                ...item.propriedades,
-                id: item.id,
-                label: item.titulo,
-                onChange: handleChange,
-                required: item.requerido,
-                value: register[item.id] || '',
-              },
-            )}
+            {React.createElement(components[item.tipo], {
+              ...item.propriedades,
+              id: item.id,
+              label: item.titulo,
+              onChange: handleChange,
+              value: register[item.id] || '',
+              ...(['money', 'number'].includes(item.tipo) && {
+                type: item.tipo,
+              }),
+            })}
           </Carousel.Step>
         );
       }
@@ -314,12 +292,16 @@ function CreateSimulation({ ...rest }) {
     <div>
       <Panel title={languagePage.createTitle}>
         <Panel.Body>
-          <form className={styles.form} onSubmit={handleNext}>
+          <form
+            className={styles.form}
+            onSubmit={lastStep ? handleSave : handleNext}
+          >
             <Box onBack={handleBack}>
               <Carousel step={step}>
                 <Carousel.Step>
                   <Input
                     id="cpf"
+                    type="cpf"
                     helpType="error"
                     onBlur={handleBlur}
                     help={error.cpf || ''}

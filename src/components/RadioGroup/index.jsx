@@ -5,7 +5,16 @@ import styles from './style.module.css';
 // components
 import Radio from '../Radio';
 
-function RadioGroup({ id, col, value, label, options, onChange, ...rest }) {
+function RadioGroup({
+  id,
+  col,
+  value,
+  label,
+  options,
+  onChange,
+  direction,
+  ...rest
+}) {
   const renderOptions = useMemo(() => {
     return options.map((option, index) => (
       <Radio
@@ -29,19 +38,23 @@ function RadioGroup({ id, col, value, label, options, onChange, ...rest }) {
       data-col={typeof col === 'function' ? col(id) : col}
     >
       <label>{label}</label>
-      <div className={styles.content_options}>{renderOptions}</div>
+      <div className={styles.content_options} data-direction={direction}>
+        {renderOptions}
+      </div>
     </div>
   );
 }
 
 RadioGroup.defaultProps = {
   col: 16,
+  direction: 'column',
 };
 
 RadioGroup.propTypes = {
   id: PropTypes.string.isRequired,
   label: PropTypes.string.isRequired,
   onChange: PropTypes.func.isRequired,
+  direction: PropTypes.oneOf(['row', 'column']),
   col: PropTypes.oneOfType([PropTypes.func, PropTypes.number]),
   value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
   options: PropTypes.arrayOf(

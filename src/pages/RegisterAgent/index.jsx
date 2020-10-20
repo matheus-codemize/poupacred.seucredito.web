@@ -317,6 +317,7 @@ function RegisterAgent() {
                     <RadioGroup
                       id="sexo"
                       col={getCol}
+                      direction="row"
                       disabled={loading}
                       value={register.sexo}
                       onChange={handleChange}

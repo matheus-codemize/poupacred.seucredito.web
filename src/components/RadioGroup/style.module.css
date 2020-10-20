@@ -13,8 +13,16 @@
   flex-wrap: wrap;
   margin-top: 2rem;
   position: relative;
+  flex-direction: column;
+}
+
+.content_options[data-direction='row'] {
   flex-direction: row;
-  justify-content: space-around;
+  justify-content: space-between;
+}
+
+.content_options > div {
+  margin: 0 0 1rem;
 }
 
 .container label {

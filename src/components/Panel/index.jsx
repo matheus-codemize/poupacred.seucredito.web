@@ -17,7 +17,15 @@ function PanelBody({ ...rest }) {
   return <div {...rest} />;
 }
 
-function Panel({ title, onSearch, onCreate, children, labelCreate, ...rest }) {
+function Panel({
+  title,
+  subtitle,
+  onSearch,
+  onCreate,
+  children,
+  labelCreate,
+  ...rest
+}) {
   const navigator = useSelector(state => state.navigator);
 
   const [open, setOpen] = useState(false);
@@ -51,6 +59,20 @@ function Panel({ title, onSearch, onCreate, children, labelCreate, ...rest }) {
       )
     );
   }, [title]);
+
+  const renderSubtitle = useMemo(() => {
+    return (
+      subtitle && (
+        <h2>
+          {typeof subtitle === 'string' ? (
+            <div dangerouslySetInnerHTML={{ __html: subtitle }} />
+          ) : (
+            subtitle
+          )}
+        </h2>
+      )
+    );
+  }, [subtitle]);
 
   const renderSearch = useMemo(() => {
     let components = [];
@@ -131,6 +153,7 @@ function Panel({ title, onSearch, onCreate, children, labelCreate, ...rest }) {
         className={styles.section_header}
       >
         {renderTitle}
+        {renderSubtitle}
         {renderSearch}
         <div className={styles.container_action}>
           {!open && onCreate && labelCreate && (
@@ -169,6 +192,7 @@ Panel.Body = PanelBody;
 
 Panel.defaultProps = {
   title: '',
+  subtitle: '',
   children: null,
   onSearch: null,
   onCreate: null,
@@ -180,6 +204,7 @@ Panel.propTypes = {
   onCreate: PropTypes.func,
   labelCreate: PropTypes.string,
   title: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
+  subtitle: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
   children: PropTypes.oneOfType([
     PropTypes.node,
     PropTypes.arrayOf(PropTypes.node),
