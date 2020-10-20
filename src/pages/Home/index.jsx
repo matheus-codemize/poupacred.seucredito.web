@@ -1,23 +1,19 @@
 import React, { useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { useSelector } from 'react-redux';
 import AnimatedNumber from 'animated-number-react';
+import { useDispatch, useSelector } from 'react-redux';
 import styles from './style.module.css';
 
 // utils
 import language from '../../utils/language';
 
-// components
-import Box from '../../components/Box';
-import Panel from '../../components/Panel';
-
 function Home() {
-  const auth = useSelector(state => state.auth);
+  const dispatch = useDispatch();
   const { locale, currency } = useSelector(state => state.language);
 
   const [commission, setCommission] = useState(4184.77);
 
-  const renderTitle = useMemo(() => {
+  const renderHeader = useMemo(() => {
     const formatComission = value =>
       new Intl.NumberFormat(locale, {
         currency,
@@ -26,31 +22,42 @@ function Home() {
       }).format(value);
 
     return (
-      <>
-        <p>{language['home.title']}</p>
+      <div className={styles.header}>
+        <h1>{language['home.title']}</h1>
         <p>
           <AnimatedNumber value={commission} formatValue={formatComission} />
         </p>
-      </>
+      </div>
     );
-  }, [locale, currency, commission]);
+  }, [commission]);
 
   return (
-    <div>
-      <Panel title={renderTitle} />
-      <div className={styles.container}>
-        <Box>
-          <div className={styles.container_report}>
-            {language['home.reports'].map((report, index) => (
-              <div key={index} className={styles.report}>
-                <Link to={report.path}>
-                  <i className={report.icon} />
-                  <h1>{report.title}</h1>
-                </Link>
-              </div>
-            ))}
-          </div>
-        </Box>
+    <div className={styles.container}>
+      <div className={styles.navbar} />
+      {renderHeader}
+      <div className={styles.report}>
+        {language['home.reports'].map((report, index) => (
+          <Link key={index} to={report.path}>
+            <i
+              className={report.icon}
+              style={{
+                backgroundImage: `linear-gradient(180deg, ${report.color}, ${report.secondColor})`,
+              }}
+            />
+            <h1 style={{ color: report.color }}>{report.title}</h1>
+            <p>
+              <div
+                dangerouslySetInnerHTML={{
+                  __html: report.subtitle.replace(
+                    '[value]',
+                    '<span>[value]</span>',
+                  ),
+                }}
+              />
+            </p>
+            <div>{language['component.button.more'].title}</div>
+          </Link>
+        ))}
       </div>
     </div>
   );
