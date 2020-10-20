@@ -1,10 +1,11 @@
-import React, { useState, useMemo, useEffect } from 'react';
+import React, { useState, useMemo, useEffect, useCallback } from 'react';
 import _ from 'lodash';
-import { useDispatch } from 'react-redux';
-import { useHistory } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { useHistory, useLocation } from 'react-router-dom';
 import styles from './style.module.css';
 
 // redux
+import actions from '../../../../redux/actions/simulation';
 import actionsNavigator from '../../../../redux/actions/navigator';
 
 // services
@@ -33,8 +34,8 @@ import RadioGroup from '../../../../components/RadioGroup';
 const languagePage = language['page.simulation'];
 const languageForm = language['component.form.props'];
 
+const keysStep = Object.keys(registerDefault);
 const mapKeyProps = { opcoes: 'options', multiplo: 'multiple' };
-const keysStep = ['cpf', 'nome', 'nascimento', 'celular', 'email', 'produto'];
 const components = {
   input: Input,
   money: Input,
@@ -47,16 +48,15 @@ const components = {
 
 function CreateSimulation({ ...rest }) {
   const history = useHistory();
+  const location = useLocation();
   const dispatch = useDispatch();
 
-  const [step, setStep] = useState(0);
-  const [error, setError] = useState({});
-  const [steps, setSteps] = useState([]);
-  const [lastStep, setLastStep] = useState(false);
-  const [register, setRegister] = useState({ ...registerDefault });
+  const simulation = useSelector(state => state.simulation);
+  const { step, steps, register } = simulation;
 
-  // lists
+  const [error, setError] = useState({});
   const [produtos, setProdutos] = useState([]);
+  const [lastStep, setLastStep] = useState(false);
 
   useEffect(() => {
     simulacaoApi.listProduto().then(setProdutos);
@@ -83,8 +83,8 @@ function CreateSimulation({ ...rest }) {
       if (register.cpf && register.cpf.length === 14) {
         dispatch(actionsNavigator.startLoading());
         const url = `/simulacoes/clientes/buscar?cpf=${register.cpf}`;
-        const response = await api.get(url);
-        setRegister(prevRegister => ({ ...prevRegister, ...response }));
+        const { id, ...data } = await api.get(url);
+        dispatch(actions.register({ ...register, ...data }));
       }
     } catch (err) {
     } finally {
@@ -93,8 +93,10 @@ function CreateSimulation({ ...rest }) {
   }
 
   function handleBack() {
+    const { step } = simulation;
     if (!step) return history.goBack();
-    setStep(prevStep => prevStep - 1);
+
+    dispatch(actions.backStep());
   }
 
   async function handleNext(event) {
@@ -107,7 +109,7 @@ function CreateSimulation({ ...rest }) {
       if (step === keysStep.length - 1 && !steps.length) {
         dispatch(actionsNavigator.startLoading());
         response = await api.post(url, register);
-        setSteps(response);
+        dispatch(actions.steps(response));
       }
 
       if (
@@ -120,14 +122,14 @@ function CreateSimulation({ ...rest }) {
           ...register,
           step: steps[step - keysStep.length].propriedades.step,
         });
-        setSteps(prevSteps => [...prevSteps, ...response]);
+        dispatch(actions.steps([...steps, ...response]));
       }
 
       setLastStep(false);
-      setStep(prevStep => prevStep + 1);
+      dispatch(actions.nextStep());
     } catch (err) {
       const message = _.get(err, 'response.data.erro', err.message);
-      toast.error(message);
+      toast.error(`Opss .. ${message}`);
     } finally {
       dispatch(actionsNavigator.finishLoading());
     }
@@ -154,40 +156,21 @@ function CreateSimulation({ ...rest }) {
     setError(prevError => ({ ...prevError, [id]: '' }));
 
     switch (id) {
-      case 'produto':
-        setSteps([]);
-        return setRegister(prevRegister => {
-          Object.keys(prevRegister).forEach(key => {
-            if (!keysStep.includes(key)) {
-              delete prevRegister[key];
-            }
-          });
-          return { ...prevRegister, [id]: value };
-        });
+      case keysStep[keysStep.length - 1]:
+        return dispatch(actions.initRegister({ [id]: value }));
 
       default:
-        if (!keysStep.includes(id) && steps.length) {
-          const index = steps.findIndex(item => item.id === id);
-          if (
-            index >= 0 &&
-            index < steps.length - 1 &&
-            _.get(steps[index], 'propriedades.step', false)
-          ) {
-            setSteps(prevSteps => prevSteps.slice(0, index + 1));
-            return setRegister(prevRegister => {
-              Object.keys(prevRegister)
-                .slice(Object.keys(prevRegister).indexOf(steps[index].id) + 1)
-                .forEach(key => {
-                  delete prevRegister[key];
-                });
-              return { ...prevRegister, [id]: value };
-            });
-          }
+        if (
+          steps.length &&
+          step - keysStep.length < steps.length &&
+          _.get(steps[step - keysStep.length], 'propriedades.step', false)
+        ) {
+          return dispatch(actions.lastStep({ id, value }));
         }
         break;
     }
 
-    setRegister(prevRegister => ({ ...prevRegister, [id]: value }));
+    dispatch(actions.register({ ...register, [id]: value }));
   }
 
   function handleBlur(event) {
@@ -241,7 +224,7 @@ function CreateSimulation({ ...rest }) {
         {languageButton.text}
       </Button>
     );
-  }, [lastStep, step, steps, error, register]);
+  }, [lastStep, error, simulation]);
 
   const renderSteps = useMemo(() => {
     return steps.map((item, index) => {
@@ -286,11 +269,19 @@ function CreateSimulation({ ...rest }) {
       }
       return <></>;
     });
-  }, [steps, register]);
+  }, [simulation]);
 
   return (
     <div>
-      <Panel title={languagePage.createTitle}>
+      <Panel
+        title={
+          languagePage[
+            location.pathname.includes('re-simulacao')
+              ? 'resimulationTitle'
+              : 'createTitle'
+          ]
+        }
+      >
         <Panel.Body>
           <form
             className={styles.form}

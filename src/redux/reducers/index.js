@@ -6,6 +6,7 @@ import selectReducers from './select';
 import sidebarReducers from './sidebar';
 import languageReducers from './language';
 import navigatorReducers from './navigator';
+import simulationReducers from './simulation';
 
 const reducers = combineReducers({
   auth: authReducers,
@@ -13,6 +14,7 @@ const reducers = combineReducers({
   sidebar: sidebarReducers,
   language: languageReducers,
   navigator: navigatorReducers,
+  simulation: simulationReducers,
 });
 
 export default reducers;

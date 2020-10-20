@@ -1,9 +1,9 @@
 const register = {
   cpf: '',
-  nome: '',
-  email: '',
-  celular: '',
   nascimento: null,
+  nome: '',
+  celular: '',
+  email: '',
   produto: 0,
 };
 

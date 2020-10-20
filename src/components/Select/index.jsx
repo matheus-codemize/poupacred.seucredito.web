@@ -124,6 +124,7 @@ function Select({
         {...rest}
         id={id}
         type="text"
+        autoComplete="off"
         onBlur={handleBlur}
         onFocus={handleFocus}
         onChange={handleChange}

@@ -376,6 +376,7 @@
     "title": "Simulação",
     "create": "Nova Simulação",
     "createTitle": "Nova Simulação",
+    "resimulationTitle": "Re-Simulação",
     "proposalTitle": "Escolha a proposta ou simule com outro valor",
     "proposalSubtitle": "Sujeito à analise de crédito",
     "proposalChoose": "Quero este!",

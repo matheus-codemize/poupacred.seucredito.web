@@ -6,6 +6,7 @@ import styles from './style.module.css';
 
 // redux
 import actionsNavigator from '../../redux/actions/navigator';
+import actionsSimulation from '../../redux/actions/simulation';
 
 // services
 import api from '../../services/api';
@@ -59,6 +60,7 @@ function Simulation() {
 
   function handleCreate() {
     history.push('/simulacao/novo');
+    dispatch(actionsSimulation.init());
   }
 
   async function getDados() {
@@ -108,7 +110,7 @@ function Simulation() {
   }, [dataset]);
 
   if (location.pathname === '/simulacao/propostas') {
-    return <Proposal />
+    return <Proposal />;
   }
 
   if (location.pathname !== '/simulacao') {

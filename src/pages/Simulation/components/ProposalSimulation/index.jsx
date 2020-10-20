@@ -17,7 +17,7 @@ function ProposalSimulation() {
   const location = useLocation();
 
   function handleOtherSimulation() {
-    history.replace('/simulacao/novo');
+    history.replace('/simulacao/re-simulacao');
   }
 
   function handleChoose(item) {
@@ -25,7 +25,7 @@ function ProposalSimulation() {
   }
 
   const renderData = useMemo(() => {
-    const data = _.get(location.state, 'simulation.cards', []);
+    const data = _.get(location, 'state.simulation.cards', []);
     return data.map(item => {
       item.title = item.nome;
       if (Array.isArray(item.blocos)) {
