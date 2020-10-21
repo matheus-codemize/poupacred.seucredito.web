@@ -27,15 +27,21 @@
   "component.margin": {
     "btn_not": "Não sei a margem"
   },
+  "component.button.plus": {
+    "text": "Novo registro",
+    "icon": "fas fa-plus-circle"
+  },
   "component.button.next": {
     "text": "Avançar",
     "icon": "fas fa-chevron-right"
   },
   "component.button.help": {
-    "text": "Ajuda"
+    "text": "Ajuda",
+    "icon": "fas fa-question-circle"
   },
   "component.button.back": {
-    "text": "Voltar"
+    "text": "Voltar",
+    "icon": "fas fa-chevron-left"
   },
   "component.button.more": {
     "text": "Ver mais",
@@ -47,6 +53,14 @@
   },
   "component.button.details": {
     "text": "Ver detalhes"
+  },
+  "component.button.close": {
+    "text": "Fechar",
+    "icon": "fas fa-times"
+  },
+  "component.button.cancel": {
+    "text": "Cancelar",
+    "icon": "fas fa-ban"
   },
 
   "component.button.next.text": "Avançar",

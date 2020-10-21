@@ -82,6 +82,24 @@ function Simulation() {
     }
   }
 
+  function handleClickSimulation(item) {
+    try {
+      const { simulacao_id, status_id } = item;
+
+      if (simulacao_id && status_id) {
+        dispatch(actionsNavigator.startLoading());
+
+        const url = `/simulacao/${status_id === 1 ? 'rascunho' : 'margem'}`;
+        history.push(url);
+      }
+    } catch (err) {
+      const message = _.get(err, 'response.data.erro', err.message);
+      toast.error(message);
+    } finally {
+      dispatch(actionsNavigator.finishLoading());
+    }
+  }
+
   const renderDataset = useMemo(() => {
     return dataset.map(item => ({
       header: (
@@ -97,15 +115,7 @@ function Simulation() {
         </div>
       ),
       disabled: item.status === '',
-      onClick: () =>
-        history.push(
-          `/simulacao/${
-            item.status.toLowerCase().includes('rascunho')
-              ? 'rascunho'
-              : 'margem'
-          }`,
-          { id: item.id },
-        ),
+      onClick: () => handleClickSimulation(item),
     }));
   }, [dataset]);
 
@@ -121,9 +131,14 @@ function Simulation() {
     <div>
       <Panel
         onSearch={getDados}
-        onCreate={handleCreate}
         title={languagePage.title}
-        labelCreate={languagePage.create}
+        actions={[
+          {
+            onClick: handleCreate,
+            text: languagePage.create,
+            icon: language['component.button.plus'].icon,
+          },
+        ]}
       >
         <Panel.Search>
           <Select

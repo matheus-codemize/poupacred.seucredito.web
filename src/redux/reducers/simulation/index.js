@@ -20,12 +20,10 @@ const reducers = (state = inital_state, action) => {
       return Object.assign({}, state, payload);
 
     case actionsTypes.BACKSTEP:
-      console.log('back');
       state.step = state.step - 1;
       return { ...state };
 
     case actionsTypes.NEXTSTEP:
-      console.log('next');
       state.step = state.step + 1;
       return { ...state };
 

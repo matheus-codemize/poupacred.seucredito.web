@@ -68,7 +68,7 @@
   max-height: calc(100vh - 28rem);
 }
 
-.container_filter[data-create='true'] {
+.container_filter[data-action='true'] {
   max-height: calc(100vh - 36rem);
 }
 
@@ -103,7 +103,7 @@ e 10px de altura para a barra horizontal */
   position: absolute;
   flex-direction: row;
   align-items: center;
-  justify-content: center;
+  justify-content: space-around;
 }
 
 .container_filter_action > button {
@@ -209,13 +209,12 @@ e 10px de altura para a barra horizontal */
   }
 
   .container_filter,
-  .container_filter[data-create='true'] {
+  .container_filter[data-action='true'] {
     max-height: calc(100vh - 28rem);
   }
 
   .container_filter_action > button {
-    width: 40rem;
-    margin: 0 1rem;
+    width: calc(50% - var(--top-base));
   }
 
   .container_action {

@@ -90,9 +90,14 @@ function Crm() {
     <div>
       <Panel
         onSearch={getDataset}
-        onCreate={handleCreate}
         title={languagePage.title}
-        labelCreate={languagePage.create}
+        actions={[
+          {
+            onClick: handleCreate,
+            text: languagePage.create,
+            icon: language['component.button.plus'].icon,
+          },
+        ]}
       >
         <Panel.Search>
           <Select

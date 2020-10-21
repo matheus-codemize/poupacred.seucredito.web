@@ -17,6 +17,7 @@ import 'react-toastify/dist/ReactToastify.css';
 // components
 import Header from './components/Header';
 import Sidebar from './components/Sidebar';
+import BoxHelp from './components/BoxHelp';
 import Container from './components/Container';
 import SelectList from './components/SelectList';
 
@@ -103,6 +104,7 @@ function App() {
       <Header />
       {routes.length > 0 && <Sidebar />}
       <Container />
+      <BoxHelp />
       <SelectList />
       <Switch>
         <Route exact path="/">

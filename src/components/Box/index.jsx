@@ -1,6 +1,10 @@
-import React, { useCallback, useMemo } from 'react';
+import React, { useEffect, useCallback, useMemo } from 'react';
 import PropTypes from 'prop-types';
+import { useDispatch } from 'react-redux';
 import styles from './style.module.css';
+
+// redux
+import actions from '../../redux/actions/box';
 
 // utils
 import language from '../../utils/language';
@@ -9,6 +13,24 @@ import language from '../../utils/language';
 import Button from '../Button';
 
 function Box({ help, onBack, children, ...rest }) {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(
+      actions.help(
+        typeof help === 'string' ? (
+          <div dangerouslySetInnerHTML={{ __html: help }} />
+        ) : (
+          help
+        ),
+      ),
+    );
+  }, [help]);
+
+  function handleHelp() {
+    dispatch(actions.open());
+  }
+
   const handleBack = useCallback(() => {
     if (onBack && typeof onBack === 'function') onBack();
   }, [onBack]);
@@ -38,9 +60,10 @@ function Box({ help, onBack, children, ...rest }) {
       {children}
       {help && (
         <div className={styles.help}>
-          <Button type="link" icon="fa fa-help">
+          <span onClick={handleHelp}>
+            <i className={language['component.button.help'].icon} />
             {language['component.button.help'].text}
-          </Button>
+          </span>
         </div>
       )}
     </div>
@@ -54,9 +77,12 @@ Box.defaultProps = {
 };
 
 Box.propTypes = {
-  children: PropTypes.node,
+  onBack: PropTypes.func,
   help: PropTypes.oneOfType([PropTypes.node, PropTypes.string]),
-  onBack: PropTypes.oneOfType([PropTypes.func, PropTypes.bool]),
+  children: PropTypes.oneOfType([
+    PropTypes.node,
+    PropTypes.arrayOf(PropTypes.node),
+  ]),
 };
 
 export default Box;

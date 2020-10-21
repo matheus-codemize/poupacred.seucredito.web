@@ -7,6 +7,7 @@ function Button({
   type,
   dark,
   light,
+  text,
   loading,
   disabled,
   children,
@@ -41,19 +42,20 @@ function Button({
       disabled={disabled || loading}
     >
       {renderIcon}
-      {children}
+      {children || text || <></>}
     </button>
   );
 }
 
 Button.defaultProps = {
   icon: '',
+  text: '',
   light: false,
+  children: '',
   loading: false,
   disabled: false,
   gradient: false,
   type: 'primary',
-  children: <></>,
   htmlType: 'button',
 };
 
@@ -66,6 +68,7 @@ Button.propTypes = {
   gradient: PropTypes.bool,
   type: PropTypes.oneOf(['link', 'primary', 'secondary']),
   htmlType: PropTypes.oneOf(['button', 'submit', 'reset']),
+  text: PropTypes.oneOfType([PropTypes.node, PropTypes.string]),
   children: PropTypes.oneOfType([PropTypes.node, PropTypes.string]),
 };
 

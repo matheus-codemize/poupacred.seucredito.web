@@ -24,6 +24,7 @@ function Panel({
   onCreate,
   children,
   labelCreate,
+  actions,
   ...rest
 }) {
   const navigator = useSelector(state => state.navigator);
@@ -41,9 +42,9 @@ function Panel({
     if (typeof onSearch === 'function') onSearch();
   }
 
-  function handleCreate() {
+  function handleClickAction(onClick) {
     setOpen(false);
-    if (typeof onCreate === 'function') onCreate();
+    if (typeof onClick === 'function') onClick();
   }
 
   const renderTitle = useMemo(() => {
@@ -109,20 +110,21 @@ function Panel({
 
     return (
       <>
-        <div
-          data-create={!!(onCreate && labelCreate)}
-          className={styles.container_filter}
-        >
+        <div data-action={!!actions.length} className={styles.container_filter}>
           {components.map((component, index) =>
             React.cloneElement(component, { key: index }),
           )}
         </div>
         <div className={styles.container_filter_action}>
-          {open && onCreate && labelCreate && (
-            <Button gradient onClick={handleCreate} icon="fas fa-plus clicle">
-              {labelCreate}
-            </Button>
-          )}
+          {open &&
+            actions.map((action, index) => (
+              <Button
+                gradient
+                {...action}
+                key={index}
+                onClick={() => handleClickAction(action.onClick)}
+              />
+            ))}
           {open && (
             <Button gradient icon="fas fa-search" onClick={handleSearch}>
               {language['component.button.search.text']}
@@ -156,12 +158,19 @@ function Panel({
         {renderSubtitle}
         {renderSearch}
         <div className={styles.container_action}>
-          {!open && onCreate && labelCreate && (
-            <span onClick={handleCreate}>
-              <i className="fas fa-plus-circle" />
-              {labelCreate}
-            </span>
-          )}
+          {!open &&
+            actions.map((action, index) => {
+              const { icon, text, onClick } = action;
+              return (
+                <span
+                  key={index}
+                  onClick={typeof onClick === 'function' ? onClick : undefined}
+                >
+                  {icon && <i className={icon} />}
+                  {text || ''}
+                </span>
+              );
+            })}
           {!open && childrenLength > 0 && (
             <i onClick={handleSearch} className="fas fa-search" />
           )}
@@ -192,6 +201,7 @@ Panel.Body = PanelBody;
 
 Panel.defaultProps = {
   title: '',
+  actions: [],
   subtitle: '',
   children: null,
   onSearch: null,
@@ -209,6 +219,13 @@ Panel.propTypes = {
     PropTypes.node,
     PropTypes.arrayOf(PropTypes.node),
   ]),
+  actions: PropTypes.arrayOf(
+    PropTypes.shape({
+      icon: PropTypes.string,
+      text: PropTypes.string,
+      onClick: PropTypes.func,
+    }),
+  ),
 };
 
 export default Panel;

@@ -54,6 +54,7 @@ function CreateSimulation({ ...rest }) {
   const simulation = useSelector(state => state.simulation);
   const { step, steps, register } = simulation;
 
+  const [help, setHelp] = useState('teste');
   const [error, setError] = useState({});
   const [produtos, setProdutos] = useState([]);
   const [lastStep, setLastStep] = useState(false);
@@ -93,10 +94,10 @@ function CreateSimulation({ ...rest }) {
   }
 
   function handleBack() {
-    const { step } = simulation;
-    if (!step) return history.goBack();
-
-    dispatch(actions.backStep());
+    if (step) {
+      return dispatch(actions.backStep());
+    }
+    history.goBack();
   }
 
   async function handleNext(event) {
@@ -219,10 +220,8 @@ function CreateSimulation({ ...rest }) {
         data-unique
         htmlType="submit"
         disabled={!!disabled}
-        icon={languageButton.icon}
-      >
-        {languageButton.text}
-      </Button>
+        {...languageButton}
+      />
     );
   }, [lastStep, error, simulation]);
 
@@ -287,7 +286,7 @@ function CreateSimulation({ ...rest }) {
             className={styles.form}
             onSubmit={lastStep ? handleSave : handleNext}
           >
-            <Box onBack={handleBack}>
+            <Box help={help} onBack={handleBack}>
               <Carousel step={step}>
                 <Carousel.Step>
                   <Input
