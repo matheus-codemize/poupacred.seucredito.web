@@ -5,7 +5,7 @@
   height: 100%;
   position: fixed;
   transition: 0.4s;
-  font-family: 'Roboto';
+  font-family: 'Open Sans';
   color: rgb(var(--color-white));
   background-color: rgb(var(--color-primary-dark));
 }

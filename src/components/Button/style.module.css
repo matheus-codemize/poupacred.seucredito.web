@@ -5,7 +5,7 @@
   font-size: 2rem;
   position: relative;
   border-radius: 0.8rem;
-  font-family: 'Roboto';
+  font-family: 'Open Sans';
   background-size: 150% auto;
   transition: 0.5s ease-in-out;
   color: rgb(var(--color-white));

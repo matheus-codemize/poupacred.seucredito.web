@@ -2,10 +2,10 @@
 :root {
   --top-base: 8rem;
 
-  --header-height: 17rem;
+  --header-height: 19rem;
   --height-2: 10rem;
 
-  --action-top-base: 6rem;
+  --action-top-base: 4.8rem;
 }
 
 .container {
@@ -35,9 +35,9 @@
 
 .section_header > h1,
 .section_header > h2 {
-  font-size: 3.5rem;
+  font-size: 4rem;
   text-align: center;
-  font-family: 'Roboto';
+  font-family: 'Open Sans';
   color: rgb(var(--color-white));
 }
 
@@ -131,21 +131,20 @@ e 10px de altura para a barra horizontal */
   margin: 0 2rem;
   font-size: 3rem;
   cursor: pointer;
-  border-radius: 50%;
+  border-radius: 10rem;
+  padding: 1rem 2rem;
   color: rgb(var(--color-white));
+  box-shadow: 0px 2px 10px 0px #1b704c;
   background-color: rgb(var(--color-primary));
-  box-shadow: rgb(var(--color-primary)) 0px 0px 0px 10px,
-    rgb(var(--color-primary)) 0px 6px 15px;
+  border-bottom: 2px solid rgb(var(--color-white));
 }
 
 .container_action > span {
   font-size: 2rem;
-  font-family: 'Roboto';
-  border-radius: 0.5rem;
+  font-family: 'Open Sans';
 }
 
 .container_action > span > i {
-  font-size: 3rem;
   margin-right: 1rem;
 }
 

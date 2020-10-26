@@ -29,13 +29,13 @@
 .description h1 {
   font-size: 2rem;
   font-weight: 600;
-  font-family: 'Roboto';
+  font-family: 'Open Sans';
 }
 
 .header p,
 .description p {
   font-size: 1.8rem;
-  font-family: 'Roboto';
+  font-family: 'Open Sans';
 }
 
 .description h1,
@@ -68,7 +68,7 @@
 .details h1,
 .details p {
   font-size: 1.6rem;
-  font-family: 'Roboto';
+  font-family: 'Open Sans';
 }
 
 .details p {

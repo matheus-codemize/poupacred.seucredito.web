@@ -3,7 +3,7 @@
   margin: 1rem 0;
   position: relative;
   border-radius: 1rem;
-  font-family: 'Roboto';
+  font-family: 'Open Sans';
   border: 1px solid #efe1e1;
   background-color: rgb(var(--color-white));
 }

@@ -4,7 +4,7 @@
   font-size: 2rem;
   flex-direction: row;
   align-items: center;
-  font-family: 'Roboto';
+  font-family: 'Open Sans';
   justify-content: space-between;
   color: rgba(var(--color-black), 0.7);
 }

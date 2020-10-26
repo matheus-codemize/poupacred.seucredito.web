@@ -49,7 +49,7 @@
   padding: 1rem;
   font-size: 2.5rem;
   border-radius: 50%;
-  font-family: 'Roboto';
+  font-family: 'Open Sans';
   color: rgb(var(--color-white));
   background-color: rgb(var(--color-primary-light));
 }
@@ -91,7 +91,7 @@
   margin: 1rem 0;
   font-size: 2rem;
   text-align: center;
-  font-family: 'Roboto';
+  font-family: 'Open Sans';
   color: rgb(var(--color-black));
 }
 
@@ -131,7 +131,7 @@
   margin: 1rem auto;
   border-radius: 50%;
   align-items: center;
-  font-family: 'Roboto';
+  font-family: 'Open Sans';
   justify-content: center;
   color: rgb(var(--color-white));
   background-color: rgb(var(--color-primary-light));

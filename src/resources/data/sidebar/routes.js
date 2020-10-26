@@ -1,5 +1,5 @@
 export const routesAgent = [
-  { path: '/home', component: 'Home', name: 'Home', icon: 'fa fa-home' },
+  { path: '/home', component: 'Home', name: 'Início', icon: 'fa fa-home' },
   { path: '/crm', component: 'Crm', name: 'CRM', icon: 'fa fa-users' },
   {
     path: '/proposta',
@@ -11,7 +11,7 @@ export const routesAgent = [
     path: '/simulacao',
     component: 'Simulation',
     name: 'Simulação',
-    icon: 'fas fa-hand-holding-usd',
+    icon: 'fas fa-calculator',
   },
 ];
 

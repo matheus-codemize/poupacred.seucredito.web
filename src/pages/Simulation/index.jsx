@@ -136,7 +136,7 @@ function Simulation() {
           {
             onClick: handleCreate,
             text: languagePage.create,
-            icon: language['component.button.plus'].icon,
+            icon: 'fas fa-calculator',
           },
         ]}
       >
