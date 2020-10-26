@@ -57,8 +57,10 @@ function SelectList() {
 
     if (select.options) {
       render = select.options
-        .filter(option =>
-          option.label.toLowerCase().includes(filter.toLowerCase()),
+        .filter(
+          option =>
+            !filter ||
+            option.label.toLowerCase().includes(filter.toLowerCase()),
         )
         .map((option, index) => (
           <li

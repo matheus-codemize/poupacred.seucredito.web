@@ -53,7 +53,6 @@ const reducers = (state = inital_state, action) => {
           });
       }
 
-      console.log('step', state.step);
       return {
         ...state,
         register: { ...state.register, [payload.id]: payload.value },

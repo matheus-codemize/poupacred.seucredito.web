@@ -2,11 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import styles from './style.module.css';
 
-// utils
-import language from '../../utils/language';
-
 // components
 import BoxData from '../BoxData';
+import ListEmpty from '../ListEmpty';
 import Pagination from '../Pagination';
 
 function BoxDataList({ data, pagination, onPagination, ...rest }) {
@@ -22,9 +20,7 @@ function BoxDataList({ data, pagination, onPagination, ...rest }) {
         {data.map((item, index) => (
           <BoxData {...item} key={index} />
         ))}
-        {data.length === 0 && (
-          <h1>{language['component.boxdatalist.empty']}</h1>
-        )}
+        <ListEmpty visible={data.length === 0} />
       </div>
       <Pagination {...pagination} onChange={handlePagination} />
     </div>

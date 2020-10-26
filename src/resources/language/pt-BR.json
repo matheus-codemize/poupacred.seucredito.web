@@ -8,6 +8,9 @@
   "component.sidebar": {
     "logout": "Sair"
   },
+  "component.listempty": {
+    "text": "Ops .. Não há informações"
+  },
 
   "component.input": {
     "placeholder": {
@@ -21,8 +24,6 @@
   "component.pagination": {
     "legend": "[current] de [total] página(s)"
   },
-
-  "component.boxdatalist.empty": "Ops .. Não há informações",
 
   "component.margin": {
     "btn_not": "Não sei a margem"

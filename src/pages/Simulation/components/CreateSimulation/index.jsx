@@ -14,6 +14,7 @@ import * as simulacaoApi from '../../../../services/simulacao';
 
 // utils
 import toast from '../../../../utils/toast';
+import moment from '../../../../utils/moment';
 import validator from '../../../../utils/validator';
 import language, { errors as errorsLanguage } from '../../../../utils/language';
 
@@ -54,7 +55,7 @@ function CreateSimulation({ ...rest }) {
   const simulation = useSelector(state => state.simulation);
   const { step, steps, register } = simulation;
 
-  const [help, setHelp] = useState('teste');
+  const [help, setHelp] = useState('');
   const [error, setError] = useState({});
   const [produtos, setProdutos] = useState([]);
   const [lastStep, setLastStep] = useState(false);
@@ -68,15 +69,20 @@ function CreateSimulation({ ...rest }) {
   }, [register.cpf]);
 
   useEffect(() => {
-    if (
-      steps.length &&
-      step - keysStep.length === steps.length - 1 &&
-      !_.get(steps[step - keysStep.length], 'propriedades.step', false)
-    ) {
-      setLastStep(true);
+    if (step < keysStep.length) {
+      setHelp('');
     } else {
-      setLastStep(false);
+      setHelp(steps[step - keysStep.length].ajuda || '');
+
+      if (
+        step - keysStep.length === steps.length - 1 &&
+        !_.get(steps[step - keysStep.length], 'propriedades.step', false)
+      ) {
+        return setLastStep(true);
+      }
     }
+
+    setLastStep(false);
   }, [step, steps]);
 
   async function getClientByCpf() {
@@ -84,8 +90,13 @@ function CreateSimulation({ ...rest }) {
       if (register.cpf && register.cpf.length === 14) {
         dispatch(actionsNavigator.startLoading());
         const url = `/simulacoes/clientes/buscar?cpf=${register.cpf}`;
-        const { id, ...data } = await api.get(url);
-        dispatch(actions.register({ ...register, ...data }));
+        let { id, nascimento, ...data } = await api.get(url);
+
+        if (moment(nascimento, 'DD/MM/YYYY').isValid()) {
+          nascimento = moment(nascimento, 'DD/MM/YYYY').toDate();
+        }
+
+        dispatch(actions.register({ ...register, ...data, nascimento }));
       }
     } catch (err) {
     } finally {
@@ -109,18 +120,22 @@ function CreateSimulation({ ...rest }) {
 
       if (step === keysStep.length - 1 && !steps.length) {
         dispatch(actionsNavigator.startLoading());
-        response = await api.post(url, register);
+        response = await api.post(url, {
+          ...register,
+          nascimento: moment(register.nascimento).format('DD/MM/YYYY'),
+        });
         dispatch(actions.steps(response));
       }
 
       if (
-        steps.length &&
+        step >= keysStep.length &&
         step - keysStep.length === steps.length - 1 &&
         _.get(steps[step - keysStep.length], 'propriedades.step', false)
       ) {
         dispatch(actionsNavigator.startLoading());
         response = await api.post(url, {
           ...register,
+          nascimento: moment(register.nascimento).format('DD/MM/YYYY'),
           step: steps[step - keysStep.length].propriedades.step,
         });
         dispatch(actions.steps([...steps, ...response]));
@@ -142,7 +157,10 @@ function CreateSimulation({ ...rest }) {
       dispatch(actionsNavigator.startLoading());
 
       const url = '/simulacoes/simular';
-      const response = await api.post(url, register);
+      const response = await api.post(url, {
+        ...register,
+        nascimento: moment(register.nascimento).format('DD/MM/YYYY'),
+      });
       return history.push('/simulacao/propostas', { simulation: response });
     } catch (err) {
       const message = _.get(err, 'response.data.erro', err.message);
@@ -162,7 +180,7 @@ function CreateSimulation({ ...rest }) {
 
       default:
         if (
-          steps.length &&
+          step >= keysStep.length &&
           step - keysStep.length < steps.length &&
           _.get(steps[step - keysStep.length], 'propriedades.step', false)
         ) {
@@ -319,6 +337,7 @@ function CreateSimulation({ ...rest }) {
                 <Carousel.Step>
                   <Input
                     id="celular"
+                    type="phone"
                     onChange={handleChange}
                     value={register.celular || ''}
                     {...languageForm.celular}

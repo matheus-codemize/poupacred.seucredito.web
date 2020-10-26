@@ -51,7 +51,10 @@ Carousel.Step = Step;
 
 Carousel.propTypes = {
   step: PropTypes.number.isRequired,
-  children: PropTypes.element.isRequired,
+  children: PropTypes.oneOfType([
+    PropTypes.node,
+    PropTypes.arrayOf(PropTypes.node),
+  ]).isRequired,
 };
 
 export default Carousel;

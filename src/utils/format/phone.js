@@ -9,6 +9,7 @@ export default function (value, defaultValue) {
         case 2:
           value = `(${value}`;
           break;
+
         case 3:
         case 4:
         case 5:

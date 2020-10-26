@@ -4,6 +4,7 @@ import styles from './style.module.css';
 
 // components
 import Card from '../Card';
+import ListEmpty from '../ListEmpty';
 import Pagination from '../Pagination';
 
 function CardList({ data, pagination, onPagination, ...rest }) {
@@ -19,6 +20,7 @@ function CardList({ data, pagination, onPagination, ...rest }) {
         {data.map((item, index) => (
           <Card {...item} key={index} />
         ))}
+        <ListEmpty visible={data.length === 0} />
       </div>
       {pagination && <Pagination {...pagination} onChange={handlePagination} />}
     </div>

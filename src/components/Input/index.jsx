@@ -47,6 +47,10 @@ function Input({
         valueSelected = format.cpf(valueSelected, value);
         break;
 
+      case 'phone':
+        valueSelected = format.phone(valueSelected, value);
+        break;
+
       case 'money':
         valueSelected = valueSelected.replace(/[^\d]/g, '');
         valueSelected = valueSelected && parseFloat(valueSelected);
@@ -168,7 +172,7 @@ Input.propTypes = {
   display: PropTypes.oneOf(['vertical', 'horizontal']),
   htmlType: PropTypes.oneOf(['text', 'password', 'email']),
   col: PropTypes.oneOfType([PropTypes.func, PropTypes.number]),
-  type: PropTypes.oneOf(['text', 'cpf', 'money', 'number']),
+  type: PropTypes.oneOf(['text', 'cpf', 'phone', 'money', 'number']),
 };
 
 export default Input;
