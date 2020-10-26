@@ -6,14 +6,13 @@ import styles from './style.module.css';
 // redux
 import actions from '../../redux/actions/sidebar';
 import actionsAuth from '../../redux/actions/auth';
+import actionsContainer from '../../redux/actions/container';
 
 // utils
-import language from '../../utils/language';
+import language from '../../utils/language'
 
 // resources
 import { routesAgent, routesClient } from '../../resources/data/sidebar/routes';
-
-const languageComponent = language['component.sidebar'];
 
 function Sidebar() {
   const history = useHistory();
@@ -51,12 +50,9 @@ function Sidebar() {
     }
   }, [auth, auth.type]);
 
-  function handleSidebar() {
-    if (sidebar.open) {
-      dispatch(actions.close());
-    } else {
-      dispatch(actions.open());
-    }
+  function selectRoute() {
+    dispatch(actions.close());
+    dispatch(actionsContainer.close());
   }
 
   function handleLogout() {
@@ -75,21 +71,12 @@ function Sidebar() {
       <ul>
         {routes.map((route, index) => (
           <li key={index}>
-            <Link to={route.path} onClick={handleSidebar}>
+            <Link to={route.path} onClick={selectRoute}>
               <i className={route.icon} /> {route.name}
             </Link>
           </li>
         ))}
       </ul>
-      <button
-        type="button"
-        data-unique="true"
-        onClick={handleLogout}
-        className={styles.btn_logout}
-      >
-        <i className="fa fa-sign-out-alt" />
-        {languageComponent.logout}
-      </button>
     </div>
   );
 }

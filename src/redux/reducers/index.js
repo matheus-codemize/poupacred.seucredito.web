@@ -7,6 +7,7 @@ import selectReducers from './select';
 import sidebarReducers from './sidebar';
 import languageReducers from './language';
 import navigatorReducers from './navigator';
+import containerReducers from './container';
 import simulationReducers from './simulation';
 
 const reducers = combineReducers({
@@ -16,6 +17,7 @@ const reducers = combineReducers({
   sidebar: sidebarReducers,
   language: languageReducers,
   navigator: navigatorReducers,
+  container: containerReducers,
   simulation: simulationReducers,
 });
 

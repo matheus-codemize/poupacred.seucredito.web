@@ -5,11 +5,12 @@
   "polity": "Política de Privacidade",
   "agree.term.polity": "Continuando, você aceita e condorda com os $term e $polity",
 
-  "component.sidebar": {
-    "logout": "Sair"
-  },
   "component.listempty": {
     "text": "Ops .. Não há informações"
+  },
+  "component.header.user": {
+    "edit": "Editar dados",
+    "logout": "Sair"
   },
 
   "component.input": {

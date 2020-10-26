@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import styles from './style.module.css';
 
@@ -7,14 +7,22 @@ import language from '../../utils/language';
 
 // redux
 import actions from '../../redux/actions/box';
+import actionsContainer from '../../redux/actions/container';
 
 function BoxHelp() {
   const dispatch = useDispatch();
 
   const box = useSelector(state => state.box);
 
+  useEffect(() => {
+    if (box.open) {
+      dispatch(actionsContainer.open({ color: 'black', onClose: handleClose }));
+    }
+  }, [box.open]);
+
   function handleClose() {
     dispatch(actions.close());
+    dispatch(actionsContainer.close());
   }
 
   return (

@@ -5,9 +5,9 @@ import storage from 'redux-persist/lib/storage'; // defaults to localStorage for
 import reducers from '../reducers';
 
 const persistConfig = {
-  key: 'root',
   storage,
-  blacklist: ['box', 'select', 'sidebar'],
+  key: 'root',
+  blacklist: ['box', 'container', 'select', 'sidebar'],
 };
 
 const persistedReducer = persistReducer(persistConfig, reducers);

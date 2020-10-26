@@ -20,6 +20,7 @@ import Sidebar from './components/Sidebar';
 import BoxHelp from './components/BoxHelp';
 import Container from './components/Container';
 import SelectList from './components/SelectList';
+import HeaderUser from './components/HeaderUser';
 
 // pages
 import Crm from './pages/Crm';
@@ -101,9 +102,9 @@ function App() {
 
   return (
     <Router>
-      <Header />
-      {routes.length > 0 && <Sidebar />}
       <Container />
+      {routes.length > 0 && <Sidebar />}
+      {!routes.length ? <Header /> : <HeaderUser />}
       <BoxHelp />
       <SelectList />
       <Switch>

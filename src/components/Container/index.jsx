@@ -4,49 +4,50 @@ import { useSelector, useDispatch } from 'react-redux';
 import styles from './style.module.css';
 
 // redux
-import actionsBox from '../../redux/actions/box';
-import actionsSidebar from '../../redux/actions/sidebar';
+import actions from '../../redux/actions/container';
 
 /**
  * Esse componente serve apenas para ocupar o espaço da tela,
  * afim de bloquear o uso dela qndo o menu estiver ativo ou a página estiver carregando algum recurso externo
- * além de quando o recurso "Help" é utilizado
+ * além de quando o recurso "Help" é utilizado ou o menu do usuário é aberto
  */
 function Container() {
+  // resources hooks
   const dispatch = useDispatch();
-  const box = useSelector(state => state.box);
-  const sidebar = useSelector(state => state.sidebar);
-  const navigator = useSelector(state => state.navigator);
 
-  const [block, setBlock] = useState(false);
-
-  useEffect(() => {
-    setBlock(box.open || sidebar.open || navigator.loading);
-  }, [box.open, sidebar.open, navigator.loading]);
+  // redux state
+  const container = useSelector(state => state.container);
+  const { open, color, loading, onClose } = container;
 
   useEffect(() => {
     const all = ['a', 'tab', 'button', 'input', 'select'];
-    $('body').css('overflow', block ? 'hidden' : 'auto');
+    $('body').css('overflow', open ? 'hidden' : 'auto');
     all.forEach(type =>
       $(`body ${type}:not([data-unique])`).each(function () {
-        $(this).attr('disabled', block);
-        $(this).attr('tabIndex', block ? -1 : 0);
+        $(this).attr('disabled', open);
+        $(this).attr('tabIndex', open ? -1 : 0);
       }),
     );
-  }, [block]);
+  }, [open]);
 
   function closeContainer() {
-    dispatch(actionsBox.close());
-    dispatch(actionsSidebar.close());
+    dispatch(actions.close());
+
+    if (typeof onClose === 'function') {
+      onClose();
+    }
   }
 
   return (
     <div
       onClick={closeContainer}
       className={styles.container}
-      style={{ display: block ? 'block' : 'none' }}
+      style={{
+        display: open ? 'block' : 'none',
+        backgroundColor: `rgba(var(--color-${color}), 0.5)`,
+      }}
     >
-      {navigator.loading && <i className="fas fa-spinner fa-spin" />}
+      {loading && <i className="fas fa-spinner fa-spin" />}
     </div>
   );
 }
