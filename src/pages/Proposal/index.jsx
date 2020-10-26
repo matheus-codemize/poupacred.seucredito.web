@@ -5,6 +5,9 @@ import { useDispatch, useSelector } from 'react-redux';
 // redux
 import actionsNavigator from '../../redux/actions/navigator';
 
+// assets
+import backgroundImg from '../../assets/images/background/panel/proposta.jpg';
+
 // services
 import api from '../../services/api';
 import * as bancoApi from '../../services/banco';
@@ -133,7 +136,11 @@ function Proposal() {
 
   return (
     <div>
-      <Panel onSearch={getDados} title={languagePage.title}>
+      <Panel
+        onSearch={getDados}
+        title={languagePage.title}
+        background={backgroundImg}
+      >
         <Panel.Search>
           <Select
             col={getCol}

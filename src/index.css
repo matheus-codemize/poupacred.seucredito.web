@@ -32,8 +32,8 @@ input:focus {
   --color-primary-light: 46, 182, 121;
   --color-primary-gradient: linear-gradient(
     to right,
-    rgb(22, 84, 59) 0%,
-    rgb(46, 182, 121) 83%
+    rgb(var(--color-primary-dark)) 0%,
+    rgb(var(--color-primary-light)) 83%
   );
   /* hover */
   --color-primary-hover: 39, 159, 108;

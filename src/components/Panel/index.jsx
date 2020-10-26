@@ -19,12 +19,11 @@ function PanelBody({ ...rest }) {
 
 function Panel({
   title,
+  actions,
   subtitle,
   onSearch,
-  onCreate,
   children,
-  labelCreate,
-  actions,
+  background,
   ...rest
 }) {
   const navigator = useSelector(state => state.navigator);
@@ -133,7 +132,7 @@ function Panel({
         </div>
       </>
     );
-  }, [open, children, onCreate, labelCreate, navigator.window.size.x]);
+  }, [open, children, navigator.window.size.x]);
 
   const renderContent = useMemo(() => {
     let component = <></>;
@@ -152,6 +151,13 @@ function Panel({
         data-open={open}
         data-size={searchLength}
         data-filter={open || childrenLength > searchLength}
+        style={{
+          backgroundImage: `linear-gradient(
+            to bottom,
+            rgba(var(--color-primary), 0.5),
+            rgba(var(--color-primary), 1) 70%
+          ), url(${background})`,
+        }}
         className={styles.section_header}
       >
         {renderTitle}
@@ -205,14 +211,10 @@ Panel.defaultProps = {
   subtitle: '',
   children: null,
   onSearch: null,
-  onCreate: null,
-  labelCreate: '',
 };
 
 Panel.propTypes = {
   onSearch: PropTypes.func,
-  onCreate: PropTypes.func,
-  labelCreate: PropTypes.string,
   title: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
   subtitle: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
   children: PropTypes.oneOfType([

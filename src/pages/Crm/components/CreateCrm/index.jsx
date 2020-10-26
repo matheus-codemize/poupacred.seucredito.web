@@ -7,6 +7,9 @@ import styles from './style.module.css';
 // redux
 import actionsNavigator from '../../../../redux/actions/navigator';
 
+// assets
+import backgroundImg from '../../../../assets/images/background/panel/crm.jpg';
+
 // utils
 import toast from '../../../../utils/toast';
 import language, { errors as errorsLanguage } from '../../../../utils/language';
@@ -95,7 +98,7 @@ function CreateCrm() {
 
   return (
     <div>
-      <Panel title={languagePage.createTitle}>
+      <Panel background={backgroundImg} title={languagePage.createTitle}>
         <Panel.Body>
           <div className={styles.form}>
             <Box onBack={handleBack}>

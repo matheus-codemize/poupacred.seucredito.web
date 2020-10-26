@@ -14,6 +14,9 @@ import language from '../../../../utils/language';
 import actions from '../../../../redux/actions/simulation';
 import actionsNavigator from '../../../../redux/actions/navigator';
 
+// assets
+import backgroundImg from '../../../../assets/images/background/panel/simulacao.jpg';
+
 // components
 import Panel from '../../../../components/Panel';
 import Button from '../../../../components/Button';
@@ -64,7 +67,7 @@ function ProposalSimulation() {
       dispatch(actions.nextStep());
       dispatch(actions.steps([...steps, ...response]));
 
-      history.replace('/simulacao/re-simulacao');
+      history.replace('/simulacao/re-simular');
     } catch (err) {
       const message = _.get(err, 'response.data.erro', err.message);
       toast.error(message);
@@ -79,6 +82,7 @@ function ProposalSimulation() {
 
   return (
     <Panel
+      background={backgroundImg}
       title={languagePage.proposalTitle}
       subtitle={languagePage.proposalSubtitle}
       actions={[

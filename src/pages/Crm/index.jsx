@@ -6,6 +6,9 @@ import { useHistory, useLocation } from 'react-router-dom';
 // redux
 import actionsNavigator from '../../redux/actions/navigator';
 
+// assets
+import backgroundImg from '../../assets/images/background/panel/crm.jpg';
+
 // utils
 import toast from '../../utils/toast';
 import language from '../../utils/language';
@@ -91,6 +94,7 @@ function Crm() {
       <Panel
         onSearch={getDataset}
         title={languagePage.title}
+        background={backgroundImg}
         actions={[
           {
             onClick: handleCreate,

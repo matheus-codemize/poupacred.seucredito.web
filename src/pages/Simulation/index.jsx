@@ -8,6 +8,9 @@ import styles from './style.module.css';
 import actionsNavigator from '../../redux/actions/navigator';
 import actionsSimulation from '../../redux/actions/simulation';
 
+// assets
+import backgroundImg from '../../assets/images/background/panel/simulacao.jpg';
+
 // services
 import api from '../../services/api';
 
@@ -132,6 +135,7 @@ function Simulation() {
       <Panel
         onSearch={getDados}
         title={languagePage.title}
+        background={backgroundImg}
         actions={[
           {
             onClick: handleCreate,

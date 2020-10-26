@@ -17,7 +17,8 @@
     "placeholder": {
       "number": "0",
       "money": "R$ 0,00",
-      "cpf": "000.000.000-00"
+      "cpf": "000.000.000-00",
+      "phone": "(18) 99999-9999"
     }
   },
 
@@ -27,7 +28,7 @@
   },
 
   "component.margin": {
-    "btn_not": "Não sei a margem"
+    "btn_not": "Não Sei a Margem"
   },
   "component.button.plus": {
     "text": "Novo registro",

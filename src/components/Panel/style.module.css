@@ -17,10 +17,10 @@
 .section_header {
   overflow: hidden;
   transition: 0.4s ease;
+  background-size: cover;
   width: calc(100% - 4rem);
   height: var(--header-height);
   padding: var(--top-base) 2rem 0;
-  background-color: rgb(var(--color-primary));
 }
 
 .section_header[data-open='true'] {

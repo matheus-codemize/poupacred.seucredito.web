@@ -1,7 +1,7 @@
 import React, { useState, useMemo } from 'react';
-import styles from './style.module.css';
 import { Link, useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
+import styles from './style.module.css';
 
 // redux
 import actionsAuth from '../../redux/actions/auth';
@@ -23,15 +23,15 @@ function HeaderUser() {
   const sidebar = useSelector(state => state.sidebar);
 
   // component state
-  const [open, setOpen] = useState(false);
+  const [openProfile, setOpenProfile] = useState(false);
 
   function openSidebar(event) {
     if (event && typeof event.stopPropagation === 'function') {
       event.stopPropagation();
     }
 
-    if (!open) {
-      setOpen(false);
+    if (!openProfile) {
+      setOpenProfile(false);
       dispatch(actionsSidebar.open());
       dispatch(
         actionsContainer.open({ color: 'white', onClose: closeSidebar }),
@@ -50,14 +50,14 @@ function HeaderUser() {
       event.stopPropagation();
     }
 
-    setOpen(prevOpen => {
+    setOpenProfile(prevOpenProfile => {
       dispatch(
-        actionsContainer[prevOpen ? 'close' : 'open']({
+        actionsContainer[prevOpenProfile ? 'close' : 'open']({
           color: 'black',
           onClose: handleUser,
         }),
       );
-      return !prevOpen;
+      return !prevOpenProfile;
     });
   }
 
@@ -66,12 +66,12 @@ function HeaderUser() {
     dispatch(actionsAuth.logout());
   }
 
-  const renderIconUser = useMemo(() => {
+  const renderActions = useMemo(() => {
     return (
       <div className={styles.actions}>
         <i className="fas fa-flag" />
         {auth.nome && typeof auth.nome === 'string' && (
-          <span className={styles.dropdown_icon} onClick={handleUser}>
+          <span className={styles.dropdown_profile_icon} onClick={handleUser}>
             {auth.nome.charAt(0)}
           </span>
         )}
@@ -79,12 +79,12 @@ function HeaderUser() {
     );
   }, [auth.nome]);
 
-  const renderDropdownUser = useMemo(() => {
+  const renderDropdownProfile = useMemo(() => {
     return (
-      <div data-open={open} className={styles.dropdown}>
+      <div data-open={openProfile} className={styles.dropdown_profile}>
         <div className={styles.profile}>{auth.nome.charAt(0)}</div>
         <h1>{auth.nome}</h1>
-        <div className={styles.dropdown_actions}>
+        <div className={styles.dropdown_profile_actions}>
           <Link to="/perfil">{languageComp.edit}</Link>
           <Link to="/" onClick={handleLogout}>
             {languageComp.logout}
@@ -92,22 +92,22 @@ function HeaderUser() {
         </div>
       </div>
     );
-  }, [open, auth]);
+  }, [auth, openProfile]);
 
   return (
     <div
-      data-dropdown={open}
+      data-dropdown={openProfile}
       data-sidebar={sidebar.open}
       className={styles.container}
-      onClick={open ? handleUser : undefined}
+      onClick={openProfile ? handleUser : undefined}
     >
       <i
         onClick={openSidebar}
         className="fas fa-bars"
-        style={{ opacity: open ? 0.5 : 1 }}
+        style={{ opacity: openProfile ? 0.5 : 1 }}
       />
-      {renderIconUser}
-      {renderDropdownUser}
+      {renderActions}
+      {renderDropdownProfile}
     </div>
   );
 }

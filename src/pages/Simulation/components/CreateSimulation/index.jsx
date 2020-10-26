@@ -8,6 +8,9 @@ import styles from './style.module.css';
 import actions from '../../../../redux/actions/simulation';
 import actionsNavigator from '../../../../redux/actions/navigator';
 
+// assets
+import backgroundImg from '../../../../assets/images/background/panel/simulacao.jpg';
+
 // services
 import api from '../../../../services/api';
 import * as simulacaoApi from '../../../../services/simulacao';
@@ -291,9 +294,10 @@ function CreateSimulation({ ...rest }) {
   return (
     <div>
       <Panel
+        background={backgroundImg}
         title={
           languagePage[
-            location.pathname.includes('re-simulacao')
+            location.pathname.includes('re-simular')
               ? 'resimulationTitle'
               : 'createTitle'
           ]
