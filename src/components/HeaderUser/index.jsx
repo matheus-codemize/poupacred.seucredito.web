@@ -20,10 +20,10 @@ function HeaderUser() {
 
   // redux state
   const auth = useSelector(state => state.auth);
-  const sidebar = useSelector(state => state.sidebar);
 
   // component state
   const [openProfile, setOpenProfile] = useState(false);
+  const [openNotification, setOpenNotification] = useState(false);
 
   function openSidebar(event) {
     if (event && typeof event.stopPropagation === 'function') {
@@ -33,9 +33,7 @@ function HeaderUser() {
     if (!openProfile) {
       setOpenProfile(false);
       dispatch(actionsSidebar.open());
-      dispatch(
-        actionsContainer.open({ color: 'white', onClose: closeSidebar }),
-      );
+      dispatch(actionsContainer.sidebar({ onClose: closeSidebar }));
     } else {
       handleUser();
     }
@@ -45,11 +43,29 @@ function HeaderUser() {
     dispatch(actionsSidebar.close());
   }
 
+  function handleNofication(event) {
+    if (event && typeof event.stopPropagation === 'function') {
+      event.stopPropagation();
+    }
+
+    setOpenProfile(false);
+    setOpenNotification(prevOpenNotification => {
+      dispatch(
+        actionsContainer[prevOpenNotification ? 'close' : 'open']({
+          color: 'black',
+          onClose: handleUser,
+        }),
+      );
+      return !prevOpenNotification;
+    });
+  }
+
   function handleUser(event) {
     if (event && typeof event.stopPropagation === 'function') {
       event.stopPropagation();
     }
 
+    setOpenNotification(false);
     setOpenProfile(prevOpenProfile => {
       dispatch(
         actionsContainer[prevOpenProfile ? 'close' : 'open']({
@@ -69,7 +85,7 @@ function HeaderUser() {
   const renderActions = useMemo(() => {
     return (
       <div className={styles.actions}>
-        <i className="fas fa-flag" />
+        <i className="fas fa-flag" onClick={handleNofication} />
         {auth.nome && typeof auth.nome === 'string' && (
           <span className={styles.dropdown_profile_icon} onClick={handleUser}>
             {auth.nome.charAt(0)}
@@ -77,7 +93,7 @@ function HeaderUser() {
         )}
       </div>
     );
-  }, [auth.nome]);
+  }, [openProfile, auth.nome]);
 
   const renderDropdownProfile = useMemo(() => {
     return (
@@ -96,16 +112,17 @@ function HeaderUser() {
 
   return (
     <div
-      data-dropdown={openProfile}
-      data-sidebar={sidebar.open}
       className={styles.container}
-      onClick={openProfile ? handleUser : undefined}
+      data-dropdown={openProfile || openNotification}
+      onClick={
+        openProfile
+          ? handleUser
+          : openNotification
+          ? handleNofication
+          : undefined
+      }
     >
-      <i
-        onClick={openSidebar}
-        className="fas fa-bars"
-        style={{ opacity: openProfile ? 0.5 : 1 }}
-      />
+      <i onClick={openSidebar} className="fas fa-bars" />
       {renderActions}
       {renderDropdownProfile}
     </div>

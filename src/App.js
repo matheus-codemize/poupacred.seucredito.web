@@ -45,9 +45,13 @@ const pages = {
 };
 
 function App() {
+  // resources hooks
   const dispatch = useDispatch();
+
+  // redux state
   const auth = useSelector(state => state.auth);
 
+  // component state
   const [routes, setRoutes] = useState([]);
 
   /**

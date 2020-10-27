@@ -1,13 +1,16 @@
-import React, { useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
+import $ from 'jquery';
 import PropTypes from 'prop-types';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import styles from './style.module.css';
 
 // utils
 import language from '../../utils/language';
 
-// components
-import Button from '../Button';
+// redux
+import actionsContainer from '../../redux/actions/container';
+
+const languageComp = language['component.panel'];
 
 function PanelSearch({ ...rest }) {
   return <div {...rest} />;
@@ -21,213 +24,205 @@ function Panel({
   title,
   actions,
   subtitle,
-  onSearch,
   children,
+  onSearch,
   background,
   ...rest
 }) {
+  // resources hooks
+  const dispatch = useDispatch();
+
+  // redux state
   const navigator = useSelector(state => state.navigator);
 
-  const [open, setOpen] = useState(false);
-  const [searchLength, setSearchLength] = useState(0);
-  const [childrenLength, setChildrenLength] = useState(0);
+  // component state
+  const [openSearch, setOpenSearch] = useState(false);
+  const [searchSizeShow, setSearchSizeShow] = useState(0);
+  const [searchSizeTotal, setSearchSizeTotal] = useState(0);
 
-  function handleOpen() {
-    setOpen(prevOpen => !prevOpen);
+  useEffect(() => {
+    window.onload = setHeightBody;
+  }, []);
+
+  useEffect(() => {
+    setHeightBody();
+  }, [openSearch, navigator.window.size]);
+
+  function setHeightBody() {
+    if (!openSearch) {
+      setTimeout(() => {
+        const elementHeader = $(`.${styles.header}`);
+        $(`.${styles.body}`).css('top', elementHeader.innerHeight());
+      }, 400);
+    }
   }
 
-  function handleSearch() {
-    setOpen(false);
-    if (typeof onSearch === 'function') onSearch();
-  }
-
-  function handleClickAction(onClick) {
-    setOpen(false);
-    if (typeof onClick === 'function') onClick();
+  function handleActions() {
+    dispatch(actionsContainer.open({ color: 'black' }));
   }
 
   const renderTitle = useMemo(() => {
     return (
-      title && (
-        <h1>
-          {typeof title === 'string' ? (
-            <div dangerouslySetInnerHTML={{ __html: title }} />
-          ) : (
-            title
-          )}
-        </h1>
-      )
+      title &&
+      (typeof title === 'string' ? (
+        <div
+          className={styles.title}
+          dangerouslySetInnerHTML={{ __html: title }}
+        />
+      ) : (
+        React.cloneElement(title, { className: styles.title })
+      ))
     );
   }, [title]);
 
   const renderSubtitle = useMemo(() => {
     return (
-      subtitle && (
-        <h2>
-          {typeof subtitle === 'string' ? (
-            <div dangerouslySetInnerHTML={{ __html: subtitle }} />
-          ) : (
-            subtitle
-          )}
-        </h2>
-      )
+      subtitle &&
+      (typeof subtitle === 'string' ? (
+        <div
+          className={styles.subtitle}
+          dangerouslySetInnerHTML={{ __html: subtitle }}
+        />
+      ) : (
+        React.cloneElement(subtitle, { className: styles.subtitle })
+      ))
     );
   }, [subtitle]);
 
-  const renderSearch = useMemo(() => {
-    let components = [];
-    let searchChildLength = 0;
+  const renderSearchOptions = useMemo(() => {
+    let searchChildren = [];
+    const element = React.Children.toArray(children).find(
+      child => child.type === PanelSearch,
+    );
 
-    React.Children.forEach(children, child => {
-      if (child.type === PanelSearch) {
-        React.Children.forEach(child.props.children, (searchChild, index) => {
-          searchChildLength++;
-          if (open) {
-            return components.push(searchChild);
-          }
+    if (element) {
+      searchChildren = React.Children.toArray(element.props.children);
+      setSearchSizeTotal(searchChildren.length);
 
-          if (navigator.window.size.x < 800) {
-            if (index <= 1) components.push(searchChild);
-          }
+      if (!openSearch) {
+        searchChildren = searchChildren.filter(
+          (_child, index) =>
+            (navigator.window.size.x < 800 && index <= 1) ||
+            (navigator.window.size.x >= 800 &&
+              navigator.window.size.x < 1000 &&
+              index <= 2) ||
+            (navigator.window.size.x >= 1000 && index <= 3),
+        );
+      }
+      setSearchSizeShow(searchChildren.length);
 
-          if (
-            navigator.window.size.x >= 800 &&
-            navigator.window.size.x < 1000
-          ) {
-            if (index <= 2) components.push(searchChild);
-          }
+      return <div className={styles.search}>{searchChildren}</div>;
+    }
 
-          if (navigator.window.size.x >= 1000) {
-            if (index <= 3) components.push(searchChild);
-          }
+    return <></>;
+  }, [children, openSearch, navigator.window.size]);
+
+  const renderActionsHeader = useMemo(() => {
+    const actionsHeader = [...actions];
+
+    if (typeof onSearch === 'function') {
+      actionsHeader.push({
+        ...language['component.button.search'],
+        onClick: onSearch,
+      });
+    }
+
+    if (searchSizeTotal) {
+      if (openSearch || searchSizeShow !== searchSizeTotal) {
+        actionsHeader.push({
+          text: languageComp[openSearch ? 'minus' : 'more'],
+          icon: `fas fa-chevron-circle-${openSearch ? 'up' : 'down'}`,
+          onClick: () => setOpenSearch(prevOpenSearch => !prevOpenSearch),
         });
       }
-    });
+    }
 
-    setSearchLength(components.length);
-    setChildrenLength(searchChildLength);
+    if (navigator.window.size.x < 600 && actionsHeader.length > 2) {
+      return (
+        <div className={styles.actions}>
+          <button onClick={handleActions}>
+            <i className={language['component.button.action'].icon} />
+            {language['component.button.action'].text}
+          </button>
+        </div>
+      );
+    }
 
     return (
-      <>
-        <div data-action={!!actions.length} className={styles.container_filter}>
-          {components.map((component, index) =>
-            React.cloneElement(component, { key: index }),
-          )}
+      actionsHeader.length > 0 && (
+        <div className={styles.actions}>
+          {actionsHeader.map(({ icon, text, onClick }, index) => (
+            <button
+              key={index}
+              onClick={typeof onClick === 'function' ? onClick : undefined}
+            >
+              {icon && <i className={icon} />}
+              {text || ''}
+            </button>
+          ))}
         </div>
-        <div className={styles.container_filter_action}>
-          {open &&
-            actions.map((action, index) => (
-              <Button
-                gradient
-                {...action}
-                key={index}
-                onClick={() => handleClickAction(action.onClick)}
-              />
-            ))}
-          {open && (
-            <Button gradient icon="fas fa-search" onClick={handleSearch}>
-              {language['component.button.search.text']}
-            </Button>
-          )}
-        </div>
-      </>
+      )
     );
-  }, [open, children, navigator.window.size.x]);
+  }, [
+    actions,
+    onSearch,
+    openSearch,
+    searchSizeShow,
+    searchSizeTotal,
+    navigator.window.size,
+  ]);
 
-  const renderContent = useMemo(() => {
-    let component = <></>;
-    React.Children.forEach(children, child => {
-      if (child.type === PanelBody) {
-        component = child;
-      }
-    });
-
-    return component;
+  const renderBody = useMemo(() => {
+    const element = React.Children.toArray(children).find(
+      child => child.type === PanelBody,
+    );
+    return element || <></>;
   }, [children]);
 
   return (
-    <div {...rest} className={styles.container}>
+    <div
+      data-open={openSearch}
+      className={styles.container}
+      data-action={actions.length > 0 || searchSizeTotal > 0}
+    >
       <section
-        data-open={open}
-        data-size={searchLength}
-        data-filter={open || childrenLength > searchLength}
+        className={styles.header}
         style={{
-          backgroundImage: `linear-gradient(
-            to bottom,
-            rgba(var(--color-primary), 0.5),
-            rgba(var(--color-primary), 1) 70%
-          ), url(${background})`,
+          [background ? 'backgroundImage' : 'background']: background
+            ? `linear-gradient(to bottom, rgba(var(--color-primary), 0.5), rgb(var(--color-primary)) 70%) , url(${background})`
+            : 'rgb(var(--color-primary))',
         }}
-        className={styles.section_header}
       >
         {renderTitle}
         {renderSubtitle}
-        {renderSearch}
-        <div className={styles.container_action}>
-          {!open &&
-            actions.map((action, index) => {
-              const { icon, text, onClick } = action;
-              return (
-                <span
-                  key={index}
-                  onClick={typeof onClick === 'function' ? onClick : undefined}
-                >
-                  {icon && <i className={icon} />}
-                  {text || ''}
-                </span>
-              );
-            })}
-          {!open && childrenLength > 0 && (
-            <i onClick={handleSearch} className="fas fa-search" />
-          )}
-          {(open || childrenLength > searchLength) && (
-            <i
-              onClick={handleOpen}
-              className={`fas fa-chevron-circle-${open ? 'up' : 'down'}`}
-            />
-          )}
-        </div>
+        {renderSearchOptions}
+        {renderActionsHeader}
       </section>
-      <section
-        id="section_body"
-        data-open={open}
-        data-size={searchLength}
-        data-filter={open || childrenLength > searchLength}
-        className={styles.section_body}
-      >
-        {renderContent}
-      </section>
+      <section className={styles.body}>{renderBody}</section>
     </div>
   );
 }
 
+Panel.Body = PanelBody;
 Panel.Search = PanelSearch;
 
-Panel.Body = PanelBody;
-
 Panel.defaultProps = {
-  title: '',
   actions: [],
   subtitle: '',
-  children: null,
+  background: '',
   onSearch: null,
 };
 
 Panel.propTypes = {
   onSearch: PropTypes.func,
-  title: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
-  subtitle: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
+  background: PropTypes.string,
+  actions: PropTypes.arrayOf(PropTypes.object),
+  subtitle: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
+  title: PropTypes.oneOfType([PropTypes.string, PropTypes.element]).isRequired,
   children: PropTypes.oneOfType([
     PropTypes.node,
     PropTypes.arrayOf(PropTypes.node),
   ]),
-  actions: PropTypes.arrayOf(
-    PropTypes.shape({
-      icon: PropTypes.string,
-      text: PropTypes.string,
-      onClick: PropTypes.func,
-    }),
-  ),
 };
 
 export default Panel;

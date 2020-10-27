@@ -7,7 +7,7 @@ const actions = {
   }),
   navigatorType: data => ({
     type: actionsTypes.UPDATE,
-    payload: { navigator: { type: data } },
+    payload: { type: data },
   }),
   startLoading: () => ({
     type: actionsTypes.STARTLOADING,

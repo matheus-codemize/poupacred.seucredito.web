@@ -3,7 +3,7 @@ import _ from 'lodash';
 import { useDispatch, useSelector } from 'react-redux';
 
 // redux
-import actionsNavigator from '../../redux/actions/navigator';
+import actionsContainer from '../../redux/actions/container';
 
 // assets
 import backgroundImg from '../../assets/images/background/panel/proposta.jpg';
@@ -34,9 +34,13 @@ const languagePage = language['page.proposal'];
 const languageForm = language['component.form.props'];
 
 function Proposal() {
+  // resources hooks
   const dispatch = useDispatch();
+
+  // redux state
   const navigator = useSelector(state => state.navigator);
 
+  // component state
   const [filter, setFilter] = useState({});
   const [bancos, setBancos] = useState([]);
   const [dataset, setDataset] = useState([]);
@@ -53,7 +57,7 @@ function Proposal() {
   }, [pagination.current]);
 
   async function initComponent() {
-    dispatch(actionsNavigator.startLoading());
+    dispatch(actionsContainer.loading());
     await Promise.all([getProdutos(), getBancos(), getConvenios()]).then(
       getDados,
     );
@@ -76,7 +80,7 @@ function Proposal() {
 
   async function getDados() {
     try {
-      dispatch(actionsNavigator.startLoading());
+      dispatch(actionsContainer.loading());
 
       // const url = '/proposta/listar';
       // const response = await api.post(url, { ...filter, pagination });
@@ -116,7 +120,7 @@ function Proposal() {
       const message = _.get(err, 'response.data.erro', err.message);
       toast.error(message);
     } finally {
-      dispatch(actionsNavigator.finishLoading());
+      dispatch(actionsContainer.close());
     }
   }
 

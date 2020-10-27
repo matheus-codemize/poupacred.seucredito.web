@@ -5,7 +5,7 @@ import { useHistory, useLocation } from 'react-router-dom';
 import styles from './style.module.css';
 
 // redux
-import actionsNavigator from '../../redux/actions/navigator';
+import actionsContainer from '../../redux/actions/container';
 import actionsSimulation from '../../redux/actions/simulation';
 
 // assets
@@ -68,7 +68,7 @@ function Simulation() {
 
   async function getDados() {
     try {
-      dispatch(actionsNavigator.startLoading());
+      dispatch(actionsContainer.loading());
 
       const url = '/simulacoes/listar';
       const response = await api.post(url, { ...filter, pagination });
@@ -81,7 +81,7 @@ function Simulation() {
       const message = _.get(err, 'response.data.erro', err.message);
       toast.error(message);
     } finally {
-      dispatch(actionsNavigator.finishLoading());
+      dispatch(actionsContainer.close());
     }
   }
 
@@ -90,7 +90,7 @@ function Simulation() {
       const { simulacao_id, status_id } = item;
 
       if (simulacao_id && status_id) {
-        dispatch(actionsNavigator.startLoading());
+        dispatch(actionsContainer.loading());
 
         const url = `/simulacao/${status_id === 1 ? 'rascunho' : 'margem'}`;
         history.push(url);
@@ -99,7 +99,7 @@ function Simulation() {
       const message = _.get(err, 'response.data.erro', err.message);
       toast.error(message);
     } finally {
-      dispatch(actionsNavigator.finishLoading());
+      dispatch(actionsContainer.close());
     }
   }
 

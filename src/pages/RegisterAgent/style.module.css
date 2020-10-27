@@ -1,8 +1,9 @@
 .container {
   display: flex;
+  flex-direction: row;
+  margin: -8rem auto 0;
   justify-content: center;
   width: calc(100% - 4rem);
-  margin: -10rem auto 1rem;
 }
 
 .container h1 {
@@ -13,50 +14,35 @@
   border-bottom: 2px solid rgb(var(--color-disabled));
 }
 
-.container[data-step='2'] h1 {
-  text-align: center;
+.container form > button[type='submit'] {
+  width: 100%;
+  margin: 0 auto;
+  display: block;
 }
 
-.container form {
+.form {
+  width: 100%;
   display: flex;
+  flex-wrap: wrap;
+  padding: 2rem 0 0;
   position: relative;
-  padding: 2rem 1rem 0;
   flex-direction: column;
-  width: calc(100% - 2rem);
   justify-content: space-between;
 }
 
-.container form > div {
-  margin: 0 0 1rem;
-}
-
-.container form > div:last-child {
-  width: 100%;
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-}
-
-.container form > div:last-child button[type='submit'] {
-  width: 100%;
-}
-
 @media (min-width: 800px) {
+  /* last step */
   .container[data-step='2'] h1,
   .container[data-step='2'] form {
-    width: 70%;
+    width: 400px;
     margin: 0 auto;
-    max-width: 500px;
   }
 
-  .container h1,
-  .container form {
-    flex-wrap: wrap;
+  .container form > button[type='submit'] {
+    max-width: 400px;
+  }
+
+  .form {
     flex-direction: row;
-    align-items: stretch;
-  }
-
-  .container form > div:last-child button[type='submit'] {
-    max-width: 32%;
   }
 }

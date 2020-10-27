@@ -43,6 +43,10 @@ function Input({
     let { value: valueSelected } = event.target;
 
     switch (type) {
+      case 'cep':
+        valueSelected = format.zipcode(valueSelected, value);
+        break;
+
       case 'cpf':
         valueSelected = format.cpf(valueSelected, value);
         break;
@@ -172,7 +176,7 @@ Input.propTypes = {
   display: PropTypes.oneOf(['vertical', 'horizontal']),
   htmlType: PropTypes.oneOf(['text', 'password', 'email']),
   col: PropTypes.oneOfType([PropTypes.func, PropTypes.number]),
-  type: PropTypes.oneOf(['text', 'cpf', 'phone', 'money', 'number']),
+  type: PropTypes.oneOf(['text', 'cep', 'cpf', 'phone', 'money', 'number']),
 };
 
 export default Input;

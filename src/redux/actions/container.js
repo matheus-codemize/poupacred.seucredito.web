@@ -7,11 +7,15 @@ const actions = {
   }),
   close: () => ({
     type: actionsTypes.UPDATE,
-    payload: { open: false, loading: false },
+    payload: { open: false, loading: false, onClose: () => {} },
   }),
   loading: data => ({
     type: actionsTypes.UPDATE,
-    payload: { open: true, loading: true, ...data },
+    payload: { open: true, loading: true, color: 'black', ...data },
+  }),
+  sidebar: data => ({
+    type: actionsTypes.UPDATE,
+    payload: { open: true, color: 'white', ...data },
   }),
 };
 
