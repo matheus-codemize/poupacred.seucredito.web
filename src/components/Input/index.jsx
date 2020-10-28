@@ -76,8 +76,10 @@ function Input({
 
   const renderPlaceholder = useMemo(() => {
     switch (type) {
+      case 'cep':
       case 'cpf':
       case 'money':
+      case 'phone':
         return languageComp.placeholder[type];
 
       default:

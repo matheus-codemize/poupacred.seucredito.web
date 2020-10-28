@@ -6,6 +6,7 @@ import styles from './style.module.css';
 
 // redux
 import actionsNavigator from '../../../../redux/actions/navigator';
+import actionsContainer from '../../../../redux/actions/container';
 
 // assets
 import backgroundImg from '../../../../assets/images/background/panel/crm.jpg';
@@ -43,10 +44,10 @@ function CreateCrm() {
   }, []);
 
   async function getConvenios() {
-    dispatch(actionsNavigator.startLoading());
+    dispatch(actionsContainer.loading());
     const data = await convenioApi.list();
     setConvenios(data);
-    dispatch(actionsNavigator.finishLoading());
+    dispatch(actionsContainer.close());
   }
 
   function handleBack() {
@@ -81,7 +82,7 @@ function CreateCrm() {
         return setStep(prevStep => prevStep + 1);
       }
 
-      dispatch(actionsNavigator.startLoading());
+      dispatch(actionsContainer.loading());
       // const url = '';
       // await api.post(url, { convenio: register.convenio });
       return history.push('/success', {
@@ -92,13 +93,18 @@ function CreateCrm() {
       const message = _.get(err, 'response.data.erro', err.message);
       toast.error(message);
     } finally {
-      dispatch(actionsNavigator.finishLoading());
+      dispatch(actionsContainer.close());
     }
   }
 
   return (
     <div>
-      <Panel background={backgroundImg} title={languagePage.createTitle}>
+      <Panel
+        useDivider
+        background={backgroundImg}
+        title={languagePage.title}
+        subtitle={languagePage.createTitle}
+      >
         <Panel.Body>
           <div className={styles.form}>
             <Box onBack={handleBack}>

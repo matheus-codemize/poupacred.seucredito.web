@@ -16,11 +16,11 @@ function TermPolity({ ...rest }) {
       dangerouslySetInnerHTML={{
         __html: language['agree.term.polity']
           .replace(
-            '$term',
+            '[term]',
             `<a href=${Term} target='_blank'>${language['term']}</a>`,
           )
           .replace(
-            '$polity',
+            '[polity]',
             `<a href=${Polity} target='_blank'>${language['polity']}</a>`,
           ),
       }}

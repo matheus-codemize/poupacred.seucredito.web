@@ -7,7 +7,7 @@ const actions = {
   }),
   close: () => ({
     type: actionsTypes.UPDATE,
-    payload: { open: false, loading: false, onClose: () => {} },
+    payload: { open: false, loading: false, color: 'black', onClose: () => {} },
   }),
   loading: data => ({
     type: actionsTypes.UPDATE,

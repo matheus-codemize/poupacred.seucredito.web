@@ -5,6 +5,7 @@ import { useHistory, useLocation } from 'react-router-dom';
 
 // redux
 import actionsNavigator from '../../redux/actions/navigator';
+import actionsContainer from '../../redux/actions/container';
 
 // assets
 import backgroundImg from '../../assets/images/background/panel/crm.jpg';
@@ -44,7 +45,7 @@ function Crm() {
   }, []);
 
   async function initComponent() {
-    dispatch(actionsNavigator.startLoading());
+    dispatch(actionsContainer.loading());
     await getConvenio().then(getDataset);
   }
 
@@ -55,20 +56,20 @@ function Crm() {
 
   async function getDataset() {
     try {
-      dispatch(actionsNavigator.startLoading());
+      dispatch(actionsContainer.loading());
 
-      // const url = '/crm/listar';
-      // const response = await api.post(url, { ...filter, pagination });
-      // setDataset(response.dados);
-      // setPagination(prevPagination => ({
-      //   ...prevPagination,
-      //   total: response.total,
-      // }));
+      const url = '/crm/listar';
+      const response = await api.post(url, { ...filter, pagination });
+      setDataset(response.dados);
+      setPagination(prevPagination => ({
+        ...prevPagination,
+        total: response.total,
+      }));
     } catch (err) {
       const message = _.get(err, 'response.data.erro', err.message);
       toast.error(message);
     } finally {
-      dispatch(actionsNavigator.finishLoading());
+      dispatch(actionsContainer.close());
     }
   }
 
@@ -79,10 +80,6 @@ function Crm() {
 
   function handleCreate() {
     history.push('/crm/novo');
-  }
-
-  function renderFooterBoxData(item) {
-    return <></>;
   }
 
   if (location.pathname.includes('novo')) {
@@ -131,7 +128,6 @@ function Crm() {
             data={dataset}
             pagination={pagination}
             onPagination={setPagination}
-            dataFooter={renderFooterBoxData}
           />
         </Panel.Body>
       </Panel>

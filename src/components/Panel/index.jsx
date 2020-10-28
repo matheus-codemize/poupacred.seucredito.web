@@ -9,6 +9,7 @@ import language from '../../utils/language';
 
 // redux
 import actionsContainer from '../../redux/actions/container';
+import { useLocation } from 'react-router-dom';
 
 const languageComp = language['component.panel'];
 
@@ -27,38 +28,93 @@ function Panel({
   children,
   onSearch,
   background,
+  useDivider,
   ...rest
 }) {
   // resources hooks
   const dispatch = useDispatch();
+  const location = useLocation();
 
   // redux state
   const navigator = useSelector(state => state.navigator);
 
   // component state
+  const [showAction, setShowAction] = useState(false);
   const [openSearch, setOpenSearch] = useState(false);
   const [searchSizeShow, setSearchSizeShow] = useState(0);
   const [searchSizeTotal, setSearchSizeTotal] = useState(0);
+  const [topOfActions, setTopOfActions] = useState(0);
+
+  // elements of document
+  const sectionBody = document.getElementById('section_body');
+  const sectionHeader = document.getElementById('section_header');
+  const elementSearch = document.getElementById('container_search');
 
   useEffect(() => {
-    window.onload = setHeightBody;
+    $(window).scrollTop(0);
   }, []);
 
   useEffect(() => {
-    setHeightBody();
-  }, [openSearch, navigator.window.size]);
+    window.removeEventListener('scroll', blockActions);
+    window.addEventListener('scroll', blockActions);
 
-  function setHeightBody() {
-    if (!openSearch) {
-      setTimeout(() => {
-        const elementHeader = $(`.${styles.header}`);
-        $(`.${styles.body}`).css('top', elementHeader.innerHeight());
-      }, 400);
+    return () => {
+      window.removeEventListener('scroll', blockActions);
+    };
+  }, [topOfActions]);
+
+  useEffect(() => {
+    if (sectionHeader) {
+      /**
+       * ajuste do elemento ´div search´
+       */
+      if (elementSearch) {
+        const { offsetTop } = elementSearch;
+        elementSearch.style.maxHeight = openSearch
+          ? `calc(100vh - ${offsetTop}px - 8rem)`
+          : 'auto';
+      }
+
+      /**
+       * ajuste do elemento ´section body´
+       */
+      if (sectionBody && !openSearch) {
+        setTimeout(() => {
+          const { offsetHeight } = sectionHeader;
+          sectionBody.style.top = showAction
+            ? `calc(${offsetHeight}px + 7rem)`
+            : offsetHeight;
+          sectionBody.style.height = `calc(100vh - ${offsetHeight}px - 2rem${
+            showAction ? ' - 7rem' : ''
+          })`;
+        }, 400);
+      }
+    }
+  }, [
+    showAction,
+    openSearch,
+    sectionBody,
+    sectionHeader,
+    elementSearch,
+    navigator.window.size,
+  ]);
+
+  function blockActions() {
+    const action = document.getElementById('section_action');
+
+    if (action) {
+      if (!topOfActions) return setTopOfActions(action.offsetTop);
+
+      if (window.pageYOffset >= topOfActions) {
+        action.classList.add(styles.action_block);
+      } else {
+        action.classList.remove(styles.action_block);
+      }
     }
   }
 
   function handleActions() {
-    dispatch(actionsContainer.open({ color: 'black' }));
+    dispatch(actionsContainer.open());
   }
 
   const renderTitle = useMemo(() => {
@@ -111,7 +167,11 @@ function Panel({
       }
       setSearchSizeShow(searchChildren.length);
 
-      return <div className={styles.search}>{searchChildren}</div>;
+      return (
+        <div id="container_search" className={styles.search}>
+          {searchChildren}
+        </div>
+      );
     }
 
     return <></>;
@@ -137,20 +197,22 @@ function Panel({
       }
     }
 
+    setShowAction(actionsHeader.length > 0);
+
     if (navigator.window.size.x < 600 && actionsHeader.length > 2) {
       return (
-        <div className={styles.actions}>
+        <section id="section_action" className={styles.actions}>
           <button onClick={handleActions}>
             <i className={language['component.button.action'].icon} />
             {language['component.button.action'].text}
           </button>
-        </div>
+        </section>
       );
     }
 
     return (
       actionsHeader.length > 0 && (
-        <div className={styles.actions}>
+        <section id="section_action" className={styles.actions}>
           {actionsHeader.map(({ icon, text, onClick }, index) => (
             <button
               key={index}
@@ -160,7 +222,7 @@ function Panel({
               {text || ''}
             </button>
           ))}
-        </div>
+        </section>
       )
     );
   }, [
@@ -182,10 +244,12 @@ function Panel({
   return (
     <div
       data-open={openSearch}
+      data-action={showAction}
+      data-divider={useDivider}
       className={styles.container}
-      data-action={actions.length > 0 || searchSizeTotal > 0}
     >
       <section
+        id="section_header"
         className={styles.header}
         style={{
           [background ? 'backgroundImage' : 'background']: background
@@ -196,9 +260,11 @@ function Panel({
         {renderTitle}
         {renderSubtitle}
         {renderSearchOptions}
-        {renderActionsHeader}
       </section>
-      <section className={styles.body}>{renderBody}</section>
+      {renderActionsHeader}
+      <section id="section_body" className={styles.body}>
+        {renderBody}
+      </section>
     </div>
   );
 }
@@ -211,10 +277,12 @@ Panel.defaultProps = {
   subtitle: '',
   background: '',
   onSearch: null,
+  useDivider: false,
 };
 
 Panel.propTypes = {
   onSearch: PropTypes.func,
+  useDivider: PropTypes.bool,
   background: PropTypes.string,
   actions: PropTypes.arrayOf(PropTypes.object),
   subtitle: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),

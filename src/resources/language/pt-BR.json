@@ -3,20 +3,21 @@
   "title": "SEU CRÉDITO",
   "term": "Termos de Uso",
   "polity": "Política de Privacidade",
-  "agree.term.polity": "Continuando, você aceita e condorda com os $term e $polity",
+  "agree.term.polity": "Continuando, você aceita e condorda com os [term] e [polity]",
 
   "component.listempty": {
     "text": "Ops .. Não há informações"
   },
   "component.header.user": {
-    "edit": "Editar dados",
-    "logout": "Sair"
+    "logout": "Sair",
+    "edit": "Editar dados"
   },
 
   "component.input": {
     "placeholder": {
       "number": "0",
       "money": "R$ 0,00",
+      "cep": "00000-000",
       "cpf": "000.000.000-00",
       "phone": "(18) 99999-9999"
     }
@@ -322,7 +323,7 @@
       "title": "Solicitação realizada com Sucesso",
       "description": "Estamos analisando sua solicitação. Acompanhe o status da sua solicitação na página CRM."
     },
-    "createTitle": "CRM <br /> Solicitação de Mailing",
+    "createTitle": "Solicitação de Mailing",
     "details": {
       "agente": "Agente",
       "convenioId": "Código do Convênio",

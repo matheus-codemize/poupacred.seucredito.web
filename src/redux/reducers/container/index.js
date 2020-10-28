@@ -2,7 +2,7 @@ import actionsTypes from '../../constants/container';
 
 const inital_state = {
   open: false,
-  color: 'white',
+  color: 'black',
   loading: false,
   onClose: () => {},
 };

@@ -39,7 +39,7 @@ function BoxData({ logo, title, subtitle, details, footer, ...rest }) {
       .map((item, index) => (
         <div key={index} className={styles.details}>
           <h1>{item.title}</h1>
-          <p>{item.description}</p>
+          <p>{item.value}</p>
         </div>
       ));
   }, [details]);
@@ -69,7 +69,13 @@ BoxData.propTypes = {
   logo: PropTypes.string,
   title: PropTypes.string,
   subtitle: PropTypes.string,
-  details: PropTypes.arrayOf(PropTypes.object),
+  details: PropTypes.arrayOf(
+    PropTypes.shape({
+      title: PropTypes.string.isRequired,
+      value: PropTypes.string.isRequired,
+      isDescription: PropTypes.bool,
+    }),
+  ),
 };
 
 export default BoxData;
