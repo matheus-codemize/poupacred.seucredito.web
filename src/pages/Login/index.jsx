@@ -144,7 +144,6 @@ function Login() {
             actions.signIn({
               ...request,
               type,
-              primeiro_acesso: true,
               login: register.login,
               senha: hash.encrypt(register.senha),
             }),
