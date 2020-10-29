@@ -4,6 +4,7 @@
   display: flex;
   padding: 2rem;
   font-size: 1.8rem;
+  line-height: 2rem;
   visibility: hidden;
   position: absolute;
   align-items: center;

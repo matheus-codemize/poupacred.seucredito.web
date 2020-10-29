@@ -14,14 +14,12 @@ const reducers = (state = inital_state, action) => {
   const { type, payload } = action;
 
   switch (type) {
+    case actionsTypes.FIRST:
     case actionsTypes.SIGNIN:
       return { ...state, ...payload };
 
     case actionsTypes.LOGOUT:
       return { ...inital_state };
-
-    case actionsTypes.FIRST:
-      return { ...state, primeiro_acesso: payload };
 
     default:
       return state;

@@ -7,6 +7,7 @@ import styles from './style.module.css';
 // redux
 import actions from '../../../../redux/actions/simulation';
 import actionsNavigator from '../../../../redux/actions/navigator';
+import actionsContainer from '../../../../redux/actions/container';
 
 // assets
 import backgroundImg from '../../../../assets/images/background/panel/simulacao.jpg';
@@ -91,7 +92,7 @@ function CreateSimulation({ ...rest }) {
   async function getClientByCpf() {
     try {
       if (register.cpf && register.cpf.length === 14) {
-        dispatch(actionsNavigator.startLoading());
+        dispatch(actionsContainer.loading());
         const url = `/simulacoes/clientes/buscar?cpf=${register.cpf}`;
         let { id, nascimento, ...data } = await api.get(url);
 
@@ -103,7 +104,7 @@ function CreateSimulation({ ...rest }) {
       }
     } catch (err) {
     } finally {
-      dispatch(actionsNavigator.finishLoading());
+      dispatch(actionsContainer.close());
     }
   }
 
@@ -122,7 +123,7 @@ function CreateSimulation({ ...rest }) {
       const url = '/simulacoes/produtos/campos';
 
       if (step === keysStep.length - 1 && !steps.length) {
-        dispatch(actionsNavigator.startLoading());
+        dispatch(actionsContainer.loading());
         response = await api.post(url, {
           ...register,
           nascimento: moment(register.nascimento).format('DD/MM/YYYY'),
@@ -135,7 +136,7 @@ function CreateSimulation({ ...rest }) {
         step - keysStep.length === steps.length - 1 &&
         _.get(steps[step - keysStep.length], 'propriedades.step', false)
       ) {
-        dispatch(actionsNavigator.startLoading());
+        dispatch(actionsContainer.loading());
         response = await api.post(url, {
           ...register,
           nascimento: moment(register.nascimento).format('DD/MM/YYYY'),
@@ -150,14 +151,14 @@ function CreateSimulation({ ...rest }) {
       const message = _.get(err, 'response.data.erro', err.message);
       toast.error(`Opss .. ${message}`);
     } finally {
-      dispatch(actionsNavigator.finishLoading());
+      dispatch(actionsContainer.close());
     }
   }
 
   async function handleSave(event) {
     try {
       event.preventDefault();
-      dispatch(actionsNavigator.startLoading());
+      dispatch(actionsContainer.loading());
 
       const url = '/simulacoes/simular';
       const response = await api.post(url, {
@@ -169,7 +170,7 @@ function CreateSimulation({ ...rest }) {
       const message = _.get(err, 'response.data.erro', err.message);
       toast.error(message);
     } finally {
-      dispatch(actionsNavigator.finishLoading());
+      dispatch(actionsContainer.close());
     }
   }
 
@@ -294,6 +295,7 @@ function CreateSimulation({ ...rest }) {
   return (
     <div>
       <Panel
+        useDivider
         background={backgroundImg}
         title={
           languagePage[

@@ -12,7 +12,7 @@ import language from '../../utils/language';
 // components
 import Button from '../Button';
 
-function Box({ help, onBack, children, ...rest }) {
+function Box({ help, size, onBack, children, ...rest }) {
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -44,7 +44,7 @@ function Box({ help, onBack, children, ...rest }) {
   }, [help]);
 
   return (
-    <div className={styles.container}>
+    <div data-size={size} className={styles.container}>
       {onBack && (
         <div className={styles.back}>
           <Button
@@ -72,12 +72,14 @@ function Box({ help, onBack, children, ...rest }) {
 
 Box.defaultProps = {
   help: '',
+  size: 'lg',
   onBack: false,
   children: <></>,
 };
 
 Box.propTypes = {
   onBack: PropTypes.func,
+  size: PropTypes.oneOf(['sm', 'md', 'lg']),
   help: PropTypes.oneOfType([PropTypes.node, PropTypes.string]),
   children: PropTypes.oneOfType([
     PropTypes.node,

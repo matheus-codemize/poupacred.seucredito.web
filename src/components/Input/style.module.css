@@ -45,7 +45,7 @@
 
 .container input[type='password'] {
   padding-right: 4.2rem;
-  width: calc(100% - 5.4rem);
+  width: calc(100% - 5.6rem);
 }
 
 .container[data-display='horizontal'] {

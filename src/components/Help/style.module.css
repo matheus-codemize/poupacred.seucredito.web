@@ -1,8 +1,8 @@
 .help {
+  overflow: hidden;
   margin-top: 1rem;
   font-size: 1.5rem;
-
-  overflow: hidden;
+  line-height: 2rem;
   white-space: nowrap;
   text-overflow: ellipsis;
 }

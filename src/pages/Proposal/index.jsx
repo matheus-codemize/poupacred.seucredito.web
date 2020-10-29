@@ -113,12 +113,7 @@ function Proposal() {
 
   const renderDadaset = useMemo(() => {
     return dataset.map(item => ({
-      logo: item.logo,
-      details: [
-        { value: item.id, label: languageForm.proposta.label },
-        { value: item.status, label: languageForm.status.label },
-        { value: item.cpf, title: item.nome, isDescription: true },
-      ],
+      ...item,
       footer: (
         <Button
           gradient

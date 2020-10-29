@@ -141,12 +141,4 @@
     flex: 1;
     margin: 0 1rem;
   }
-
-  .header .search > div:first-child {
-    margin-left: 0;
-  }
-
-  .header .search > div:last-child {
-    margin-right: 0;
-  }
 }

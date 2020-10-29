@@ -1,4 +1,10 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react';
 import $ from 'jquery';
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
@@ -31,6 +37,11 @@ function Panel({
   useDivider,
   ...rest
 }) {
+  // references
+  const body = useRef(null);
+  const header = useRef(null);
+  const search = useRef(null);
+
   // resources hooks
   const dispatch = useDispatch();
   const location = useLocation();
@@ -45,10 +56,32 @@ function Panel({
   const [searchSizeTotal, setSearchSizeTotal] = useState(0);
   const [topOfActions, setTopOfActions] = useState(0);
 
-  // elements of document
-  const sectionBody = document.getElementById('section_body');
-  const sectionHeader = document.getElementById('section_header');
-  const elementSearch = document.getElementById('container_search');
+  useEffect(() => {
+    if (header.current) {
+      console.log('entrou');
+      /**
+       * ajuste do elemento ´div search´
+       */
+      if (search.current) {
+        search.current.style.maxHeight = openSearch
+          ? `calc(100vh - ${search.current.offsetTop}px - 8rem)`
+          : 'auto';
+      }
+
+      /**
+       * ajuste do elemento ´section body´
+       */
+      if (body.current && !openSearch) {
+        const { offsetHeight } = header.current;
+        body.current.style.top = showAction
+          ? `calc(${offsetHeight}px + 7rem)`
+          : offsetHeight;
+        body.current.style.height = `calc(100vh - ${offsetHeight}px - 2rem${
+          showAction ? ' - 7rem' : ''
+        })`;
+      }
+    }
+  });
 
   useEffect(() => {
     $(window).scrollTop(0);
@@ -62,42 +95,6 @@ function Panel({
       window.removeEventListener('scroll', blockActions);
     };
   }, [topOfActions]);
-
-  useEffect(() => {
-    if (sectionHeader) {
-      /**
-       * ajuste do elemento ´div search´
-       */
-      if (elementSearch) {
-        const { offsetTop } = elementSearch;
-        elementSearch.style.maxHeight = openSearch
-          ? `calc(100vh - ${offsetTop}px - 8rem)`
-          : 'auto';
-      }
-
-      /**
-       * ajuste do elemento ´section body´
-       */
-      if (sectionBody && !openSearch) {
-        setTimeout(() => {
-          const { offsetHeight } = sectionHeader;
-          sectionBody.style.top = showAction
-            ? `calc(${offsetHeight}px + 7rem)`
-            : offsetHeight;
-          sectionBody.style.height = `calc(100vh - ${offsetHeight}px - 2rem${
-            showAction ? ' - 7rem' : ''
-          })`;
-        }, 400);
-      }
-    }
-  }, [
-    showAction,
-    openSearch,
-    sectionBody,
-    sectionHeader,
-    elementSearch,
-    navigator.window.size,
-  ]);
 
   function blockActions() {
     const action = document.getElementById('section_action');
@@ -168,7 +165,7 @@ function Panel({
       setSearchSizeShow(searchChildren.length);
 
       return (
-        <div id="container_search" className={styles.search}>
+        <div ref={search} className={styles.search}>
           {searchChildren}
         </div>
       );
@@ -249,7 +246,7 @@ function Panel({
       className={styles.container}
     >
       <section
-        id="section_header"
+        ref={header}
         className={styles.header}
         style={{
           [background ? 'backgroundImage' : 'background']: background
@@ -262,7 +259,7 @@ function Panel({
         {renderSearchOptions}
       </section>
       {renderActionsHeader}
-      <section id="section_body" className={styles.body}>
+      <section ref={body} className={styles.body}>
         {renderBody}
       </section>
     </div>

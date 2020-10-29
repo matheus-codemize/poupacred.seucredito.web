@@ -1,17 +1,22 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import _ from 'lodash';
-import { useLocation } from 'react-router-dom';
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { useHistory, useLocation } from 'react-router-dom';
 import styles from './style.module.css';
 
 // redux
 import actions from '../../redux/actions/auth';
+import actionsContainer from '../../redux/actions/container';
+
+// assets
+import logo from '../../assets/images/logo.png';
+import bannerDesktop from '../../assets/images/login-bg.jpg';
+import bannerMobile from '../../assets/images/login-bg-mobile.jpg';
 
 // utils
 import hash from '../../utils/hash';
 import toast from '../../utils/toast';
-import format from '../../utils/format';
-import language, { errors as errorsLanguage } from '../../utils/language';
+import language, { errors as languageErrors } from '../../utils/language';
 
 // services
 import api from '../../services/api';
@@ -19,243 +24,302 @@ import api from '../../services/api';
 // resources
 import registerDefault from '../../resources/data/register/user';
 
-// component
+// components
 import Box from '../../components/Box';
-import Panel from '../../components/Panel';
 import Input from '../../components/Input';
 import Button from '../../components/Button';
+import Carousel from '../../components/Carousel';
+
+const languagePage = language['page.login'];
+const languageForm = language['component.form.props'];
 
 function Login() {
+  // references
+  const formRef = useRef(null);
+  const bannerRef = useRef(null);
+
+  // resources hooks
+  const history = useHistory();
   const location = useLocation();
   const dispatch = useDispatch();
 
+  // redux state
   const auth = useSelector(state => state.auth);
+  const navigator = useSelector(state => state.navigator);
 
+  // component style
+  const [step, setStep] = useState(0);
   const [type, setType] = useState('');
-  const [error, setError] = useState('');
-  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState({});
   const [register, setRegister] = useState({ ...registerDefault });
 
-  // state para o 1º acesso
-  const [senha, setSenha] = useState('');
-  const [confirma_senha, setConfirmaSenha] = useState('');
+  useEffect(() => {
+    if (formRef.current && bannerRef.current) {
+      bannerRef.current.style.top = `${formRef.current.offsetTop}px`;
+    }
+  });
 
   useEffect(() => {
-    const { state } = location;
+    setType(prevType => (step ? prevType : ''));
+  }, [step]);
 
-    if (state) {
-      if (state.type && ['agent', 'client'].includes(state.type)) {
-        setType(state.type);
-      }
+  useEffect(() => {
+    const typeParam = _.get(location, 'state.login.type', '');
+    const registerParam = _.get(location, 'state.login.register', null);
 
-      if (state.login) {
-        setRegister(prevRegister => ({ ...prevRegister, login: state.login }));
-      }
+    handleChooseType(typeParam);
+    setRegister(prevRegister => ({ ...prevRegister, ...registerParam }));
+  }, [location.state]);
+
+  useEffect(() => {
+    if (step < 2 && auth.primeiro_acesso) {
+      setStep(2);
     }
-  }, [location, location.state]);
+  }, [step, auth.primeiro_acesso]);
 
-  async function handleLogin(event) {
-    try {
-      event.preventDefault();
-      handleLoading('on');
+  function handleBack() {
+    if (!step) return history.replace('/');
+    setStep(prevStep => prevStep - 1);
+  }
 
-      const url = `/${type}es/login`;
-      const request = await api.post(url, register);
-      return dispatch(
-        actions.signIn({
-          ...request,
-          type: type,
-          login: register.login,
-          senha: hash.encrypt(register.senha),
-        }),
-      );
-    } catch (err) {
-      const message = _.get(err, 'response.data.erro', err.message);
-      setError(message);
-      setRegister(prevRegister => ({ ...prevRegister, senha: '' }));
-    } finally {
-      handleLoading();
+  function handleNext() {
+    setStep(prevStep => prevStep + 1);
+  }
+
+  function handleChooseType(typeSelected) {
+    if (typeSelected) {
+      handleNext();
+      setType(typeSelected);
     }
   }
 
-  async function handleFirsAccess(event) {
+  async function handleSubmit(event) {
     try {
       event.preventDefault();
 
-      if (senha !== confirma_senha) {
-        return setError(errorsLanguage.password);
+      const data = {};
+
+      if (auth.primeiro_acesso) {
+        if (register.novaSenha.length < 6) {
+          return setError(prevError => ({
+            ...prevError,
+            novaSenha: languageErrors.length
+              .replace('[field]', languageForm.novaSenha.label)
+              .replace('[length]', '6'),
+          }));
+        }
+
+        if (register.novaSenha !== register.confirmaSenha) {
+          return setError(prevError => ({
+            ...prevError,
+            confirmaSenha: languageErrors.password,
+          }));
+        }
+
+        data.senhaAtual = hash.decrypt(auth.senha);
+        data.novaSenha = register.novaSenha;
+      } else {
+        if (register.senha.length < 6) {
+          return setError(prevError => ({
+            ...prevError,
+            senha: languageErrors.length
+              .replace('[field]', languageForm.senha.label)
+              .replace('[length]', '6'),
+          }));
+        }
+
+        data.login = register.login;
+        data.senha = register.senha;
       }
 
-      handleLoading('on');
+      dispatch(actionsContainer.loading());
+      const url = auth.primeiro_acesso
+        ? '/agentes/primeiro-acesso'
+        : `/${type}es/login`;
+      const request = await api.post(url, data);
 
-      const url = `/agentes/primeiro-acesso`;
-      const data = { senhaAtual: hash.decrypt(auth.senha), novaSenha: senha };
-      await api.post(url, data);
-      return dispatch(actions.first(false));
+      return auth.primeiro_acesso
+        ? dispatch(actions.first())
+        : dispatch(
+            actions.signIn({
+              ...request,
+              type,
+              primeiro_acesso: true,
+              login: register.login,
+              senha: hash.encrypt(register.senha),
+            }),
+          );
     } catch (err) {
-      const error = _.get(err, 'response.data', err.message);
+      const responseErro = _.get(err, 'response.data', err.message);
 
-      if (typeof error === 'string') {
-        return toast.error(error);
+      if (
+        typeof responseErro === 'string' ||
+        (typeof responseErro === 'object' && responseErro.codigo !== 29)
+      ) {
+        return setError(prevError => ({
+          ...prevError,
+          [auth.primeiro_acesso ? 'confirmaSenha' : 'senha']:
+            typeof responseErro === 'string' ? responseErro : responseErro.erro,
+        }));
       }
 
-      switch (error.codigo) {
-        case 29: // Agente já realizou o primeiro acesso
-          toast.info(error.erro);
-          return dispatch(actions.first(false));
-
-        default:
-          setError(error.erro);
-          break;
-      }
+      /**
+       * Erro 29 - Agente já realizou o primeiro acesso
+       * É o único erro mapeado pois só se conhece tal erro
+       */
+      toast.info(responseErro.erro);
+      dispatch(actions.first());
     } finally {
-      handleLoading();
+      dispatch(actionsContainer.close());
     }
-  }
-
-  function handleLoading(type = 'off') {
-    setLoading(prevLoading => {
-      if (type === 'on' && !prevLoading) return true;
-      if (type === 'off' && prevLoading) return false;
-      return prevLoading;
-    });
   }
 
   function handleChange(event) {
-    let { id, value } = event.target;
-
-    switch (id) {
-      case 'login':
-        value = format.cpf(value, register.login);
-        break;
-
-      default:
-        break;
-    }
-
-    setError('');
+    const { id, value } = event.target;
+    setError(prevError => ({ ...prevError, [id]: '' }));
     setRegister(prevRegister => ({ ...prevRegister, [id]: value }));
   }
 
-  function handleSenha(event) {
-    const { id, value } = event.target;
-
-    setError('');
-    if (id === 'senha') {
-      setSenha(value);
-    } else {
-      setConfirmaSenha(value);
-    }
+  function handleLogout() {
+    setStep(0);
+    setRegister({ ...registerDefault });
+    dispatch(actions.logout());
   }
 
+  const disabledBtnLogin = useMemo(() => {
+    return (
+      Object.keys(error).filter(key => error[key]).length > 0 ||
+      (step <= 1
+        ? !register.login || !register.senha
+        : !register.novaSenha || !register.confirmaSenha)
+    );
+  }, [step, error, register]);
+
+  const renderHelp = (
+    <div className={styles.help}>
+      <ul>
+        {languagePage.helpLogin.map((help, index) => (
+          <li key={index}>{help}</li>
+        ))}
+      </ul>
+    </div>
+  );
+
+  const renderBanner = useMemo(() => {
+    return (
+      <div
+        ref={bannerRef}
+        className={styles.banner}
+        style={{
+          backgroundImage: `url(${
+            navigator.type === 'mobile' ? bannerMobile : bannerDesktop
+          })`,
+        }}
+      />
+    );
+  }, [navigator.type]);
+
   return (
-    <div>
-      <Panel
-        title={
-          auth.primeiro_acesso
-            ? language['login.first.title'].replace(
+    <div className={styles.container}>
+      <div className={styles.header}>
+        <img src={logo} onClick={() => history.push('/')} />
+        {auth.primeiro_acesso && (
+          <label className={styles.logout} onClick={handleLogout}>
+            <i className={language['component.button.logout'].icon} />
+            {language['component.button.logout'].text}
+          </label>
+        )}
+      </div>
+      <h1 className={styles.title}>
+        {step <= 1 ? (
+          languagePage.title
+        ) : (
+          <div
+            dangerouslySetInnerHTML={{
+              __html: languagePage.titleFirst.replace(
                 '[name]',
-                `<span style="font-style: italic;">${auth.nome || ''}</span>`,
-              )
-            : language['login.title']
-        }
-      >
-        <Panel.Body>
-          <div className={styles.container}>
-            <div className={styles.form}>
-              <Box
-                onBack={
-                  !auth.primeiro_acesso && type ? () => setType('') : false
-                }
-              >
-                {auth.primeiro_acesso ? (
-                  <form onSubmit={handleFirsAccess}>
-                    <div className={styles.container_login}>
-                      <h1>{language['login.first.subtitle']}</h1>
-                      <Input
-                        id="senha"
-                        value={senha}
-                        htmlType="password"
-                        onChange={handleSenha}
-                        help={language['login.first.input'].senha.help}
-                        placeholder={
-                          language['login.first.input'].senha.placeholder
-                        }
-                      />
-                      <Input
-                        help={error}
-                        helpType="error"
-                        id="confirma_senha"
-                        htmlType="password"
-                        value={confirma_senha}
-                        onChange={handleSenha}
-                        placeholder={
-                          language['login.first.input'].confirma_senha
-                            .placeholder
-                        }
-                      />
-                      <Button
-                        light
-                        loading={loading}
-                        htmlType="submit"
-                        icon="fa fa-sign-in"
-                        disabled={!senha || !confirma_senha || !!error}
-                      >
-                        {language['login.first.input'].btn_sigin.text}
-                      </Button>
-                    </div>
-                  </form>
-                ) : type ? (
-                  <form onSubmit={handleLogin}>
-                    <div className={styles.container_login}>
-                      <Input
-                        id="login"
-                        disabled={loading}
-                        onChange={handleChange}
-                        value={register.login || ''}
-                        {...language['login.input'].login}
-                      />
-                      <Input
-                        id="senha"
-                        help={error}
-                        helpType="error"
-                        disabled={loading}
-                        htmlType="password"
-                        onChange={handleChange}
-                        value={register.senha || ''}
-                        {...language['login.input'].senha}
-                      />
-                      <Button
-                        light
-                        loading={loading}
-                        htmlType="submit"
-                        icon="fa fa-sign-in"
-                        disabled={!register.login || !register.senha}
-                      >
-                        {language['login.input'].btn_sigin.text}
-                      </Button>
-                    </div>
-                  </form>
-                ) : (
-                  <div className={styles.container_type}>
-                    <h1>{language['login.enterby'].title}</h1>
-                    <Button icon="fa fa-user" onClick={() => setType('client')}>
-                      {language['login.enterby'].client}
-                    </Button>
-                    <Button
-                      type="secondary"
-                      icon="fa fa-user-tie"
-                      onClick={() => setType('agent')}
-                    >
-                      {language['login.enterby'].agent}
-                    </Button>
+                `<span style="font-style: italic;">${
+                  (auth.nome && auth.nome.split(' ')[0]) || ''
+                }</span>`,
+              ),
+            }}
+          />
+        )}
+      </h1>
+      <form ref={formRef} className={styles.form} onSubmit={handleSubmit}>
+        <Box
+          size="sm"
+          help={step === 1 ? renderHelp : ''}
+          onBack={auth.primeiro_acesso && step === 2 ? undefined : handleBack}
+        >
+          <Carousel step={step}>
+            <Carousel.Step>
+              <h1>{languagePage.titleType}</h1>
+              <div className={styles.form_type}>
+                {languagePage.types.map((item, index) => (
+                  <div key={index} onClick={() => handleChooseType(item.value)}>
+                    <i className={item.icon} />
+                    <label>{item.label}</label>
                   </div>
-                )}
-              </Box>
-            </div>
-          </div>
-        </Panel.Body>
-      </Panel>
+                ))}
+              </div>
+            </Carousel.Step>
+            <Carousel.Step>
+              <Input
+                id="login"
+                type="cpf"
+                helpType="error"
+                onChange={handleChange}
+                help={error.login || ''}
+                value={register.login || ''}
+                {...languageForm.cpf}
+              />
+              <Input
+                id="senha"
+                helpType="error"
+                htmlType="password"
+                onChange={handleChange}
+                help={error.senha || ''}
+                value={register.senha || ''}
+                {...languageForm.senha}
+              />
+            </Carousel.Step>
+            <Carousel.Step>
+              <h1>{languagePage.subtitleFirst}</h1>
+              <Input
+                id="novaSenha"
+                helpType="error"
+                htmlType="password"
+                onChange={handleChange}
+                help={error.novaSenha || ''}
+                value={register.novaSenha || ''}
+                placeholder={languageForm.novaSenha.placeholder}
+              />
+              <Input
+                helpType="error"
+                id="confirmaSenha"
+                htmlType="password"
+                onChange={handleChange}
+                help={error.confirmaSenha || ''}
+                value={register.confirmaSenha || ''}
+                placeholder={languageForm.confirmaSenha.placeholder}
+              />
+            </Carousel.Step>
+          </Carousel>
+          {step > 0 && (
+            <Button
+              light
+              data-unique
+              htmlType="submit"
+              disabled={disabledBtnLogin}
+              {...language[
+                `component.button.${step <= 1 ? 'login' : 'register'}`
+              ]}
+            />
+          )}
+        </Box>
+      </form>
+      {renderBanner}
     </div>
   );
 }

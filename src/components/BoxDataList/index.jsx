@@ -14,11 +14,34 @@ function BoxDataList({ data, pagination, onPagination, ...rest }) {
     }
   }
 
+  function convertKeys(item) {
+    if (item && typeof item === 'object') {
+      let { details = [] } = item;
+
+      item.title = item.nome;
+
+      if (Array.isArray(item.blocos)) {
+        details = [
+          ...details,
+          ...item.blocos.map(bloco => ({
+            title: bloco.nome,
+            value: bloco.valor,
+            ...bloco,
+          })),
+        ];
+      }
+
+      return { ...item, details };
+    }
+
+    return {};
+  }
+
   return (
     <div className={styles.container}>
       <div data-size={data.length} className={styles.content}>
         {data.map((item, index) => (
-          <BoxData {...item} key={index} />
+          <BoxData {...convertKeys(item)} key={index} />
         ))}
         <ListEmpty visible={data.length === 0} />
       </div>

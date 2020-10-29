@@ -1,14 +1,14 @@
-/* eslint-disable camelcase */
-import React, { useMemo, useEffect, useState } from 'react';
+import React, { useMemo, useEffect, useState, useRef } from 'react';
 import $ from 'jquery';
 import { useHistory } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
+import styles from './style.module.css';
+
+// assets
+import logo from '../../assets/images/logo.png';
 
 // redux
 import actionsAuth from '../../redux/actions/auth';
-
-// css
-import styles from './style.module.css';
 
 // components
 import Button from '../../components/Button';
@@ -27,10 +27,17 @@ const bannersDesktop = [
 ];
 
 function Landing() {
+  // references
+  const headerRef = useRef(null);
+
+  // resources hooks
   const history = useHistory();
   const dispatch = useDispatch();
 
+  // redux state
   const auth = useSelector(state => state.auth);
+
+  // component state
   /**
    * State para controle das animações JS
    */
@@ -39,6 +46,7 @@ function Landing() {
   const [indexStep, setIndexStep] = useState(0);
   const [intervalStep, setIntervalStep] = useState(null);
 
+  const [scroll, setScroll] = useState(0);
   const [width, setWidth] = useState(window.innerWidth);
 
   useEffect(() => {
@@ -57,16 +65,11 @@ function Landing() {
 
   useEffect(() => {
     window.addEventListener('resize', resizeWindow);
-
-    if (!navigator.userAgent.toLowerCase().includes('mobile')) {
-      window.addEventListener('scroll', scrollWindow);
-    }
+    window.addEventListener('scroll', scrollWindow);
 
     return () => {
       window.removeEventListener('resize', resizeWindow);
-      if (!navigator.userAgent.toLowerCase().includes('mobile')) {
-        window.removeEventListener('scroll', scrollWindow);
-      }
+      window.removeEventListener('scroll', scrollWindow);
     };
   }, [navigator.userAgent]);
 
@@ -104,17 +107,47 @@ function Landing() {
     const { advantage_title, advantage, animation_visible } = styles;
     const classes = [advantage_title, advantage];
 
-    classes.forEach(classSelector => {
-      $(`.${classSelector}`).each(function () {
-        const top_of_object = $(this).offset().top;
-        const bottom_of_window = $(window).scrollTop() + $(window).height();
-        if (parseInt(bottom_of_window) >= parseInt(top_of_object)) {
-          $(this).addClass(animation_visible);
+    setScroll(prevScroll => {
+      if (headerRef.current) {
+        if (!window.scrollY) {
+          headerRef.current.style.top = 0;
+          headerRef.current.style.position = 'absolute';
         } else {
-          $(this).removeClass(animation_visible);
+          setTimeout(() => {
+            headerRef.current.style.position = 'fixed';
+          }, 400);
+
+          if (prevScroll > window.scrollY) {
+            headerRef.current.style.top = 0;
+          } else {
+            headerRef.current.style.top = `-${
+              headerRef.current.offsetHeight + 5
+            }px`;
+          }
         }
-      });
+
+        if (prevScroll > 80) {
+          headerRef.current.classList.add(styles.header_block);
+        } else {
+          headerRef.current.classList.remove(styles.header_block);
+        }
+      }
+      return window.scrollY;
     });
+
+    if (!navigator.userAgent.toLowerCase().includes('mobile')) {
+      classes.forEach(classSelector => {
+        $(`.${classSelector}`).each(function () {
+          const top_of_object = $(this).offset().top;
+          const bottom_of_window = $(window).scrollTop() + $(window).height();
+          if (parseInt(bottom_of_window) >= parseInt(top_of_object)) {
+            $(this).addClass(animation_visible);
+          } else {
+            $(this).removeClass(animation_visible);
+          }
+        });
+      });
+    }
   }
 
   function initIntervalBanner() {
@@ -166,11 +199,19 @@ function Landing() {
   }
 
   function handleClient() {
-    history.push('/login', { type: 'client' });
+    history.push('/login', { login: { type: 'client' } });
   }
 
   function handleAgent() {
     history.push('/register/agent');
+  }
+
+  function handleTop() {
+    $('html, body').animate({ scrollTop: 0 });
+  }
+
+  function handleLogin() {
+    history.push('/login');
   }
 
   const renderTitle = useMemo(() => {
@@ -232,6 +273,10 @@ function Landing() {
 
   return (
     <div className={styles.container}>
+      <head ref={headerRef} className={styles.header}>
+        <img src={logo} onClick={handleTop} />
+        <Button onClick={handleLogin} {...language['component.button.login']} />
+      </head>
       <section className={styles.section_header}>
         {bannersDesktop.map((banner, index) => (
           <div

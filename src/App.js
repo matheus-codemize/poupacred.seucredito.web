@@ -5,6 +5,7 @@ import {
   Switch,
   Redirect,
   BrowserRouter as Router,
+  useLocation,
 } from 'react-router-dom';
 
 // redux
@@ -108,7 +109,7 @@ function App() {
     <Router>
       <Container />
       {routes.length > 0 && <Sidebar />}
-      {!routes.length ? <Header /> : <HeaderUser />}
+      {!!auth.uid && !auth.primeiro_acesso && <HeaderUser />}
       <BoxHelp />
       <SelectList />
       <Switch>
