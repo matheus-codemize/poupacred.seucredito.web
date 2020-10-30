@@ -119,14 +119,14 @@ function Login() {
         data.senhaAtual = hash.decrypt(auth.senha);
         data.novaSenha = register.novaSenha;
       } else {
-        if (register.senha.length < 6) {
-          return setError(prevError => ({
-            ...prevError,
-            senha: languageErrors.length
-              .replace('[field]', languageForm.senha.label)
-              .replace('[length]', '6'),
-          }));
-        }
+        // if (register.senha.length < 6) {
+        //   return setError(prevError => ({
+        //     ...prevError,
+        //     senha: languageErrors.length
+        //       .replace('[field]', languageForm.senha.label)
+        //       .replace('[length]', '6'),
+        //   }));
+        // }
 
         data.login = register.login;
         data.senha = register.senha;

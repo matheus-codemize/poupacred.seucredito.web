@@ -14,6 +14,8 @@ import language from '../../utils/language';
 import Help from '../../components/Help';
 import Label from '../../components/Label';
 
+const typesAcceptValue = ['number', 'string'];
+
 function Select({
   id,
   col,
@@ -25,6 +27,7 @@ function Select({
   display,
   options,
   required,
+  multiple,
   helpType,
   onChange,
   onFilter,
@@ -47,27 +50,46 @@ function Select({
         open,
         value,
         options,
+        multiple,
         onChange: selectOption,
         filter: async ? '' : filter,
       }),
     );
-  }, [id, open, async, filter, value, options]);
+  }, [id, open, async, filter, value, options, multiple]);
 
   useEffect(() => {
     setFilter('');
-    const optionSelected = options.find(
-      option => option.value.toString() === value.toString(),
-    );
+    let optionSelected;
 
-    if (optionSelected) {
-      setText(optionSelected.label);
-    } else {
-      setText('');
+    if (multiple && Array.isArray(value)) {
+      setText(
+        value.length
+          ? value
+              .map(v => {
+                optionSelected = options.find(
+                  option => option.value.toString() === v.toString(),
+                );
+
+                return optionSelected ? optionSelected.label : '';
+              })
+              .filter(v => !!v)
+              .join('; ')
+              .trim()
+          : '',
+      );
     }
-  }, [id, value, options]);
+
+    if (!multiple && typesAcceptValue.includes(typeof value)) {
+      optionSelected = options.find(
+        option => option.value.toString() === value.toString(),
+      );
+      setText(optionSelected ? optionSelected.label : '');
+    }
+  }, [id, value, options, multiple]);
 
   function handleChange(event) {
-    setFilter(event.target.value);
+    const { value } = event.target;
+    setFilter(value);
   }
 
   function handleFocus() {
@@ -79,9 +101,20 @@ function Select({
     if (typeof onBlur === 'function') onBlur({ target: { id, value } });
   }
 
-  function selectOption(valueSelected = '') {
-    if (typeof onChange === 'function' && value !== valueSelected) {
-      onChange({ target: { id, value: valueSelected } });
+  function selectOption(valueSelected) {
+    const valueR = valueSelected ? (multiple ? [...value] : value) : '';
+
+    if (valueR && multiple) {
+      const index = valueR.indexOf(valueSelected);
+      if (index === -1) {
+        valueR.push(valueSelected);
+      } else {
+        valueR.splice(index, 1);
+      }
+    }
+
+    if (typeof onChange === 'function') {
+      onChange({ target: { id, value: valueR || (multiple && []) } });
     }
   }
 
@@ -104,7 +137,9 @@ function Select({
 
   const renderBtnClear = useMemo(() => {
     return (
-      value && (
+      (multiple
+        ? Array.isArray(value) && value.length > 0
+        : typesAcceptValue.includes(typeof value) && value) && (
         <i
           className="fa fa-close"
           onClick={() => selectOption('')}
@@ -112,7 +147,7 @@ function Select({
         />
       )
     );
-  }, [value, label]);
+  }, [value, label, multiple]);
 
   return (
     <div
@@ -146,6 +181,7 @@ Select.defaultProps = {
   onBlur: null,
   onFilter: null,
   required: false,
+  multiple: false,
   display: 'vertical',
   helpType: 'default',
   placeholder: language['component.select.placeholder'],
@@ -157,6 +193,7 @@ Select.propTypes = {
   help: PropTypes.string,
   label: PropTypes.string,
   required: PropTypes.bool,
+  multiple: PropTypes.bool,
   onFilter: PropTypes.func,
   helpType: PropTypes.string,
   placeholder: PropTypes.string,
@@ -165,7 +202,11 @@ Select.propTypes = {
   display: PropTypes.oneOf(['vertical', 'horizontal']),
   options: PropTypes.arrayOf(PropTypes.object).isRequired,
   col: PropTypes.oneOfType([PropTypes.func, PropTypes.number]),
-  value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  value: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.number,
+    PropTypes.array,
+  ]),
 };
 
 export default Select;

@@ -6,6 +6,7 @@ const inital_state = {
   filter: '',
   open: false,
   options: [],
+  multiple: false,
   onChange: () => {},
 };
 

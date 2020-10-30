@@ -58,7 +58,7 @@ function Crm() {
     try {
       dispatch(actionsContainer.loading());
 
-      const url = '/crm/listar';
+      const url = '/crm/solicitacao/listar/resumo';
       const response = await api.post(url, { ...filter, pagination });
       setDataset(response.dados);
       setPagination(prevPagination => ({
@@ -66,6 +66,7 @@ function Crm() {
         total: response.total,
       }));
     } catch (err) {
+      console.log(_.get(err, 'response.data', null));
       const message = _.get(err, 'response.data.erro', err.message);
       toast.error(message);
     } finally {
@@ -102,16 +103,18 @@ function Crm() {
       >
         <Panel.Search>
           <Select
-            id="convenio"
+            multiple
+            id="lista_convenios"
             options={convenios}
             onChange={handleFilter}
-            value={filter.convenio || ''}
+            value={filter.lista_convenios || ''}
             {...languageForm.convenio}
           />
           <Select
-            id="status"
+            multiple
+            id="lista_status"
             onChange={handleFilter}
-            value={filter.status || ''}
+            value={filter.lista_status || ''}
             options={languagePage.list.status}
             {...languageForm.status}
           />

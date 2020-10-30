@@ -8,8 +8,10 @@ import language from '../../utils/language';
 
 function SelectList() {
   const idSelector = '#container_select_list';
-  const select = useSelector(state => state.select);
+  // redux state
   const navigator = useSelector(state => state.navigator);
+  const select = useSelector(state => state.select);
+  const { id, open, value, options, multiple, onChange, filter } = select;
 
   const element = useMemo(() => {
     return select.open ? document.getElementById(select.id) : null;
@@ -42,21 +44,17 @@ function SelectList() {
     );
   }
 
-  const handleChange = useCallback(
-    value => {
-      if (typeof select.onChange === 'function') {
-        select.onChange(value);
-      }
-    },
-    [select.onChange],
-  );
+  function handleChange(valueSelected) {
+    if (typeof onChange === 'function') {
+      onChange(valueSelected);
+    }
+  }
 
   const renderOptions = useMemo(() => {
-    let render = [];
-    const { value, filter } = select;
+    let render = null;
 
-    if (select.options) {
-      render = select.options
+    if (Array.isArray(options) && options.length) {
+      render = options
         .filter(
           option =>
             !filter ||
@@ -67,17 +65,21 @@ function SelectList() {
             {...option.optionProps}
             key={index}
             onMouseDown={() => handleChange(option.value)}
-            data-selected={option.value === value ? 'on' : 'off'}
+            data-selected={
+              (multiple ? value.includes(option.value) : option.value === value)
+                ? 'on'
+                : 'off'
+            }
           >
             {option.label}
           </li>
         ));
     }
 
-    return render.length ? (
-      render
-    ) : (
-      <div className={styles.empty}>{language['component.select.empty']}</div>
+    return (
+      render || (
+        <div className={styles.empty}>{language['component.select.empty']}</div>
+      )
     );
   }, [select]);
 
