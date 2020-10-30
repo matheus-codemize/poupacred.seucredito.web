@@ -22,6 +22,7 @@ import BoxHelp from './components/BoxHelp';
 import Container from './components/Container';
 import SelectList from './components/SelectList';
 import HeaderUser from './components/HeaderUser';
+import PanelAction from './components/PanelAction';
 
 // pages
 import Crm from './pages/Crm';
@@ -112,6 +113,7 @@ function App() {
       {!!auth.uid && !auth.primeiro_acesso && <HeaderUser />}
       <BoxHelp />
       <SelectList />
+      <PanelAction />
       <Switch>
         <Route exact path="/">
           <Landing />

@@ -30,10 +30,14 @@ const languagePage = language['page.crm'];
 const languageForm = language['component.form.props'];
 
 function CreateCrm() {
+  // resources hooks
   const history = useHistory();
   const dispatch = useDispatch();
+
+  // redux state
   const auth = useSelector(state => state.auth);
 
+  // component state
   const [step, setStep] = useState(0);
   const [error, setError] = useState({});
   const [register, setRegister] = useState({});
@@ -51,10 +55,7 @@ function CreateCrm() {
   }
 
   function handleBack() {
-    if (step === 0) {
-      return history.goBack();
-    }
-
+    if (!step) return history.goBack();
     setStep(prevStep => prevStep - 1);
   }
 
@@ -97,6 +98,13 @@ function CreateCrm() {
     }
   }
 
+  const disabledBtnRegister = useMemo(() => {
+    return (
+      Object.keys(error).filter(key => error[key]).length > 0 ||
+      !register.convenio
+    );
+  }, [step, error, register]);
+
   return (
     <div>
       <Panel
@@ -106,8 +114,8 @@ function CreateCrm() {
         subtitle={languagePage.createTitle}
       >
         <Panel.Body>
-          <div className={styles.form}>
-            <Box onBack={handleBack}>
+          <form className={styles.form} onSubmit={handleSave}>
+            <Box size="sm" onBack={handleBack}>
               <Carousel step={step}>
                 <Carousel.Step>
                   <Select
@@ -142,16 +150,14 @@ function CreateCrm() {
                 </Carousel.Step>
               </Carousel>
               <Button
-                gradient
-                onClick={handleSave}
-                icon={`fas fa-${step ? 'check' : 'chevron-right'}`}
-              >
-                {step
-                  ? languagePage.register
-                  : language['component.button.next'].text}
-              </Button>
+                light
+                data-unique
+                htmlType="submit"
+                disabled={disabledBtnRegister}
+                {...language[`component.button.${step ? 'next' : 'register'}`]}
+              />
             </Box>
-          </div>
+          </form>
         </Panel.Body>
       </Panel>
     </div>

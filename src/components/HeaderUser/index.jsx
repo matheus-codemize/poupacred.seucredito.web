@@ -86,13 +86,12 @@ function HeaderUser() {
       event.stopPropagation();
     }
 
-    if (!openProfile) {
-      setOpenProfile(false);
-      dispatch(actionsSidebar.open());
-      dispatch(actionsContainer.sidebar({ onClose: closeSidebar }));
-    } else {
-      handleUser();
-    }
+    if (openProfile) return handleProfile();
+    if (openNotification) return handleNofication();
+
+    setOpenProfile(false);
+    dispatch(actionsSidebar.open());
+    dispatch(actionsContainer.sidebar({ onClose: closeSidebar }));
   }
 
   function closeSidebar() {
@@ -115,7 +114,7 @@ function HeaderUser() {
     });
   }
 
-  function handleUser(event) {
+  function handleProfile(event) {
     if (event && typeof event.stopPropagation === 'function') {
       event.stopPropagation();
     }
@@ -124,7 +123,7 @@ function HeaderUser() {
     setOpenProfile(prevOpenProfile => {
       dispatch(
         actionsContainer[prevOpenProfile ? 'close' : 'open']({
-          onClose: handleUser,
+          onClose: handleProfile,
         }),
       );
       return !prevOpenProfile;
@@ -212,7 +211,10 @@ function HeaderUser() {
         <i className="fas fa-flag" onClick={handleNofication} />
         {renderDropdownNotification}
         {auth.nome && typeof auth.nome === 'string' && (
-          <span onClick={handleUser} className={styles.dropdown_profile_icon}>
+          <span
+            onClick={handleProfile}
+            className={styles.dropdown_profile_icon}
+          >
             {auth.nome.charAt(0)}
           </span>
         )}
@@ -232,7 +234,7 @@ function HeaderUser() {
       data-dropdown={openProfile || openNotification}
       onClick={
         openProfile
-          ? handleUser
+          ? handleProfile
           : openNotification
           ? handleNofication
           : undefined

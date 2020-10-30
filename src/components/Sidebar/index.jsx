@@ -9,7 +9,7 @@ import actionsAuth from '../../redux/actions/auth';
 import actionsContainer from '../../redux/actions/container';
 
 // utils
-import language from '../../utils/language'
+import language from '../../utils/language';
 
 // resources
 import { routesAgent, routesClient } from '../../resources/data/sidebar/routes';
@@ -55,14 +55,12 @@ function Sidebar() {
     dispatch(actionsContainer.close());
   }
 
-  function handleLogout() {
-    history.push('/');
-    dispatch(actions.close());
-    dispatch(actionsAuth.logout());
-  }
-
   const renderHeader = useMemo(() => {
-    return <div className={styles.header}>{language['title']}</div>;
+    return (
+      <div className={styles.header} onClick={selectRoute}>
+        <h1>{language['title']}</h1>
+      </div>
+    );
   }, [sidebar, sidebar.open]);
 
   return (

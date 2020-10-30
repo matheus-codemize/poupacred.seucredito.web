@@ -1,0 +1,26 @@
+.container {
+  z-index: 4;
+  left: 1rem;
+  right: 1rem;
+  display: block;
+  margin: 0 auto;
+  bottom: -100vh;
+  position: fixed;
+  transition: 0.4s ease;
+}
+
+.container[data-open='true'] {
+  bottom: 1rem;
+}
+
+.action {
+  padding: 2rem;
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+}
+
+.action > button {
+  flex: 1 1 40%;
+  margin: 0 1rem 1rem;
+}

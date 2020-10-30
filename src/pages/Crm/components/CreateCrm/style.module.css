@@ -1,9 +1,6 @@
 .form {
-  top: -2rem;
-  margin: 0 auto;
-  max-width: 500px;
   position: relative;
-  width: calc(100% - 4rem);
+  margin: 0 auto 2rem;
 }
 
 .detail {

@@ -1,12 +1,7 @@
-import React, {
-  useCallback,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import $ from 'jquery';
 import PropTypes from 'prop-types';
+import { useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import styles from './style.module.css';
 
@@ -14,8 +9,7 @@ import styles from './style.module.css';
 import language from '../../utils/language';
 
 // redux
-import actionsContainer from '../../redux/actions/container';
-import { useLocation } from 'react-router-dom';
+import actionsRedux from '../../redux/actions/panel';
 
 const languageComp = language['component.panel'];
 
@@ -52,13 +46,12 @@ function Panel({
   // component state
   const [showAction, setShowAction] = useState(false);
   const [openSearch, setOpenSearch] = useState(false);
+  const [topOfActions, setTopOfActions] = useState(0);
   const [searchSizeShow, setSearchSizeShow] = useState(0);
   const [searchSizeTotal, setSearchSizeTotal] = useState(0);
-  const [topOfActions, setTopOfActions] = useState(0);
 
   useEffect(() => {
     if (header.current) {
-      console.log('entrou');
       /**
        * ajuste do elemento ´div search´
        */
@@ -72,13 +65,15 @@ function Panel({
        * ajuste do elemento ´section body´
        */
       if (body.current && !openSearch) {
-        const { offsetHeight } = header.current;
-        body.current.style.top = showAction
-          ? `calc(${offsetHeight}px + 7rem)`
-          : offsetHeight;
-        body.current.style.height = `calc(100vh - ${offsetHeight}px - 2rem${
-          showAction ? ' - 7rem' : ''
-        })`;
+        setTimeout(() => {
+          const { offsetHeight } = header.current;
+          body.current.style.top = showAction
+            ? `calc(${offsetHeight}px + 7rem)`
+            : offsetHeight;
+          body.current.style.height = `calc(100vh - ${offsetHeight}px - 2rem${
+            showAction ? ' - 7rem' : ''
+          })`;
+        }, 400);
       }
     }
   });
@@ -108,10 +103,6 @@ function Panel({
         action.classList.remove(styles.action_block);
       }
     }
-  }
-
-  function handleActions() {
-    dispatch(actionsContainer.open());
   }
 
   const renderTitle = useMemo(() => {
@@ -180,29 +171,49 @@ function Panel({
     if (typeof onSearch === 'function') {
       actionsHeader.push({
         ...language['component.button.search'],
+        id: 1,
         onClick: onSearch,
       });
     }
 
-    if (searchSizeTotal) {
-      if (openSearch || searchSizeShow !== searchSizeTotal) {
-        actionsHeader.push({
-          text: languageComp[openSearch ? 'minus' : 'more'],
-          icon: `fas fa-chevron-circle-${openSearch ? 'up' : 'down'}`,
-          onClick: () => setOpenSearch(prevOpenSearch => !prevOpenSearch),
-        });
-      }
+    if (searchSizeTotal && (openSearch || searchSizeShow !== searchSizeTotal)) {
+      actionsHeader.push({
+        id: 2,
+        text: languageComp[openSearch ? 'minus' : 'more'],
+        icon: `fas fa-chevron-circle-${openSearch ? 'up' : 'down'}`,
+        onClick: () => setOpenSearch(prevOpenSearch => !prevOpenSearch),
+      });
     }
 
     setShowAction(actionsHeader.length > 0);
 
     if (navigator.window.size.x < 600 && actionsHeader.length > 2) {
+      const actionFixed =
+        // action para expandir e fechar painel de pesquisa
+        actionsHeader.find(action => action.id === 2) ||
+        // action para disparar a pesquisa
+        actionsHeader.find(action => action.id === 1);
+
+      dispatch(
+        actionsRedux.actions(
+          actionsHeader.filter(
+            action => !actionFixed || action.id !== actionFixed.id,
+          ),
+        ),
+      );
+
       return (
         <section id="section_action" className={styles.actions}>
-          <button onClick={handleActions}>
+          <button onClick={() => dispatch(actionsRedux.open())}>
             <i className={language['component.button.action'].icon} />
             {language['component.button.action'].text}
           </button>
+          {actionFixed && (
+            <button onClick={actionFixed.onClick}>
+              <i className={actionFixed.icon} />
+              {actionFixed.text}
+            </button>
+          )}
         </section>
       );
     }
