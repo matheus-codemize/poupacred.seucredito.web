@@ -23,6 +23,62 @@ function HeaderUser() {
 
   // component state
   const [openProfile, setOpenProfile] = useState(false);
+  const [notifications, setNotifications] = useState([
+    {
+      id: 1,
+      icone: 'fas fa-user',
+      titulo: 'A margem saiu!',
+      texto: 'Já era hora, não é mesmo ?!?!',
+      url: '...',
+      data: '5 min',
+      lido: false,
+    },
+    {
+      id: 1,
+      icone: 'fas fa-user',
+      titulo: 'A margem saiu!',
+      texto: 'Já era hora, não é mesmo ?!?!',
+      url: '...',
+      data: '5 min',
+      lido: false,
+    },
+    {
+      id: 1,
+      icone: 'fas fa-user',
+      titulo: 'A margem saiu!',
+      texto: 'Já era hora, não é mesmo ?!?!',
+      url: '...',
+      data: '5 min',
+      lido: false,
+    },
+    {
+      id: 1,
+      icone: 'fas fa-user',
+      titulo: 'A margem saiu!',
+      texto: 'Já era hora, não é mesmo ?!?!',
+      url: '...',
+      data: '5 min',
+      lido: false,
+    },
+    {
+      id: 1,
+      icone: 'fas fa-user',
+      titulo: 'A margem saiu!',
+      texto: 'Já era hora, não é mesmo ?!?!',
+      url: '...',
+      data: '5 min',
+      lido: false,
+    },
+    {
+      id: 1,
+      icone: 'fas fa-user',
+      titulo: 'A margem saiu!',
+      texto: 'Já era hora, não é mesmo ?!?!',
+      url: '...',
+      data: '5 min',
+      lido: false,
+    },
+  ]);
   const [openNotification, setOpenNotification] = useState(false);
 
   function openSidebar(event) {
@@ -52,8 +108,7 @@ function HeaderUser() {
     setOpenNotification(prevOpenNotification => {
       dispatch(
         actionsContainer[prevOpenNotification ? 'close' : 'open']({
-          color: 'black',
-          onClose: handleUser,
+          onClose: handleNofication,
         }),
       );
       return !prevOpenNotification;
@@ -69,7 +124,6 @@ function HeaderUser() {
     setOpenProfile(prevOpenProfile => {
       dispatch(
         actionsContainer[prevOpenProfile ? 'close' : 'open']({
-          color: 'black',
           onClose: handleUser,
         }),
       );
@@ -80,35 +134,97 @@ function HeaderUser() {
   function handleLogout() {
     history.push('/');
     dispatch(actionsAuth.logout());
+    dispatch(actionsContainer.close());
   }
+
+  const renderDropdownProfile = useMemo(() => {
+    return (
+      <div
+        data-type="profile"
+        data-open={openProfile}
+        className={styles.dropdown}
+      >
+        <div className={styles.dropdown_profile}>
+          <div className={styles.profile}>{auth.nome.charAt(0)}</div>
+          <h1>{auth.nome}</h1>
+          <ul>
+            <li>
+              <Link to="/perfil">{languageComp.edit}</Link>
+            </li>
+            <li>
+              <Link to="/" onClick={handleLogout}>
+                {languageComp.logout}
+              </Link>
+            </li>
+          </ul>
+        </div>
+      </div>
+    );
+  }, [auth, openProfile]);
+
+  const renderDropdownNotification = useMemo(() => {
+    return (
+      <div
+        data-type="notification"
+        data-open={openNotification}
+        className={styles.dropdown}
+      >
+        <div className={styles.dropdown_notification}>
+          {notifications.length ? (
+            <>
+              <h1>
+                {languageComp.notificationCount.replace(
+                  '[length]',
+                  notifications.length,
+                )}
+              </h1>
+              <ul>
+                {notifications.map((item, index) => (
+                  <li key={index}>
+                    <i className={item.icone} />
+                    <div>
+                      <h1>
+                        {item.titulo}
+                        <span>
+                          <i className="fa fa-clock-o" /> {item.data}
+                        </span>
+                      </h1>
+                      <p>{item.texto}</p>
+                    </div>
+                  </li>
+                ))}
+              </ul>
+              <Link to="/notificacoes">{languageComp.showAll}</Link>
+            </>
+          ) : (
+            <div className={styles.dropdown_empty}>
+              {languageComp.noticationEmpty}
+            </div>
+          )}
+        </div>
+      </div>
+    );
+  }, [notifications, openNotification]);
 
   const renderActions = useMemo(() => {
     return (
       <div className={styles.actions}>
         <i className="fas fa-flag" onClick={handleNofication} />
+        {renderDropdownNotification}
         {auth.nome && typeof auth.nome === 'string' && (
-          <span className={styles.dropdown_profile_icon} onClick={handleUser}>
+          <span onClick={handleUser} className={styles.dropdown_profile_icon}>
             {auth.nome.charAt(0)}
           </span>
         )}
+        {renderDropdownProfile}
       </div>
     );
-  }, [openProfile, auth.nome]);
-
-  const renderDropdownProfile = useMemo(() => {
-    return (
-      <div data-open={openProfile} className={styles.dropdown_profile}>
-        <div className={styles.profile}>{auth.nome.charAt(0)}</div>
-        <h1>{auth.nome}</h1>
-        <div className={styles.dropdown_profile_actions}>
-          <Link to="/perfil">{languageComp.edit}</Link>
-          <Link to="/" onClick={handleLogout}>
-            {languageComp.logout}
-          </Link>
-        </div>
-      </div>
-    );
-  }, [auth, openProfile]);
+  }, [
+    openProfile,
+    auth.nome,
+    renderDropdownProfile,
+    renderDropdownNotification,
+  ]);
 
   return (
     <div
@@ -124,7 +240,6 @@ function HeaderUser() {
     >
       <i onClick={openSidebar} className="fas fa-bars" />
       {renderActions}
-      {renderDropdownProfile}
     </div>
   );
 }

@@ -10,7 +10,10 @@
   },
   "component.header.user": {
     "logout": "Sair",
-    "edit": "Editar dados"
+    "edit": "Editar dados",
+    "showAll": "Ver tudo",
+    "noticationEmpty": "Não há novas notificações",
+    "notificationCount": "Você possui [length] notificações"
   },
 
   "component.input": {
