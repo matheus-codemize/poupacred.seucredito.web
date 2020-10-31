@@ -30,6 +30,9 @@ const actions = {
     type: actionsTypes.LASTSTEP,
     payload: data,
   }),
+  blockStep: () => ({
+    type: actionsTypes.BLOCKSTEP,
+  }),
 };
 
 export default actions;

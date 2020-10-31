@@ -78,9 +78,9 @@ Box.defaultProps = {
 };
 
 Box.propTypes = {
-  onBack: PropTypes.func,
   size: PropTypes.oneOf(['sm', 'md', 'lg']),
   help: PropTypes.oneOfType([PropTypes.node, PropTypes.string]),
+  onBack: PropTypes.oneOfType([PropTypes.func, PropTypes.bool]),
   children: PropTypes.oneOfType([
     PropTypes.node,
     PropTypes.arrayOf(PropTypes.node),

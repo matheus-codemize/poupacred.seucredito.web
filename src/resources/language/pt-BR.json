@@ -76,7 +76,7 @@
   },
   "component.button.cancel": {
     "text": "Cancelar",
-    "icon": "fas fa-ban"
+    "icon": "fa fa-close"
   },
   "component.button.search": {
     "text": "Pesquisar",
@@ -331,7 +331,7 @@
     "proposalTitle": "Escolha a proposta ou simule com outro valor",
     "proposalSubtitle": "Sujeito à analise de crédito",
     "proposalChoose": "Quero este!",
-    "simulationOther": "Simular outro valor"
+    "simulationOther": "Simular outro Valor"
   },
 
   "component.form.props": {

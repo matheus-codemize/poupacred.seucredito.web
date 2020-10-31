@@ -27,7 +27,7 @@ function RadioGroup({
   }, [value, options]);
 
   function handleChange(valueSelected) {
-    if (typeof onChange === 'function') {
+    if (value !== valueSelected && typeof onChange === 'function') {
       onChange({ target: { id, value: valueSelected } });
     }
   }

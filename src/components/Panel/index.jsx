@@ -66,13 +66,15 @@ function Panel({
        */
       if (body.current && !openSearch) {
         setTimeout(() => {
-          const { offsetHeight } = header.current;
-          body.current.style.top = showAction
-            ? `calc(${offsetHeight}px + 7rem)`
-            : offsetHeight;
-          body.current.style.height = `calc(100vh - ${offsetHeight}px - 2rem${
-            showAction ? ' - 7rem' : ''
-          })`;
+          if (header.current) {
+            const { offsetHeight } = header.current;
+            body.current.style.top = showAction
+              ? `calc(${offsetHeight}px + 7rem)`
+              : offsetHeight;
+            body.current.style.height = `calc(100vh - ${offsetHeight}px - 2rem${
+              showAction ? ' - 7rem' : ''
+            })`;
+          }
         }, 400);
       }
     }
@@ -103,6 +105,11 @@ function Panel({
         action.classList.remove(styles.action_block);
       }
     }
+  }
+
+  function handleActions() {
+    setOpenSearch(false);
+    dispatch(actionsRedux.open());
   }
 
   const renderTitle = useMemo(() => {
@@ -204,7 +211,7 @@ function Panel({
 
       return (
         <section id="section_action" className={styles.actions}>
-          <button onClick={() => dispatch(actionsRedux.open())}>
+          <button onClick={handleActions}>
             <i className={language['component.button.action'].icon} />
             {language['component.button.action'].text}
           </button>

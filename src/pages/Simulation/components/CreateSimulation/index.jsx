@@ -52,20 +52,23 @@ const components = {
 };
 
 function CreateSimulation({ ...rest }) {
+  // resources hooks
   const history = useHistory();
   const location = useLocation();
   const dispatch = useDispatch();
 
+  // redux state
   const simulation = useSelector(state => state.simulation);
-  const { step, steps, register } = simulation;
+  const { step, steps, register, stepBlock } = simulation;
 
+  // component state
   const [help, setHelp] = useState('');
   const [error, setError] = useState({});
   const [produtos, setProdutos] = useState([]);
   const [lastStep, setLastStep] = useState(false);
 
   useEffect(() => {
-    simulacaoApi.listProduto().then(setProdutos);
+    initComponent();
   }, []);
 
   useEffect(() => {
@@ -89,13 +92,26 @@ function CreateSimulation({ ...rest }) {
     setLastStep(false);
   }, [step, steps]);
 
+  async function initComponent() {
+    dispatch(actionsContainer.loading());
+    await Promise.all([getProdutos()]);
+    dispatch(actionsContainer.close());
+  }
+
+  async function getProdutos() {
+    const data = await simulacaoApi.getProdutos();
+    setProdutos(data);
+  }
+
   async function getClientByCpf() {
     try {
-      if (register.cpf && register.cpf.length === 14) {
+      const { cpf } = register;
+      if (cpf && cpf.length === 14) {
         dispatch(actionsContainer.loading());
-        const url = `/simulacoes/clientes/buscar?cpf=${register.cpf}`;
-        let { id, nascimento, ...data } = await api.get(url);
 
+        let { id, nascimento, ...data } = await simulacaoApi.getClientByCpf(
+          cpf,
+        );
         if (moment(nascimento, 'DD/MM/YYYY').isValid()) {
           nascimento = moment(nascimento, 'DD/MM/YYYY').toDate();
         }
@@ -109,10 +125,8 @@ function CreateSimulation({ ...rest }) {
   }
 
   function handleBack() {
-    if (step) {
-      return dispatch(actions.backStep());
-    }
-    history.goBack();
+    if (!step || step <= stepBlock) return history.goBack();
+    dispatch(actions.backStep());
   }
 
   async function handleNext(event) {
@@ -120,15 +134,16 @@ function CreateSimulation({ ...rest }) {
       event.preventDefault();
 
       let response = [];
-      const url = '/simulacoes/produtos/campos';
+      const nascimento = moment(register.nascimento).format('DD/MM/YYYY');
 
       if (step === keysStep.length - 1 && !steps.length) {
         dispatch(actionsContainer.loading());
-        response = await api.post(url, {
-          ...register,
-          nascimento: moment(register.nascimento).format('DD/MM/YYYY'),
-        });
+        response = await simulacaoApi[
+          stepBlock === -1 ? 'getFields' : 'getReFields'
+        ]({ ...register, nascimento });
         dispatch(actions.steps(response));
+
+        if (!response.length) return;
       }
 
       if (
@@ -137,15 +152,18 @@ function CreateSimulation({ ...rest }) {
         _.get(steps[step - keysStep.length], 'propriedades.step', false)
       ) {
         dispatch(actionsContainer.loading());
-        response = await api.post(url, {
+        response = await simulacaoApi[
+          stepBlock === -1 ? 'getFields' : 'getReFields'
+        ]({
           ...register,
-          nascimento: moment(register.nascimento).format('DD/MM/YYYY'),
+          nascimento,
           step: steps[step - keysStep.length].propriedades.step,
         });
         dispatch(actions.steps([...steps, ...response]));
+
+        if (!response.length) return;
       }
 
-      setLastStep(false);
       dispatch(actions.nextStep());
     } catch (err) {
       const message = _.get(err, 'response.data.erro', err.message);
@@ -160,12 +178,14 @@ function CreateSimulation({ ...rest }) {
       event.preventDefault();
       dispatch(actionsContainer.loading());
 
-      const url = '/simulacoes/simular';
-      const response = await api.post(url, {
+      const response = await simulacaoApi.simulate({
         ...register,
         nascimento: moment(register.nascimento).format('DD/MM/YYYY'),
       });
-      return history.push('/simulacao/propostas', { simulation: response });
+
+      if (response) {
+        history.push('/simulacao/propostas', { simulation: response });
+      }
     } catch (err) {
       const message = _.get(err, 'response.data.erro', err.message);
       toast.error(message);
@@ -290,7 +310,7 @@ function CreateSimulation({ ...rest }) {
       }
       return <></>;
     });
-  }, [simulation]);
+  }, [simulation, simulation.step, simulation.steps, simulation.register]);
 
   return (
     <div>

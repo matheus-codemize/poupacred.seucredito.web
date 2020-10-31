@@ -5,8 +5,9 @@ import actionsTypes from '../../constants/simulation';
 
 const inital_state = {
   step: 0,
-  steps: [],
   register,
+  steps: [],
+  stepBlock: -1,
 };
 
 const reducers = (state = inital_state, action) => {
@@ -56,6 +57,16 @@ const reducers = (state = inital_state, action) => {
       return {
         ...state,
         register: { ...state.register, [payload.id]: payload.value },
+      };
+
+    case actionsTypes.BLOCKSTEP:
+      if (state.stepBlock === -1) {
+        state.step++;
+      }
+
+      return {
+        ...state,
+        stepBlock: state.stepBlock === -1 ? state.step : state.stepBlock,
       };
 
     default:

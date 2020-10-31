@@ -12,15 +12,15 @@ import actionsSimulation from '../../redux/actions/simulation';
 import backgroundImg from '../../assets/images/background/panel/simulacao.jpg';
 
 // services
-import api from '../../services/api';
+import * as simulacaoApi from '../../services/simulacao';
 
 // utils
 import toast from '../../utils/toast';
 import language from '../../utils/language';
-import cpfFormat from '../../utils/format/cpf';
 
 // components
 import Panel from '../../components/Panel';
+import Input from '../../components/Input';
 import Select from '../../components/Select';
 import CardList from '../../components/CardList';
 
@@ -32,46 +32,38 @@ const languagePage = language['page.simulation'];
 const languageForm = language['component.form.props'];
 
 function Simulation() {
+  // resources hooks
   const history = useHistory();
   const location = useLocation();
   const dispatch = useDispatch();
 
+  // component state
   const [filter, setFilter] = useState({});
+  const [status, setStatus] = useState([]);
   const [dataset, setDataset] = useState([]);
   const [pagination, setPagination] = useState({ current: 1, total: 0 });
 
   useEffect(() => {
     if (location.pathname === '/simulacao') {
-      getDados();
+      initComponent();
     }
   }, [pagination.current, location.pathname]);
 
-  function handleChangeFilter(event) {
-    let { id, value } = event.target;
-
-    switch (id) {
-      case 'cpf':
-        value = cpfFormat(value, filter.cpf);
-        break;
-
-      default:
-        break;
-    }
-
-    setFilter(prevFilter => ({ ...prevFilter, [id]: value }));
+  async function initComponent() {
+    dispatch(actionsContainer.loading());
+    await Promise.all([getStatus()]).then(getDados);
   }
 
-  function handleCreate() {
-    history.push('/simulacao/novo');
-    dispatch(actionsSimulation.init());
+  async function getStatus() {
+    const data = await simulacaoApi.getStatus();
+    setStatus(data);
   }
 
   async function getDados() {
     try {
       dispatch(actionsContainer.loading());
 
-      const url = '/simulacoes/listar';
-      const response = await api.post(url, { ...filter, pagination });
+      const response = await simulacaoApi.list({ ...filter, pagination });
       setDataset(response.dados);
       setPagination(prevPagination => ({
         ...prevPagination,
@@ -83,6 +75,16 @@ function Simulation() {
     } finally {
       dispatch(actionsContainer.close());
     }
+  }
+
+  function handleChangeFilter(event) {
+    const { id, value } = event.target;
+    setFilter(prevFilter => ({ ...prevFilter, [id]: value }));
+  }
+
+  function handleCreate() {
+    history.push('/simulacao/novo');
+    dispatch(actionsSimulation.init());
   }
 
   function handleClickSimulation(item) {
@@ -147,10 +149,23 @@ function Simulation() {
         <Panel.Search>
           <Select
             id="status"
-            options={[]}
+            options={status}
             value={filter.status || ''}
             onChange={handleChangeFilter}
             {...languageForm.status}
+          />
+          <Input
+            id="cpf"
+            type="cpf"
+            value={filter.cpf || ''}
+            onChange={handleChangeFilter}
+            {...languageForm.cpf}
+          />
+          <Input
+            id="nome"
+            value={filter.nome || ''}
+            onChange={handleChangeFilter}
+            {...languageForm.nome}
           />
         </Panel.Search>
         <Panel.Body>

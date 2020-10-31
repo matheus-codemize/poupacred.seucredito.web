@@ -21,20 +21,19 @@ function BoxDataList({ data, pagination, onPagination, ...rest }) {
       item.title = item.nome;
 
       if (Array.isArray(item.blocos)) {
-        details = [
-          ...details,
-          ...item.blocos.map(bloco => ({
+        details = details.concat(
+          item.blocos.map(bloco => ({
             title: bloco.nome,
             value: bloco.valor,
             ...bloco,
           })),
-        ];
+        );
       }
 
       return { ...item, details };
     }
 
-    return {};
+    return null;
   }
 
   return (
