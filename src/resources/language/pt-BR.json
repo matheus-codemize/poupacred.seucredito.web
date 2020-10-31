@@ -320,9 +320,6 @@
       "agente": "Agente",
       "convenioId": "Código do Convênio",
       "convenio": "Convênio"
-    },
-    "list": {
-      "status": []
     }
   },
 
@@ -433,6 +430,9 @@
     "confirmaSenha": {
       "label": "Nova Senha",
       "placeholder": "Confirme sua senha"
+    },
+    "tabulacao": {
+      "label": "Tabulação"
     }
   }
 }

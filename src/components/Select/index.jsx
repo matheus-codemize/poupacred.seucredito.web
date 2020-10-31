@@ -102,7 +102,7 @@ function Select({
   }
 
   function selectOption(valueSelected) {
-    const valueR = valueSelected ? (multiple ? [...value] : value) : '';
+    const valueR = multiple ? [...value] : valueSelected;
 
     if (valueR && multiple) {
       const index = valueR.indexOf(valueSelected);

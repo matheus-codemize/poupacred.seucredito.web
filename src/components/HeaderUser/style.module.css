@@ -94,7 +94,7 @@
   right: 4.5rem;
 }
 
-.dropdown > .dropdown_empty {
+.dropdown .dropdown_empty {
   color: grey;
   padding: 1rem;
   font-size: 1.8rem;

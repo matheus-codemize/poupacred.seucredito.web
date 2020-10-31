@@ -154,7 +154,7 @@ function RegisterAgent() {
           break;
 
         case 'nascimento':
-          if (!moment(value, 'DD/MM/YYYY').validate()) setMessage();
+          if (!moment(value, 'DD/MM/YYYY').isValid()) setMessage();
           break;
 
         default:

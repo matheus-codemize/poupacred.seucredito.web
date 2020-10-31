@@ -12,11 +12,11 @@ import backgroundImg from '../../assets/images/background/panel/crm.jpg';
 
 // utils
 import toast from '../../utils/toast';
+import moment from '../../utils/moment';
 import language from '../../utils/language';
 
 // services
-import api from '../../services/api';
-import * as convenioApi from '../../services/convenio';
+import * as crmApi from '../../services/crm';
 
 // components
 import Panel from '../../components/Panel';
@@ -31,42 +31,59 @@ const languagePage = language['page.crm'];
 const languageForm = language['component.form.props'];
 
 function Crm() {
-  const dispatch = useDispatch();
+  // resources hooks
   const history = useHistory();
   const location = useLocation();
+  const dispatch = useDispatch();
 
+  // component state
   const [filter, setFilter] = useState({});
+  const [status, setStatus] = useState([]);
   const [dataset, setDataset] = useState([]);
   const [convenios, setConvenios] = useState([]);
+  const [tabulacaos, setTabulacaos] = useState([]);
   const [pagination, setPagination] = useState({ total: 0, current: 1 });
 
   useEffect(() => {
-    initComponent();
-  }, []);
+    if (location.pathname === '/crm') {
+      initComponent();
+    }
+  }, [location.pathname]);
 
   async function initComponent() {
     dispatch(actionsContainer.loading());
-    await getConvenio().then(getDataset);
+    await Promise.all([getStatus(), getConvenios(), getTabulacaos()]).then(
+      getDataset,
+    );
   }
 
-  async function getConvenio() {
-    const data = await convenioApi.list();
+  async function getConvenios() {
+    const data = await crmApi.getConvenios();
     setConvenios(data);
+  }
+
+  async function getStatus() {
+    const data = await crmApi.getStatus();
+    setStatus(data);
+  }
+
+  async function getTabulacaos() {
+    const data = await crmApi.getTabulacaos();
+    setTabulacaos(data);
   }
 
   async function getDataset() {
     try {
       dispatch(actionsContainer.loading());
 
-      const url = '/crm/solicitacao/listar/resumo';
-      const response = await api.post(url, { ...filter, pagination });
+      const { periodo, ...restFilter } = filter;
+      const response = await crmApi.list({ ...restFilter, pagination });
       setDataset(response.dados);
       setPagination(prevPagination => ({
         ...prevPagination,
         total: response.total,
       }));
     } catch (err) {
-      console.log(_.get(err, 'response.data', null));
       const message = _.get(err, 'response.data.erro', err.message);
       toast.error(message);
     } finally {
@@ -75,7 +92,24 @@ function Crm() {
   }
 
   function handleFilter(event) {
+    const dataFilter = { ...filter };
     const { id, value } = event.target;
+
+    switch (id) {
+      case 'periodo':
+        dataFilter[id] = value;
+        dataFilter.prazo_min = moment(value[0]).isValid()
+          ? moment(value[0]).format('DD/MM/YYYY')
+          : null;
+        dataFilter.prazo_max = moment(value[1]).isValid()
+          ? moment(value[1]).format('DD/MM/YYYY')
+          : null;
+        return setFilter(dataFilter);
+
+      default:
+        break;
+    }
+
     setFilter(prevFilter => ({ ...prevFilter, [id]: value }));
   }
 
@@ -112,10 +146,18 @@ function Crm() {
           />
           <Select
             multiple
+            id="lista_tabulacoes"
+            options={tabulacaos}
+            onChange={handleFilter}
+            value={filter.lista_tabulacoes || ''}
+            {...languageForm.tabulacao}
+          />
+          <Select
+            multiple
+            options={status}
             id="lista_status"
             onChange={handleFilter}
             value={filter.lista_status || ''}
-            options={languagePage.list.status}
             {...languageForm.status}
           />
           <InputDateRange

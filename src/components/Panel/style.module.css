@@ -89,6 +89,7 @@
   z-index: 2;
   height: 7rem;
   display: flex;
+  position: relative;
   align-items: center;
   transition: 0.4s ease;
   justify-content: center;

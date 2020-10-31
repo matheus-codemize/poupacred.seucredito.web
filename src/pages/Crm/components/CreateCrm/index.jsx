@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import _ from 'lodash';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import styles from './style.module.css';
 
@@ -17,7 +17,7 @@ import language, { errors as errorsLanguage } from '../../../../utils/language';
 
 // services
 import api from '../../../../services/api';
-import * as convenioApi from '../../../../services/convenio';
+import * as crmApi from '../../../../services/crm';
 
 // components
 import Box from '../../../../components/Box';
@@ -44,14 +44,18 @@ function CreateCrm() {
   const [convenios, setConvenios] = useState([]);
 
   useEffect(() => {
-    getConvenios();
+    initComponent();
   }, []);
 
-  async function getConvenios() {
+  async function initComponent() {
     dispatch(actionsContainer.loading());
-    const data = await convenioApi.list();
-    setConvenios(data);
+    await Promise.all([getConvenios()]);
     dispatch(actionsContainer.close());
+  }
+
+  async function getConvenios() {
+    const data = await crmApi.getConvenios();
+    setConvenios(data);
   }
 
   function handleBack() {
@@ -68,8 +72,9 @@ function CreateCrm() {
   async function handleSave(event) {
     try {
       event.preventDefault();
+      const { convenio } = register;
 
-      if (!register.convenio) {
+      if (!convenio) {
         return setError(prevError => ({
           ...prevError,
           convenio: errorsLanguage.empty.replace(
@@ -84,8 +89,7 @@ function CreateCrm() {
       }
 
       dispatch(actionsContainer.loading());
-      // const url = '';
-      // await api.post(url, { convenio: register.convenio });
+      await crmApi.requestMailing({ convenio });
       return history.push('/success', {
         path: '/crm',
         ...languagePage.success,
