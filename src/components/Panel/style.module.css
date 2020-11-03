@@ -5,13 +5,13 @@
 }
 
 .container[data-divider='true'] > .header {
-  height: 40vh !important;
+  height: 35vh !important;
 }
 
-.container[data-divider='true'] > .body {
+/* .container[data-divider='true'] > .body {
   top: 40vh !important;
   height: calc(60vh - 2rem) !important;
-}
+} */
 
 .container[data-open='true'] > .header {
   height: calc(100vh - 15rem);

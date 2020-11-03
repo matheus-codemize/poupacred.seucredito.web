@@ -19,16 +19,31 @@ function Container() {
   const container = useSelector(state => state.container);
   const { open, color, loading, onClose } = container;
 
+  // component state
+  const [elements, setElements] = useState([]);
+
   useEffect(() => {
+    let el = [];
     const all = ['a', 'tab', 'button', 'input', 'select'];
     $('body').css('overflow', open ? 'hidden' : 'auto');
-    all.forEach(type =>
-      $(`body ${type}:not([data-unique])`).each(function () {
-        $(this).attr('disabled', open);
-        $(this).attr('tabIndex', open ? -1 : 0);
-      }),
-    );
+
+    if (open) {
+      all.forEach(type => {
+        $(`body ${type}:not([disabled]):not([data-unique])`).each(function () {
+          el.push(this);
+          disabledElements(this);
+        });
+      });
+      setElements(el);
+    } else {
+      elements.map(disabledElements);
+    }
   }, [open]);
+
+  function disabledElements(element) {
+    $(element).attr('disabled', open);
+    $(element).attr('tabIndex', open ? -1 : 0);
+  }
 
   function closeContainer() {
     dispatch(actions.close());

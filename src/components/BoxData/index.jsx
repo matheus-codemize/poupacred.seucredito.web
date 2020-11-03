@@ -5,7 +5,7 @@ import styles from './style.module.css';
 // components
 import Box from '../Box';
 
-function BoxData({ logo, title, subtitle, details, footer, ...rest }) {
+function BoxData({ logo, size, title, subtitle, details, footer, ...rest }) {
   const renderHeader = useMemo(() => {
     return (
       <div
@@ -50,7 +50,7 @@ function BoxData({ logo, title, subtitle, details, footer, ...rest }) {
 
   return (
     <div className={styles.container}>
-      <Box>
+      <Box size={size}>
         {renderHeader}
         {renderDescription}
         {renderDetails}
@@ -63,14 +63,16 @@ function BoxData({ logo, title, subtitle, details, footer, ...rest }) {
 BoxData.defaultProps = {
   logo: '',
   title: '',
+  size: 'lg',
   subtitle: '',
   details: [],
   footer: <></>,
 };
 
 BoxData.propTypes = {
-  footer: PropTypes.node,
+  size: PropTypes.string,
   logo: PropTypes.string,
+  footer: PropTypes.node,
   title: PropTypes.string,
   subtitle: PropTypes.string,
   details: PropTypes.arrayOf(

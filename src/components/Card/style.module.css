@@ -36,6 +36,6 @@
 }
 
 .button[data-disabled='true'] {
-  background: #999;
+  opacity: 0.65;
   cursor: not-allowed;
 }

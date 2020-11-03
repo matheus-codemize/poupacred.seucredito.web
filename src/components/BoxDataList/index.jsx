@@ -16,23 +16,19 @@ function BoxDataList({ data, pagination, onPagination, ...rest }) {
 
   function convertKeys(item) {
     if (item && typeof item === 'object') {
-      let { details = [] } = item;
-
-      if (!item.title && Object.prototype.hasOwnProperty.call(item, 'nome')) {
+      if (!item.title && item.nome) {
         item.title = item.nome;
       }
 
-      if (Array.isArray(item.blocos)) {
-        details = details.concat(
-          item.blocos.map(bloco => ({
-            title: bloco.nome,
-            value: bloco.valor || '-',
-            ...bloco,
-          })),
-        );
+      if (!item.details && Array.isArray(item.blocos)) {
+        item.details = item.blocos.map(bloco => ({
+          title: bloco.nome,
+          value: bloco.valor || '-',
+          ...bloco,
+        }));
       }
 
-      return { ...item, details };
+      return item;
     }
 
     return null;

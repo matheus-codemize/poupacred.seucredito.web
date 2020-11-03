@@ -110,61 +110,66 @@ function CreateCrm() {
   }, [step, error, register]);
 
   return (
-    <div>
-      <Panel
-        useDivider
-        background={backgroundImg}
-        title={languagePage.title}
-        subtitle={languagePage.createTitle}
-      >
-        <Panel.Body>
-          <form className={styles.form} onSubmit={handleSave}>
-            <Box size="sm" onBack={handleBack}>
-              <Carousel step={step}>
-                <Carousel.Step>
-                  <Select
-                    id="convenio"
-                    helpType="error"
-                    options={convenios}
-                    onChange={handleChange}
-                    help={error.convenio || ''}
-                    value={register.convenio || ''}
-                    {...languageForm.convenio}
-                  />
-                </Carousel.Step>
-                <Carousel.Step>
-                  <div className={styles.detail}>
-                    <label>{languagePage.detailsCreate.agente}</label>
-                    <p>{auth.nome}</p>
-                  </div>
-                  <div className={styles.detail}>
-                    <label>{languagePage.detailsCreate.convenioId}</label>
-                    <p>{register.convenio || ''}</p>
-                  </div>
-                  <div className={styles.detail}>
-                    <label>{languagePage.detailsCreate.convenio}</label>
-                    <p>
-                      {register.convenio
-                        ? convenios.find(
-                            convenio => convenio.value === register.convenio,
-                          ).label
-                        : ''}
-                    </p>
-                  </div>
-                </Carousel.Step>
-              </Carousel>
-              <Button
-                light
-                data-unique
-                htmlType="submit"
-                disabled={disabledBtnRegister}
-                {...language[`component.button.${step ? 'next' : 'register'}`]}
-              />
-            </Box>
-          </form>
-        </Panel.Body>
-      </Panel>
-    </div>
+    <Panel
+      useDivider
+      background={backgroundImg}
+      title={languagePage.title}
+      subtitle={languagePage.createTitle}
+    >
+      <Panel.Body>
+        <form className={styles.form} onSubmit={handleSave}>
+          <Box size="sm" onBack={handleBack}>
+            <Carousel step={step}>
+              <Carousel.Step>
+                <Select
+                  id="convenio"
+                  helpType="error"
+                  options={convenios}
+                  onChange={handleChange}
+                  help={error.convenio || ''}
+                  value={register.convenio || ''}
+                  {...languageForm.convenio}
+                />
+              </Carousel.Step>
+              <Carousel.Step>
+                <div className={styles.detail}>
+                  <label>{languagePage.detailsCreate.agente}</label>
+                  <p>{auth.nome}</p>
+                </div>
+                <div className={styles.detail}>
+                  <label>{languagePage.detailsCreate.convenioId}</label>
+                  <p>{register.convenio || ''}</p>
+                </div>
+                <div className={styles.detail}>
+                  <label>{languagePage.detailsCreate.convenio}</label>
+                  <p>
+                    {register.convenio
+                      ? convenios.find(
+                          convenio => convenio.value === register.convenio,
+                        ).label
+                      : ''}
+                  </p>
+                </div>
+              </Carousel.Step>
+            </Carousel>
+            <Button
+              light
+              data-unique
+              htmlType="submit"
+              disabled={disabledBtnRegister}
+              text={
+                step
+                  ? languagePage.buttons.register
+                  : language['component.button.next'].text
+              }
+              icon={
+                language[`component.button.${step ? 'register' : 'next'}`].icon
+              }
+            />
+          </Box>
+        </form>
+      </Panel.Body>
+    </Panel>
   );
 }
 

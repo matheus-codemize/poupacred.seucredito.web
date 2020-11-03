@@ -1,6 +1,6 @@
 .form {
   position: relative;
-  margin: 0 auto 2rem;
+  margin: -80px auto 2rem;
 }
 
 .detail {
@@ -12,7 +12,7 @@
   margin-bottom: 1rem;
   font-family: 'Open Sans';
   border: 1px solid #999;
-  background-color: #F9F9F9;
+  background-color: #f9f9f9;
   color: rgb(var(--color-black));
 }
 
@@ -21,7 +21,7 @@
 }
 
 .detail > p {
+  font-size: 2rem;
   font-weight: 600;
   margin-top: 1rem;
-  font-size: 2rem;
 }

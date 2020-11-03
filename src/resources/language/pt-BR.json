@@ -47,6 +47,10 @@
     "text": "Novo registro",
     "icon": "fas fa-plus-circle"
   },
+  "component.button.solicitation": {
+    "text": "Nova solicitação",
+    "icon": "fas fa-plus-circle"
+  },
   "component.button.next": {
     "text": "Avançar",
     "icon": "fas fa-chevron-right"
@@ -308,19 +312,19 @@
 
   "page.crm": {
     "title": "CRM",
-    "create": "Nova Solicitação",
-    "register": "Solicitar Mailing",
+    "answerTitle": "Atendimento (Mailing)",
+    "createTitle": "Solicitação de Mailing",
     "success": {
       "text": "Ok, Entendi!",
       "title": "Solicitação realizada com Sucesso",
       "description": "Estamos analisando sua solicitação. Acompanhe o status da sua solicitação na página CRM."
     },
-    "createTitle": "Solicitação de Mailing",
     "buttons": {
-      "atender": "Atender Mailing"
+      "answer": "Atender Mailing",
+      "register": "Solicitar Mailing"
     },
     "labels": {
-      "solicitacao": "Solicitação"
+      "solicitation": "Solicitação"
     },
     "detailsCreate": {
       "agente": "Agente",

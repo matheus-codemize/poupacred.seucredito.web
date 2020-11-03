@@ -26,6 +26,7 @@ import InputDateRange from '../../components/InputDateRange';
 
 // components internal
 import Create from './components/CreateCrm';
+import Answer from './components/AnswerCrm';
 
 const languagePage = language['page.crm'];
 const languageForm = language['component.form.props'];
@@ -166,23 +167,27 @@ function Crm() {
     setFilter(prevFilter => ({ ...prevFilter, [id]: value }));
   }
 
-  function handleMailing(mailing) {}
+  function handleMailing(mailing) {
+    delete mailing.footer;
+    history.push('/crm/atendimento', { crm: mailing });
+  }
 
   const renderDataset = useMemo(() => {
-    return dataset.map(item => ({
-      ...item,
-      subtitle: item.status,
-      title: `${languagePage.labels.solicitacao}: ${item.codigo}`,
-      footer: (
+    return dataset.map(item => {
+      item.subtitle = item.status;
+      item.title = `${languagePage.labels.solicitation}: ${item.codigo}`;
+      item.footer = (
         <Button
           gradient
           disabled={item.status_id !== 1}
-          onClick={() => handleMailing(item)}
+          onClick={() => handleMailing({ ...item })}
         >
-          {languagePage.buttons.atender}
+          {languagePage.buttons.answer}
         </Button>
-      ),
-    }));
+      );
+
+      return item;
+    });
   }, [dataset]);
 
   function handleCreate() {
@@ -191,6 +196,10 @@ function Crm() {
 
   if (location.pathname.includes('novo')) {
     return <Create />;
+  }
+
+  if (location.pathname.includes('atendimento')) {
+    return <Answer />;
   }
 
   return (
@@ -202,8 +211,7 @@ function Crm() {
         actions={[
           {
             onClick: handleCreate,
-            text: languagePage.create,
-            icon: language['component.button.plus'].icon,
+            ...language['component.button.solicitation'],
           },
         ]}
       >
