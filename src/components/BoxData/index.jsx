@@ -22,26 +22,30 @@ function BoxData({ logo, title, subtitle, details, footer, ...rest }) {
 
   const renderDescription = useMemo(() => {
     const item = details.find(item => item.isDescription);
-    if (item) {
-      return (
-        <div className={styles.description}>
-          <h1>{item.title}</h1>
-          <p>{item.description}</p>
-        </div>
-      );
-    }
-    return <></>;
+
+    return item ? (
+      <div className={styles.description}>
+        <h1>{item.title}</h1>
+        <p>{item.description}</p>
+      </div>
+    ) : (
+      <></>
+    );
   }, [details]);
 
   const renderDetails = useMemo(() => {
-    return details
-      .filter(item => !item.isDescription)
-      .map((item, index) => (
-        <div key={index} className={styles.details}>
-          <h1>{item.title}</h1>
-          <p>{item.value}</p>
-        </div>
-      ));
+    return (
+      <div className={styles.detail}>
+        {details
+          .filter(item => !item.isDescription)
+          .map((item, index) => (
+            <div key={index} data-width={item.width || 100}>
+              <h1>{item.title}</h1>
+              <p>{item.value}</p>
+            </div>
+          ))}
+      </div>
+    );
   }, [details]);
 
   return (

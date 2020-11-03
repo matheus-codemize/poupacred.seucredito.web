@@ -38,8 +38,7 @@
   font-family: 'Open Sans';
 }
 
-.description h1,
-.details h1 {
+.description h1 {
   margin-bottom: 1rem;
 }
 
@@ -52,25 +51,39 @@
   justify-content: center;
 }
 
-.details {
+.detail {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  padding: 1.5rem 0 0;
+  justify-content: space-between;
+}
+
+.detail > div {
   width: 100%;
   display: flex;
   padding: 1rem 0;
   margin: 0.5rem 0;
   border-radius: 1rem;
   align-items: center;
+  margin-bottom: 0.5rem;
   flex-direction: column;
   justify-content: center;
   border: 1px solid #d2e0db;
   background-color: #f9f9f9;
 }
 
-.details h1,
-.details p {
+.detail > div[data-width='50'] {
+  width: calc(50% - 0.5rem);
+}
+
+.detail > div > h1,
+.detail > div > p {
+  margin: 0.5rem 0;
   font-size: 1.6rem;
   font-family: 'Open Sans';
 }
 
-.details p {
+.detail > div > p {
   font-weight: 600;
 }

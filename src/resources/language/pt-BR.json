@@ -316,7 +316,13 @@
       "description": "Estamos analisando sua solicitação. Acompanhe o status da sua solicitação na página CRM."
     },
     "createTitle": "Solicitação de Mailing",
-    "details": {
+    "buttons": {
+      "atender": "Atender Mailing"
+    },
+    "labels": {
+      "solicitacao": "Solicitação"
+    },
+    "detailsCreate": {
       "agente": "Agente",
       "convenioId": "Código do Convênio",
       "convenio": "Convênio"

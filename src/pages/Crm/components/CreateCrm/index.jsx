@@ -134,15 +134,15 @@ function CreateCrm() {
                 </Carousel.Step>
                 <Carousel.Step>
                   <div className={styles.detail}>
-                    <label>{languagePage.details.agente}</label>
+                    <label>{languagePage.detailsCreate.agente}</label>
                     <p>{auth.nome}</p>
                   </div>
                   <div className={styles.detail}>
-                    <label>{languagePage.details.convenioId}</label>
+                    <label>{languagePage.detailsCreate.convenioId}</label>
                     <p>{register.convenio || ''}</p>
                   </div>
                   <div className={styles.detail}>
-                    <label>{languagePage.details.convenio}</label>
+                    <label>{languagePage.detailsCreate.convenio}</label>
                     <p>
                       {register.convenio
                         ? convenios.find(

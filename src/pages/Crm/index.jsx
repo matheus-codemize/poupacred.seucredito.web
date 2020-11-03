@@ -1,10 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import _ from 'lodash';
 import { useDispatch } from 'react-redux';
 import { useHistory, useLocation } from 'react-router-dom';
 
 // redux
-import actionsNavigator from '../../redux/actions/navigator';
 import actionsContainer from '../../redux/actions/container';
 
 // assets
@@ -20,6 +19,7 @@ import * as crmApi from '../../services/crm';
 
 // components
 import Panel from '../../components/Panel';
+import Button from '../../components/Button';
 import Select from '../../components/Select';
 import BoxDataList from '../../components/BoxDataList';
 import InputDateRange from '../../components/InputDateRange';
@@ -30,6 +30,59 @@ import Create from './components/CreateCrm';
 const languagePage = language['page.crm'];
 const languageForm = language['component.form.props'];
 
+const dataTest = [
+  {
+    codigo: 123,
+    status_id: 1,
+    status: 'Ativo',
+    blocos: [
+      {
+        nome: 'Convênio',
+        valor: '26613 - Governo SP',
+      },
+      {
+        nome: 'Qtde. Solicitada',
+        valor: 5,
+        width: 50,
+      },
+      {
+        nome: 'Qtde. Trabalhada',
+        valor: 2,
+        width: 50,
+      },
+      {
+        nome: 'Prazo para trabalhar',
+        valor: '05/11/2020',
+      },
+    ],
+  },
+  {
+    codigo: 159,
+    status_id: 2,
+    status: 'Reprovado',
+    blocos: [
+      {
+        nome: 'Convênio',
+        valor: '26613 - Governo SP',
+      },
+      {
+        nome: 'Qtde. Solicitada',
+        valor: 0,
+        width: 50,
+      },
+      {
+        nome: 'Qtde. Trabalhada',
+        valor: 0,
+        width: 50,
+      },
+      {
+        nome: 'Prazo para trabalhar',
+        valor: '',
+      },
+    ],
+  },
+];
+
 function Crm() {
   // resources hooks
   const history = useHistory();
@@ -39,14 +92,14 @@ function Crm() {
   // component state
   const [filter, setFilter] = useState({});
   const [status, setStatus] = useState([]);
-  const [dataset, setDataset] = useState([]);
+  const [dataset, setDataset] = useState([...dataTest]);
   const [convenios, setConvenios] = useState([]);
   const [tabulacaos, setTabulacaos] = useState([]);
   const [pagination, setPagination] = useState({ total: 0, current: 1 });
 
   useEffect(() => {
     if (location.pathname === '/crm') {
-      initComponent();
+      // initComponent();
     }
   }, [location.pathname]);
 
@@ -113,6 +166,25 @@ function Crm() {
     setFilter(prevFilter => ({ ...prevFilter, [id]: value }));
   }
 
+  function handleMailing(mailing) {}
+
+  const renderDataset = useMemo(() => {
+    return dataset.map(item => ({
+      ...item,
+      subtitle: item.status,
+      title: `${languagePage.labels.solicitacao}: ${item.codigo}`,
+      footer: (
+        <Button
+          gradient
+          disabled={item.status_id !== 1}
+          onClick={() => handleMailing(item)}
+        >
+          {languagePage.buttons.atender}
+        </Button>
+      ),
+    }));
+  }, [dataset]);
+
   function handleCreate() {
     history.push('/crm/novo');
   }
@@ -170,7 +242,7 @@ function Crm() {
         </Panel.Search>
         <Panel.Body>
           <BoxDataList
-            data={dataset}
+            data={renderDataset}
             pagination={pagination}
             onPagination={setPagination}
           />

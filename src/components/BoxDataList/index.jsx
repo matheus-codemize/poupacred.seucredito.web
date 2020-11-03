@@ -18,13 +18,15 @@ function BoxDataList({ data, pagination, onPagination, ...rest }) {
     if (item && typeof item === 'object') {
       let { details = [] } = item;
 
-      item.title = item.nome;
+      if (!item.title && Object.prototype.hasOwnProperty.call(item, 'nome')) {
+        item.title = item.nome;
+      }
 
       if (Array.isArray(item.blocos)) {
         details = details.concat(
           item.blocos.map(bloco => ({
             title: bloco.nome,
-            value: bloco.valor,
+            value: bloco.valor || '-',
             ...bloco,
           })),
         );
