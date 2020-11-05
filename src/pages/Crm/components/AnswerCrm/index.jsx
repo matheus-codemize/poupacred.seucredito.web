@@ -3,6 +3,9 @@ import _ from 'lodash';
 import { useLocation } from 'react-router-dom';
 import styles from './style.module.css';
 
+// redux
+import actionsContainer from '../../../../redux/actions/container';
+
 // services
 import * as crmApi from '../../../../services/crm';
 
@@ -16,6 +19,8 @@ import language from '../../../../utils/language';
 import Panel from '../../../../components/Panel';
 import BoxData from '../../../../components/BoxData';
 import CardList from '../../../../components/CardList';
+import { useDispatch, useSelector } from 'react-redux';
+import ListEmpty from '../../../../components/ListEmpty';
 
 const languagePage = language['page.crm'];
 const languageForm = language['component.form.props'];
@@ -23,10 +28,14 @@ const languageForm = language['component.form.props'];
 function AnswerCrm() {
   // resources hooks
   const location = useLocation();
+  const dispatch = useDispatch();
+
+  // redux state
+  const navigator = useSelector(state => state.navigator);
 
   // component state
-  const [details, setDetails] = useState(null);
   const [dataset, setDataset] = useState([]);
+  const [details, setDetails] = useState(null);
 
   useEffect(() => {
     const mailing = _.get(location, 'state.crm', null);
@@ -34,36 +43,14 @@ function AnswerCrm() {
   }, [location.state]);
 
   useEffect(() => {
-    if (details && details.codigo) getDataset();
+    if (details && details.id) getDataset();
   }, [details]);
 
   async function getDataset() {
-    setDataset([
-      {
-        status_id: 1,
-        cabecalho: [
-          { valor: 'Jose Divan Teixeira de Souza' },
-          { nome: '999.999.999-99' },
-        ],
-        rodape: [
-          { nome: 'Status', valor: 'Aguardando ação' },
-          { nome: 'Data de Agendamento', valor: '04/11/2020' },
-        ],
-      },
-      {
-        status_id: 2,
-        cabecalho: [
-          { valor: 'Jose Divan Teixeira de Souza' },
-          { nome: '999.999.999-99' },
-        ],
-        rodape: [
-          { nome: 'Status', valor: 'Atendido' },
-          { nome: 'Data de Agendamento', valor: '04/11/2020' },
-        ],
-      },
-    ]);
-    // const response = await crmApi.list();
-    // setDataset(response.dados);
+    dispatch(actionsContainer.loading());
+    const data = await crmApi.getAnswers(details.id);
+    setDataset(data);
+    dispatch(actionsContainer.close());
   }
 
   function handleMailing() {}
@@ -77,23 +64,26 @@ function AnswerCrm() {
   }, [dataset]);
 
   return (
-    details && (
-      <Panel
-        useDivider
-        background={backgroundImg}
-        title={languagePage.title}
-        subtitle={languagePage.answerTitle}
-      >
-        <Panel.Body>
-          <div className={styles.detail}>
-            <BoxData size="sm" {...details} />
-          </div>
-          <div className={styles.list}>
-            <CardList data={renderDataset} />
-          </div>
-        </Panel.Body>
-      </Panel>
-    )
+    <Panel
+      useDivider
+      background={backgroundImg}
+      title={languagePage.title}
+      subtitle={languagePage.answerTitle}
+    >
+      <Panel.Body>
+        <ListEmpty visible={!details} />
+        {details && (
+          <>
+            <div className={styles.detail}>
+              <BoxData useDirection {...details} />
+            </div>
+            <div className={styles.list}>
+              <CardList data={renderDataset} />
+            </div>
+          </>
+        )}
+      </Panel.Body>
+    </Panel>
   );
 }
 

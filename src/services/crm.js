@@ -11,8 +11,8 @@ import toast from '../utils/toast';
  */
 export async function getConvenios() {
   try {
-    const url = '/crm/convenio/listar';
-    const data = await api.post(url);
+    const url = '/crm/solicitacoes/convenios/listar';
+    const data = await api.get(url);
     return data.map(item => ({
       ...item,
       value: item.id,
@@ -27,12 +27,12 @@ export async function getConvenios() {
 
 /**
  * Função para listar as tabulações
- * Tabulação - resultado de um atendimento
+ * Tabulação - status de um atendimento
  */
 export async function getTabulacaos() {
   try {
-    const url = '/crm/tabulacao/listar';
-    const data = await api.post(url);
+    const url = '/crm/tabulacoes/listar';
+    const data = await api.get(url);
     return data.map(item => ({
       ...item,
       value: item.id,
@@ -50,8 +50,8 @@ export async function getTabulacaos() {
  */
 export async function getStatus() {
   try {
-    const url = '/crm/status_solicitacao/listar';
-    const data = await api.post(url);
+    const url = '/crm/solicitacoes/status/listar';
+    const data = await api.get(url);
     return data.map(item => ({
       ...item,
       value: item.id,
@@ -65,31 +65,12 @@ export async function getStatus() {
 }
 
 /**
- * Função para listar os status de registro Mailing
- */
-export async function getStatusRegistro() {
-  try {
-    const url = '/crm/status_registro/listar';
-    const data = await api.post(url);
-    return data.map(item => ({
-      ...item,
-      value: item.id,
-      label: item.nome,
-    }));
-  } catch (err) {
-    const message = _.get(err, 'response.data.erro', err.message);
-    toast.error(message);
-  }
-  return [];
-}
-
-/**
- * Função para listar as solicitações de mailing
+ * Função para listar as solicitações
  * @param {object} filter
  */
 export async function list(filter = null) {
   try {
-    const url = '/crm/solicitacao/listar';
+    const url = '/crm/solicitacoes/listar';
     const data = await api.post(url, filter);
     return data;
   } catch (err) {
@@ -103,9 +84,9 @@ export async function list(filter = null) {
  * Função para realizar uma solicitação
  * @param {object} data
  */
-export async function requestMailing(data) {
+export async function create(data) {
   try {
-    const url = '/crm/solicitacao/gravar';
+    const url = '/crm/solicitacoes/criar';
     const response = await api.post(url, data);
     return response;
   } catch (err) {
@@ -153,8 +134,41 @@ export async function schedule(data) {
  */
 export async function answer(data) {
   try {
-    const url = '/crm/atendimento/gravar';
+    const url = '/crm/atendimentos/criar';
     const response = await api.post(url, data);
+    return response;
+  } catch (err) {
+    const message = _.get(err, 'response.data.erro', err.message);
+    toast.error(message);
+  }
+  return null;
+}
+
+/**
+ * Função para listar os atendimentos de uma determinada solicitação
+ * @param {string|number} solicitacao
+ */
+export async function getAnswers(solicitacao) {
+  try {
+    const url = `/crm/atendimentos/listar?solicitacao=${solicitacao}`;
+    const response = await api.get(url);
+    return response;
+  } catch (err) {
+    const message = _.get(err, 'response.data.erro', err.message);
+    toast.error(message);
+  }
+  return [];
+}
+
+/**
+ * Função para buscar os dados de um determinado atendimento
+ * @param {string|number} solicitacao
+ * @param {string|number} cliente
+ */
+export async function getAnswer(solicitacao, cliente) {
+  try {
+    const url = `/crm/atendimentos/buscar?solicitacao=${solicitacao}&cliente=${cliente}`;
+    const response = await api.get(url);
     return response;
   } catch (err) {
     const message = _.get(err, 'response.data.erro', err.message);

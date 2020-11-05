@@ -1,11 +1,10 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import _ from 'lodash';
-import { useHistory, useLocation } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import styles from './style.module.css';
 
 // redux
-import actionsNavigator from '../../../../redux/actions/navigator';
 import actionsContainer from '../../../../redux/actions/container';
 
 // assets
@@ -16,7 +15,6 @@ import toast from '../../../../utils/toast';
 import language, { errors as errorsLanguage } from '../../../../utils/language';
 
 // services
-import api from '../../../../services/api';
 import * as crmApi from '../../../../services/crm';
 
 // components
@@ -54,7 +52,7 @@ function CreateCrm() {
   }
 
   async function getConvenios() {
-    const data = await crmApi.getConvenios();
+    const data = await crmApi.getConvenios()
     setConvenios(data);
   }
 
@@ -89,11 +87,14 @@ function CreateCrm() {
       }
 
       dispatch(actionsContainer.loading());
-      await crmApi.requestMailing({ convenio });
-      return history.push('/success', {
-        path: '/crm',
-        ...languagePage.success,
-      });
+      const response = await crmApi.create({ convenio });
+
+      if (response) {
+        return history.push('/success', {
+          path: '/crm',
+          ...languagePage.success,
+        });
+      }
     } catch (err) {
       const message = _.get(err, 'response.data.erro', err.message);
       toast.error(message);
@@ -133,22 +134,22 @@ function CreateCrm() {
               </Carousel.Step>
               <Carousel.Step>
                 <div className={styles.detail}>
-                  <label>{languagePage.detailsCreate.agente}</label>
-                  <p>{auth.nome}</p>
-                </div>
-                <div className={styles.detail}>
-                  <label>{languagePage.detailsCreate.convenioId}</label>
-                  <p>{register.convenio || ''}</p>
-                </div>
-                <div className={styles.detail}>
-                  <label>{languagePage.detailsCreate.convenio}</label>
-                  <p>
-                    {register.convenio
-                      ? convenios.find(
-                          convenio => convenio.value === register.convenio,
-                        ).label
-                      : ''}
-                  </p>
+                  <div>
+                    <h1>{languagePage.labels.agent}</h1>
+                    <p>{auth.nome}</p>
+                  </div>
+                  <div>
+                    <h1>{languagePage.labels.agreement}</h1>
+                    <p>
+                      {`${register.convenio || 0} - ${
+                        register.convenio
+                          ? convenios.find(
+                              convenio => convenio.value === register.convenio,
+                            ).label
+                          : ''
+                      }`}
+                    </p>
+                  </div>
                 </div>
               </Carousel.Step>
             </Carousel>

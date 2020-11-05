@@ -5,7 +5,16 @@ import styles from './style.module.css';
 // components
 import Box from '../Box';
 
-function BoxData({ logo, size, title, subtitle, details, footer, ...rest }) {
+function BoxData({
+  logo,
+  size,
+  title,
+  footer,
+  details,
+  subtitle,
+  useDirection,
+  ...rest
+}) {
   const renderHeader = useMemo(() => {
     return (
       <div
@@ -35,7 +44,7 @@ function BoxData({ logo, size, title, subtitle, details, footer, ...rest }) {
 
   const renderDetails = useMemo(() => {
     return (
-      <div className={styles.detail}>
+      <div className={styles.detail} data-direction={useDirection}>
         {details
           .filter(item => !item.isDescription)
           .map((item, index) => (
@@ -46,7 +55,7 @@ function BoxData({ logo, size, title, subtitle, details, footer, ...rest }) {
           ))}
       </div>
     );
-  }, [details]);
+  }, [details, useDirection]);
 
   return (
     <div className={styles.container}>
@@ -67,6 +76,7 @@ BoxData.defaultProps = {
   subtitle: '',
   details: [],
   footer: <></>,
+  useDirection: false,
 };
 
 BoxData.propTypes = {
@@ -75,6 +85,7 @@ BoxData.propTypes = {
   footer: PropTypes.node,
   title: PropTypes.string,
   subtitle: PropTypes.string,
+  useDirection: PropTypes.bool,
   details: PropTypes.arrayOf(
     PropTypes.shape({
       title: PropTypes.string.isRequired,

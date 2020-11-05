@@ -324,12 +324,9 @@
       "register": "Solicitar Mailing"
     },
     "labels": {
+      "agent": "Agente",
+      "agreement": "Convênio",
       "solicitation": "Solicitação"
-    },
-    "detailsCreate": {
-      "agente": "Agente",
-      "convenioId": "Código do Convênio",
-      "convenio": "Convênio"
     }
   },
 

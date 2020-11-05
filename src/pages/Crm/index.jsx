@@ -31,59 +31,6 @@ import Answer from './components/AnswerCrm';
 const languagePage = language['page.crm'];
 const languageForm = language['component.form.props'];
 
-const dataTest = [
-  {
-    codigo: 123,
-    status_id: 1,
-    status: 'Ativo',
-    blocos: [
-      {
-        nome: 'Convênio',
-        valor: '26613 - Governo SP',
-      },
-      {
-        nome: 'Qtde. Solicitada',
-        valor: 5,
-        width: 50,
-      },
-      {
-        nome: 'Qtde. Trabalhada',
-        valor: 2,
-        width: 50,
-      },
-      {
-        nome: 'Prazo para trabalhar',
-        valor: '05/11/2020',
-      },
-    ],
-  },
-  {
-    codigo: 159,
-    status_id: 2,
-    status: 'Reprovado',
-    blocos: [
-      {
-        nome: 'Convênio',
-        valor: '26613 - Governo SP',
-      },
-      {
-        nome: 'Qtde. Solicitada',
-        valor: 0,
-        width: 50,
-      },
-      {
-        nome: 'Qtde. Trabalhada',
-        valor: 0,
-        width: 50,
-      },
-      {
-        nome: 'Prazo para trabalhar',
-        valor: '',
-      },
-    ],
-  },
-];
-
 function Crm() {
   // resources hooks
   const history = useHistory();
@@ -93,22 +40,19 @@ function Crm() {
   // component state
   const [filter, setFilter] = useState({});
   const [status, setStatus] = useState([]);
-  const [dataset, setDataset] = useState([...dataTest]);
+  const [dataset, setDataset] = useState([]);
   const [convenios, setConvenios] = useState([]);
-  const [tabulacaos, setTabulacaos] = useState([]);
   const [pagination, setPagination] = useState({ total: 0, current: 1 });
 
   useEffect(() => {
     if (location.pathname === '/crm') {
-      // initComponent();
+      initComponent();
     }
   }, [location.pathname]);
 
   async function initComponent() {
     dispatch(actionsContainer.loading());
-    await Promise.all([getStatus(), getConvenios(), getTabulacaos()]).then(
-      getDataset,
-    );
+    await Promise.all([getStatus(), getConvenios()]).then(getDataset);
   }
 
   async function getConvenios() {
@@ -119,11 +63,6 @@ function Crm() {
   async function getStatus() {
     const data = await crmApi.getStatus();
     setStatus(data);
-  }
-
-  async function getTabulacaos() {
-    const data = await crmApi.getTabulacaos();
-    setTabulacaos(data);
   }
 
   async function getDataset() {
@@ -152,10 +91,10 @@ function Crm() {
     switch (id) {
       case 'periodo':
         dataFilter[id] = value;
-        dataFilter.prazo_min = moment(value[0]).isValid()
+        dataFilter.inicio = moment(value[0]).isValid()
           ? moment(value[0]).format('DD/MM/YYYY')
           : null;
-        dataFilter.prazo_max = moment(value[1]).isValid()
+        dataFilter.fim = moment(value[1]).isValid()
           ? moment(value[1]).format('DD/MM/YYYY')
           : null;
         return setFilter(dataFilter);
@@ -175,11 +114,11 @@ function Crm() {
   const renderDataset = useMemo(() => {
     return dataset.map(item => {
       item.subtitle = item.status;
-      item.title = `${languagePage.labels.solicitation}: ${item.codigo}`;
+      item.title = `${languagePage.labels.solicitation}: ${item.id}`;
       item.footer = (
         <Button
           gradient
-          disabled={item.status_id !== 1}
+          disabled={item.status_id !== 2}
           onClick={() => handleMailing({ ...item })}
         >
           {languagePage.buttons.answer}
@@ -218,26 +157,18 @@ function Crm() {
         <Panel.Search>
           <Select
             multiple
-            id="lista_convenios"
+            id="convenio"
             options={convenios}
             onChange={handleFilter}
-            value={filter.lista_convenios || ''}
+            value={filter.convenio || ''}
             {...languageForm.convenio}
           />
           <Select
             multiple
-            id="lista_tabulacoes"
-            options={tabulacaos}
-            onChange={handleFilter}
-            value={filter.lista_tabulacoes || ''}
-            {...languageForm.tabulacao}
-          />
-          <Select
-            multiple
+            id="status"
             options={status}
-            id="lista_status"
             onChange={handleFilter}
-            value={filter.lista_status || ''}
+            value={filter.status || ''}
             {...languageForm.status}
           />
           <InputDateRange

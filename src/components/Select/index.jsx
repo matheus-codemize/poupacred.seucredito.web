@@ -61,21 +61,19 @@ function Select({
     setFilter('');
     let optionSelected;
 
-    if (multiple && Array.isArray(value)) {
-      setText(
-        value.length
-          ? value
-              .map(v => {
-                optionSelected = options.find(
-                  option => option.value.toString() === v.toString(),
-                );
+    if (multiple && Array.isArray(value) && value.length) {
+      return setText(
+        value
+          .map(v => {
+            optionSelected = options.find(
+              option => option.value.toString() === v.toString(),
+            );
 
-                return optionSelected ? optionSelected.label : '';
-              })
-              .filter(v => !!v)
-              .join('; ')
-              .trim()
-          : '',
+            return optionSelected ? optionSelected.label : '';
+          })
+          .filter(v => !!v)
+          .join('; ')
+          .trim(),
       );
     }
 
@@ -83,8 +81,10 @@ function Select({
       optionSelected = options.find(
         option => option.value.toString() === value.toString(),
       );
-      setText(optionSelected ? optionSelected.label : '');
+      return setText(optionSelected ? optionSelected.label : '');
     }
+
+    setText('');
   }, [id, value, options, multiple]);
 
   function handleChange(event) {
@@ -102,19 +102,20 @@ function Select({
   }
 
   function selectOption(valueSelected) {
-    const valueR = multiple ? [...value] : valueSelected;
+    let valueR = valueSelected;
 
-    if (valueR && multiple) {
+    if (multiple && valueSelected) {
+      valueR = [...value];
       const index = valueR.indexOf(valueSelected);
       if (index === -1) {
         valueR.push(valueSelected);
-      } else {
+      } else if (valueR.length) {
         valueR.splice(index, 1);
       }
     }
 
     if (typeof onChange === 'function') {
-      onChange({ target: { id, value: valueR || (multiple && []) } });
+      onChange({ target: { id, value: valueR } });
     }
   }
 
