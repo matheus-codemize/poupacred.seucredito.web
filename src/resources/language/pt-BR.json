@@ -325,8 +325,11 @@
     },
     "labels": {
       "agent": "Agente",
+      "status": "Status",
       "agreement": "Convênio",
-      "solicitation": "Solicitação"
+      "solicitation": "Solicitação",
+      "schedule": "Data de Agendamento",
+      "scheduleEmpty": "Nenhum"
     }
   },
 

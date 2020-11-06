@@ -108,7 +108,7 @@ function Crm() {
 
   function handleMailing(mailing) {
     delete mailing.footer;
-    history.push('/crm/atendimento', { crm: mailing });
+    history.push('/crm/mailing', { crm: mailing });
   }
 
   const renderDataset = useMemo(() => {
@@ -137,7 +137,7 @@ function Crm() {
     return <Create />;
   }
 
-  if (location.pathname.includes('atendimento')) {
+  if (location.pathname.includes('mailing')) {
     return <Answer />;
   }
 
