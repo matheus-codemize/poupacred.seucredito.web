@@ -145,7 +145,7 @@ function RegisterClient() {
         return toast.error(errorsLanguage.register);
       }
       setTimeout(() => {
-        return history.push('/success', {
+        return history.push('/sucesso', {
           ...language['register.client.success'],
           path: '/login',
           state: { type: 'client', login: register.cpf },

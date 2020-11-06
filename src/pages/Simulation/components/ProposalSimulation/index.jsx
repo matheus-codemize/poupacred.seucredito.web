@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, useLocation } from 'react-router-dom';
 
 // services
-import api from '../../../../services/api';
+import * as propostaApi from '../../../../services/proposta';
 import * as simulacaoApi from '../../../../services/simulacao';
 
 // utils
@@ -36,19 +36,23 @@ function ProposalSimulation() {
   const { steps, register, stepBlock } = simulation;
 
   useEffect(() => {
-    const simulacao_id = _.get(location, 'state.simulation.simulacao_id', 0);
-    dispatch(actions.register({ ...simulation.register, simulacao_id }));
+    if (!register.simulacao_id) {
+      const simulacao_id = _.get(location, 'state.simulation.simulacao_id', 0);
+      dispatch(actions.register({ ...simulation.register, simulacao_id }));
+    }
   }, [location.state]);
 
   async function handleOtherSimulation() {
     try {
       dispatch(actionsContainer.loading());
 
-      if (stepBlock === -1) {
-        const response = await simulacaoApi.getReFields(register);
-        dispatch(actions.blockStep());
-        dispatch(actions.steps([...steps, ...response]));
-      }
+      const response = await simulacaoApi.getReFields(register);
+      dispatch(
+        actions.blockStep({
+          isResimulation: true,
+          steps: [...steps, ...response],
+        }),
+      );
 
       history.push('/simulacao/re-simular');
     } catch (err) {
@@ -59,8 +63,29 @@ function ProposalSimulation() {
     }
   }
 
-  function handleChoose(item) {
-    alert('Proposta selecionada');
+  async function handleChoose(card) {
+    try {
+      dispatch(actionsContainer.loading());
+
+      const response = await propostaApi.getFields({
+        card_id: card.id,
+        simulacao_id: register.simulacao_id,
+      });
+      dispatch(
+        actions.blockStep({
+          isProposal: true,
+          steps: [...steps, ...response],
+          register: { ...register, card_id: card.id },
+        }),
+      );
+
+      history.push(`/simulacao/propostas/${card.id}`);
+    } catch (err) {
+      const message = _.get(err, 'response.data.erro', err.message);
+      toast.error(message);
+    } finally {
+      dispatch(actionsContainer.close());
+    }
   }
 
   const renderData = useMemo(() => {
@@ -74,7 +99,7 @@ function ProposalSimulation() {
       );
       return item;
     });
-  }, [location.state]);
+  }, [simulation, location.state]);
 
   return (
     <Panel

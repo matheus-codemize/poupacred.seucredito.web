@@ -30,8 +30,9 @@ const actions = {
     type: actionsTypes.LASTSTEP,
     payload: data,
   }),
-  blockStep: () => ({
+  blockStep: data => ({
     type: actionsTypes.BLOCKSTEP,
+    payload: data,
   }),
 };
 

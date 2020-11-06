@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import $ from 'jquery';
 import PropTypes from 'prop-types';
 import styles from './style.module.css';
@@ -22,6 +22,7 @@ function InputFile({
   onChange,
   useCamera,
   placeholder,
+  value: valueProps,
 
   col, // to width
   ...rest
@@ -29,21 +30,42 @@ function InputFile({
   const [value, setValue] = useState(multiple ? [] : null);
 
   useEffect(() => {
-    if (typeof onChange === 'function' && (multiple ? value.lenth : value)) {
+    if (typeof onChange === 'function' && (multiple ? value.length : value)) {
       onChange({ target: { id, value } });
     }
   }, [value]);
 
-  function handleChange(event) {
+  async function handleChange(event) {
     const { files } = event.target;
 
     if (!files.length) return;
 
-    if (!multiple) {
-      setValue(files[0]);
-    } else {
-      setValue(files);
-    }
+    /** convert file to base 64 */
+    const fileToBase64 = file => {
+      return new Promise(resolve => {
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = () => resolve(reader.result);
+      });
+    };
+
+    let valueSelected = multiple
+      ? await Promise.all(
+          Object.keys(files)
+            .filter(key => !isNaN(parseInt(key)))
+            .map(async key => ({
+              isFile: true,
+              name: files[key].name,
+              data: await fileToBase64(files[key]),
+            })),
+        )
+      : {
+          isFile: true,
+          name: files[0].name,
+          data: await fileToBase64(files[0]),
+        };
+
+    setValue(valueSelected);
   }
 
   function selectFile() {
@@ -52,15 +74,17 @@ function InputFile({
 
   function openCamera() {}
 
-  const getValueSelected = useCallback(() => {
-    if (value) {
+  const renderValueSelected = useMemo(() => {
+    const valueSelected = value || valueProps;
+
+    if (valueSelected) {
       return multiple
-        ? `${value.length} arquivo(s) selecionado(s)`
-        : value.name;
+        ? `${valueSelected.length} arquivo(s) selecionado(s)`
+        : valueSelected.name;
     }
 
     return placeholder;
-  }, [value, multiple, placeholder]);
+  }, [value, multiple, placeholder, valueProps]);
 
   const renderLabel = useMemo(() => {
     return (
@@ -93,15 +117,15 @@ function InputFile({
       data-col={typeof col === 'function' ? col(id) : col}
     >
       <input
-        {...rest}
         id={id}
+        value=""
         type="file"
         multiple={multiple}
         onChange={handleChange}
       />
       {renderLabel}
       <div className={styles.content}>
-        <label htmlFor={id}>{getValueSelected()}</label>
+        <label htmlFor={id}>{renderValueSelected}</label>
         <button
           type="button"
           onClick={

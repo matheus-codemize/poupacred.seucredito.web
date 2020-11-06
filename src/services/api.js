@@ -8,25 +8,18 @@ const api = axios.create({
   timeout: process.env.REACT_APP_API_TIMEOUT,
 });
 
-const fileToBase64 = file => {
-  return new Promise(resolve => {
-    const reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onload = () => resolve(reader.result);
-  });
-};
-
 api.interceptors.request.use(async config => {
   const { data } = config;
   const { auth } = store.getState();
 
   /**
-   * Conversão de arquivos para base64
+   * Selecionando arquivos
+   * file = { isFile: true, name: 'string', data: 'base64' }
    */
   if (data) {
     const allPromise = Object.keys(data).map(async key => {
-      if (data[key] && data[key] instanceof File) {
-        data[key] = await fileToBase64(data[key]);
+      if (data[key] && typeof data[key] === 'object' && data[key].isFile) {
+        data[key] = data[key].data;
       }
     });
     await Promise.all(allPromise);

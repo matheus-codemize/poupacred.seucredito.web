@@ -13,7 +13,7 @@ import actionsContainer from '../../../../redux/actions/container';
 import backgroundImg from '../../../../assets/images/background/panel/simulacao.jpg';
 
 // services
-import api from '../../../../services/api';
+import * as propostaApi from '../../../../services/proposta';
 import * as simulacaoApi from '../../../../services/simulacao';
 
 // utils
@@ -33,6 +33,7 @@ import Margin from '../../../../components/Margin';
 import Button from '../../../../components/Button';
 import Select from '../../../../components/Select';
 import Carousel from '../../../../components/Carousel';
+import InputFile from '../../../../components/InputFile';
 import InputDate from '../../../../components/InputDate';
 import RadioGroup from '../../../../components/RadioGroup';
 
@@ -47,6 +48,7 @@ const components = {
   number: Input,
   select: Select,
   margem: Margin,
+  file: InputFile,
   radio: RadioGroup,
   inputdate: InputDate,
 };
@@ -79,7 +81,11 @@ function CreateSimulation({ ...rest }) {
     if (step < keysStep.length) {
       setHelp('');
     } else {
-      setHelp(steps[step - keysStep.length].ajuda || '');
+      setHelp(
+        (steps[step - keysStep.length] &&
+          steps[step - keysStep.length].ajuda) ||
+          '',
+      );
 
       if (
         step - keysStep.length === steps.length - 1 &&
@@ -125,8 +131,15 @@ function CreateSimulation({ ...rest }) {
   }
 
   function handleBack() {
-    if (!step || step <= stepBlock) return history.goBack();
+    if (!step || step <= stepBlock) {
+      unlockStep();
+      return history.goBack();
+    }
     dispatch(actions.backStep());
+  }
+
+  function unlockStep() {
+    if (stepBlock !== -1) dispatch(actions.blockStep());
   }
 
   async function handleNext(event) {
@@ -176,15 +189,29 @@ function CreateSimulation({ ...rest }) {
   async function handleSave(event) {
     try {
       event.preventDefault();
+      let response, path, state;
       dispatch(actionsContainer.loading());
 
-      const response = await simulacaoApi.simulate({
-        ...register,
-        nascimento: moment(register.nascimento).format('DD/MM/YYYY'),
-      });
+      if (simulation.isProposal) {
+        const data = Object.assign({}, register);
+        Object.keys(data)
+          .filter((_key, index) => index < stepBlock)
+          .forEach(key => delete data[key]);
+        response = await propostaApi.create(data);
+        path = '/sucesso';
+        state = { path: '/simulacao', ...languagePage.success };
+      } else {
+        response = await simulacaoApi.simulate({
+          ...register,
+          nascimento: moment(register.nascimento).format('DD/MM/YYYY'),
+        });
+        path = '/simulacao/propostas';
+        state = { simulation: response };
+      }
 
       if (response) {
-        history.push('/simulacao/propostas', { simulation: response });
+        unlockStep();
+        history.push(path, state);
       }
     } catch (err) {
       const message = _.get(err, 'response.data.erro', err.message);
@@ -319,8 +346,10 @@ function CreateSimulation({ ...rest }) {
         background={backgroundImg}
         title={
           languagePage[
-            location.pathname.includes('re-simular')
+            simulation.isResimulation
               ? 'resimulationTitle'
+              : simulation.isProposal
+              ? 'choosePropostalTitle'
               : 'createTitle'
           ]
         }

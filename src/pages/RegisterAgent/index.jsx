@@ -178,7 +178,7 @@ function RegisterAgent() {
       const { estado, ...data } = register;
       await api.post(url, data);
 
-      return history.push('/success', {
+      return history.push('/sucesso', {
         ...language['register.agent.success'],
         path: '/login',
         state: { type: 'agent', login: register.cpf },

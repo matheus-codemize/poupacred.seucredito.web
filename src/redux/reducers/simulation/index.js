@@ -8,6 +8,8 @@ const inital_state = {
   register,
   steps: [],
   stepBlock: -1,
+  isProposal: false,
+  isResimulation: false,
 };
 
 const reducers = (state = inital_state, action) => {
@@ -60,14 +62,27 @@ const reducers = (state = inital_state, action) => {
       };
 
     case actionsTypes.BLOCKSTEP:
+      Object.assign(state, payload);
       if (state.stepBlock === -1) {
         state.step++;
+        state.stepBlock = state.step;
+      } else {
+        state.isProposal = false
+        state.isResimulation = false
+        state.step = state.stepBlock - 1;
+        state.stepBlock = -1;
+        state.steps = state.steps.slice(
+          0,
+          state.step - Object.keys(register).length + 1,
+        );
+        Object.keys(state.register)
+          .filter((_key, index) => index > state.step)
+          .forEach(key => {
+            delete state.register[key];
+          });
       }
 
-      return {
-        ...state,
-        stepBlock: state.stepBlock === -1 ? state.step : state.stepBlock,
-      };
+      return { ...state };
 
     default:
       return state;

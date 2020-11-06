@@ -338,10 +338,16 @@
     "create": "Nova Simulação",
     "createTitle": "Nova Simulação",
     "resimulationTitle": "Re-Simulação",
+    "choosePropostalTitle": "Você fez uma ótima escolha!",
     "proposalTitle": "Escolha a proposta ou simule com outro valor",
     "proposalSubtitle": "Sujeito à analise de crédito",
     "proposalChoose": "Quero este!",
-    "simulationOther": "Simular outro Valor"
+    "simulationOther": "Simular outro Valor",
+    "success": {
+      "text": "Ok, Entendi!",
+      "title": "Dados Enviados com Sucesso",
+      "description": "Sua proposta está sendo gerada no sistema do banco."
+    }
   },
 
   "component.form.props": {

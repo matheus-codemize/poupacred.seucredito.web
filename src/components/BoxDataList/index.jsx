@@ -49,11 +49,12 @@ function BoxDataList({ data, pagination, onPagination, ...rest }) {
 
 BoxDataList.defaultProps = {
   onPagination: null,
+  pagination: { total: 1, current: 1 },
 };
 
 BoxDataList.propTypes = {
   onPagination: PropTypes.func,
-  pagination: PropTypes.object.isRequired,
+  pagination: PropTypes.object,
   data: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
 

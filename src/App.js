@@ -118,7 +118,7 @@ function App() {
         <Route exact path="/">
           <Landing />
         </Route>
-        <Route path="/success">
+        <Route path="/sucesso">
           <Success />
         </Route>
         <Route exact path="/register/agent">

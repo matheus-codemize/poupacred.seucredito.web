@@ -90,7 +90,7 @@ function CreateCrm() {
       const response = await crmApi.create({ convenio });
 
       if (response) {
-        return history.push('/success', {
+        return history.push('/sucesso', {
           path: '/crm',
           ...languagePage.success,
         });
