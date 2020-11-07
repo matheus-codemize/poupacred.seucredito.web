@@ -215,41 +215,47 @@
     ]
   },
 
-  "home.title": "Quanto você já ganhou com a Seu Crédito",
-  "home.reports": [
-    {
-      "color": "#ffa726",
-      "secondColor": "#fb8c00",
-      "icon": "fas fa-calendar-day",
-      "title": "Produção Diária",
-      "subtitle": "Hoje [value]",
-      "path": "/report/producao-diaria"
-    },
-    {
-      "color": "#66bb6a",
-      "secondColor": "#43a047",
-      "icon": "fas fa-chart-pie",
-      "title": "Produção por Produto",
-      "subtitle": "[value] seu produto mais adquirido",
-      "path": "/report/producao-por-produto"
-    },
-    {
-      "color": "#ef5350",
-      "secondColor": "#e53935",
-      "icon": "fas fa-chart-line",
-      "title": "Produção Total",
-      "subtitle": "Sua produção até agora [value]",
-      "path": "/report/producao-total"
-    },
-    {
-      "color": "#26c6da",
-      "secondColor": "#00acc1",
-      "icon": "fas fa-file-invoice-dollar",
-      "title": "Comissionamento",
-      "subtitle": "Seu comissionamento até agora [value]",
-      "path": "/report/comissionamento"
-    }
-  ],
+  "page.home": {
+    "title": "Quanto você já ganhou com a <span>Seu Crédito</span>",
+    "reports": [
+      {
+        "key": "prod_diaria",
+        "color": "#ffa726",
+        "secondColor": "#fb8c00",
+        "icon": "fas fa-calendar-day",
+        "title": "Produção Diária",
+        "subtitle": "Hoje [value]",
+        "path": "/report/producao-diaria"
+      },
+      {
+        "key": "prod_produto",
+        "color": "#66bb6a",
+        "secondColor": "#43a047",
+        "icon": "fas fa-chart-pie",
+        "title": "Produção por Produto",
+        "subtitle": "[value] seu produto mais adquirido",
+        "path": "/report/producao-por-produto"
+      },
+      {
+        "key": "prod_total",
+        "color": "#ef5350",
+        "secondColor": "#e53935",
+        "icon": "fas fa-chart-line",
+        "title": "Produção Total",
+        "subtitle": "Sua produção até agora [value]",
+        "path": "/report/producao-total"
+      },
+      {
+        "key": "comissao",
+        "color": "#26c6da",
+        "secondColor": "#00acc1",
+        "icon": "fas fa-file-invoice-dollar",
+        "title": "Comissionamento",
+        "subtitle": "Seu comissionamento até agora [value]",
+        "path": "/report/comissionamento"
+      }
+    ]
+  },
 
   "register.client.title": "Cadastro de Cliente",
   "register.client.step0.title": "Dados Pessoais",
