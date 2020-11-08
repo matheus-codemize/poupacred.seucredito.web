@@ -52,16 +52,16 @@
 .detail {
   display: flex;
   flex-wrap: wrap;
-  text-align: center;
   flex-direction: row;
   padding: 1.5rem 0 0;
-  justify-content: space-between;
+  align-items: center;
+  justify-content: center;
 }
 
 .detail > div {
   width: 100%;
   display: flex;
-  margin: 0.5rem 0;
+  margin: 0.5rem;
   border-radius: 1rem;
   align-items: center;
   padding: 1rem 1.5rem;
@@ -72,7 +72,12 @@
 }
 
 .detail > div[data-width='50'] {
-  width: calc(50% - 0.5rem);
+  /**
+    * 1rem width
+    * 3rem padding
+    * 2px border
+  */
+  width: calc(50% - 4rem - 2px);
 }
 
 .detail > div > h1,
@@ -87,20 +92,12 @@
 
 @media screen and (min-width: 700px) {
   .detail[data-direction='true'] > div {
-    flex: 1 1 calc(50% - 4rem); /* 3rem de padding e 1rem de margin */
-  }
-
-  .detail[data-direction='true'] > div:nth-child(odd) {
-    margin-right: 1rem;
+    flex: 1 1 calc(50% - 4rem - 2px);
   }
 }
 
 @media screen and (min-width: 1000px) {
   .detail[data-direction='true'] > div {
-    flex: 1 1 calc(25% - 4rem);
-  }
-
-  .detail[data-direction='true'] > div:not(:nth-child(4n)) {
-    margin-right: 1rem;
+    flex: 1 1 calc(25% - 4rem - 2px);
   }
 }

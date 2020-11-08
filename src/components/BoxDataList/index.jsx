@@ -7,31 +7,32 @@ import BoxData from '../BoxData';
 import ListEmpty from '../ListEmpty';
 import Pagination from '../Pagination';
 
+export function convertKeys(item) {
+  if (item && typeof item === 'object') {
+    if (!item.title && item.nome) {
+      item.title = item.nome;
+    }
+
+    if (!item.details && Array.isArray(item.blocos)) {
+      item.details = item.blocos.map(bloco => ({
+        title: bloco.nome,
+        value: bloco.valor || '-',
+        width: bloco.tamanho || 100,
+        ...bloco,
+      }));
+    }
+
+    return item;
+  }
+
+  return null;
+}
+
 function BoxDataList({ data, pagination, onPagination, ...rest }) {
   function handlePagination(current) {
     if (typeof onPagination === 'function') {
       onPagination({ ...pagination, current });
     }
-  }
-
-  function convertKeys(item) {
-    if (item && typeof item === 'object') {
-      if (!item.title && item.nome) {
-        item.title = item.nome;
-      }
-
-      if (!item.details && Array.isArray(item.blocos)) {
-        item.details = item.blocos.map(bloco => ({
-          title: bloco.nome,
-          value: bloco.valor || '-',
-          ...bloco,
-        }));
-      }
-
-      return item;
-    }
-
-    return null;
   }
 
   return (

@@ -1,15 +1,18 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import styles from './style.module.css';
+
+// socketio
+import socket from '../../socketio';
+
+// utils
+import language from '../../utils/language';
 
 // redux
 import actionsAuth from '../../redux/actions/auth';
 import actionsSidebar from '../../redux/actions/sidebar';
 import actionsContainer from '../../redux/actions/container';
-
-// utils
-import language from '../../utils/language';
 
 const languageComp = language['component.header.user'];
 
@@ -23,63 +26,12 @@ function HeaderUser() {
 
   // component state
   const [openProfile, setOpenProfile] = useState(false);
-  const [notifications, setNotifications] = useState([
-    {
-      id: 1,
-      icone: 'fas fa-user',
-      titulo: 'A margem saiu!',
-      texto: 'Já era hora, não é mesmo ?!?!',
-      url: '...',
-      data: '5 min',
-      lido: false,
-    },
-    {
-      id: 1,
-      icone: 'fas fa-user',
-      titulo: 'A margem saiu!',
-      texto: 'Já era hora, não é mesmo ?!?!',
-      url: '...',
-      data: '5 min',
-      lido: false,
-    },
-    {
-      id: 1,
-      icone: 'fas fa-user',
-      titulo: 'A margem saiu!',
-      texto: 'Já era hora, não é mesmo ?!?!',
-      url: '...',
-      data: '5 min',
-      lido: false,
-    },
-    {
-      id: 1,
-      icone: 'fas fa-user',
-      titulo: 'A margem saiu!',
-      texto: 'Já era hora, não é mesmo ?!?!',
-      url: '...',
-      data: '5 min',
-      lido: false,
-    },
-    {
-      id: 1,
-      icone: 'fas fa-user',
-      titulo: 'A margem saiu!',
-      texto: 'Já era hora, não é mesmo ?!?!',
-      url: '...',
-      data: '5 min',
-      lido: false,
-    },
-    {
-      id: 1,
-      icone: 'fas fa-user',
-      titulo: 'A margem saiu!',
-      texto: 'Já era hora, não é mesmo ?!?!',
-      url: '...',
-      data: '5 min',
-      lido: false,
-    },
-  ]);
+  const [notifications, setNotifications] = useState([]);
   const [openNotification, setOpenNotification] = useState(false);
+
+  useEffect(() => {
+    socket.on('notificacao', setNotifications);
+  }, []);
 
   function openSidebar(event) {
     if (event && typeof event.stopPropagation === 'function') {
@@ -136,6 +88,13 @@ function HeaderUser() {
     dispatch(actionsContainer.close());
   }
 
+  function handleNotification(notification) {
+    const { url, lido } = notification;
+    if (url) {
+      history.push(url);
+    }
+  }
+
   const renderDropdownProfile = useMemo(() => {
     return (
       <div
@@ -179,8 +138,11 @@ function HeaderUser() {
               </h1>
               <ul>
                 {notifications.map((item, index) => (
-                  <li key={index}>
-                    <i className={item.icone} />
+                  <li key={index} onClick={() => handleNotification(item)}>
+                    <i
+                      style={{ color: item.cor }}
+                      className={item.icone || 'fa fa-check'}
+                    />
                     <div>
                       <h1>
                         {item.titulo}
@@ -208,7 +170,7 @@ function HeaderUser() {
   const renderActions = useMemo(() => {
     return (
       <div className={styles.actions}>
-        <i className="fas fa-flag" onClick={handleNofication} />
+        <i className="fas fa-bell" onClick={handleNofication} />
         {renderDropdownNotification}
         {auth.nome && typeof auth.nome === 'string' && (
           <span

@@ -90,6 +90,10 @@
     "text": "Ações",
     "icon": "fas fa-cog"
   },
+  "component.button.document": {
+    "text": "Documentos",
+    "icon": "fas fa-folder-open"
+  },
 
   "component.panel": {
     "more": "Expandir",
@@ -224,7 +228,7 @@
         "secondColor": "#fb8c00",
         "icon": "fas fa-calendar-day",
         "title": "Produção Diária",
-        "subtitle": "Hoje [value]",
+        "subtitle": "Hoje [value].",
         "path": "/report/producao-diaria"
       },
       {
@@ -233,8 +237,9 @@
         "secondColor": "#43a047",
         "icon": "fas fa-chart-pie",
         "title": "Produção por Produto",
-        "subtitle": "[value] seu produto mais adquirido",
-        "path": "/report/producao-por-produto"
+        "subtitle": "[value] seu produto mais adquirido.",
+        "path": "/report/producao-por-produto",
+        "empty": "Comece agora e se surpreeenda com seus ganhos."
       },
       {
         "key": "prod_total",
@@ -242,7 +247,7 @@
         "secondColor": "#e53935",
         "icon": "fas fa-chart-line",
         "title": "Produção Total",
-        "subtitle": "Sua produção até agora [value]",
+        "subtitle": "Sua produção até agora [value].",
         "path": "/report/producao-total"
       },
       {
@@ -251,7 +256,7 @@
         "secondColor": "#00acc1",
         "icon": "fas fa-file-invoice-dollar",
         "title": "Comissionamento",
-        "subtitle": "Seu comissionamento até agora [value]",
+        "subtitle": "Seu comissionamento até agora [value].",
         "path": "/report/comissionamento"
       }
     ]
@@ -311,6 +316,10 @@
 
   "page.proposal": {
     "title": "Consultar Propostas",
+    "detailsTitle": "Detalhes da Proposta",
+    "labels": {
+      "client": "Dados do Cliente"
+    },
     "list": {
       "status": []
     }

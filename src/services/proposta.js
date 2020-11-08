@@ -22,12 +22,27 @@ export async function getFields(data) {
 }
 
 /**
- * Função para listar os convênios
+ * Função para criar uma proposta
  */
 export async function create(data) {
   try {
     const url = '/propostas/criar';
     const response = await api.post(url, data);
+    return response;
+  } catch (err) {
+    const message = _.get(err, 'response.data.erro', err.message);
+    toast.error(message);
+  }
+  return null;
+}
+
+/**
+ * Função para criar uma proposta
+ */
+export async function find(id) {
+  try {
+    const url = `/propostas/buscar?proposta=${id}`;
+    const response = await api.get(url);
     return response;
   } catch (err) {
     const message = _.get(err, 'response.data.erro', err.message);

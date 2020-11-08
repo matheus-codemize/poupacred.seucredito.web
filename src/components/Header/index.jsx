@@ -18,9 +18,9 @@ import logo from '../../assets/images/logo.png';
 import Button from '../Button';
 
 function Header() {
-  const dispatch = useDispatch();
   const history = useHistory();
   const location = useLocation();
+  const dispatch = useDispatch();
 
   const auth = useSelector(state => state.auth);
 

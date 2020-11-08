@@ -32,8 +32,8 @@ function BoxHelp() {
         {language['component.button.help'].text}
       </h1>
       <i
-        className={language['component.button.close'].icon}
         onClick={handleClose}
+        className={language['component.button.close'].icon}
       />
       {box.help}
     </div>

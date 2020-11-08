@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useCallback, useMemo } from 'react';
 import _ from 'lodash';
+import { useHistory, useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 
 // redux
@@ -30,11 +31,16 @@ import Button from '../../components/Button';
 import BoxDataList from '../../components/BoxDataList';
 import InputDateRange from '../../components/InputDateRange';
 
+// components internal
+import Details from './components/DetailsProposal';
+
 const languagePage = language['page.proposal'];
 const languageForm = language['component.form.props'];
 
 function Proposal() {
   // resources hooks
+  const history = useHistory();
+  const location = useLocation();
   const dispatch = useDispatch();
 
   // redux state
@@ -49,11 +55,15 @@ function Proposal() {
   const [pagination, setPagination] = useState({ total: 0, current: 1 });
 
   useEffect(() => {
-    initComponent();
+    if (location.pathname === '/proposta') {
+      initComponent();
+    }
   }, []);
 
   useEffect(() => {
-    getDados();
+    if (location.pathname === '/proposta') {
+      getDados();
+    }
   }, [pagination.current]);
 
   async function initComponent() {
@@ -102,7 +112,9 @@ function Proposal() {
     setFilter(prevFilter => ({ ...prevFilter, [id]: value }));
   }
 
-  function handleDetails(id) {}
+  function handleDetails(item) {
+    history.push('/proposta/detalhes', { proposal: item });
+  }
 
   const getCol = useCallback(
     id => {
@@ -117,12 +129,16 @@ function Proposal() {
       footer: (
         <Button
           gradient
-          onClick={() => handleDetails()}
+          onClick={() => handleDetails(item)}
           {...language['component.button.details']}
         />
       ),
     }));
   }, [dataset]);
+
+  if (location.pathname === '/proposta/detalhes') {
+    return <Details />;
+  }
 
   return (
     <div>

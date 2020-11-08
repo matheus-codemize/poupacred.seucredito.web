@@ -1,0 +1,31 @@
+.container {
+  top: -4rem;
+  display: flex;
+  flex-wrap: wrap;
+  position: relative;
+  flex-direction: row;
+}
+
+.document {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+
+.document > button {
+  flex: 1 1 100%;
+}
+
+@media screen and (min-width: 500px) {
+  .document > button {
+    flex: 1;
+  }
+}
+
+@media screen and (min-width: 1280px) {
+  .container > div {
+    flex: 1 1 33%;
+  }
+}

@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
 import AnimatedNumber from 'animated-number-react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -27,7 +27,7 @@ function Home() {
     comissao: 0,
     prod_total: 0,
     prod_diaria: 0,
-    prod_produto: '-',
+    prod_produto: '',
   });
 
   useEffect(() => {
@@ -44,7 +44,7 @@ function Home() {
           Object.keys(response).forEach(key => {
             prevData[key] = response[key];
           });
-          return prevData;
+          return { ...prevData };
         });
       }
     } catch (err) {
@@ -61,9 +61,21 @@ function Home() {
     }).format(value);
   }
 
-  function getValue(key) {
-    return typeof data[key] === 'number' ? formatNumber(data[key]) : data[key];
-  }
+  const getValue = useCallback(
+    report => {
+      const { key, empty, subtitle } = report;
+      const value =
+        typeof data[key] === 'number' ? formatNumber(data[key]) : data[key];
+
+      const text =
+        !data[key] && empty
+          ? empty
+          : subtitle.replace('[value]', `<span>${value}</span>`);
+
+      return <p dangerouslySetInnerHTML={{ __html: text }} />;
+    },
+    [data],
+  );
 
   const renderHeader = useMemo(() => {
     return (
@@ -90,16 +102,7 @@ function Home() {
               }}
             />
             <h1 style={{ color: report.color }}>{report.title}</h1>
-            <p>
-              <div
-                dangerouslySetInnerHTML={{
-                  __html: report.subtitle.replace(
-                    '[value]',
-                    `<span>${getValue(report.key)}</span>`,
-                  ),
-                }}
-              />
-            </p>
+            {getValue(report)}
             <div>{language['component.button.more'].title}</div>
           </Link>
         ))}
