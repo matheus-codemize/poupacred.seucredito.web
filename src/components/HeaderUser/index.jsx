@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import styles from './style.module.css';
 
 // socketio
-import socket from '../../socketio';
+// import socket from '../../socketio';
 
 // utils
 import language from '../../utils/language';
@@ -30,7 +30,7 @@ function HeaderUser() {
   const [openNotification, setOpenNotification] = useState(false);
 
   useEffect(() => {
-    socket.on('notificacao', setNotifications);
+    // socket.on('notificacao', setNotifications);
   }, []);
 
   function openSidebar(event) {

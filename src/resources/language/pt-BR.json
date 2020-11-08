@@ -318,7 +318,12 @@
     "title": "Consultar Propostas",
     "detailsTitle": "Detalhes da Proposta",
     "labels": {
-      "client": "Dados do Cliente"
+      "client": "Dados do Cliente",
+      "historyTitle": "Histórico da Proposta",
+      "history": "Consultar histórico",
+      "historyEmpty": "Sem histórico",
+      "contract": "Baixar Contrato",
+      "contractEmpty": "Sem Contrato"
     },
     "list": {
       "status": []

@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import _ from 'lodash';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
@@ -18,6 +18,7 @@ import * as propostaApi from '../../../../services/proposta';
 import backgroundImg from '../../../../assets/images/background/panel/proposta.jpg';
 
 // components
+import Box from '../../../../components/Box';
 import Panel from '../../../../components/Panel';
 import BoxData from '../../../../components/BoxData';
 import ListEmpty from '../../../../components/ListEmpty';
@@ -59,6 +60,50 @@ function DetailsProposal() {
     // dispatch(actionsBox.open());
   }
 
+  const detailsSectionHistory = useMemo(() => {
+    return details && details.historico ? (
+      <div className={styles.history}>
+        <h1>
+          {navigator.window.size.x >= 1280
+            ? languagePage.labels.historyTitle
+            : ''}
+        </h1>
+        <p>
+          <a data-active={!!details.historico.length}>
+            <label>
+              <i
+                className={
+                  details.historico.length ? 'fas fa-history' : 'fa fa-close'
+                }
+              />
+              {details.historico.length
+                ? languagePage.labels.history
+                : languagePage.labels.historyEmpty}
+            </label>
+          </a>
+          <a data-active={!!details.contrato}>
+            <label>
+              <i className={details.contrato ? 'fas fa-file' : 'fa fa-close'} />
+              {details.contrato
+                ? languagePage.labels.contract
+                : languagePage.labels.contractEmpty}
+            </label>
+          </a>
+        </p>
+        <ul>
+          {details.historico.map((item, index) => (
+            <li key={index}>
+              <label>{item.nome}</label>
+              <span>{item.data}</span>
+            </li>
+          ))}
+        </ul>
+      </div>
+    ) : (
+      <></>
+    );
+  }, [details, navigator.window.size.x]);
+
   const renderDetails = useMemo(() => {
     const component = [];
 
@@ -83,7 +128,7 @@ function DetailsProposal() {
             {...convertKeys({
               ...details.proposta,
               blocos: details.proposta.blocos.filter(
-                (_bloco, index) => index <= 3,
+                bloco => !bloco.valor.includes('data:image'),
               ),
             })}
             footer={
@@ -92,35 +137,24 @@ function DetailsProposal() {
                   onClick={handleOpenDocuments}
                   {...language['component.button.document']}
                 />
-                {navigator.window.size.x < 1280 && <></>}
+                {navigator.window.size.x < 1280 && detailsSectionHistory}
               </div>
             }
           />,
         );
+      }
 
-        if (navigator.window.size.x >= 1280) {
-          component.push(
-            <BoxData
-              title={details.proposta.nome}
-              useDirection={navigator.window.size.x < 1280}
-              size={navigator.window.size.x < 1280 ? 'lg' : 'sm'}
-              {...convertKeys({
-                ...details.proposta,
-                blocos: details.proposta.blocos.filter(
-                  (_bloco, index) => index <= 3,
-                ),
-              })}
-              footer={
-                <div className={styles.document}>
-                  <Button
-                    onClick={handleOpenDocuments}
-                    {...language['component.button.document']}
-                  />
-                </div>
-              }
-            />,
-          );
-        }
+      if (
+        details.historico &&
+        Array.isArray(details.historico) &&
+        details.historico.length &&
+        navigator.window.size.x >= 1280
+      ) {
+        component.push(
+          <Box size={navigator.window.size.x < 1280 ? 'lg' : 'sm'}>
+            {detailsSectionHistory}
+          </Box>,
+        );
       }
     }
 

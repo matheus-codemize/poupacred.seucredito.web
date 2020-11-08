@@ -18,6 +18,78 @@
   flex: 1 1 100%;
 }
 
+.history {
+  width: 100%;
+  position: relative;
+}
+
+.history > h1 {
+  font-size: 2rem;
+  font-weight: 600;
+  text-align: center;
+  margin-bottom: 2rem;
+  color: rgb(var(--color-black));
+}
+
+.history > p a {
+  width: 50%;
+  color: grey;
+  cursor: pointer;
+  text-align: left;
+  font-size: 1.5rem;
+  padding: 1rem 0 2rem;
+  display: inline-block;
+}
+
+.history > p a[data-active='false'] {
+  cursor: default;
+}
+
+.history > p a:nth-child(even) {
+  text-align: right;
+}
+
+.history > p a label {
+  cursor: inherit;
+  user-select: none;
+  transition: 0.4s ease;
+}
+
+.history > p a i {
+  margin-right: 7px;
+}
+
+.history > p a[data-active='true']:hover {
+  color: rgb(var(--color-primary));
+}
+
+.history > p a[data-active='true']:hover > label {
+  margin-left: 10px;
+  color: rgb(var(--color-primary));
+}
+
+.history > p a[data-active='true']:nth-child(odd):hover > label {
+  margin-right: 10px;
+}
+
+.history > ul {
+  font-size: 1.7rem;
+  color: rgb(var(--color-black));
+}
+
+.history > ul li {
+  display: flex;
+  margin: 2rem 0;
+  flex-direction: row;
+  padding-bottom: 1rem;
+  justify-content: space-between;
+  border-bottom: 1px solid grey;
+}
+
+.history > ul li label {
+  font-weight: 700;
+}
+
 @media screen and (min-width: 500px) {
   .document > button {
     flex: 1;
@@ -27,5 +99,6 @@
 @media screen and (min-width: 1280px) {
   .container > div {
     flex: 1 1 33%;
+    margin: 1rem 0;
   }
 }
