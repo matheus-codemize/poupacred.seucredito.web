@@ -6,8 +6,8 @@ const inputsize = {
     nascimento: 5,
     celular: 8,
     email: 8,
-    sexo: 8,
     rg_cnh: 8,
+    sexo: 8,
 
     // endereço
     cep: 4,
@@ -26,8 +26,8 @@ const inputsize = {
     nascimento: 4,
     celular: 3,
     email: 6,
-    sexo: 5,
     rg_cnh: 5,
+    sexo: 5,
 
     // endereço
     cep: 4,

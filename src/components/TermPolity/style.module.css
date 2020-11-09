@@ -2,6 +2,7 @@
   margin: 1rem 0;
   font-size: 1.5rem;
   line-height: 2rem;
+  text-align: justify;
   color: rgb(var(--color-black));
 }
 

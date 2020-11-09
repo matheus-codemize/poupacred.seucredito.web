@@ -7,22 +7,14 @@
   color: rgb(var(--color-black));
 }
 
-.content_options {
+.option {
   width: 100%;
   display: flex;
   flex-wrap: wrap;
   margin-top: 2rem;
   position: relative;
-  flex-direction: column;
-}
-
-.content_options[data-direction='row'] {
   flex-direction: row;
   justify-content: space-between;
-}
-
-.content_options > div {
-  margin: 0 0 1rem;
 }
 
 .container label {
@@ -87,4 +79,14 @@
 
 .container[data-col='15'] {
   width: calc(100% * 0.9375 - 2rem);
+}
+
+@media screen and (min-width: 500px) {
+  .option {
+    justify-content: flex-start;
+  }
+
+  .option > div:not(:last-child) {
+    margin-right: 1rem;
+  }
 }

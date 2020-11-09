@@ -194,16 +194,16 @@ function Landing() {
     );
   }
 
-  function handleSimulation() {
-    history.push('/register/client');
-  }
-
-  function handleClient() {
+  function handleLoginClient() {
     history.push('/login', { login: { type: 'client' } });
   }
 
+  function handleClient() {
+    history.push('/cadastro/cliente');
+  }
+
   function handleAgent() {
-    history.push('/register/agent');
+    history.push('/cadastro/agente');
   }
 
   function handleTop() {
@@ -290,10 +290,10 @@ function Landing() {
         ))}
         {renderTitle}
         <div className={styles.container_action}>
-          <Button icon="fa fa-calculator" onClick={handleSimulation}>
+          <Button icon="fa fa-calculator" onClick={handleClient}>
             {language['landing.button.simulation.text']}
           </Button>
-          <Button icon="fa fa-user" onClick={handleClient}>
+          <Button icon="fa fa-user" onClick={handleLoginClient}>
             {language['landing.button.client.text']}
           </Button>
           <Button

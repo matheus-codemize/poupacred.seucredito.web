@@ -122,10 +122,10 @@ function App() {
         <Route path="/sucesso">
           <Success />
         </Route>
-        <Route exact path="/register/agent">
+        <Route exact path="/cadastro/agente">
           <RegisterAgent />
         </Route>
-        <Route exact path="/register/client">
+        <Route exact path="/cadastro/cliente">
           <RegisterClient />
         </Route>
         <Route path="/login">

@@ -11,13 +11,14 @@
 }
 
 .step {
+  opacity: 0;
   width: 100%;
   height: auto;
   max-height: 0;
   flex-shrink: 0;
-  transition: 0.4s;
 }
 
 .step[data-visible='true'] {
+  opacity: 1;
   max-height: 10000px;
 }

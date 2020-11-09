@@ -21,7 +21,6 @@ import * as cidadeApi from '../../services/cidade';
 // utils
 import toast from '../../utils/toast';
 import moment from '../../utils/moment';
-import format from '../../utils/format';
 import validator from '../../utils/validator';
 import getColSize from '../../utils/getColSize';
 import language, { errors as errorsLanguage } from '../../utils/language';
@@ -49,7 +48,6 @@ const keysByStep = {
 function RegisterAgent() {
   // resources hooks
   const history = useHistory();
-  const location = useLocation();
   const dispatch = useDispatch();
 
   // redux state
@@ -60,7 +58,6 @@ function RegisterAgent() {
   // component state
   const [step, setStep] = useState(0);
   const [errors, setErrors] = useState({});
-  const [loading, setLoading] = useState(false);
   const [register, setRegister] = useState(registerDefault);
   // lists
   const [estados, setEstados] = useState([]);
@@ -86,18 +83,16 @@ function RegisterAgent() {
   }
 
   async function getCidades() {
+    dispatch(actionsContainer.loading());
     const data = await cidadeApi.listByEstado(register.estado);
     setCidades(data);
+    dispatch(actionsContainer.close());
   }
 
   function handleChange(event) {
     let { id, value } = event.target;
 
     switch (id) {
-      case 'nascimento':
-        value = format.birthday(value, register[id]);
-        break;
-
       case 'estado':
         return setRegister(prevRegister => ({
           ...prevRegister,
@@ -236,227 +231,214 @@ function RegisterAgent() {
   }, [step, register, errors, container.loading]);
 
   return (
-    <div>
-      <Panel title={languagePage.title}>
-        <Panel.Body>
-          <div className={styles.container} data-step={step}>
-            <Box onBack={backStep}>
-              <h1>{languagePage.titleSteps[step]}</h1>
-              <form onSubmit={handleSave}>
-                <Carousel step={step}>
-                  <Carousel.Step>
-                    <div className={styles.form}>
-                      <Input
-                        id="nome"
-                        col={getCol}
-                        helpType="error"
-                        disabled={loading}
-                        onBlur={handleBlur}
-                        value={register.nome}
-                        onChange={handleChange}
-                        help={errors.nome || ''}
-                        {...languageForm.nome}
-                      />
-                      <Input
-                        id="cpf"
-                        type="cpf"
-                        col={getCol}
-                        helpType="error"
-                        disabled={loading}
-                        onBlur={handleBlur}
-                        value={register.cpf}
-                        onChange={handleChange}
-                        help={errors.cpf || ''}
-                        {...languageForm.cpf}
-                      />
-                      <Input
-                        col={getCol}
-                        id="nascimento"
-                        helpType="error"
-                        disabled={loading}
-                        onBlur={handleBlur}
-                        onChange={handleChange}
-                        value={register.nascimento}
-                        help={errors.nascimento || ''}
-                        {...languageForm.nascimento}
-                      />
-                      <Input
-                        type="phone"
-                        id="celular"
-                        col={getCol}
-                        helpType="error"
-                        disabled={loading}
-                        onBlur={handleBlur}
-                        onChange={handleChange}
-                        value={register.celular}
-                        help={errors.celular || ''}
-                        {...languageForm.celular}
-                      />
-                      <Input
-                        id="email"
-                        col={getCol}
-                        helpType="error"
-                        htmlType="email"
-                        disabled={loading}
-                        onBlur={handleBlur}
-                        value={register.email}
-                        onChange={handleChange}
-                        help={errors.email || ''}
-                        {...languageForm.email}
-                      />
-                      <RadioGroup
-                        id="sexo"
-                        col={getCol}
-                        direction="row"
-                        disabled={loading}
-                        value={register.sexo}
-                        onChange={handleChange}
-                        options={[
-                          { value: 1, label: 'Masculino' },
-                          { value: 2, label: 'Feminino' },
-                        ]}
-                        {...languageForm.sexo}
-                      />
-                      <InputFile
-                        id="rg_cnh"
-                        col={getCol}
-                        helpType="error"
-                        onChange={handleChange}
-                        help={errors.rg_cnh || ''}
-                        {...languageForm.rg_cnh}
-                      />
-                    </div>
-                  </Carousel.Step>
-                  <Carousel.Step>
-                    <div className={styles.form}>
-                      <Input
-                        id="cep"
-                        type="cep"
-                        col={getCol}
-                        helpType="error"
-                        disabled={loading}
-                        onBlur={handleBlur}
-                        onChange={handleChange}
-                        help={errors.cep || ''}
-                        value={register.cep || ''}
-                        {...languageForm.cep}
-                      />
-                      <Select
-                        id="estado"
-                        col={getCol}
-                        helpType="error"
-                        options={estados}
-                        disabled={loading}
-                        onBlur={handleBlur}
-                        onChange={handleChange}
-                        help={errors.estado || ''}
-                        value={register.estado || ''}
-                        {...languageForm.estado}
-                      />
-                      <Select
-                        id="cidade"
-                        col={getCol}
-                        helpType="error"
-                        options={cidades}
-                        disabled={loading}
-                        onBlur={handleBlur}
-                        onChange={handleChange}
-                        help={errors.cidade || ''}
-                        value={register.cidade || ''}
-                        {...languageForm.cidade}
-                      />
-                      <Input
-                        id="bairro"
-                        col={getCol}
-                        helpType="error"
-                        disabled={loading}
-                        onBlur={handleBlur}
-                        onChange={handleChange}
-                        help={errors.bairro || ''}
-                        value={register.bairro || ''}
-                        {...languageForm.bairro}
-                      />
-                      <Input
-                        id="endereco"
-                        col={getCol}
-                        helpType="error"
-                        disabled={loading}
-                        onBlur={handleBlur}
-                        onChange={handleChange}
-                        help={errors.endereco || ''}
-                        value={register.endereco || ''}
-                        {...languageForm.endereco}
-                      />
-                      <Input
-                        col={getCol}
-                        helpType="error"
-                        disabled={loading}
-                        id="numero_endereco"
-                        onChange={handleChange}
-                        help={errors.numero_endereco || ''}
-                        value={register.numero_endereco || ''}
-                        {...languageForm.numero_endereco}
-                      />
-                      <Input
-                        col={getCol}
-                        id="complemento"
-                        helpType="error"
-                        disabled={loading}
-                        onChange={handleChange}
-                        help={errors.complemento || ''}
-                        value={register.complemento || ''}
-                        {...languageForm.complemento}
-                      />
-                      <InputFile
-                        col={getCol}
-                        helpType="error"
-                        onChange={handleChange}
-                        id="comprovante_endereco"
-                        accept=".png, .jpeg, .jpg, .pdf"
-                        help={errors.comprovante_endereco || ''}
-                        {...languageForm.comprovante_endereco}
-                      />
-                    </div>
-                  </Carousel.Step>
-                  <Carousel.Step>
-                    <div className={styles.form}>
-                      <Input
-                        col={getCol}
-                        id="certificacao"
-                        helpType="error"
-                        disabled={loading}
-                        onChange={handleChange}
-                        help={errors.certificacao || ''}
-                        value={register.certificacao || ''}
-                        {...languageForm.certificacao}
-                      />
-                      <InputFile
-                        col={getCol}
-                        id="curriculo"
-                        helpType="error"
-                        onChange={handleChange}
-                        help={errors.curriculo || ''}
-                        accept=".png, .jpeg, .jpg, .pdf"
-                        {...languageForm.curriculo}
-                      />
-                      <TermPolity />
-                    </div>
-                  </Carousel.Step>
-                </Carousel>
-                <Button
-                  data-unique
-                  htmlType="submit"
-                  disabled={disabledBtnSubmit}
-                  {...language[
-                    `component.button.${step === 2 ? 'register' : 'next'}`
-                  ]}
-                />
-              </form>
-            </Box>
-          </div>
-        </Panel.Body>
-      </Panel>
-    </div>
+    <Panel useDivider title={languagePage.title}>
+      <Panel.Body>
+        <form
+          data-step={step}
+          onSubmit={handleSave}
+          className={styles.container}
+        >
+          <Box onBack={backStep}>
+            <h1>{languagePage.stepTitles[step]}</h1>
+            <Carousel step={step}>
+              <Carousel.Step>
+                <div className={styles.form}>
+                  <Input
+                    id="nome"
+                    col={getCol}
+                    helpType="error"
+                    onBlur={handleBlur}
+                    value={register.nome}
+                    onChange={handleChange}
+                    help={errors.nome || ''}
+                    {...languageForm.nome}
+                  />
+                  <Input
+                    id="cpf"
+                    type="cpf"
+                    col={getCol}
+                    helpType="error"
+                    onBlur={handleBlur}
+                    value={register.cpf}
+                    onChange={handleChange}
+                    help={errors.cpf || ''}
+                    {...languageForm.cpf}
+                  />
+                  <Input
+                    col={getCol}
+                    id="nascimento"
+                    type="birthday"
+                    helpType="error"
+                    onBlur={handleBlur}
+                    onChange={handleChange}
+                    value={register.nascimento}
+                    help={errors.nascimento || ''}
+                    {...languageForm.nascimento}
+                  />
+                  <Input
+                    type="phone"
+                    id="celular"
+                    col={getCol}
+                    helpType="error"
+                    onBlur={handleBlur}
+                    onChange={handleChange}
+                    value={register.celular}
+                    help={errors.celular || ''}
+                    {...languageForm.celular}
+                  />
+                  <Input
+                    id="email"
+                    col={getCol}
+                    helpType="error"
+                    htmlType="email"
+                    onBlur={handleBlur}
+                    value={register.email}
+                    onChange={handleChange}
+                    help={errors.email || ''}
+                    {...languageForm.email}
+                  />
+                  <InputFile
+                    id="rg_cnh"
+                    col={getCol}
+                    helpType="error"
+                    onChange={handleChange}
+                    help={errors.rg_cnh || ''}
+                    {...languageForm.rg_cnh}
+                  />
+                  <RadioGroup
+                    id="sexo"
+                    col={getCol}
+                    direction="row"
+                    value={register.sexo}
+                    onChange={handleChange}
+                    options={[
+                      { value: 1, label: 'Masculino' },
+                      { value: 2, label: 'Feminino' },
+                    ]}
+                    {...languageForm.sexo}
+                  />
+                </div>
+              </Carousel.Step>
+              <Carousel.Step>
+                <div className={styles.form}>
+                  <Input
+                    id="cep"
+                    type="cep"
+                    col={getCol}
+                    helpType="error"
+                    onBlur={handleBlur}
+                    onChange={handleChange}
+                    help={errors.cep || ''}
+                    value={register.cep || ''}
+                    {...languageForm.cep}
+                  />
+                  <Select
+                    id="estado"
+                    col={getCol}
+                    helpType="error"
+                    options={estados}
+                    onBlur={handleBlur}
+                    onChange={handleChange}
+                    help={errors.estado || ''}
+                    value={register.estado || ''}
+                    {...languageForm.estado}
+                  />
+                  <Select
+                    id="cidade"
+                    col={getCol}
+                    helpType="error"
+                    options={cidades}
+                    onBlur={handleBlur}
+                    onChange={handleChange}
+                    help={errors.cidade || ''}
+                    value={register.cidade || ''}
+                    {...languageForm.cidade}
+                  />
+                  <Input
+                    id="bairro"
+                    col={getCol}
+                    helpType="error"
+                    onBlur={handleBlur}
+                    onChange={handleChange}
+                    help={errors.bairro || ''}
+                    value={register.bairro || ''}
+                    {...languageForm.bairro}
+                  />
+                  <Input
+                    id="endereco"
+                    col={getCol}
+                    helpType="error"
+                    onBlur={handleBlur}
+                    onChange={handleChange}
+                    help={errors.endereco || ''}
+                    value={register.endereco || ''}
+                    {...languageForm.endereco}
+                  />
+                  <Input
+                    col={getCol}
+                    helpType="error"
+                    id="numero_endereco"
+                    onChange={handleChange}
+                    help={errors.numero_endereco || ''}
+                    value={register.numero_endereco || ''}
+                    {...languageForm.numero_endereco}
+                  />
+                  <Input
+                    col={getCol}
+                    id="complemento"
+                    helpType="error"
+                    onChange={handleChange}
+                    help={errors.complemento || ''}
+                    value={register.complemento || ''}
+                    {...languageForm.complemento}
+                  />
+                  <InputFile
+                    col={getCol}
+                    helpType="error"
+                    onChange={handleChange}
+                    id="comprovante_endereco"
+                    accept=".png, .jpeg, .jpg, .pdf"
+                    help={errors.comprovante_endereco || ''}
+                    {...languageForm.comprovante_endereco}
+                  />
+                </div>
+              </Carousel.Step>
+              <Carousel.Step>
+                <div className={styles.form}>
+                  <Input
+                    col={getCol}
+                    id="certificacao"
+                    helpType="error"
+                    onChange={handleChange}
+                    help={errors.certificacao || ''}
+                    value={register.certificacao || ''}
+                    {...languageForm.certificacao}
+                  />
+                  <InputFile
+                    col={getCol}
+                    id="curriculo"
+                    helpType="error"
+                    onChange={handleChange}
+                    help={errors.curriculo || ''}
+                    accept=".png, .jpeg, .jpg, .pdf"
+                    {...languageForm.curriculo}
+                  />
+                  <TermPolity />
+                </div>
+              </Carousel.Step>
+            </Carousel>
+            <Button
+              data-unique
+              htmlType="submit"
+              disabled={disabledBtnSubmit}
+              {...language[
+                `component.button.${step === 2 ? 'register' : 'next'}`
+              ]}
+            />
+          </Box>
+        </form>
+      </Panel.Body>
+    </Panel>
   );
 }
 

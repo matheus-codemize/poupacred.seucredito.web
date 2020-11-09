@@ -6,6 +6,7 @@ import styles from './style.module.css';
 
 // redux
 import actionsAuth from '../../redux/actions/auth';
+import actionsContainer from '../../redux/actions/container';
 
 // resources
 import inputsize from '../../resources/data/inputsize/client';
@@ -17,7 +18,6 @@ import api from '../../services/api';
 // utils
 import toast from '../../utils/toast';
 import moment from '../../utils/moment';
-import format from '../../utils/format';
 import validator from '../../utils/validator';
 import getColSize from '../../utils/getColSize';
 import language, { errors as errorsLanguage } from '../../utils/language';
@@ -31,21 +31,26 @@ import Carousel from '../../components/Carousel';
 import RadioGroup from '../../components/RadioGroup';
 import TermPolity from '../../components/TermPolity';
 
+const languagePage = language['page.register.client'];
+const languageForm = language['component.form.props'];
+
 const keysByStep = {
   0: ['cpf', 'sexo', 'nome', 'email', 'celular', 'nascimento'],
   1: ['senha', 'confirma_senha'],
 };
 
 function RegisterClient() {
+  // resources hooks
   const history = useHistory();
   const dispatch = useDispatch();
 
+  // redux state
   const auth = useSelector(state => state.auth);
   const navigator = useSelector(state => state.navigator);
 
+  // component state
   const [step, setStep] = useState(0);
   const [errors, setErrors] = useState({});
-  const [loading, setLoading] = useState(false);
   const [register, setRegister] = useState(registerDefault);
 
   useEffect(() => {
@@ -55,25 +60,7 @@ function RegisterClient() {
   }, [auth, auth.uid]);
 
   function handleChange(event) {
-    let { id, value } = event.target;
-
-    switch (id) {
-      case 'cpf':
-        value = format.cpf(value, register[id]);
-        break;
-
-      case 'nascimento':
-        value = format.birthday(value, register[id]);
-        break;
-
-      case 'celular':
-        value = format.phone(value, register[id]);
-        break;
-
-      default:
-        break;
-    }
-
+    const { id, value } = event.target;
     setErrors(prevErrors => ({ ...prevErrors, [id]: '' }));
     setRegister(prevRegister => ({ ...prevRegister, [id]: value }));
   }
@@ -84,15 +71,12 @@ function RegisterClient() {
 
     const setMessage = (type = 'invalid', length = '') => {
       message = errorsLanguage[type]
-        .replace('[field]', language['register.client.input'][id].label)
+        .replace('[field]', languageForm[id].label)
         .replace('[length]', length);
     };
 
     if (!value) {
-      message = errorsLanguage.empty.replace(
-        '[field]',
-        language['register.client.input'][id].label,
-      );
+      message = errorsLanguage.empty.replace('[field]', languageForm[id].label);
     } else {
       switch (id) {
         case 'cpf':
@@ -132,11 +116,11 @@ function RegisterClient() {
         }
       }
 
-      if (step <= 0) {
-        return handleStep('next');
+      if (!step) {
+        return setStep(prevStep => prevStep + 1);
       }
 
-      handleLoading('on');
+      dispatch(actionsContainer.loading());
       const url = '/clientes/cadastrar';
       const { confirma_senha, ...data } = register;
       const request = await api.post(url, data);
@@ -144,11 +128,17 @@ function RegisterClient() {
       if (!request.id) {
         return toast.error(errorsLanguage.register);
       }
+
       setTimeout(() => {
         return history.push('/sucesso', {
-          ...language['register.client.success'],
+          ...languagePage.success,
           path: '/login',
-          state: { type: 'client', login: register.cpf },
+          state: {
+            login: {
+              type: 'client',
+              register: { login: register.cpf, senha: register.senha },
+            },
+          },
         });
       }, 500);
     } catch (err) {
@@ -162,8 +152,10 @@ function RegisterClient() {
         case 24: // Cliente já cadastrado
           toast.info(error.erro);
           return history.push('/login', {
-            type: 'client',
-            login: register.cpf,
+            login: {
+              type: 'client',
+              register: { login: register.cpf },
+            },
           });
 
         default:
@@ -171,20 +163,14 @@ function RegisterClient() {
           break;
       }
     } finally {
-      handleLoading();
+      dispatch(actionsContainer.close());
     }
   }
 
-  function handleStep(type = 'back') {
-    setStep(prevStep => (type === 'next' ? prevStep + 1 : prevStep - 1));
-  }
-
-  function handleLoading(action = 'off') {
-    setLoading(prevLoading => {
-      if (action === 'on' && !prevLoading) return true;
-      if (action === 'off' && prevLoading) return false;
-      return prevLoading;
-    });
+  function handleBack() {
+    if (!step) return history.goBack();
+    setErrors({});
+    setStep(prevStep => prevStep - 1);
   }
 
   const getCol = useCallback(
@@ -207,141 +193,119 @@ function RegisterClient() {
 
   return (
     <div>
-      <Panel title={language['register.client.title']}>
+      <Panel useDivider title={languagePage.title}>
         <Panel.Body>
-          <div className={styles.container} data-step={step}>
-            <Box onBack={step ? handleStep : undefined}>
+          <form
+            data-step={step}
+            onSubmit={handleSave}
+            className={styles.container}
+          >
+            <Box
+              onBack={handleBack}
+              size={step && navigator.window.size.x >= 500 ? 'sm' : 'lg'}
+            >
+              <h1>{languagePage.stepTitles[step]}</h1>
               <Carousel step={step}>
                 <Carousel.Step>
-                  <h1>{language['register.client.step0.title']}</h1>
-                  <form onSubmit={handleSave}>
+                  <div className={styles.form}>
                     <Input
                       id="nome"
                       col={getCol}
                       helpType="error"
-                      disabled={loading}
                       onBlur={handleBlur}
                       value={register.nome}
                       onChange={handleChange}
                       help={errors.nome || ''}
-                      {...language['register.client.input'].nome}
+                      {...languageForm.nome}
                     />
                     <Input
                       id="cpf"
+                      type="cpf"
                       col={getCol}
                       helpType="error"
-                      disabled={loading}
                       onBlur={handleBlur}
                       value={register.cpf}
                       onChange={handleChange}
                       help={errors.cpf || ''}
-                      {...language['register.client.input'].cpf}
+                      {...languageForm.cpf}
                     />
                     <Input
                       col={getCol}
                       id="nascimento"
+                      type="birthday"
                       helpType="error"
-                      disabled={loading}
                       onBlur={handleBlur}
                       onChange={handleChange}
                       value={register.nascimento}
                       help={errors.nascimento || ''}
-                      {...language['register.client.input'].nascimento}
+                      {...languageForm.nascimento}
                     />
                     <Input
                       id="celular"
+                      type="phone"
                       col={getCol}
                       helpType="error"
-                      disabled={loading}
                       onBlur={handleBlur}
                       onChange={handleChange}
                       value={register.celular}
                       help={errors.celular || ''}
-                      {...language['register.client.input'].celular}
+                      {...languageForm.celular}
                     />
                     <Input
                       id="email"
                       col={getCol}
                       htmlType="email"
                       helpType="error"
-                      disabled={loading}
                       onBlur={handleBlur}
                       value={register.email}
                       onChange={handleChange}
                       help={errors.email || ''}
-                      {...language['register.client.input'].email}
+                      {...languageForm.email}
                     />
                     <RadioGroup
                       id="sexo"
                       col={getCol}
-                      direction="row"
-                      disabled={loading}
                       value={register.sexo}
                       onChange={handleChange}
                       options={[
                         { value: 1, label: 'Masculino' },
                         { value: 2, label: 'Feminino' },
                       ]}
-                      {...language['register.client.input'].sexo}
+                      {...languageForm.sexo}
                     />
-                    <div>
-                      <Button
-                        htmlType="submit"
-                        loading={loading}
-                        icon="fa fa-angle-right"
-                        disabled={disabledBtnSubmit}
-                      >
-                        {language['component.button.next.text']}
-                      </Button>
-                    </div>
-                  </form>
+                  </div>
                 </Carousel.Step>
                 <Carousel.Step>
-                  <h1>{language['register.client.step1.title']}</h1>
-                  <form onSubmit={handleSave}>
-                    <Input
-                      id="senha"
-                      helpType="error"
-                      disabled={loading}
-                      htmlType="password"
-                      onBlur={handleBlur}
-                      onChange={handleChange}
-                      help={errors.senha || ''}
-                      value={register.senha || ''}
-                      placeholder={
-                        language['register.client.input'].senha.placeholder
-                      }
-                    />
-                    <Input
-                      helpType="error"
-                      disabled={loading}
-                      id="confirma_senha"
-                      htmlType="password"
-                      onBlur={handleBlur}
-                      onChange={handleChange}
-                      value={register.confirma_senha}
-                      help={errors.confirma_senha || ''}
-                      placeholder={
-                        language['register.client.input'].confirma_senha
-                          .placeholder
-                      }
-                    />
-                    <TermPolity />
-                    <div>
-                      <Button
-                        htmlType="submit"
-                        icon="fa fa-check"
-                        loading={loading}
-                        disabled={disabledBtnSubmit}
-                      >
-                        {language['component.button.register.text']}
-                      </Button>
-                    </div>
-                  </form>
+                  <Input
+                    id="senha"
+                    helpType="error"
+                    htmlType="password"
+                    onBlur={handleBlur}
+                    onChange={handleChange}
+                    help={errors.senha || ''}
+                    value={register.senha || ''}
+                    placeholder={languageForm.senha.placeholder}
+                  />
+                  <Input
+                    helpType="error"
+                    id="confirma_senha"
+                    htmlType="password"
+                    onBlur={handleBlur}
+                    onChange={handleChange}
+                    value={register.confirma_senha}
+                    help={errors.confirma_senha || ''}
+                    placeholder={languageForm.confirmaSenha.placeholder}
+                  />
+                  <TermPolity />
                 </Carousel.Step>
               </Carousel>
+              <Button
+                htmlType="submit"
+                disabled={disabledBtnSubmit}
+                {...language[`component.button.${step ? 'register' : 'next'}`]}
+              />
             </Box>
-          </div>
+          </form>
         </Panel.Body>
       </Panel>
     </div>

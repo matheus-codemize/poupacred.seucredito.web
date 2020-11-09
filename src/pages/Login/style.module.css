@@ -36,8 +36,8 @@
 
 .title {
   z-index: 2;
+  margin: 2rem;
   font-size: 4rem;
-  margin: 2rem 2rem;
   line-height: 5rem;
   position: relative;
   text-align: center;
@@ -45,10 +45,10 @@
 }
 
 .form {
+  top: 5rem;
   z-index: 2;
   display: flex;
   margin: 0 auto;
-  padding: 0 2rem;
   position: relative;
   align-items: center;
   justify-content: center;

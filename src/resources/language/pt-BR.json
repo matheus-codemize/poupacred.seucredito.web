@@ -22,7 +22,8 @@
       "money": "R$ 0,00",
       "cep": "00000-000",
       "cpf": "000.000.000-00",
-      "phone": "(18) 99999-9999"
+      "phone": "(18) 99999-9999",
+      "birthday": "DD / MM / AAAA"
     }
   },
 
@@ -273,50 +274,22 @@
     }
   },
 
-  "register.client.title": "Cadastro de Cliente",
-  "register.client.step0.title": "Dados Pessoais",
-  "register.client.step1.title": "Agora informe a sua senha de acesso e confirme",
-  "register.client.input": {
-    "nome": {
-      "label": "Nome"
-    },
-    "cpf": {
-      "label": "CPF",
-      "placeholder": "000.000.000-00"
-    },
-    "nascimento": {
-      "label": "Data de Nascimento",
-      "placeholder": "DD / MM / AAAA"
-    },
-    "celular": {
-      "label": "Celular",
-      "placeholder": "(99) 99999-9999"
-    },
-    "email": {
-      "label": "E-mail",
-      "placeholder": "Informe um e-mail válido e ativo"
-    },
-    "sexo": {
-      "label": "Gênero"
-    },
-    "senha": {
-      "label": "Senha",
-      "placeholder": "Senha"
-    },
-    "confirma_senha": {
-      "label": "Senha",
-      "placeholder": "Confirme sua senha"
+  "page.register.client": {
+    "title": "Cadastro de Cliente",
+    "stepTitles": [
+      "Dados Pessoais",
+      "Agora informe a sua senha de acesso e confirme"
+    ],
+    "success": {
+      "text": "Entrar Agora!",
+      "title": "Cadastro Realizado com Sucesso",
+      "description": "Seu cadastro foi realizado com sucesso. Clique no botão abaixo para realizar o login"
     }
-  },
-  "register.client.success": {
-    "text": "Entrar Agora!",
-    "title": "Cadastro Realizado com Sucesso",
-    "description": "Seu cadastro foi realizado com sucesso. Clique no botão abaixo para realizar o login"
   },
 
   "page.register.agent": {
     "title": "Cadastro de Agente",
-    "titleSteps": ["Dados Pessoas", "Endereço", "Currículo / Certificações"]
+    "stepTitles": ["Dados Pessoas", "Endereço", "Currículo / Certificações"]
   },
 
   "register.agent.success": {

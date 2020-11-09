@@ -55,6 +55,10 @@ function Input({
         valueSelected = format.phone(valueSelected, value);
         break;
 
+      case 'birthday':
+        valueSelected = format.birthday(valueSelected, value);
+        break
+
       case 'money':
         valueSelected = valueSelected.replace(/[^\d]/g, '');
         valueSelected = valueSelected && parseFloat(valueSelected);
@@ -178,7 +182,15 @@ Input.propTypes = {
   display: PropTypes.oneOf(['vertical', 'horizontal']),
   htmlType: PropTypes.oneOf(['text', 'password', 'email']),
   col: PropTypes.oneOfType([PropTypes.func, PropTypes.number]),
-  type: PropTypes.oneOf(['text', 'cep', 'cpf', 'phone', 'money', 'number']),
+  type: PropTypes.oneOf([
+    'text',
+    'cep',
+    'cpf',
+    'phone',
+    'money',
+    'number',
+    'birthday',
+  ]),
 };
 
 export default Input;
