@@ -1,12 +1,17 @@
 import io from 'socket.io-client';
 
-const options = { transports: ['websocket'] };
-const socket = io(process.env.REACT_APP_API_URL);
+const options = {
+  reconnection: false,
+  reconnectionDelay: 5000,
+  reconnectionAttempts: 100,
+  reconnectionDelayMax: 10000,
+  // transports: ['websocket'],
+};
 
-socket.on('connect', connect);
+const socket = io(process.env.REACT_APP_API_URL, options);
 
-function connect() {
-  console.log('socket.io connectado');
-}
+socket.on('connect', () => {
+  console.log('Conectado:', socket.connected);
+});
 
 export default socket;

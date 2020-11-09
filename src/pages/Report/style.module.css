@@ -1,0 +1,19 @@
+.search {
+  top: -10rem;
+  display: flex;
+  position: relative;
+  align-items: center;
+  justify-content: center;
+}
+
+.search h1 {
+  width: 100%;
+  font-size: 2rem;
+  line-height: 3rem;
+  text-align: center;
+  color: rgb(var(--color-black));
+}
+
+.search button[type='submit'] {
+  width: 100%;
+}

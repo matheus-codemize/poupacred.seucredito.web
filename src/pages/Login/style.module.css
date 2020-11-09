@@ -46,9 +46,12 @@
 
 .form {
   z-index: 2;
+  display: flex;
   margin: 0 auto;
   padding: 0 2rem;
   position: relative;
+  align-items: center;
+  justify-content: center;
 }
 
 .form h1 {

@@ -94,7 +94,19 @@ function Home() {
       {renderHeader}
       <div className={styles.report}>
         {languagePage.reports.map((report, index) => (
-          <Link key={index} to={report.path}>
+          <Link
+            key={index}
+            to={{
+              pathname: report.path,
+              state: {
+                report: {
+                  key: report.key,
+                  url: report.url,
+                  title: report.title,
+                },
+              },
+            }}
+          >
             <i
               className={report.icon}
               style={{

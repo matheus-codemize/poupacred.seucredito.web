@@ -229,7 +229,8 @@
         "icon": "fas fa-calendar-day",
         "title": "Produção Diária",
         "subtitle": "Hoje [value].",
-        "path": "/report/producao-diaria"
+        "path": "/relatorio/producao-diaria",
+        "url": "/relatorios/producao-diaria"
       },
       {
         "key": "prod_produto",
@@ -238,8 +239,9 @@
         "icon": "fas fa-chart-pie",
         "title": "Produção por Produto",
         "subtitle": "[value] seu produto mais adquirido.",
-        "path": "/report/producao-por-produto",
-        "empty": "Comece agora e se surpreeenda com seus ganhos."
+        "path": "/relatorio/producao-por-produto",
+        "empty": "Comece agora e se surpreeenda com seus ganhos.",
+        "url": "/relatorios/producao-por-produto"
       },
       {
         "key": "prod_total",
@@ -248,7 +250,8 @@
         "icon": "fas fa-chart-line",
         "title": "Produção Total",
         "subtitle": "Sua produção até agora [value].",
-        "path": "/report/producao-total"
+        "path": "/relatorio/producao-total",
+        "url": "/relatorios/producao-total"
       },
       {
         "key": "comissao",
@@ -256,10 +259,18 @@
         "secondColor": "#00acc1",
         "icon": "fas fa-file-invoice-dollar",
         "title": "Comissionamento",
-        "subtitle": "Seu comissionamento até agora [value].",
-        "path": "/report/comissionamento"
+        "subtitle": "Sua comissão até agora [value].",
+        "path": "/relatorio/comissionamento",
+        "url": "/relatorios/comissao"
       }
     ]
+  },
+
+  "page.report": {
+    "title": "Relatório",
+    "labels": {
+      "typeUndefined": "Relatório não configurado"
+    }
   },
 
   "register.client.title": "Cadastro de Cliente",

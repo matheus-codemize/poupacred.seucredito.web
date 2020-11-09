@@ -31,6 +31,7 @@ import Proposal from './pages/Proposal';
 import Simulation from './pages/Simulation';
 
 import Login from './pages/Login';
+import Report from './pages/Report';
 import Landing from './pages/Landing';
 import Success from './pages/Success';
 import RegisterAgent from './pages/RegisterAgent';
@@ -133,6 +134,9 @@ function App() {
           ) : (
             <Login />
           )}
+        </Route>
+        <Route path="/relatorio">
+          <Report />
         </Route>
         {routes.map((route, index) => (
           <Route

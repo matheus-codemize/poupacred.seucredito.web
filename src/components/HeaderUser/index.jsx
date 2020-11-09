@@ -30,7 +30,7 @@ function HeaderUser() {
   const [openNotification, setOpenNotification] = useState(false);
 
   useEffect(() => {
-    // socket.on('notificacao', setNotifications);
+    // socket.on(`notificacao_${auth.uid}`, setNotifications);
   }, []);
 
   function openSidebar(event) {
