@@ -6,7 +6,6 @@ import styles from './style.module.css';
 
 // redux
 import actions from '../../../../redux/actions/simulation';
-import actionsNavigator from '../../../../redux/actions/navigator';
 import actionsContainer from '../../../../redux/actions/container';
 
 // assets
@@ -60,8 +59,16 @@ function CreateSimulation({ ...rest }) {
   const dispatch = useDispatch();
 
   // redux state
+  const auth = useSelector(state => state.auth);
   const simulation = useSelector(state => state.simulation);
-  const { step, steps, register, stepBlock } = simulation;
+  const {
+    step,
+    steps,
+    register,
+    stepBlock,
+    isProposal,
+    isResimulation,
+  } = simulation;
 
   // component state
   const [help, setHelp] = useState('');
@@ -100,6 +107,17 @@ function CreateSimulation({ ...rest }) {
 
   async function initComponent() {
     dispatch(actionsContainer.loading());
+
+    if (
+      auth.login &&
+      !isProposal &&
+      !isResimulation &&
+      auth.type === 'client'
+    ) {
+      dispatch(actions.register({ ...register, cpf: auth.login }));
+      dispatch(actions.step(Object.keys(registerDefault).length - 1));
+    }
+
     await Promise.all([getProdutos()]);
     dispatch(actionsContainer.close());
   }
@@ -130,16 +148,21 @@ function CreateSimulation({ ...rest }) {
     }
   }
 
+  function unlockStep() {
+    if (stepBlock !== -1) dispatch(actions.blockStep());
+  }
+
   function handleBack() {
-    if (!step || step <= stepBlock) {
+    if (
+      !step ||
+      step <= stepBlock ||
+      (auth.type === 'client' &&
+        step === Object.keys(registerDefault).length - 1)
+    ) {
       unlockStep();
       return history.goBack();
     }
     dispatch(actions.backStep());
-  }
-
-  function unlockStep() {
-    if (stepBlock !== -1) dispatch(actions.blockStep());
   }
 
   async function handleNext(event) {
@@ -152,7 +175,7 @@ function CreateSimulation({ ...rest }) {
       if (step === keysStep.length - 1 && !steps.length) {
         dispatch(actionsContainer.loading());
         response = await simulacaoApi[
-          stepBlock === -1 ? 'getFields' : 'getReFields'
+          isResimulation ? 'getReFields' : 'getFields'
         ]({ ...register, nascimento });
         dispatch(actions.steps(response));
 
@@ -166,7 +189,7 @@ function CreateSimulation({ ...rest }) {
       ) {
         dispatch(actionsContainer.loading());
         response = await simulacaoApi[
-          stepBlock === -1 ? 'getFields' : 'getReFields'
+          isResimulation ? 'getReFields' : 'getFields'
         ]({
           ...register,
           nascimento,
@@ -192,7 +215,7 @@ function CreateSimulation({ ...rest }) {
       let response, path, state;
       dispatch(actionsContainer.loading());
 
-      if (simulation.isProposal) {
+      if (isProposal) {
         const data = Object.assign({}, register);
         Object.keys(data)
           .filter((_key, index) => index < stepBlock)
@@ -346,9 +369,9 @@ function CreateSimulation({ ...rest }) {
         background={backgroundImg}
         title={
           languagePage[
-            simulation.isResimulation
+            isResimulation
               ? 'resimulationTitle'
-              : simulation.isProposal
+              : isProposal
               ? 'choosePropostalTitle'
               : 'createTitle'
           ]

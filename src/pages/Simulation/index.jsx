@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useMemo } from 'react';
 import _ from 'lodash';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, useLocation } from 'react-router-dom';
 import styles from './style.module.css';
 
@@ -36,6 +36,9 @@ function Simulation() {
   const history = useHistory();
   const location = useLocation();
   const dispatch = useDispatch();
+
+  // redux state
+  const auth = useSelector(state => state.auth);
 
   // component state
   const [filter, setFilter] = useState({});
@@ -154,19 +157,23 @@ function Simulation() {
             onChange={handleChangeFilter}
             {...languageForm.status}
           />
-          <Input
-            id="cpf"
-            type="cpf"
-            value={filter.cpf || ''}
-            onChange={handleChangeFilter}
-            {...languageForm.cpf}
-          />
-          <Input
-            id="nome"
-            value={filter.nome || ''}
-            onChange={handleChangeFilter}
-            {...languageForm.nome}
-          />
+          {auth.type !== 'client' && (
+            <>
+              <Input
+                id="cpf"
+                type="cpf"
+                value={filter.cpf || ''}
+                onChange={handleChangeFilter}
+                {...languageForm.cpf}
+              />
+              <Input
+                id="nome"
+                value={filter.nome || ''}
+                onChange={handleChangeFilter}
+                {...languageForm.nome}
+              />
+            </>
+          )}
         </Panel.Search>
         <Panel.Body>
           <CardList

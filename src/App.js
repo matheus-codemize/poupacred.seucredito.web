@@ -130,7 +130,7 @@ function App() {
         </Route>
         <Route path="/login">
           {auth.uid && !auth.primeiro_acesso ? (
-            <Redirect push from="/login" to="/home" />
+            <Redirect push from="/login" to="/inicio" />
           ) : (
             <Login />
           )}

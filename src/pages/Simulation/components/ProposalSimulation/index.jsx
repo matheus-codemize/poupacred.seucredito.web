@@ -49,6 +49,7 @@ function ProposalSimulation() {
       const response = await simulacaoApi.getReFields(register);
       dispatch(
         actions.blockStep({
+          isProposal: false,
           isResimulation: true,
           steps: [...steps, ...response],
         }),
@@ -74,6 +75,7 @@ function ProposalSimulation() {
       dispatch(
         actions.blockStep({
           isProposal: true,
+          isResimulation: false,
           steps: [...steps, ...response],
           register: { ...register, card_id: card.id },
         }),

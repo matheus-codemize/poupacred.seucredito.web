@@ -248,7 +248,7 @@ function Login() {
       <form ref={formRef} className={styles.form} onSubmit={handleSubmit}>
         <Box
           size="sm"
-          help={step === 1 ? renderHelp : ''}
+          // help={step === 1 ? renderHelp : ''}
           onBack={auth.primeiro_acesso && step === 2 ? undefined : handleBack}
         >
           <Carousel step={step}>
