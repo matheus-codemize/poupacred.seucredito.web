@@ -4,7 +4,10 @@ import { useDispatch, useSelector } from 'react-redux';
 import styles from './style.module.css';
 
 // socketio
-// import socket from '../../socketio';
+import socket from '../../socketio';
+
+// services
+import * as notificacaoApi from '../../services/notificacao';
 
 // utils
 import language from '../../utils/language';
@@ -30,8 +33,18 @@ function HeaderUser() {
   const [openNotification, setOpenNotification] = useState(false);
 
   useEffect(() => {
-    // socket.on(`notificacao_${auth.uid}`, setNotifications);
+    getNotifications();
+    socket.on(`notificacao_${auth.uid}`, addNotification);
   }, []);
+
+  async function getNotifications() {
+    const response = await notificacaoApi.list();
+    setNotifications(response);
+  }
+
+  function addNotification(data) {
+    setNotifications(prevNotifications => prevNotifications.push(data));
+  }
 
   function openSidebar(event) {
     if (event && typeof event.stopPropagation === 'function') {
@@ -88,8 +101,14 @@ function HeaderUser() {
     dispatch(actionsContainer.close());
   }
 
-  function handleNotification(notification) {
-    const { url, lido } = notification;
+  async function handleNotification(notification) {
+    const { id, url, lido } = notification;
+
+    if (!lido) {
+      await notificacaoApi.setRead(id);
+      getNotifications()
+    }
+
     if (url) {
       history.push(url);
     }
