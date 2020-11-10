@@ -363,90 +363,88 @@ function CreateSimulation({ ...rest }) {
   }, [simulation, simulation.step, simulation.steps, simulation.register]);
 
   return (
-    <div>
-      <Panel
-        useDivider
-        background={backgroundImg}
-        title={
-          languagePage[
-            isResimulation
-              ? 'resimulationTitle'
-              : isProposal
-              ? 'choosePropostalTitle'
-              : 'createTitle'
-          ]
-        }
-      >
-        <Panel.Body>
-          <form
-            className={styles.form}
-            onSubmit={lastStep ? handleSave : handleNext}
-          >
-            <Box help={help} onBack={handleBack}>
-              <Carousel step={step}>
-                <Carousel.Step>
-                  <Input
-                    id="cpf"
-                    type="cpf"
-                    helpType="error"
-                    onBlur={handleBlur}
-                    help={error.cpf || ''}
-                    onChange={handleChange}
-                    value={register.cpf || ''}
-                    {...languageForm.cpf}
-                  />
-                </Carousel.Step>
-                <Carousel.Step>
-                  <Input
-                    id="nome"
-                    onChange={handleChange}
-                    value={register.nome || ''}
-                    {...languageForm.nome}
-                  />
-                </Carousel.Step>
-                <Carousel.Step>
-                  <InputDate
-                    id="nascimento"
-                    onChange={handleChange}
-                    value={register.nascimento || ''}
-                    {...languageForm.nascimento}
-                  />
-                </Carousel.Step>
-                <Carousel.Step>
-                  <Input
-                    id="celular"
-                    type="phone"
-                    onChange={handleChange}
-                    value={register.celular || ''}
-                    {...languageForm.celular}
-                  />
-                </Carousel.Step>
-                <Carousel.Step>
-                  <Input
-                    id="email"
-                    htmlType="email"
-                    onChange={handleChange}
-                    value={register.email || ''}
-                    {...languageForm.email}
-                  />
-                </Carousel.Step>
-                <Carousel.Step>
-                  <Select
-                    id="produto"
-                    options={produtos}
-                    onChange={handleChange}
-                    value={register.produto || ''}
-                    {...languageForm.produto}
-                  />
-                </Carousel.Step>
-                {renderSteps}
-              </Carousel>
-              {renderBtnNext}
-            </Box>
-          </form>
-        </Panel.Body>
-      </Panel>
-    </div>
+    <Panel
+      useDivider
+      background={backgroundImg}
+      title={
+        languagePage[
+          isResimulation
+            ? 'resimulationTitle'
+            : isProposal
+            ? 'choosePropostalTitle'
+            : 'createTitle'
+        ]
+      }
+    >
+      <Panel.Body>
+        <form
+          className={styles.form}
+          onSubmit={lastStep ? handleSave : handleNext}
+        >
+          <Box size="sm" help={help} onBack={handleBack}>
+            <Carousel step={step}>
+              <Carousel.Step>
+                <Input
+                  id="cpf"
+                  type="cpf"
+                  helpType="error"
+                  onBlur={handleBlur}
+                  help={error.cpf || ''}
+                  onChange={handleChange}
+                  value={register.cpf || ''}
+                  {...languageForm.cpf}
+                />
+              </Carousel.Step>
+              <Carousel.Step>
+                <Input
+                  id="nome"
+                  onChange={handleChange}
+                  value={register.nome || ''}
+                  {...languageForm.nome}
+                />
+              </Carousel.Step>
+              <Carousel.Step>
+                <InputDate
+                  id="nascimento"
+                  onChange={handleChange}
+                  value={register.nascimento || ''}
+                  {...languageForm.nascimento}
+                />
+              </Carousel.Step>
+              <Carousel.Step>
+                <Input
+                  id="celular"
+                  type="phone"
+                  onChange={handleChange}
+                  value={register.celular || ''}
+                  {...languageForm.celular}
+                />
+              </Carousel.Step>
+              <Carousel.Step>
+                <Input
+                  id="email"
+                  htmlType="email"
+                  onChange={handleChange}
+                  value={register.email || ''}
+                  {...languageForm.email}
+                />
+              </Carousel.Step>
+              <Carousel.Step>
+                <Select
+                  id="produto"
+                  options={produtos}
+                  onChange={handleChange}
+                  value={register.produto || ''}
+                  {...languageForm.produto}
+                />
+              </Carousel.Step>
+              {renderSteps}
+            </Carousel>
+            {renderBtnNext}
+          </Box>
+        </form>
+      </Panel.Body>
+    </Panel>
   );
 }
 

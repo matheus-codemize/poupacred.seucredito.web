@@ -14,6 +14,7 @@ import api from '../../services/api';
 import * as bancoApi from '../../services/banco';
 import * as produtoApi from '../../services/produto';
 import * as convenioApi from '../../services/convenio';
+import * as propostaApi from '../../services/proposta';
 
 // resources
 import inputsize from '../../resources/data/inputsize/proposal';
@@ -49,6 +50,7 @@ function Proposal() {
   // component state
   const [filter, setFilter] = useState({});
   const [bancos, setBancos] = useState([]);
+  const [status, setStatus] = useState([]);
   const [dataset, setDataset] = useState([]);
   const [produtos, setProdutos] = useState([]);
   const [convenios, setConvenios] = useState([]);
@@ -68,9 +70,17 @@ function Proposal() {
 
   async function initComponent() {
     dispatch(actionsContainer.loading());
-    await Promise.all([getProdutos(), getBancos(), getConvenios()]).then(
-      getDados,
-    );
+    await Promise.all([
+      getStatus(),
+      getBancos(),
+      getProdutos(),
+      getConvenios(),
+    ]).then(getDados);
+  }
+
+  async function getStatus() {
+    const data = await propostaApi.getStatus();
+    setStatus(data);
   }
 
   async function getProdutos() {
@@ -92,8 +102,7 @@ function Proposal() {
     try {
       dispatch(actionsContainer.loading());
 
-      const url = '/propostas/listar';
-      const response = await api.post(url, { ...filter, pagination });
+      const response = await propostaApi.list({ ...filter, pagination });
       setDataset(response.dados);
       setPagination(prevPagination => ({
         ...prevPagination,
@@ -151,9 +160,9 @@ function Proposal() {
           <Select
             col={getCol}
             id="status"
+            options={status}
             value={filter.status || ''}
             onChange={handleChangeFilter}
-            options={languagePage.list.status}
             {...languageForm.status}
           />
           <Input

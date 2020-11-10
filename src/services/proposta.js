@@ -50,3 +50,33 @@ export async function find(id) {
   }
   return null;
 }
+
+/**
+ * Função para listar propostas
+ */
+export async function list(filter = null) {
+  try {
+    const url = '/propostas/listar';
+    const response = await api.post(url, filter);
+    return response;
+  } catch (err) {
+    const message = _.get(err, 'response.data.erro', err.message);
+    toast.error(message);
+  }
+  return [];
+}
+
+/**
+ * Função para listar os status da proposta
+ */
+export async function getStatus() {
+  try {
+    const url = '/propostas/status/listar';
+    const data = await api.get(url);
+    return data.map(item => ({ ...item, value: item.id, label: item.nome }));
+  } catch (err) {
+    const message = _.get(err, 'response.data.erro', err.message);
+    toast.error(message);
+  }
+  return [];
+}
