@@ -17,3 +17,32 @@
 .search button[type='submit'] {
   width: 100%;
 }
+
+.dataset {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+}
+
+.dataset > div {
+  width: 100%;
+  margin: 1rem;
+}
+
+@media screen and (min-width: 700px) {
+  .dataset > div {
+    max-width: calc(48% - 2rem);
+  }
+}
+
+@media screen and (min-width: 1000px) {
+  .dataset > div {
+    max-width: calc(33% - 2rem);
+  }
+}
+
+@media screen and (min-width: 1300px) {
+  .dataset > div {
+    max-width: calc(24% - 2rem);
+  }
+}

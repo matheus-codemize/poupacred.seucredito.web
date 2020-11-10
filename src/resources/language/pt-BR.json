@@ -270,6 +270,12 @@
   "page.report": {
     "title": "Relatório",
     "labels": {
+      "countProduto": "Qtde. de",
+      "countDiaria": "Qtde. Ctts",
+      "netValueDiaria": "Produção Líquida",
+      "grossValueDiaria": "Produção Bruta",
+      "netValueProduto": "Valor Líquido",
+      "grossValueProduto": "Valor Bruto",
       "typeUndefined": "Relatório não configurado"
     }
   },

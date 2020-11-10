@@ -117,7 +117,33 @@ function Report() {
       switch (key) {
         case 'prod_diaria':
         case 'prod_produto':
-          component = <Card {...data} />;
+          component = (
+            <Card
+              title={data.titulo}
+              percent={data.percentual}
+              subtitle={{
+                value: data.qtd,
+                name:
+                  languagePage.labels[
+                    `count${key === 'prod_diaria' ? 'Diaria' : 'Produto'}`
+                  ],
+              }}
+              netValue={{
+                value: data.vlr_liquido,
+                name:
+                  languagePage.labels[
+                    `netValue${key === 'prod_diaria' ? 'Diaria' : 'Produto'}`
+                  ],
+              }}
+              grossValue={{
+                value: data.vlr_bruto,
+                name:
+                  languagePage.labels[
+                    `grossValue${key === 'prod_diaria' ? 'Diaria' : 'Produto'}`
+                  ],
+              }}
+            />
+          );
           break;
 
         default:
@@ -147,7 +173,7 @@ function Report() {
       <Panel.Body>
         <ListEmpty visible={!dataset.length} />
         {dataset.length > 0 && (
-          <div className={styles.container}>{dataset.map(renderData)}</div>
+          <div className={styles.dataset}>{dataset.map(renderData)}</div>
         )}
       </Panel.Body>
     </Panel>
