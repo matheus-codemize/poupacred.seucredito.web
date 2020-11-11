@@ -1,5 +1,8 @@
 {
   "currency": "R$",
+  "locale": "pt-BR",
+  "currencyType": "BRL",
+
   "title": "SEU CRÉDITO",
   "term": "Termos de Uso",
   "polity": "Política de Privacidade",
@@ -270,13 +273,20 @@
   "page.report": {
     "title": "Relatório",
     "labels": {
-      "countProduto": "Qtde. de",
-      "countDiaria": "Qtde. Ctts",
-      "netValueDiaria": "Produção Líquida",
-      "grossValueDiaria": "Produção Bruta",
+      "goal": "Meta",
+      "projection": "Projeção",
+      "netValue": "Valor Líquido",
+      "countProduto": "Qtd. de",
+      "countDiaria": "Qtd. Ctts",
+      "countContract": "Qtd. Contratos",
       "netValueProduto": "Valor Líquido",
       "grossValueProduto": "Valor Bruto",
+      "netValueDiaria": "Produção Líquida",
+      "grossValueDiaria": "Produção Bruta",
       "typeUndefined": "Relatório não configurado"
+    },
+    "chartTotal": {
+      "labels": ["Meta", "Projeção", "Valor Líquido"]
     }
   },
 
@@ -310,10 +320,11 @@
     "labels": {
       "client": "Dados do Cliente",
       "historyTitle": "Histórico da Proposta",
-      "history": "Consultar histórico",
+      "history": "Histórico completo",
       "historyEmpty": "Sem histórico",
       "contract": "Baixar Contrato",
-      "contractEmpty": "Sem Contrato"
+      "contractEmpty": "Sem Contrato",
+      "hitoryLegend": "Mostrando últimos registros de histórico"
     }
   },
 

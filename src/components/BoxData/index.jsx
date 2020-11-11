@@ -44,28 +44,26 @@ function BoxData({
 
   const renderDetails = useMemo(() => {
     return (
-      <div className={styles.detail} data-direction={useDirection}>
+      <ul className={styles.detail} data-direction={useDirection}>
         {details
           .filter(item => !item.isDescription)
           .map((item, index) => (
-            <div key={index} data-width={item.width || 100}>
+            <li key={index} data-width={item.width || 100}>
               <h1>{item.title}</h1>
               <p>{item.value}</p>
-            </div>
+            </li>
           ))}
-      </div>
+      </ul>
     );
   }, [details, useDirection]);
 
   return (
-    <div className={styles.container}>
-      <Box size={size}>
-        {renderHeader}
-        {renderDescription}
-        {renderDetails}
-        {footer}
-      </Box>
-    </div>
+    <Box size={size}>
+      {renderHeader}
+      {renderDescription}
+      {renderDetails}
+      {footer}
+    </Box>
   );
 }
 

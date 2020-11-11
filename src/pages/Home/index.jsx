@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import styles from './style.module.css';
 
 // utils
+import format from '../../utils/format';
 import language from '../../utils/language';
 
 // services
@@ -53,19 +54,11 @@ function Home() {
     }
   }
 
-  function formatNumber(value) {
-    return new Intl.NumberFormat(locale, {
-      currency,
-      style: 'currency',
-      minimumFractionDigits: 2,
-    }).format(value);
-  }
-
   const getValue = useCallback(
     report => {
       const { key, empty, subtitle } = report;
       const value =
-        typeof data[key] === 'number' ? formatNumber(data[key]) : data[key];
+        typeof data[key] === 'number' ? format.currency(data[key]) : data[key];
 
       const text =
         !data[key] && empty
@@ -82,7 +75,7 @@ function Home() {
       <div className={styles.header}>
         <h1 dangerouslySetInnerHTML={{ __html: languagePage.title }} />
         <p>
-          <AnimatedNumber value={data.comissao} formatValue={formatNumber} />
+          <AnimatedNumber value={data.comissao} formatValue={format.currency} />
         </p>
       </div>
     );

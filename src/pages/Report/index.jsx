@@ -4,6 +4,9 @@ import { useDispatch } from 'react-redux';
 import { useHistory, useLocation } from 'react-router-dom';
 import styles from './style.module.css';
 
+// assets
+import backgroundImg from '../../assets/images/background/panel/relatorio.jpg';
+
 // utils
 import toast from '../../utils/toast';
 import language from '../../utils/language';
@@ -21,6 +24,7 @@ import InputDateRange from '../../components/InputDateRange';
 
 // component internal
 import Card from './components/Card';
+import ReportTotal from './components/ReportTotal';
 
 const languagePage = language['page.report'];
 const languageForm = language['component.form.props'];
@@ -34,7 +38,6 @@ function Report() {
   // component state
   const [key, setKey] = useState('');
   const [url, setUrl] = useState('');
-  const [step, setStep] = useState(0);
   const [title, setTitle] = useState('');
   const [filter, setFilter] = useState({});
   const [dataset, setDataset] = useState([]);
@@ -112,43 +115,33 @@ function Report() {
 
   const renderData = useCallback(
     (data, index) => {
-      let component = <></>;
-
-      switch (key) {
-        case 'prod_diaria':
-        case 'prod_produto':
-          component = (
-            <Card
-              title={data.titulo}
-              percent={data.percentual}
-              subtitle={{
-                value: data.qtd,
-                name:
-                  languagePage.labels[
-                    `count${key === 'prod_diaria' ? 'Diaria' : 'Produto'}`
-                  ],
-              }}
-              netValue={{
-                value: data.vlr_liquido,
-                name:
-                  languagePage.labels[
-                    `netValue${key === 'prod_diaria' ? 'Diaria' : 'Produto'}`
-                  ],
-              }}
-              grossValue={{
-                value: data.vlr_bruto,
-                name:
-                  languagePage.labels[
-                    `grossValue${key === 'prod_diaria' ? 'Diaria' : 'Produto'}`
-                  ],
-              }}
-            />
-          );
-          break;
-
-        default:
-          break;
-      }
+      const component = (
+        <Card
+          title={data.titulo}
+          percent={data.percentual}
+          subtitle={{
+            value: data.qtd,
+            name:
+              languagePage.labels[
+                `count${key === 'prod_diaria' ? 'Diaria' : 'Produto'}`
+              ],
+          }}
+          netValue={{
+            value: data.vlr_liquido,
+            name:
+              languagePage.labels[
+                `netValue${key === 'prod_diaria' ? 'Diaria' : 'Produto'}`
+              ],
+          }}
+          grossValue={{
+            value: data.vlr_bruto,
+            name:
+              languagePage.labels[
+                `grossValue${key === 'prod_diaria' ? 'Diaria' : 'Produto'}`
+              ],
+          }}
+        />
+      );
 
       return <div key={index}>{component}</div>;
     },
@@ -159,6 +152,7 @@ function Report() {
     <Panel
       subtitle={title}
       title={languagePage.title}
+      background={backgroundImg}
       actions={[
         {
           onClick: () => history.goBack(),
@@ -171,9 +165,17 @@ function Report() {
     >
       {renderSearch}
       <Panel.Body>
-        <ListEmpty visible={!dataset.length} />
-        {dataset.length > 0 && (
-          <div className={styles.dataset}>{dataset.map(renderData)}</div>
+        {key === 'prod_total' ? (
+          <ReportTotal />
+        ) : key === 'comissionamento' ? (
+          <></>
+        ) : (
+          <>
+            <ListEmpty visible={Array.isArray(dataset) && !dataset.length} />
+            {dataset.length > 0 && (
+              <div className={styles.dataset}>{dataset.map(renderData)}</div>
+            )}
+          </>
         )}
       </Panel.Body>
     </Panel>

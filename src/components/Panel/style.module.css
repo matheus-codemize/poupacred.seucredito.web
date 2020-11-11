@@ -14,6 +14,10 @@
   max-height: calc(100vh - 15rem);
 }
 
+.container[data-open='true'] >.header .search {
+  justify-content: space-between;
+}
+
 .container[data-open='true'] > .actions {
   background: linear-gradient(
     0deg,
@@ -72,7 +76,7 @@
   overflow-x: hidden;
   flex-direction: row;
   transition: 0.4s ease;
-  justify-content: space-between;
+  justify-content: center;
 }
 
 .actions {
@@ -131,5 +135,6 @@
   .container[data-open='false'] .header .search > div {
     flex: 1;
     margin: 0 1rem;
+    max-width: 500px;
   }
 }

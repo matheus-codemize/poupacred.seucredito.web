@@ -98,6 +98,9 @@ function DetailsProposal() {
             </li>
           ))}
         </ul>
+        {details.historico.total > details.historico.length && (
+          <h2>{languagePage.labels.hitoryLegend}</h2>
+        )}
       </div>
     ) : (
       <></>
