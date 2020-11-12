@@ -158,21 +158,22 @@ function Simulation() {
             {...languageForm.status}
           />
           {auth.type !== 'client' && (
-            <>
-              <Input
-                id="cpf"
-                type="cpf"
-                value={filter.cpf || ''}
-                onChange={handleChangeFilter}
-                {...languageForm.cpf}
-              />
-              <Input
-                id="nome"
-                value={filter.nome || ''}
-                onChange={handleChangeFilter}
-                {...languageForm.nome}
-              />
-            </>
+            <Input
+              id="cpf"
+              type="cpf"
+              value={filter.cpf || ''}
+              onChange={handleChangeFilter}
+              {...languageForm.cpf}
+            />
+          )}
+
+          {auth.type !== 'client' && (
+            <Input
+              id="nome"
+              value={filter.nome || ''}
+              onChange={handleChangeFilter}
+              {...languageForm.nome}
+            />
           )}
         </Panel.Search>
         <Panel.Body>

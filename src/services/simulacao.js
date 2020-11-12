@@ -56,14 +56,14 @@ export async function list(filter = null) {
  * Função para listar as simulações
  * @param {string} cpf
  */
-export async function getClientByCpf(cpf) {
+export async function getClientByCpf(cpf, showError = true) {
   try {
     const url = `/simulacoes/clientes/buscar?cpf=${cpf}`;
     const data = await api.get(url);
     return data;
   } catch (err) {
     const message = _.get(err, 'response.data.erro', err.message);
-    toast.error(message);
+    if (showError) toast.error(message);
   }
   return null;
 }

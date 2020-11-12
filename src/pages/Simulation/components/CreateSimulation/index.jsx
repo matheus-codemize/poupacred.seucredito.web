@@ -130,12 +130,14 @@ function CreateSimulation({ ...rest }) {
   async function getClientByCpf() {
     try {
       const { cpf } = register;
-      if (cpf && cpf.length === 14) {
+      if (validator.cpf(cpf)) {
         dispatch(actionsContainer.loading());
 
         let { id, nascimento, ...data } = await simulacaoApi.getClientByCpf(
           cpf,
+          false,
         );
+
         if (moment(nascimento, 'DD/MM/YYYY').isValid()) {
           nascimento = moment(nascimento, 'DD/MM/YYYY').toDate();
         }

@@ -1,7 +1,7 @@
 const register = {
   cpf: '',
-  nascimento: null,
   nome: '',
+  nascimento: null,
   celular: '',
   email: '',
   produto: 0,

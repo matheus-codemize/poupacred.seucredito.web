@@ -1,7 +1,6 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import $ from 'jquery';
 import PropTypes from 'prop-types';
-import { useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import styles from './style.module.css';
 
@@ -38,7 +37,6 @@ function Panel({
 
   // resources hooks
   const dispatch = useDispatch();
-  const location = useLocation();
 
   // redux state
   const navigator = useSelector(state => state.navigator);
@@ -147,19 +145,17 @@ function Panel({
     );
 
     if (element) {
-      searchChildren = React.Children.toArray(element.props.children);
-      setSearchSizeTotal(searchChildren.length);
+      setSearchSizeTotal(React.Children.toArray(element.props.children).length);
 
-      if (!openSearch) {
-        searchChildren = searchChildren.filter(
-          (_child, index) =>
-            (navigator.window.size.x < 800 && index <= 1) ||
-            (navigator.window.size.x >= 800 &&
-              navigator.window.size.x < 1000 &&
-              index <= 2) ||
-            (navigator.window.size.x >= 1000 && index <= 3),
-        );
-      }
+      searchChildren = React.Children.toArray(element.props.children).filter(
+        (_child, index) =>
+          openSearch ||
+          (navigator.window.size.x < 800 && index <= 1) ||
+          (navigator.window.size.x >= 800 &&
+            navigator.window.size.x < 1000 &&
+            index <= 2) ||
+          (navigator.window.size.x >= 1000 && index <= 3),
+      );
       setSearchSizeShow(searchChildren.length);
 
       return (
