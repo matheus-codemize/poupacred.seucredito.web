@@ -16,12 +16,13 @@ function PanelSearch({ ...rest }) {
   return <div {...rest} />;
 }
 
-function PanelBody({ ...rest }) {
-  return <div {...rest} />;
+function PanelBody({ children, ...rest }) {
+  return children;
 }
 
 function Panel({
   title,
+  onBack,
   actions,
   subtitle,
   children,
@@ -174,14 +175,22 @@ function Panel({
     if (typeof onSearch === 'function') {
       actionsHeader.push({
         ...language['component.button.search'],
-        id: 1,
+        key: 'search',
         onClick: onSearch,
+      });
+    }
+
+    if (typeof onBack === 'function') {
+      actionsHeader.push({
+        ...language['component.button.back'],
+        key: 'back',
+        onClick: onBack,
       });
     }
 
     if (searchSizeTotal && (openSearch || searchSizeShow !== searchSizeTotal)) {
       actionsHeader.push({
-        id: 2,
+        key: 'open-close',
         text: languageComp[openSearch ? 'minus' : 'more'],
         icon: `fas fa-chevron-circle-${openSearch ? 'up' : 'down'}`,
         onClick: () => setOpenSearch(prevOpenSearch => !prevOpenSearch),
@@ -193,14 +202,16 @@ function Panel({
     if (navigator.window.size.x < 600 && actionsHeader.length > 2) {
       const actionFixed =
         // action para expandir e fechar painel de pesquisa
-        actionsHeader.find(action => action.id === 2) ||
+        actionsHeader.find(action => action.key === 'open-close') ||
         // action para disparar a pesquisa
-        actionsHeader.find(action => action.id === 1);
+        actionsHeader.find(action => action.key === 'search') ||
+        // action para disparar a pesquisa
+        actionsHeader.find(action => action.key === 'back');
 
       dispatch(
         actionsRedux.actions(
           actionsHeader.filter(
-            action => !actionFixed || action.id !== actionFixed.id,
+            action => !actionFixed || action.key !== actionFixed.key,
           ),
         ),
       );
@@ -286,12 +297,14 @@ Panel.Search = PanelSearch;
 Panel.defaultProps = {
   actions: [],
   subtitle: '',
+  onBack: null,
   background: '',
   onSearch: null,
   useDivider: false,
 };
 
 Panel.propTypes = {
+  onBack: PropTypes.func,
   onSearch: PropTypes.func,
   useDivider: PropTypes.bool,
   background: PropTypes.string,

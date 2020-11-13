@@ -20,12 +20,6 @@ function PanelAction() {
   const { open, actions } = panel;
 
   useEffect(() => {
-    // if (navigator.window.size.x >= 600) {
-    //   onClose();
-    // }
-  }, [navigator.window.size]);
-
-  useEffect(() => {
     if (open) {
       dispatch(actionsContainer.open({ onClose }));
     }

@@ -47,6 +47,10 @@
     "text": "Sair",
     "icon": "fa fa-sign-out"
   },
+  "component.button.add": {
+    "text": "Adicionar",
+    "icon": "fas fa-plus"
+  },
   "component.button.plus": {
     "text": "Novo registro",
     "icon": "fas fa-plus-circle"
@@ -330,7 +334,7 @@
 
   "page.crm": {
     "title": "CRM",
-    "answerTitle": "Atendimento (Mailing)",
+    "mailingTitle": "Atendimento (Mailing)",
     "createTitle": "Solicitação de Mailing",
     "success": {
       "text": "Ok, Entendi!",
@@ -344,11 +348,42 @@
     "labels": {
       "agent": "Agente",
       "status": "Status",
+      "answer": "Atender",
+      "contact": "Contatos",
+      "schedule": "Agendar",
       "agreement": "Convênio",
+      "proposal": "Proposta Ativa",
       "solicitation": "Solicitação",
-      "schedule": "Data de Agendamento",
-      "scheduleEmpty": "Nenhum"
-    }
+      "scheduleDateEmpty": "Nenhum",
+      "contactEmpty": "Não há contatos",
+      "scheduleDate": "Data de Agendamento",
+      "proposalEmpty": "Não há proposta ativa"
+    },
+    "contactActions": [
+      {
+        "key": 1,
+        "text": "Chamada",
+        "icon": "fas fa-phone-alt"
+      },
+      {
+        "key": 2,
+        "color": "green",
+        "text": "Whatsapp",
+        "icon": "fab fa-whatsapp"
+      },
+      {
+        "key": 3,
+        "color": "blue",
+        "icon": "far fa-thumbs-up",
+        "text": "Marcar como 'gostei'"
+      },
+      {
+        "key": 4,
+        "color": "red",
+        "icon": "far fa-thumbs-down",
+        "text": "Marcar como 'não gostei'"
+      }
+    ]
   },
 
   "page.simulation": {

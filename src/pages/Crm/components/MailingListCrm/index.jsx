@@ -1,5 +1,6 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import _ from 'lodash';
+import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, useLocation } from 'react-router-dom';
 import styles from './style.module.css';
 
@@ -13,34 +14,28 @@ import * as crmApi from '../../../../services/crm';
 import backgroundImg from '../../../../assets/images/background/panel/crm.jpg';
 
 // utils
+import toast from '../../../../utils/toast';
 import language from '../../../../utils/language';
 
 // components
 import Panel from '../../../../components/Panel';
 import BoxData from '../../../../components/BoxData';
 import CardList from '../../../../components/CardList';
-import { useDispatch, useSelector } from 'react-redux';
 import ListEmpty from '../../../../components/ListEmpty';
-import toast from '../../../../utils/toast';
 
 const languagePage = language['page.crm'];
-const languageForm = language['component.form.props'];
 
 const statusEnable = [1, 4];
 
-function AnswerCrm() {
+function ListMailingCrm() {
   // resources hooks
   const history = useHistory();
   const location = useLocation();
   const dispatch = useDispatch();
 
-  // redux state
-  const navigator = useSelector(state => state.navigator);
-
   // component state
   const [dataset, setDataset] = useState([]);
   const [details, setDetails] = useState(null);
-  const [mailing, setMailing] = useState(null);
 
   useEffect(() => {
     const mailing = _.get(location, 'state.crm', null);
@@ -62,13 +57,21 @@ function AnswerCrm() {
     try {
       dispatch(actionsContainer.loading());
 
-      const response = await crmApi.getAnswer(details.id, item.id);
+      const { id: solicitacao } = details;
+      const response = await crmApi.getAnswer(solicitacao, item.id);
+      history.push(`${location.pathname}/atendimento`, {
+        crm: { ...response, solicitacao },
+      });
     } catch (err) {
       const message = _.get(err, 'response.data.erro', err.message);
       toast.error(message);
     } finally {
       dispatch(actionsContainer.close());
     }
+  }
+
+  function handleBack() {
+    history.goBack();
   }
 
   const renderDataset = useMemo(() => {
@@ -80,8 +83,8 @@ function AnswerCrm() {
       rodape: [
         { nome: languagePage.labels.status, valor: item.status },
         {
-          nome: languagePage.labels.schedule,
-          valor: item.data || languagePage.labels.scheduleEmpty,
+          nome: languagePage.labels.scheduleDate,
+          valor: item.data || languagePage.labels.scheduleDateEmpty,
         },
       ],
     }));
@@ -89,26 +92,17 @@ function AnswerCrm() {
 
   return (
     <Panel
-      useDivider
+      onBack={handleBack}
       background={backgroundImg}
       title={languagePage.title}
-      subtitle={languagePage.answerTitle}
+      subtitle={languagePage.mailingTitle}
     >
       <Panel.Body>
-        <ListEmpty visible={!details} />
-        {details && (
-          <>
-            <div className={styles.detail}>
-              <BoxData useDirection {...details} />
-            </div>
-            <div className={styles.list}>
-              <CardList data={renderDataset} />
-            </div>
-          </>
-        )}
+        <BoxData useDirection {...details} />
+        <CardList data={renderDataset} />
       </Panel.Body>
     </Panel>
   );
 }
 
-export default AnswerCrm;
+export default ListMailingCrm;

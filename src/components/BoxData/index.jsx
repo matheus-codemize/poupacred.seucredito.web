@@ -7,7 +7,6 @@ import Box from '../Box';
 
 function BoxData({
   logo,
-  size,
   title,
   footer,
   details,
@@ -58,7 +57,7 @@ function BoxData({
   }, [details, useDirection]);
 
   return (
-    <Box size={size}>
+    <Box {...rest}>
       {renderHeader}
       {renderDescription}
       {renderDetails}
@@ -70,15 +69,13 @@ function BoxData({
 BoxData.defaultProps = {
   logo: '',
   title: '',
-  size: 'lg',
-  subtitle: '',
   details: [],
+  subtitle: '',
   footer: <></>,
   useDirection: false,
 };
 
 BoxData.propTypes = {
-  size: PropTypes.string,
   logo: PropTypes.string,
   footer: PropTypes.node,
   title: PropTypes.string,

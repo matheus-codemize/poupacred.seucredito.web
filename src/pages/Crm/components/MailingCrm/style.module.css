@@ -1,0 +1,106 @@
+.container {
+  display: flex;
+  flex-wrap: wrap;
+  position: relative;
+  flex-direction: row;
+  padding-bottom: 2rem;
+}
+
+.container > div {
+  margin: 1rem 0;
+}
+
+.container > div:first-child {
+  margin-top: 0;
+}
+
+.contact {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  color: rgb(var(--color-black));
+}
+
+.contact > h1 {
+  width: 100%;
+  font-size: 2rem;
+  font-weight: 600;
+  padding-bottom: 7px;
+  margin-bottom: 1rem;
+  border-bottom: 1px solid rgb(var(--color-black));
+}
+
+.contact > h1 > button {
+  margin: 0;
+  float: right;
+  font-size: 1.7rem;
+  color: rgb(var(--color-primary));
+}
+
+.contact > ul {
+  width: 100%;
+  font-size: 1.7rem;
+}
+
+.contact > ul > li {
+  margin: 0.5rem 0;
+  position: relative;
+  border-radius: 1rem;
+  padding: 2rem 1.5rem;
+  border: 1px solid #d2e0db;
+  background-color: #f9f9f9;
+}
+
+.contact > ul > li > button {
+  margin: 0;
+  float: right;
+}
+
+.contact > ul > li > button[data-active='true'] {
+  color: rgb(var(--color-primary));
+}
+
+.contact .dropdown {
+  z-index: 2;
+  top: 4.5rem;
+  right: 2rem;
+  display: block;
+  position: absolute;
+  box-shadow: var(--input-box-shadow);
+  background-color: rgb(var(--color-white));
+}
+
+.contact .dropdown > label {
+  display: block;
+  cursor: pointer;
+  padding: 1rem 2rem;
+}
+
+.contact .dropdown > label:hover {
+  background-color: rgb(222, 235, 255);
+}
+
+.contact .dropdown > label > i {
+  margin-right: 7px;
+}
+
+.empty {
+  width: 100%;
+  color: grey;
+  padding: 2rem 0;
+  font-size: 1.7rem;
+  text-align: center;
+}
+
+@media screen and (min-width: 500px) {
+  .document > button {
+    flex: 1;
+  }
+}
+
+@media screen and (min-width: 1280px) {
+  .container > div {
+    flex: 1;
+    margin: 0 1rem;
+  }
+}

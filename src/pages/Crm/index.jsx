@@ -26,7 +26,8 @@ import InputDateRange from '../../components/InputDateRange';
 
 // components internal
 import Create from './components/CreateCrm';
-import Answer from './components/AnswerCrm';
+import Mailing from './components/MailingCrm';
+import MailingList from './components/MailingListCrm';
 
 const languagePage = language['page.crm'];
 const languageForm = language['component.form.props'];
@@ -133,12 +134,16 @@ function Crm() {
     history.push('/crm/novo');
   }
 
-  if (location.pathname.includes('novo')) {
+  if (location.pathname === '/crm/novo') {
     return <Create />;
   }
 
-  if (location.pathname.includes('mailing')) {
-    return <Answer />;
+  if (location.pathname === '/crm/mailing') {
+    return <MailingList />;
+  }
+
+  if (location.pathname === '/crm/mailing/atendimento') {
+    return <Mailing />;
   }
 
   return (

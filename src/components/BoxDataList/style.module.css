@@ -10,22 +10,22 @@
   overflow: hidden;
   flex-direction: row;
   align-items: center;
-  justify-content: flex-start;
 }
 
 .content > div {
-  margin: 1rem;
+  margin: 1rem auto;
 }
 
 @media screen and (min-width: 700px) {
   .content > div {
+    margin: 1rem;
     max-width: calc(48% - 2rem);
   }
 }
 
 @media screen and (min-width: 1000px) {
   .content > div {
-    max-width: calc(33% - 2rem);
+    max-width: calc(30% - 2rem);
   }
 }
 

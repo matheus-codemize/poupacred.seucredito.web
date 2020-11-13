@@ -165,7 +165,12 @@ function DetailsProposal() {
   }, [details, navigator.window.size.x]);
 
   return (
-    <Panel background={backgroundImg} title={languagePage.detailsTitle}>
+    <Panel
+      useDivider
+      background={backgroundImg}
+      title={languagePage.title}
+      subtitle={languagePage.detailsTitle}
+    >
       <Panel.Body>
         <ListEmpty visible={!data} />
         {renderDetails}
