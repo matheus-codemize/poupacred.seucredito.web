@@ -25,7 +25,7 @@
       "money": "R$ 0,00",
       "cep": "00000-000",
       "cpf": "000.000.000-00",
-      "phone": "(18) 99999-9999",
+      "phone": "DDD + Celular",
       "birthday": "DD / MM / AAAA"
     }
   },
@@ -318,14 +318,18 @@
     "description": "Estamos analisando seu cadastro, fique atento na sua caixa de email ou SMS com futuras instruções."
   },
 
+  "page.notification": {
+    "title": "Notificações"
+  },
+
   "page.proposal": {
     "title": "Consultar Propostas",
-    "detailsTitle": "Detalhes da Proposta",
+    "detailsTitle": "Detalhes",
+    "historyTitle": "Histórico",
     "labels": {
       "client": "Dados do Cliente",
       "historyTitle": "Histórico da Proposta",
       "history": "Histórico completo",
-      "historyEmpty": "Sem histórico",
       "contract": "Baixar Contrato",
       "contractEmpty": "Sem Contrato",
       "hitoryLegend": "Mostrando últimos registros de histórico"

@@ -5,7 +5,6 @@
   font-size: 2rem;
   position: relative;
   border-radius: 0.8rem;
-  font-family: 'Open Sans';
   background-size: 150% auto;
   transition: 0.5s ease-in-out;
   color: rgb(var(--color-white));
@@ -22,6 +21,10 @@
   align-items: center;
   margin-right: 1.2rem;
   justify-content: center;
+}
+
+.button[data-text='false'] i {
+  margin: 0;
 }
 
 .button_link {

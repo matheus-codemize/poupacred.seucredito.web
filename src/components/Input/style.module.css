@@ -7,50 +7,68 @@
   color: rgb(var(--color-black));
 }
 
-.container input {
-  outline: none;
-  padding: 1.2rem;
-  font-size: 1.6rem;
-  border-radius: 0.8rem;
-  background-color: #fff;
-  border: 1px solid #ced4da;
-}
-
-.container input:focus {
-  border-color: var(--input-focus-border-color);
-}
-
-.container input:disabled {
-  cursor: not-allowed;
-  background-color: rgb(var(--color-disabled));
-}
-
-.container i {
+.container > i {
   top: 1.2rem;
   color: grey;
   right: 1.2rem;
   cursor: pointer;
   font-size: 2rem;
   position: absolute;
-  font-family: 'Open Sans';
 }
 
 .container i:hover {
   color: rgb(var(--color-black));
 }
 
-.container[data-label='on'][data-display='vertical'] i {
+.container[data-label='true'][data-display='vertical'] i {
   top: 4rem;
-}
-
-.container input[type='password'] {
-  padding-right: 4.2rem;
-  width: calc(100% - 5.6rem);
 }
 
 .container[data-display='horizontal'] {
   align-items: center;
   flex-direction: row;
+}
+
+.content {
+  display: flex;
+  position: relative;
+  flex-direction: row;
+}
+
+.content > input {
+  flex: 1;
+  outline: none;
+  padding: 1.2rem;
+  font-size: 1.7rem;
+  border-radius: 0.8rem;
+  background-color: #fff;
+  border: 1px solid #ced4da;
+}
+
+.content > input:focus {
+  border-color: var(--input-focus-border-color);
+}
+
+.content > input:disabled {
+  cursor: not-allowed;
+  background-color: rgb(var(--color-disabled));
+}
+
+.content > input[type='password'] {
+  padding-right: 4rem;
+  width: calc(100% - 5.6rem);
+}
+
+.content > button {
+  width: 4rem;
+  border: none;
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+}
+
+.content[data-action='true'] > input {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
 }
 
 .container[data-col='1'] {

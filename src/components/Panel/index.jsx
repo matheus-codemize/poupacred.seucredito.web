@@ -17,7 +17,7 @@ function PanelSearch({ ...rest }) {
 }
 
 function PanelBody({ children, ...rest }) {
-  return children;
+  return children || <></>;
 }
 
 function Panel({

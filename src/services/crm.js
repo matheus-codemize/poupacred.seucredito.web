@@ -97,22 +97,6 @@ export async function create(data) {
 }
 
 /**
- * Função para atualizar telefone do cliente
- * @param {object} data
- */
-export async function updatePhone(data) {
-  try {
-    const url = '/crm/cliente/atualizar/contato';
-    const response = await api.post(url, data);
-    return response;
-  } catch (err) {
-    const message = _.get(err, 'response.data.erro', err.message);
-    toast.error(message);
-  }
-  return null;
-}
-
-/**
  * Função para realizar um agendamento de atendimento ao cliente
  * @param {object} data
  */
@@ -169,6 +153,40 @@ export async function getAnswer(solicitacao, cliente) {
   try {
     const url = `/crm/atendimentos/buscar?solicitacao=${solicitacao}&cliente=${cliente}`;
     const response = await api.get(url);
+    return response;
+  } catch (err) {
+    const message = _.get(err, 'response.data.erro', err.message);
+    toast.error(message);
+  }
+  return null;
+}
+
+/**
+ * Função para classificar um telefone de cliente
+ * @param {string|number} fone
+ * @param {boolean} positivo
+ */
+export async function votePhone(fone, positivo) {
+  try {
+    const url = '/crm/fones/classificar';
+    const response = await api.post(url, { fone, positivo });
+    return response;
+  } catch (err) {
+    const message = _.get(err, 'response.data.erro', err.message);
+    toast.error(message);
+  }
+  return null;
+}
+
+/**
+ * Função para classificar um telefone de cliente
+ * @param {string|number} cliente
+ * @param {string} numero
+ */
+export async function addPhone(cliente, numero) {
+  try {
+    const url = '/crm/fones/criar';
+    const response = await api.post(url, { cliente, numero, tipo: 3 });
     return response;
   } catch (err) {
     const message = _.get(err, 'response.data.erro', err.message);

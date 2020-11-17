@@ -8,6 +8,7 @@ import toast from '../utils/toast';
 
 /**
  * Função para listar os campos dinâmicos para concluir uma simulação (fazer a simulação virar proposta)
+ * @param {object} data
  */
 export async function getFields(data) {
   try {
@@ -23,6 +24,7 @@ export async function getFields(data) {
 
 /**
  * Função para criar uma proposta
+ * @param {object} data
  */
 export async function create(data) {
   try {
@@ -37,7 +39,8 @@ export async function create(data) {
 }
 
 /**
- * Função para criar uma proposta
+ * Função para buscar uma proposta pelo ID
+ * @param {number|string} id
  */
 export async function find(id) {
   try {
@@ -53,6 +56,7 @@ export async function find(id) {
 
 /**
  * Função para listar propostas
+ * @param {object} filter
  */
 export async function list(filter = null) {
   try {
@@ -74,6 +78,22 @@ export async function getStatus() {
     const url = '/propostas/status/listar';
     const data = await api.get(url);
     return data.map(item => ({ ...item, value: item.id, label: item.nome }));
+  } catch (err) {
+    const message = _.get(err, 'response.data.erro', err.message);
+    toast.error(message);
+  }
+  return [];
+}
+
+/**
+ * Função para listar o histórico de uma proposta pelo ID
+ * @param {number|string} id
+ */
+export async function getHistory(id) {
+  try {
+    const url = '/propostas/historico/listar';
+    const response = await api.post(url, { proposta: id });
+    return response.dados;
   } catch (err) {
     const message = _.get(err, 'response.data.erro', err.message);
     toast.error(message);

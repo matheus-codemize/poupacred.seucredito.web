@@ -10,7 +10,6 @@ import actionsContainer from '../../redux/actions/container';
 import backgroundImg from '../../assets/images/background/panel/proposta.jpg';
 
 // services
-import api from '../../services/api';
 import * as bancoApi from '../../services/banco';
 import * as produtoApi from '../../services/produto';
 import * as convenioApi from '../../services/convenio';
@@ -34,6 +33,7 @@ import InputDateRange from '../../components/InputDateRange';
 
 // components internal
 import Details from './components/DetailsProposal';
+import History from './components/HistoryProposal';
 
 const languagePage = language['page.proposal'];
 const languageForm = language['component.form.props'];
@@ -147,6 +147,10 @@ function Proposal() {
 
   if (location.pathname === '/proposta/detalhes') {
     return <Details />;
+  }
+
+  if (location.pathname === '/proposta/detalhes/historico') {
+    return <History />;
   }
 
   return (

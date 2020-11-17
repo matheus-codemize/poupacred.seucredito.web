@@ -37,6 +37,14 @@
   color: rgb(var(--color-primary));
 }
 
+.contact > div {
+  padding: 0;
+}
+
+.contact > div > div > input {
+  padding: 2rem 1.5rem;
+}
+
 .contact > ul {
   width: 100%;
   font-size: 1.7rem;

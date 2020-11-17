@@ -38,8 +38,8 @@ function ListMailingCrm() {
   const [details, setDetails] = useState(null);
 
   useEffect(() => {
-    const mailing = _.get(location, 'state.crm', null);
-    setDetails(mailing);
+    const crm = _.get(location, 'state.crm', null);
+    setDetails(crm);
   }, [location.state]);
 
   useEffect(() => {
@@ -53,21 +53,10 @@ function ListMailingCrm() {
     dispatch(actionsContainer.close());
   }
 
-  async function handleMailing(item) {
-    try {
-      dispatch(actionsContainer.loading());
-
-      const { id: solicitacao } = details;
-      const response = await crmApi.getAnswer(solicitacao, item.id);
-      history.push(`${location.pathname}/atendimento`, {
-        crm: { ...response, solicitacao },
-      });
-    } catch (err) {
-      const message = _.get(err, 'response.data.erro', err.message);
-      toast.error(message);
-    } finally {
-      dispatch(actionsContainer.close());
-    }
+  async function handleMailing(mailing) {
+    history.push(`${location.pathname}/atendimento`, {
+      crm: { ...details, mailing },
+    });
   }
 
   function handleBack() {
@@ -98,7 +87,7 @@ function ListMailingCrm() {
       subtitle={languagePage.mailingTitle}
     >
       <Panel.Body>
-        <BoxData useDirection {...details} />
+        {details && <BoxData useDirection {...details} />}
         <CardList data={renderDataset} />
       </Panel.Body>
     </Panel>

@@ -5,7 +5,6 @@ import {
   Switch,
   Redirect,
   BrowserRouter as Router,
-  useLocation,
 } from 'react-router-dom';
 
 // redux
@@ -16,7 +15,6 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 // components
-import Header from './components/Header';
 import Sidebar from './components/Sidebar';
 import BoxHelp from './components/BoxHelp';
 import Container from './components/Container';
@@ -34,6 +32,7 @@ import Login from './pages/Login';
 import Report from './pages/Report';
 import Landing from './pages/Landing';
 import Success from './pages/Success';
+import Notification from './pages/Notification';
 import RegisterAgent from './pages/RegisterAgent';
 import RegisterClient from './pages/RegisterClient';
 
@@ -121,6 +120,9 @@ function App() {
         </Route>
         <Route path="/sucesso">
           <Success />
+        </Route>
+        <Route path="/notificacao">
+          <Notification />
         </Route>
         <Route exact path="/cadastro/agente">
           <RegisterAgent />

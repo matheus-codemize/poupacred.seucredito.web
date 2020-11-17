@@ -5,6 +5,7 @@ import styles from './style.module.css';
 // components
 import Help from '../Help';
 import Label from '../Label';
+import Button from '../Button';
 
 // utils
 import format from '../../utils/format';
@@ -18,6 +19,7 @@ function Input({
   help,
   label,
   value,
+  action,
   display,
   onChange,
   required,
@@ -57,7 +59,7 @@ function Input({
 
       case 'birthday':
         valueSelected = format.birthday(valueSelected, value);
-        break
+        break;
 
       case 'money':
         valueSelected = valueSelected.replace(/[^\d]/g, '');
@@ -135,25 +137,32 @@ function Input({
     );
   }, [showPassword, htmlType]);
 
+  const renderAction = useMemo(() => {
+    return action ? <Button {...action} /> : <></>;
+  }, [action]);
+
   return (
     <div
+      data-label={!!label}
       data-display={display}
       className={styles.container}
-      data-label={label ? 'on' : 'off'}
       data-col={typeof col === 'function' ? col(id) : col}
     >
       {renderLabel}
-      <input
-        {...rest}
-        id={id}
-        ref={inputRef}
-        required={required}
-        disabled={disabled}
-        value={renderValue}
-        onChange={handleChange}
-        placeholder={renderPlaceholder}
-        type={showPassword ? 'text' : htmlType}
-      />
+      <div data-action={!!action} className={styles.content}>
+        <input
+          {...rest}
+          id={id}
+          ref={inputRef}
+          required={required}
+          disabled={disabled}
+          value={renderValue}
+          onChange={handleChange}
+          placeholder={renderPlaceholder}
+          type={showPassword ? 'text' : htmlType}
+        />
+        {renderAction}
+      </div>
       {renderHelp}
       {renderAddonPassword}
     </div>
@@ -164,6 +173,7 @@ Input.defaultProps = {
   col: 16,
   help: '',
   label: '',
+  action: null,
   type: 'text',
   required: false,
   disabled: false,
@@ -172,6 +182,7 @@ Input.defaultProps = {
 };
 
 Input.propTypes = {
+  action: PropTypes.bool,
   help: PropTypes.string,
   label: PropTypes.string,
   required: PropTypes.bool,

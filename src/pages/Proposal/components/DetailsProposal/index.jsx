@@ -1,11 +1,10 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import _ from 'lodash';
 import { useDispatch, useSelector } from 'react-redux';
-import { useLocation } from 'react-router-dom';
+import { Link, useHistory, useLocation } from 'react-router-dom';
 import styles from './style.module.css';
 
 // redux
-import actionsBox from '../../../../redux/actions/box';
 import actionsContainer from '../../../../redux/actions/container';
 
 // utils
@@ -20,15 +19,16 @@ import backgroundImg from '../../../../assets/images/background/panel/proposta.j
 // components
 import Box from '../../../../components/Box';
 import Panel from '../../../../components/Panel';
+import Button from '../../../../components/Button';
 import BoxData from '../../../../components/BoxData';
 import ListEmpty from '../../../../components/ListEmpty';
 import { convertKeys } from '../../../../components/BoxDataList';
-import Button from '../../../../components/Button';
 
 const languagePage = language['page.proposal'];
 
 function DetailsProposal() {
   // resources hooks
+  const history = useHistory();
   const location = useLocation();
   const dispatch = useDispatch();
 
@@ -61,51 +61,55 @@ function DetailsProposal() {
   }
 
   const detailsSectionHistory = useMemo(() => {
-    return details && details.historico ? (
-      <div className={styles.history}>
+    return details &&
+      details.historico &&
+      details.historico.dados &&
+      Array.isArray(details.historico.dados) ? (
+      <div className={styles.history} data-legend={details.historico.total > 1}>
         <h1>
           {navigator.window.size.x >= 1280
             ? languagePage.labels.historyTitle
             : ''}
         </h1>
         <p>
-          <a data-active={!!details.historico.length}>
-            <label>
-              <i
-                className={
-                  details.historico.length ? 'fas fa-history' : 'fa fa-close'
-                }
-              />
-              {details.historico.length
-                ? languagePage.labels.history
-                : languagePage.labels.historyEmpty}
-            </label>
-          </a>
-          <a data-active={!!details.contrato}>
+          <Link
+            to={{
+              state: { proposal: data },
+              pathname: location.pathname + '/historico',
+            }}
+          >
+            {details.historico.total > 1 && (
+              <label>
+                <i className="fas fa-history" />
+                {languagePage.labels.history}
+              </label>
+            )}
+          </Link>
+          <Link to={details.contrato} data-active={!!details.contrato}>
             <label>
               <i className={details.contrato ? 'fas fa-file' : 'fa fa-close'} />
               {details.contrato
                 ? languagePage.labels.contract
                 : languagePage.labels.contractEmpty}
             </label>
-          </a>
+          </Link>
         </p>
         <ul>
-          {details.historico.map((item, index) => (
+          {details.historico.dados.map((item, index) => (
             <li key={index}>
               <label>{item.nome}</label>
               <span>{item.data}</span>
             </li>
           ))}
         </ul>
-        {details.historico.total > details.historico.length && (
+        {details.historico.total > 1 && (
           <h2>{languagePage.labels.hitoryLegend}</h2>
         )}
       </div>
     ) : (
       <></>
     );
-  }, [details, navigator.window.size.x]);
+  }, [details, location.pathname, navigator.window.size.x]);
 
   const renderDetails = useMemo(() => {
     const component = [];
@@ -147,12 +151,7 @@ function DetailsProposal() {
         );
       }
 
-      if (
-        details.historico &&
-        Array.isArray(details.historico) &&
-        details.historico.length &&
-        navigator.window.size.x >= 1280
-      ) {
+      if (navigator.window.size.x >= 1280) {
         component.push(
           <Box size={navigator.window.size.x < 1280 ? 'lg' : 'sm'}>
             {detailsSectionHistory}

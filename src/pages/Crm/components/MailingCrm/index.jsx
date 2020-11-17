@@ -7,8 +7,12 @@ import styles from './style.module.css';
 // redux
 import actionsContainer from '../../../../redux/actions/container';
 
+// services
+import * as crmApi from '../../../../services/crm';
+
 // utils
 import language from '../../../../utils/language';
+import validator from '../../../../utils/validator';
 
 // assets
 import backgroundImg from '../../../../assets/images/background/panel/crm.jpg';
@@ -16,10 +20,11 @@ import backgroundImg from '../../../../assets/images/background/panel/crm.jpg';
 // components
 import Box from '../../../../components/Box';
 import Panel from '../../../../components/Panel';
+import Input from '../../../../components/Input';
+import Button from '../../../../components/Button';
 import BoxData from '../../../../components/BoxData';
 import ListEmpty from '../../../../components/ListEmpty';
 import { convertKeys } from '../../../../components/BoxDataList';
-import Button from '../../../../components/Button';
 
 const languagePage = language['page.crm'];
 
@@ -30,13 +35,26 @@ function MailingCrm() {
   const dispatch = useDispatch();
 
   // component state
+  const [phone, setPhone] = useState('');
   const [details, setDetails] = useState(null);
   const [dropdownIndex, setDropdownIndex] = useState(-1);
 
   useEffect(() => {
-    const mailing = _.get(location, 'state.crm', null);
-    setDetails(mailing);
+    getDetails();
   }, [location.state]);
+
+  async function getDetails() {
+    dispatch(actionsContainer.loading());
+
+    const crm = _.get(location, 'state.crm', null);
+
+    if (crm && crm.id) {
+      const response = await crmApi.getAnswer(crm.id, crm.mailing.id);
+      setDetails(response);
+    }
+
+    dispatch(actionsContainer.close());
+  }
 
   function handleBack() {
     history.goBack();
@@ -46,20 +64,15 @@ function MailingCrm() {
 
   function handleAnswer() {}
 
-  function handleAddContact() {}
-
-  function handleDropdown(index, event) {
-    event.stopPropagation();
-    const element = document.getElementsByClassName(styles.dropdown)[index];
-
-    if (element.className.includes(styles.dropdown_open)) {
-      element.classList.remove(styles.dropdown_open);
-    } else {
-      element.classList.add(styles.dropdown_open);
-    }
+  async function handleAddContact() {
+    dispatch(actionsContainer.loading());
+    await crmApi.addPhone(details.id, phone);
+    await getDetails();
+    setPhone('');
+    dispatch(actionsContainer.close());
   }
 
-  function handleContact(contact, action) {
+  async function handleContact(contact, action) {
     try {
       if (!contact) return;
       dispatch(actionsContainer.loading());
@@ -84,9 +97,9 @@ function MailingCrm() {
           break;
 
         case 3: // like contact
-          break;
-
         case 4: // dislike contact
+          await crmApi.votePhone(contact.id, action === 3);
+          await getDetails();
           break;
 
         default:
@@ -96,6 +109,11 @@ function MailingCrm() {
     } finally {
       dispatch(actionsContainer.close());
     }
+  }
+
+  function handlePhone(event) {
+    const { value } = event.target;
+    setPhone(value);
   }
 
   const renderData = useMemo(() => {
@@ -142,31 +160,37 @@ function MailingCrm() {
     >
       <Panel.Body>
         <ListEmpty visible={!details} />
-        <div className={styles.container}>
-          <BoxData {...renderData} />
-          <Box>
-            <div className={styles.contact}>
-              <h1>
-                {languagePage.labels.contact}
-                <Button
-                  type="link"
-                  onClick={handleAddContact}
-                  {...language['component.button.add']}
+        {details && (
+          <div className={styles.container}>
+            <BoxData {...renderData} />
+            <Box>
+              <div className={styles.contact}>
+                <h1>{languagePage.labels.contact}</h1>
+                <Input
+                  id="phone"
+                  type="phone"
+                  value={phone || ''}
+                  onChange={handlePhone}
+                  action={{
+                    icon: 'fas fa-plus',
+                    onClick: handleAddContact,
+                    disabled: phone.length < 14,
+                  }}
                 />
-              </h1>
-              {details &&
-              Array.isArray(details.contato) &&
-              details.contato.concat(['(18) 99819-1947']).length ? (
-                <ul>
-                  {details.contato
-                    .concat(['(18) 99819-1947', '(18) 99819-1947'])
-                    .map((contato, index) => (
+                {details &&
+                Array.isArray(details.contato) &&
+                details.contato.length ? (
+                  <ul>
+                    {details.contato.map((contato, index) => (
                       <li key={index}>
-                        {contato}
+                        {contato.numero}
                         {dropdownIndex === index && (
                           <div className={styles.dropdown}>
-                            {languagePage.contactActions.map(
-                              (action, index) => (
+                            {languagePage.contactActions
+                              .filter(
+                                action => !contato.votado || action.key <= 2,
+                              )
+                              .map((action, index) => (
                                 <label
                                   key={index}
                                   onMouseDown={() =>
@@ -179,8 +203,7 @@ function MailingCrm() {
                                   />
                                   {action.text}
                                 </label>
-                              ),
-                            )}
+                              ))}
                           </div>
                         )}
                         <Button
@@ -197,16 +220,17 @@ function MailingCrm() {
                         />
                       </li>
                     ))}
-                </ul>
-              ) : (
-                <h2 className={styles.empty}>
-                  {languagePage.labels.contactEmpty}
-                </h2>
-              )}
-            </div>
-          </Box>
-          <BoxData {...renderProposal} />
-        </div>
+                  </ul>
+                ) : (
+                  <h2 className={styles.empty}>
+                    {languagePage.labels.contactEmpty}
+                  </h2>
+                )}
+              </div>
+            </Box>
+            <BoxData {...renderProposal} />
+          </div>
+        )}
       </Panel.Body>
     </Panel>
   );

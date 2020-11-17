@@ -40,6 +40,7 @@ function Button({
       data-type={type}
       className={classNameComponent}
       disabled={disabled || loading}
+      data-text={!!(children || text)}
     >
       {renderIcon}
       {children || text || <></>}

@@ -106,7 +106,7 @@ function HeaderUser() {
 
     if (!lido) {
       await notificacaoApi.setRead(id);
-      getNotifications()
+      getNotifications();
     }
 
     if (url) {
@@ -174,13 +174,13 @@ function HeaderUser() {
                   </li>
                 ))}
               </ul>
-              <Link to="/notificacoes">{languageComp.showAll}</Link>
             </>
           ) : (
             <div className={styles.dropdown_empty}>
               {languageComp.noticationEmpty}
             </div>
           )}
+          <Link to="/notificacao">{languageComp.showAll}</Link>
         </div>
       </div>
     );

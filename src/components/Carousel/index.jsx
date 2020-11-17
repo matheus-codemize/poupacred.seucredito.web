@@ -17,7 +17,7 @@ function Carousel({ step, children, ...rest }) {
         visible: index === step,
       });
     });
-  }, [children]);
+  }, [step, children]);
 
   return (
     <div className={styles.container}>
@@ -36,6 +36,7 @@ function Step({ id, visible, ...props }) {
     const inputTypes = ['a', 'input', 'select', 'button'];
     inputTypes.forEach(inputType => {
       $(`#${id} ${inputType}`).each(function () {
+        $(this).attr('data-unique', true);
         $(this).attr('tabindex', visible ? 0 : -1);
       });
     });
