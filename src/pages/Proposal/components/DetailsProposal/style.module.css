@@ -119,6 +119,81 @@
   font-weight: 700;
 }
 
+.modal {
+  top: 2rem;
+  left: 50%;
+  z-index: 4;
+  bottom: 2rem;
+  display: none;
+  position: fixed;
+  max-width: 500px;
+  transition: 0.4s ease;
+  width: calc(100% - 4rem);
+  transform: translate(-50%, 0);
+}
+
+.modal[data-open='true'] {
+  display: block;
+}
+
+.modal > div {
+  height: calc(100% - 4rem);
+}
+
+.modal ul {
+  height: 100%;
+  display: flex;
+  margin-bottom: 7px;
+  flex-direction: column;
+  border: 1px solid #999;
+}
+
+.modal li {
+  overflow: hidden;
+  font-size: 1.7rem;
+  position: relative;
+  min-height: 3.7rem;
+  transition: 0.4s ease;
+  color: rgb(var(--color-black));
+}
+
+.modal li[data-active='true'] {
+  flex: 1;
+  border-bottom: 1px solid #999;
+}
+
+.modal li > label {
+  z-index: 2;
+  display: block;
+  cursor: pointer;
+  padding: 1rem 2rem;
+  position: relative;
+  background-color: #f3f3f3;
+  border-bottom: 1px solid #999;
+}
+
+.modal li > label i {
+  float: right;
+}
+
+.modal li > img {
+  z-index: 2;
+  padding-top: 1rem;
+  background-color: rgb(var(--color-white));
+}
+
+.modal li > img,
+.modal li > div {
+  left: 1rem;
+  user-select: none;
+  position: absolute;
+  width: calc(100% - 2rem);
+}
+
+.modal li > div {
+  bottom: 0;
+}
+
 @media screen and (min-width: 500px) {
   .document > button {
     flex: 1;

@@ -100,3 +100,36 @@ export async function getHistory(id) {
   }
   return [];
 }
+
+/**
+ * Função para listar os documentos de uma proposta pelo ID
+ * @param {number|string} id
+ */
+export async function getDocument(id) {
+  try {
+    const url = `/propostas/documentos/buscar?proposta=${id}`;
+    const response = await api.get(url);
+    return response;
+  } catch (err) {
+    const message = _.get(err, 'response.data.erro', err.message);
+    toast.error(message);
+  }
+  return [];
+}
+
+/**
+ * Função para atualizar um ou mais documentos de uma proposta
+ * @param {number|string} proposta
+ * * @param {object} campos
+ */
+export async function updateDocument(proposta, campos) {
+  try {
+    const url = '/propostas/documentos/atualizar';
+    const response = await api.post(url, { proposta, campos });
+    return response;
+  } catch (err) {
+    const message = _.get(err, 'response.data.erro', err.message);
+    toast.error(message);
+  }
+  return null;
+}

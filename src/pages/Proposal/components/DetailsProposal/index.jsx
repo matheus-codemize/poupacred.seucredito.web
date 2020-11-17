@@ -21,6 +21,7 @@ import Box from '../../../../components/Box';
 import Panel from '../../../../components/Panel';
 import Button from '../../../../components/Button';
 import BoxData from '../../../../components/BoxData';
+import InputFile from '../../../../components/InputFile';
 import ListEmpty from '../../../../components/ListEmpty';
 import { convertKeys } from '../../../../components/BoxDataList';
 
@@ -38,6 +39,8 @@ function DetailsProposal() {
   // component state
   const [data, setData] = useState(null);
   const [details, setDetails] = useState(null);
+  const [indexDocument, setIndexDocument] = useState(-1);
+  const [openDocument, setOpenDocument] = useState(false);
 
   useEffect(() => {
     const proposal = _.get(location, 'state.proposal', null);
@@ -55,9 +58,39 @@ function DetailsProposal() {
     dispatch(actionsContainer.close());
   }
 
-  function handleOpenDocuments() {
-    // dispatch(actionsBox.help(<img src={details.proposta.blocos[6].valor} />));
-    // dispatch(actionsBox.open());
+  async function handleDocument() {
+    dispatch(actionsContainer.loading());
+    const documentos = await propostaApi.getDocument(data.id);
+    setDetails(prevDetails => ({ ...prevDetails, documentos }));
+    handleOpenDocument();
+    dispatch(actionsContainer.open({ onClose: handleOpenDocument }));
+  }
+
+  function handleOpenDocument(close = false) {
+    setIndexDocument(-1);
+    setOpenDocument(prevOpen => !prevOpen);
+
+    if (close) {
+      dispatch(actionsContainer.close());
+    }
+  }
+
+  function handleViewDocument(index) {
+    setIndexDocument(prevIndex => (prevIndex === index ? -1 : index));
+  }
+
+  async function handleChangeDocument(event) {
+    const { id, value: file } = event.target;
+
+    handleOpenDocument();
+    dispatch(actionsContainer.loading());
+
+    if (file) {
+      const response = await propostaApi.updateDocument(data.id, {
+        [id]: file.data,
+      });
+      if (response) handleDocument();
+    }
   }
 
   const detailsSectionHistory = useMemo(() => {
@@ -73,10 +106,14 @@ function DetailsProposal() {
         </h1>
         <p>
           <Link
+            data-active={details.historico.total > 1}
             to={{
               state: { proposal: data },
               pathname: location.pathname + '/historico',
             }}
+            onClick={event =>
+              details.historico.total <= 1 && event.preventDefault()
+            }
           >
             {details.historico.total > 1 && (
               <label>
@@ -85,7 +122,12 @@ function DetailsProposal() {
               </label>
             )}
           </Link>
-          <Link to={details.contrato} data-active={!!details.contrato}>
+          <Link
+            target="_blank"
+            to={details.contrato}
+            data-active={!!details.contrato}
+            onClick={event => !details.contrato && event.preventDefault()}
+          >
             <label>
               <i className={details.contrato ? 'fas fa-file' : 'fa fa-close'} />
               {details.contrato
@@ -141,7 +183,7 @@ function DetailsProposal() {
             footer={
               <div className={styles.document}>
                 <Button
-                  onClick={handleOpenDocuments}
+                  onClick={handleDocument}
                   {...language['component.button.document']}
                 />
                 {navigator.window.size.x < 1280 && detailsSectionHistory}
@@ -164,17 +206,47 @@ function DetailsProposal() {
   }, [details, navigator.window.size.x]);
 
   return (
-    <Panel
-      useDivider
-      background={backgroundImg}
-      title={languagePage.title}
-      subtitle={languagePage.detailsTitle}
-    >
-      <Panel.Body>
-        <ListEmpty visible={!data} />
-        {renderDetails}
-      </Panel.Body>
-    </Panel>
+    <>
+      <div data-open={openDocument} className={styles.modal}>
+        <Box>
+          <ul>
+            {details &&
+              details.documentos &&
+              details.documentos.map((document, index) => (
+                <li key={index} data-active={index === indexDocument}>
+                  <label onClick={() => handleViewDocument(index)}>
+                    {document.nome}
+                    <i
+                      className={`fas fa-caret-${
+                        index === indexDocument ? 'up' : 'down'
+                      }`}
+                    />
+                  </label>
+                  <img src={document.valor} />
+                  <InputFile id={document.id} onChange={handleChangeDocument} />
+                </li>
+              ))}
+          </ul>
+          <Button
+            data-unique
+            type="link"
+            onClick={() => handleOpenDocument(true)}
+            {...language['component.button.close']}
+          />
+        </Box>
+      </div>
+      <Panel
+        useDivider
+        background={backgroundImg}
+        title={languagePage.title}
+        subtitle={languagePage.detailsTitle}
+      >
+        <Panel.Body>
+          <ListEmpty visible={!data} />
+          {renderDetails}
+        </Panel.Body>
+      </Panel>
+    </>
   );
 }
 

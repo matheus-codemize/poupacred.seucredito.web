@@ -3,7 +3,7 @@ import actionsTypes from '../constants/container';
 const actions = {
   open: data => ({
     type: actionsTypes.UPDATE,
-    payload: { open: true, ...data },
+    payload: { open: true, loading: false, ...data },
   }),
   close: () => ({
     type: actionsTypes.UPDATE,
