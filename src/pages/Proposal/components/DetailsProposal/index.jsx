@@ -124,7 +124,7 @@ function DetailsProposal() {
           </Link>
           <Link
             target="_blank"
-            to={details.contrato}
+            to={details.contrato || '#'}
             data-active={!!details.contrato}
             onClick={event => !details.contrato && event.preventDefault()}
           >
@@ -202,7 +202,13 @@ function DetailsProposal() {
       }
     }
 
-    return <div className={styles.container}>{component}</div>;
+    return (
+      <div className={styles.container}>
+        {component.map((component, key) =>
+          React.cloneElement(component, { key }),
+        )}
+      </div>
+    );
   }, [details, navigator.window.size.x]);
 
   return (
@@ -223,7 +229,12 @@ function DetailsProposal() {
                     />
                   </label>
                   <img src={document.valor} />
-                  <InputFile id={document.id} onChange={handleChangeDocument} />
+                  {data && data.status_id === 4 && (
+                    <InputFile
+                      id={document.id}
+                      onChange={handleChangeDocument}
+                    />
+                  )}
                 </li>
               ))}
           </ul>
