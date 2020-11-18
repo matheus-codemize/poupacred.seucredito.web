@@ -1,0 +1,235 @@
+.container {
+  z-index: 4;
+  width: 60px;
+  right: 2rem;
+  bottom: 2rem;
+  height: 60px;
+  position: fixed;
+  cursor: pointer;
+  border-radius: 50%;
+  color: rgb(var(--color-black));
+  border: 2px solid rgb(var(--color-white));
+  background-color: rgb(var(--color-primary));
+  box-shadow: 0 0 0 2px rgb(var(--color-primary));
+}
+
+.container[data-block='true'] {
+  z-index: 3;
+}
+
+.container > i {
+  top: 50%;
+  left: 50%;
+  font-size: 3rem;
+  position: relative;
+  color: rgb(var(--color-white));
+  transform: translate(-50%, -50%);
+}
+
+.chat {
+  z-index: 4;
+  right: 2rem;
+  cursor: auto;
+  display: none;
+  position: fixed;
+  max-width: 380px;
+  max-height: 620px;
+  border-radius: 1rem;
+  flex-direction: column;
+  border: 1px solid #999;
+  bottom: calc(60px + 4rem);
+  width: calc(100vw - 4rem);
+  min-height: calc(100% - 60px - 6rem);
+  background-color: rgb(var(--color-white));
+}
+
+.chat[data-open='true'] {
+  display: flex;
+}
+
+.chat .header,
+.chat .footer {
+  height: 6rem;
+  display: flex;
+  padding: 0 2rem;
+  position: relative;
+  flex-direction: row;
+  align-items: center;
+  border-top-left-radius: 2rem;
+  border-top-right-radius: 2rem;
+  border-bottom: 1px solid #999;
+}
+
+.chat .header > h1 {
+  flex: 1;
+  cursor: pointer;
+  font-size: 1.7rem;
+  line-height: 3rem;
+  transition: 0.4s ease;
+}
+
+.chat .header > h1:hover {
+  margin-left: 1rem;
+  color: rgb(var(--color-primary));
+}
+
+.chat .header > h1 > i.left {
+  margin-right: 1rem;
+}
+
+.chat .header > h1 > i.right {
+  margin-left: 1rem;
+}
+
+.chat .header > i {
+  display: flex;
+  cursor: pointer;
+  font-size: 1.7rem;
+  border-radius: 50%;
+  align-items: center;
+  justify-content: center;
+}
+
+.chat .body {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  border-bottom: 1px solid #999;
+  max-height: calc(100vh - 60px - 6rem - 12rem);
+}
+
+.chat .body[data-loading='true'] {
+  overflow: hidden;
+}
+
+.chat .body .loading {
+  top: 0;
+  z-index: 4;
+  width: 100%;
+  height: 100%;
+  display: none;
+  font-size: 4rem;
+  position: absolute;
+  border-radius: 1rem;
+  align-items: center;
+  justify-content: center;
+  color: rgb(var(--color-primary));
+  background-color: rgba(var(--color-white), 0.5);
+}
+
+.chat .body .loading[data-open='true'] {
+  display: flex;
+}
+
+.chat .body ul.type {
+  display: flex;
+  flex-wrap: wrap;
+  user-select: none;
+  align-items: center;
+  flex-direction: row;
+  justify-content: center;
+}
+
+.chat .body ul.type li {
+  margin: 1rem;
+  padding: 1rem;
+  cursor: pointer;
+  font-size: 1.5rem;
+  text-align: center;
+  color: rgb(var(--color-primary));
+  border: 1px solid rgb(var(--color-primary));
+}
+
+.chat .body ul.type li[data-active='true'] {
+  color: rgb(var(--color-white));
+  background-color: rgb(var(--color-primary));
+}
+
+.chat .body ul.conversation li {
+  cursor: pointer;
+  padding: 2rem 1rem;
+  color: rgb(var(--color-black));
+  border-bottom: 1px solid #e3e3e3;
+}
+
+.chat .body ul.conversation li:last-child {
+  border: none;
+}
+
+.chat .body ul.conversation li:hover {
+  background-color: rgba(var(--color-primary), 0.1);
+}
+
+.chat .body ul.conversation li > h1 {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.chat .body ul.conversation li > h1 > span {
+  float: right;
+  color: grey;
+  font-size: 1.2rem;
+}
+
+.chat .body ul.conversation li > div {
+  cursor: inherit;
+  overflow: hidden;
+  font-size: 1.3rem;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.chat .body .message {
+  padding: 2rem;
+  margin: 2rem 0;
+  font-size: 1.5rem;
+  position: relative;
+  border-radius: 2rem;
+  width: calc(100% - 12rem);
+}
+
+.chat .body .message[data-type='received'],
+.chat .body .message[data-type='helcome'] {
+  margin-left: 6rem;
+  background-color: #f3f3f3;
+}
+
+.chat .body .message[data-type='received']::before,
+.chat .body .message[data-type='helcome']::before {
+  top: 0;
+  left: -5rem;
+  position: absolute;
+  content: url('../../assets/images/icone.png');
+}
+
+.chat .body .message[data-type='helcome'] h1 {
+  font-weight: 600;
+  margin-bottom: 1rem;
+}
+
+.chat .footer > textarea {
+  flex: 1;
+  resize: none;
+  outline: none;
+  padding: 1.2rem;
+  font-size: 1.7rem;
+  border-radius: 0.8rem;
+  background-color: #fff;
+  border: 1px solid #ced4da;
+  color: rgb(var(--color-black));
+}
+
+.chat .footer > i {
+  cursor: pointer;
+  font-size: 2rem;
+  margin-left: 1rem;
+  color: rgb(var(--color-primary));
+}
+
+.chat .footer > h2 {
+  left: 50%;
+  color: grey;
+  font-size: 1.5rem;
+  position: relative;
+  transform: translateX(-50%);
+}

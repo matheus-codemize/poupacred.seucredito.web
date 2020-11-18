@@ -19,6 +19,18 @@
     "notificationCount": "Você possui [length] notificações"
   },
 
+  "component.chat": {
+    "title": "Chat",
+    "helcome": "<div><h1>Bem Vindo!</h1><p>Nos conte como podemos te ajudar!</p></div>",
+    "labels": {
+      "prev": "Nova conversa",
+      "next": "Abrir conversas",
+      "empty": "Sem conversa disponível",
+      "placeholder": "Escreva aqui sua mensagem",
+      "length": "Você possui [length] conversa(s) em aberto"
+    }
+  },
+
   "component.input": {
     "placeholder": {
       "number": "0",

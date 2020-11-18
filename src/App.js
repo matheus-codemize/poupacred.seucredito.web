@@ -24,6 +24,7 @@ import PanelAction from './components/PanelAction';
 
 // pages
 import Crm from './pages/Crm';
+import Chat from './pages/Chat';
 import Home from './pages/Home';
 import Proposal from './pages/Proposal';
 import Simulation from './pages/Simulation';
@@ -110,7 +111,12 @@ function App() {
     <Router>
       <Container />
       {routes.length > 0 && <Sidebar />}
-      {!!auth.uid && !auth.primeiro_acesso && <HeaderUser />}
+      {!!auth.uid && !auth.primeiro_acesso && (
+        <>
+          <Chat />
+          <HeaderUser />
+        </>
+      )}
       <BoxHelp />
       <SelectList />
       <PanelAction />

@@ -7,8 +7,14 @@ import language from '../../utils/language';
 
 const languageComp = language['component.listempty'];
 
-function ListEmpty({ visible, text, ...rest }) {
-  return visible && <h1 className={styles.text}>{text}</h1>;
+function ListEmpty({ text, visible, ...rest }) {
+  return (
+    visible && (
+      <h1 {...rest} className={styles.text}>
+        {text}
+      </h1>
+    )
+  );
 }
 
 ListEmpty.defaultProps = {
