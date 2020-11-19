@@ -10,7 +10,7 @@ import socket from '../../socketio';
 import * as chatApi from '../../services/chat';
 
 // assets
-import icon from '../../assets/images/logo.png';
+import logo from '../../assets/images/logo.png';
 
 // utils
 import language from '../../utils/language';
@@ -196,12 +196,8 @@ function Chat() {
 
   return (
     <>
-      <div
-        onClick={handleOpen}
-        className={styles.container}
-        data-block={container.loading}
-      >
-        <i className="fas fa-comments" />
+      <div className={styles.icon} data-block={container.loading}>
+        <i onClick={handleOpen} className="fas fa-comments" />
       </div>
       <div className={styles.chat} data-open={open}>
         <div className={styles.header}>
@@ -226,7 +222,7 @@ function Chat() {
           </div>
           <Carousel step={step}>
             <Carousel.Step>
-              <img src={icon} alt="icon" />
+              <img src={logo} alt="logo" />
               <p
                 data-type="helcome"
                 className={styles.message}
