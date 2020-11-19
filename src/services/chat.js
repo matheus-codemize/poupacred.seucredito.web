@@ -41,3 +41,28 @@ export async function getConversation(chat, pagina) {
   }
   return { dados: [], total: 0 };
 }
+
+export async function register(tipo, mensagem) {
+  try {
+    const url = '/chats/criar';
+    const { chat } = await api.post(url, { tipo });
+    const response = await sendMessage(chat, mensagem);
+    return { ...response, chat };
+  } catch (err) {
+    const message = _.get(err, 'response.data.erro', err.message);
+    toast.error(message);
+  }
+  return { dados: [], total: 0 };
+}
+
+export async function sendMessage(chat, mensagem) {
+  try {
+    const url = '/chats/conversas/enviar';
+    const response = await api.post(url, { chat, mensagem });
+    return response;
+  } catch (err) {
+    const message = _.get(err, 'response.data.erro', err.message);
+    toast.error(message);
+  }
+  return null;
+}

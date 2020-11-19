@@ -33,13 +33,11 @@
   display: none;
   position: fixed;
   max-width: 380px;
-  max-height: 620px;
   border-radius: 1rem;
   flex-direction: column;
   border: 1px solid #999;
   bottom: calc(60px + 4rem);
   width: calc(100vw - 4rem);
-  min-height: calc(100% - 60px - 6rem);
   background-color: rgb(var(--color-white));
 }
 
@@ -55,9 +53,6 @@
   position: relative;
   flex-direction: row;
   align-items: center;
-  border-top-left-radius: 2rem;
-  border-top-right-radius: 2rem;
-  border-bottom: 1px solid #999;
 }
 
 .chat .header > h1 {
@@ -91,11 +86,16 @@
 }
 
 .chat .body {
-  flex: 1;
+  height: 420px;
   overflow-y: auto;
   overflow-x: hidden;
+  border-top: 1px solid #999;
   border-bottom: 1px solid #999;
-  max-height: calc(100vh - 60px - 6rem - 12rem);
+}
+
+.chat .body img {
+  margin: 2rem 1rem;
+  width: calc(100% - 2rem);
 }
 
 .chat .body[data-loading='true'] {
@@ -181,25 +181,40 @@
 
 .chat .body .message {
   padding: 2rem;
-  margin: 2rem 0;
+  margin: 2rem auto;
   font-size: 1.5rem;
   position: relative;
-  border-radius: 2rem;
-  width: calc(100% - 12rem);
+  border-radius: 6px;
+  width: calc(100% - 7rem);
+  color: rgb(var(--color-white));
 }
 
-.chat .body .message[data-type='received'],
-.chat .body .message[data-type='helcome'] {
-  margin-left: 6rem;
-  background-color: #f3f3f3;
+.chat .body .message[data-type='helcome'],
+.chat .body .message[data-type='received'] {
+  background: rgb(var(--color-secondary));
 }
 
-.chat .body .message[data-type='received']::before,
-.chat .body .message[data-type='helcome']::before {
+.chat .body .message[data-type='helcome']::after,
+.chat .body .message[data-type='received']::after {
   top: 0;
-  left: -5rem;
+  left: -8px;
+  content: '';
   position: absolute;
-  content: url('../../assets/images/icone.png');
+  border: 10px solid transparent;
+  border-top: 10px solid rgb(var(--color-secondary));
+}
+
+.chat .body .message[data-type='send'] {
+  background: rgba(var(--color-primary), 1);
+}
+
+.chat .body .message[data-type='send']::after {
+  top: 0;
+  right: -8px;
+  content: '';
+  position: absolute;
+  border: 10px solid transparent;
+  border-top: 10px solid rgb(var(--color-primary));
 }
 
 .chat .body .message[data-type='helcome'] h1 {
@@ -232,4 +247,22 @@
   font-size: 1.5rem;
   position: relative;
   transform: translateX(-50%);
+}
+
+.error {
+  opacity: 0;
+  z-index: 4;
+  bottom: 2rem;
+  position: fixed;
+  font-size: 1.5rem;
+  line-height: 2rem;
+  padding: 1rem 2rem;
+  border-radius: 100px;
+  background-color: red;
+  transition: 0.1s ease-in-out;
+  color: rgb(var(--color-white));
+}
+
+.error[data-visible='true'] {
+  opacity: 1;
 }

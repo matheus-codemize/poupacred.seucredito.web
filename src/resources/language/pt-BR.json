@@ -23,11 +23,15 @@
     "title": "Chat",
     "helcome": "<div><h1>Bem Vindo!</h1><p>Nos conte como podemos te ajudar!</p></div>",
     "labels": {
-      "prev": "Nova conversa",
-      "next": "Abrir conversas",
+      "step1": "Nova conversa",
+      "step0": "Abrir conversas",
       "empty": "Sem conversa disponível",
       "placeholder": "Escreva aqui sua mensagem",
       "length": "Você possui [length] conversa(s) em aberto"
+    },
+    "errors": {
+      "type": "Você precisa selecionar o motivo do seu contato.",
+      "message": "Você precisa escrever uma mensagem"
     }
   },
 
