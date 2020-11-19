@@ -45,14 +45,13 @@ export async function getConversation(chat, pagina) {
 export async function register(tipo, mensagem) {
   try {
     const url = '/chats/criar';
-    const { chat } = await api.post(url, { tipo });
-    const response = await sendMessage(chat, mensagem);
-    return { ...response, chat };
+    const response = await api.post(url, { tipo, mensagem });
+    return response;
   } catch (err) {
     const message = _.get(err, 'response.data.erro', err.message);
     toast.error(message);
   }
-  return { dados: [], total: 0 };
+  return null;
 }
 
 export async function sendMessage(chat, mensagem) {

@@ -19,7 +19,7 @@
 @media screen and (min-width: 700px) {
   .content > div {
     margin: 1rem;
-    max-width: calc(48% - 2rem);
+    max-width: calc(50% - 2rem);
   }
 }
 
@@ -31,6 +31,6 @@
 
 @media screen and (min-width: 1300px) {
   .content > div {
-    max-width: calc(24% - 2rem);
+    max-width: calc(23% - 2rem);
   }
 }

@@ -33,6 +33,7 @@
   display: none;
   position: fixed;
   max-width: 380px;
+  user-select: none;
   border-radius: 1rem;
   flex-direction: column;
   border: 1px solid #999;
@@ -86,7 +87,7 @@
 }
 
 .chat .body {
-  height: 420px;
+  height: 440px;
   overflow-y: auto;
   overflow-x: hidden;
   border-top: 1px solid #999;
@@ -124,7 +125,6 @@
 .chat .body ul.type {
   display: flex;
   flex-wrap: wrap;
-  user-select: none;
   align-items: center;
   flex-direction: row;
   justify-content: center;
@@ -181,6 +181,7 @@
 
 .chat .body .message {
   padding: 2rem;
+  user-select: text;
   margin: 2rem auto;
   font-size: 1.5rem;
   position: relative;
@@ -192,6 +193,10 @@
 .chat .body .message[data-type='helcome'],
 .chat .body .message[data-type='received'] {
   background: rgb(var(--color-secondary));
+}
+
+.chat .body .message[data-type='helcome'] {
+  user-select: none;
 }
 
 .chat .body .message[data-type='helcome']::after,
