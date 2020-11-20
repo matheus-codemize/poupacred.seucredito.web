@@ -1,6 +1,5 @@
 .container {
   display: flex;
-  margin: 2rem 0;
   position: relative;
   flex-direction: column;
 }
@@ -8,7 +7,6 @@
 .content {
   display: flex;
   flex-wrap: wrap;
-  overflow: hidden;
   flex-direction: row;
 }
 
@@ -53,47 +51,21 @@
   font-weight: 600;
 }
 
-@media screen and (min-width: 700px) and (max-width: 999px) {
+@media screen and (min-width: 700px) {
   .content > div {
     margin: 1rem;
-    max-width: calc(50% - 1.2rem);
-  }
-
-  .content > div:nth-child(odd) {
-    margin-left: 0;
-  }
-
-  .content > div:nth-child(even) {
-    margin-right: 0;
+    max-width: calc(50% - 2rem - 2px);
   }
 }
 
-@media screen and (min-width: 1000px) and (max-width: 1299px) {
+@media screen and (min-width: 1000px) {
   .content > div {
-    margin: 1rem;
-    max-width: calc(33% - 1.2rem);
-  }
-
-  .content > div:nth-child(3n + 1) {
-    margin-left: 0;
-  }
-
-  .content > div:nth-child(3n + 3) {
-    margin-right: 0;
+    max-width: calc(33% - 2rem - 2px);
   }
 }
 
 @media screen and (min-width: 1300px) {
   .content > div {
-    margin: 1rem;
-    max-width: calc(25% - 1.7rem);
-  }
-
-  .content > div:nth-child(4n + 1) {
-    margin-left: 0;
-  }
-
-  .content > div:nth-child(4n + 4) {
-    margin-right: 0;
+    max-width: calc(25% - 2rem - 2px);
   }
 }

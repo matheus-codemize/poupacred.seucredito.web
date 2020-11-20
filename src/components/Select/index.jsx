@@ -34,14 +34,13 @@ function Select({
   placeholder,
   ...rest
 }) {
+  // resources hooks
   const dispatch = useDispatch();
 
-  /** para filtro e busca de uma opção da lista */
-  const [filter, setFilter] = useState('');
-
-  /** para controle do input e da lista */
+  // component state
   const [text, setText] = useState('');
   const [open, setOpen] = useState(false);
+  const [filter, setFilter] = useState('');
 
   useEffect(() => {
     dispatch(
@@ -143,7 +142,7 @@ function Select({
         : typesAcceptValue.includes(typeof value) && value) && (
         <i
           className="fa fa-close"
-          onClick={() => selectOption('')}
+          onClick={() => selectOption()}
           data-label={label ? 'on' : 'off'}
         />
       )

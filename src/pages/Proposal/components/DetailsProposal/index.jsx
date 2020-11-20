@@ -93,6 +93,10 @@ function DetailsProposal() {
     }
   }
 
+  function handleBack() {
+    history.goBack();
+  }
+
   const detailsSectionHistory = useMemo(() => {
     return details &&
       details.historico &&
@@ -162,7 +166,6 @@ function DetailsProposal() {
           <BoxData
             title={languagePage.labels.client}
             useDirection={navigator.window.size.x < 1280}
-            size={navigator.window.size.x < 1280 ? 'lg' : 'sm'}
             {...convertKeys(details.cliente)}
           />,
         );
@@ -173,11 +176,10 @@ function DetailsProposal() {
           <BoxData
             title={details.proposta.nome}
             useDirection={navigator.window.size.x < 1280}
-            size={navigator.window.size.x < 1280 ? 'lg' : 'sm'}
             {...convertKeys({
               ...details.proposta,
               blocos: details.proposta.blocos.filter(
-                bloco => !bloco.valor.includes('data:image'),
+                bloco => !bloco.valor.toString().includes('data:image'),
               ),
             })}
             footer={
@@ -194,11 +196,7 @@ function DetailsProposal() {
       }
 
       if (navigator.window.size.x >= 1280) {
-        component.push(
-          <Box size={navigator.window.size.x < 1280 ? 'lg' : 'sm'}>
-            {detailsSectionHistory}
-          </Box>,
-        );
+        component.push(<Box>{detailsSectionHistory}</Box>);
       }
     }
 
@@ -247,7 +245,7 @@ function DetailsProposal() {
         </Box>
       </div>
       <Panel
-        useDivider
+        onBack={handleBack}
         background={backgroundImg}
         title={languagePage.title}
         subtitle={languagePage.detailsTitle}

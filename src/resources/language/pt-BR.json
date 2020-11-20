@@ -9,7 +9,7 @@
   "agree.term.polity": "Continuando, você aceita e condorda com os [term] e [polity]",
 
   "component.listempty": {
-    "text": "Ops .. Não há informações"
+    "text": "Nenhum registro encontrado."
   },
   "component.header.user": {
     "logout": "Sair",
@@ -27,7 +27,7 @@
       "step0": "Abrir conversas",
       "empty": "Sem conversa disponível",
       "placeholder": "Escreva aqui sua mensagem",
-      "length": "Você possui [length] conversa(s) em aberto"
+      "length": "Você possui [length] atendimento(s) em aberto"
     },
     "errors": {
       "type": "Você precisa selecionar o motivo do seu contato.",
@@ -366,6 +366,7 @@
       "register": "Solicitar Mailing"
     },
     "labels": {
+      "date": "Data",
       "agent": "Agente",
       "status": "Status",
       "answer": "Atender",
@@ -377,7 +378,9 @@
       "scheduleDateEmpty": "Nenhum",
       "contactEmpty": "Não há contatos",
       "scheduleDate": "Data de Agendamento",
-      "proposalEmpty": "Não há proposta ativa"
+      "proposalEmpty": "Não há proposta ativa",
+      "scheduleModal": "Agendar Atendimento",
+      "answerModal": "Registrar Atendimento"
     },
     "contactActions": [
       {
@@ -522,6 +525,9 @@
     },
     "tabulacao": {
       "label": "Tabulação"
+    },
+    "observacao": {
+      "label": "Observação"
     }
   }
 }

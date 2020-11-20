@@ -87,7 +87,7 @@ function Crm() {
 
   function handleFilter(event) {
     const dataFilter = { ...filter };
-    const { id, value } = event.target;
+    let { id, value } = event.target;
 
     switch (id) {
       case 'periodo':
@@ -161,7 +161,6 @@ function Crm() {
       >
         <Panel.Search>
           <Select
-            multiple
             id="convenio"
             options={convenios}
             onChange={handleFilter}
@@ -169,7 +168,6 @@ function Crm() {
             {...languageForm.convenio}
           />
           <Select
-            multiple
             id="status"
             options={status}
             onChange={handleFilter}

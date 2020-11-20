@@ -33,7 +33,7 @@ function ProposalSimulation() {
 
   // redux state
   const simulation = useSelector(state => state.simulation);
-  const { steps, register, stepBlock } = simulation;
+  const { steps, register } = simulation;
 
   useEffect(() => {
     if (!register.simulacao_id) {

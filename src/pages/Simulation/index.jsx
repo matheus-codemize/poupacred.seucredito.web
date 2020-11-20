@@ -5,8 +5,8 @@ import { useHistory, useLocation } from 'react-router-dom';
 import styles from './style.module.css';
 
 // redux
+import actions from '../../redux/actions/simulation';
 import actionsContainer from '../../redux/actions/container';
-import actionsSimulation from '../../redux/actions/simulation';
 
 // assets
 import backgroundImg from '../../assets/images/background/panel/simulacao.jpg';
@@ -87,18 +87,34 @@ function Simulation() {
 
   function handleCreate() {
     history.push('/simulacao/novo');
-    dispatch(actionsSimulation.init());
+    dispatch(actions.init());
   }
 
-  function handleClickSimulation(item) {
+  async function handleClickSimulation(item) {
     try {
-      const { simulacao_id, status_id } = item;
+      const { id, status_id } = item;
 
-      if (simulacao_id && status_id) {
-        dispatch(actionsContainer.loading());
+      if (id) {
+        switch (status_id) {
+          case 1:
+            break;
 
-        const url = `/simulacao/${status_id === 1 ? 'rascunho' : 'margem'}`;
-        history.push(url);
+          case 2:
+            break;
+
+          case 3: // Finalizado - redireciona para a tela de propostas pós simulação
+            dispatch(actions.register(item));
+            dispatch(actionsContainer.loading());
+            const response = await simulacaoApi.find(item.id);
+            dispatch(actionsContainer.close());
+            history.push('/simulacao/propostas', {
+              simulation: { cards: response.cards },
+            });
+            break;
+
+          default:
+            break;
+        }
       }
     } catch (err) {
       const message = _.get(err, 'response.data.erro', err.message);

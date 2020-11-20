@@ -46,10 +46,12 @@ function Container() {
   }
 
   function closeContainer() {
-    dispatch(actions.close());
+    if (!loading) {
+      dispatch(actions.close());
 
-    if (typeof onClose === 'function') {
-      onClose();
+      if (typeof onClose === 'function') {
+        onClose();
+      }
     }
   }
 

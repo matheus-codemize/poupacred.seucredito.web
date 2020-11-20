@@ -14,7 +14,7 @@
   max-height: calc(100vh - 15rem);
 }
 
-.container[data-open='true'] >.header .search {
+.container[data-open='true'] > .header .search {
   justify-content: space-between;
 }
 
@@ -127,8 +127,8 @@
   right: 0;
   z-index: 2;
   display: block;
+  padding: 0 2rem;
   position: absolute;
-  padding: 0 2rem 2rem;
 }
 
 @media (min-width: 500px) {

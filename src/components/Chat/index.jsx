@@ -1,4 +1,5 @@
 import React, { useRef, useState, useEffect } from 'react';
+import $ from 'jquery';
 import _ from 'lodash';
 import { useDispatch, useSelector } from 'react-redux';
 import styles from './style.module.css';
@@ -44,11 +45,22 @@ function Chat() {
   const [error, setError] = useState('');
   const [open, setOpen] = useState(false);
   const [message, setMessage] = useState('');
-  const [loading, setLoading] = useState(false);
   const [messages, setMessages] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [socketIds, setSocketIds] = useState([]);
   const [conversation, setConversation] = useState(null);
   const [conversations, setConversations] = useState([]);
   const [pagination, setPagination] = useState({ current: 1, total: 0 });
+
+  /**
+   * Effect para abri a conversa com o scroll no final
+   */
+  useEffect(() => {
+    if (step === 2 && body.current) {
+      const element = $(body.current);
+      element.scrollTop(element.prop('scrollHeight'));
+    }
+  }, [step, body.current]);
 
   useEffect(() => {
     if (open && body.current && bodyError.current) {
@@ -75,11 +87,22 @@ function Chat() {
   }, [error]);
 
   useEffect(() => {
-    socket.on(`chat_${auth.uid}`, addMessage);
-  }, [auth.uid]);
+    if (
+      conversation &&
+      conversation.id &&
+      !socketIds.includes(conversation.id)
+    ) {
+      setSocketIds(prevSocket => prevSocket.concat([conversation.id]));
+      socket.on(`chat_${conversation.id}`, data =>
+        addMessage(data, conversation.id),
+      );
+    }
+  }, [conversation, socketIds]);
 
-  function addMessage(data) {
-    console.log(data);
+  function addMessage(data, conversationId) {
+    if (conversationId && data && conversation.id === conversationId) {
+      setMessages(prevMessages => prevMessages.concat([data]));
+    }
   }
 
   async function initComponent() {
@@ -92,6 +115,7 @@ function Chat() {
     setType(0);
     setMessage('');
     setConversation(null);
+    setPagination({ current: 1, total: 0 });
   }
 
   async function getTypes() {
@@ -146,21 +170,28 @@ function Chat() {
 
   async function handleConversation(item = null) {
     handleLoading();
-    const response = await chatApi.getConversation(item.id, pagination.current);
+
+    if (item) {
+      const response = await chatApi.getConversation(
+        item.id,
+        pagination.current,
+      );
+      setMessages(response.dados);
+      setPagination(prevPagination => ({
+        total: response.total,
+        current: prevPagination.current + 1,
+      }));
+    }
 
     setStep(2);
     setConversation(item);
-    setMessages(response.dados.reverse());
-    setPagination(prevPagination => ({
-      total: response.total,
-      current: prevPagination.current + 1,
-    }));
 
     handleLoading();
   }
 
   async function sendMessage() {
     try {
+      let response;
       handleLoading();
 
       if (error) {
@@ -172,8 +203,11 @@ function Chat() {
           if (!type || !message) {
             return setError(languageComp.errors[!type ? 'type' : 'message']);
           }
-          await chatApi.register(type, message);
-          setType(0);
+          response = await chatApi.register(type, message);
+          if (response) {
+            setType(0);
+            handleConversation({ id: response.chat, ...response });
+          }
           break;
 
         case 2:
@@ -196,7 +230,11 @@ function Chat() {
 
   return (
     <>
-      <div className={styles.icon} data-block={container.loading}>
+      <div
+        className={styles.icon}
+        data-loading={container.loading}
+        data-hide={!open && container.open}
+      >
         <i onClick={handleOpen} className="fas fa-comments" />
       </div>
       <div className={styles.chat} data-open={open}>
@@ -256,19 +294,24 @@ function Chat() {
               </ul>
             </Carousel.Step>
             <Carousel.Step>
-              <ul>
-                {messages.map((item, index) => (
-                  <li key={index}>
-                    <p
-                      className={styles.message}
-                      dangerouslySetInnerHTML={{ __html: item.msg }}
-                      data-type={
-                        item.autor_id === auth.uid ? 'send' : 'received'
-                      }
-                    />
-                  </li>
-                ))}
-              </ul>
+              <section className={styles.section_message}>
+                <ul>
+                  {messages.map((item, index) => (
+                    <li key={index}>
+                      <p
+                        className={styles.message}
+                        dangerouslySetInnerHTML={{
+                          __html: item.msg.replace(/(?:\r\n|\r|\n)/g, '<br />'),
+                        }}
+                        data-type={
+                          item.autor_id === auth.uid ? 'send' : 'received'
+                        }
+                      />
+                      <span>{item.data}</span>
+                    </li>
+                  ))}
+                </ul>
+              </section>
             </Carousel.Step>
           </Carousel>
         </div>

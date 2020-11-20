@@ -1,4 +1,5 @@
-.detail {
-  top: -8rem;
-  position: relative;
+@media screen and (min-width: 700px) {
+  .container {
+    margin: 0 1rem;
+  }
 }

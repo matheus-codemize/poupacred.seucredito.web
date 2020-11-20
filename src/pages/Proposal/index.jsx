@@ -60,12 +60,10 @@ function Proposal() {
     if (location.pathname === '/proposta') {
       initComponent();
     }
-  }, []);
+  }, [location.pathname]);
 
   useEffect(() => {
-    if (location.pathname === '/proposta') {
-      getDados();
-    }
+    getDados();
   }, [pagination.current]);
 
   async function initComponent() {
@@ -75,7 +73,8 @@ function Proposal() {
       getBancos(),
       getProdutos(),
       getConvenios(),
-    ]).then(getDados);
+    ]);
+    await getDados();
   }
 
   async function getStatus() {

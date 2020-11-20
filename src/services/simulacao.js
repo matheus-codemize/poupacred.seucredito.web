@@ -116,3 +116,19 @@ export async function simulate(data) {
   }
   return null;
 }
+
+/**
+ * Função para buscar simulação
+ * @param {string|number} id
+ */
+export async function find(id) {
+  try {
+    const url = `/simulacoes/buscar?simulacao=${id}`;
+    const response = await api.get(url);
+    return response;
+  } catch (err) {
+    const message = _.get(err, 'response.data.erro', err.message);
+    toast.error(message);
+  }
+  return null;
+}

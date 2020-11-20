@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useMemo } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import {
   Route,
@@ -15,6 +15,7 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 // components
+import Chat from './components/Chat';
 import Sidebar from './components/Sidebar';
 import BoxHelp from './components/BoxHelp';
 import Container from './components/Container';
@@ -24,7 +25,6 @@ import PanelAction from './components/PanelAction';
 
 // pages
 import Crm from './pages/Crm';
-import Chat from './pages/Chat';
 import Home from './pages/Home';
 import Proposal from './pages/Proposal';
 import Simulation from './pages/Simulation';
@@ -53,9 +53,6 @@ function App() {
 
   // redux state
   const auth = useSelector(state => state.auth);
-
-  // component state
-  const [routes, setRoutes] = useState([]);
 
   /**
    * esse efeito tem por objetivo salvar no redux o tamanho da tela
@@ -91,21 +88,13 @@ function App() {
     dispatch(actionsNavigator.navigatorType(type));
   }, [navigator, navigator.userAgent]);
 
-  useEffect(() => {
-    switch (auth.type) {
-      case 'client':
-        setRoutes([...routesClient]);
-        break;
-
-      case 'agent':
-        setRoutes([...routesAgent]);
-        break;
-
-      default:
-        setRoutes([]);
-        break;
-    }
-  }, [auth, auth.type]);
+  const routes = useMemo(() => {
+    return auth.type === 'agent'
+      ? routesAgent
+      : auth.type === 'client'
+      ? routesClient
+      : [];
+  }, [auth.type]);
 
   return (
     <Router>
@@ -143,9 +132,11 @@ function App() {
             <Login />
           )}
         </Route>
-        <Route path="/relatorio">
-          <Report />
-        </Route>
+        {!!auth.uid && !auth.primeiro_acesso && auth.type === 'agent' && (
+          <Route path="/relatorio">
+            <Report />
+          </Route>
+        )}
         {routes.map((route, index) => (
           <Route
             key={index}
@@ -153,6 +144,9 @@ function App() {
             component={pages[route.component]}
           />
         ))}
+        <Route>
+          <Redirect to={auth.uid ? '/inicio' : '/'} />
+        </Route>
       </Switch>
       <ToastContainer />
     </Router>

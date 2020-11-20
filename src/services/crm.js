@@ -102,7 +102,7 @@ export async function create(data) {
  */
 export async function schedule(data) {
   try {
-    const url = '/crm/agendamento/gravar';
+    const url = '/crm/agendamentos/criar';
     const response = await api.post(url, data);
     return response;
   } catch (err) {

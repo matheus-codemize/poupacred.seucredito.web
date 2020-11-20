@@ -100,6 +100,66 @@
   text-align: center;
 }
 
+.modal {
+  top: 50%;
+  left: 50%;
+  z-index: 4;
+  padding: 2rem;
+  display: none;
+  position: fixed;
+  max-width: 380px;
+  flex-direction: column;
+  width: calc(100vw - 8rem);
+  height: calc(100vh - 8rem);
+  color: rgb(var(--color-black));
+  max-height: calc(440px + 16rem);
+  transform: translate(-50%, -50%);
+  background: rgb(var(--color-white));
+}
+
+.modal[data-visible='true'] {
+  display: flex;
+}
+
+.modal > h1 {
+  width: 100%;
+  font-size: 2rem;
+  font-weight: 600;
+  padding-bottom: 1rem;
+  margin: 2rem auto 4rem;
+  border-bottom: 1px solid #ececec;
+}
+
+.modal > i {
+  top: 2rem;
+  right: 2rem;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  font-size: 2rem;
+  cursor: pointer;
+  position: absolute;
+  border-radius: 50%;
+  align-items: center;
+  transition: 0.4s ease;
+  justify-content: center;
+}
+
+.modal > i:hover {
+  background-color: #ececec;
+}
+
+.modal textarea {
+  flex: 1;
+}
+
+.modal > button {
+  left: 2rem;
+  bottom: 2rem;
+  position: absolute;
+  width: calc(100% - 4rem);
+}
+
 @media screen and (min-width: 500px) {
   .document > button {
     flex: 1;

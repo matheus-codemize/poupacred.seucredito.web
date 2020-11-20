@@ -13,8 +13,12 @@
   box-shadow: 0 0 0 2px rgb(var(--color-primary));
 }
 
-.icon[data-block='true'] {
+.icon[data-loading='true'] {
   z-index: 3;
+}
+
+.icon[data-hide='true'] {
+  display: none;
 }
 
 .icon > i {
@@ -180,12 +184,12 @@
 }
 
 .chat .body .message {
-  padding: 2rem;
   user-select: text;
-  margin: 2rem auto;
+  margin: 1rem auto;
   font-size: 1.5rem;
   position: relative;
   border-radius: 6px;
+  padding: 2rem 2rem 2.5rem;
   width: calc(100% - 7rem);
   color: rgb(var(--color-white));
 }
@@ -225,6 +229,19 @@
 .chat .body .message[data-type='helcome'] h1 {
   font-weight: 600;
   margin-bottom: 1rem;
+}
+
+.section_message > ul > li {
+  position: relative;
+}
+
+.section_message > ul > li > span {
+  z-index: 1;
+  bottom: 1rem;
+  right: 2.5rem;
+  font-size: 1.2rem;
+  position: absolute;
+  color: rgb(var(--color-white));
 }
 
 .chat .footer > textarea {

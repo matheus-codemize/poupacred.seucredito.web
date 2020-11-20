@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import _ from 'lodash';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { useHistory, useLocation } from 'react-router-dom';
 import styles from './style.module.css';
 
@@ -14,14 +14,12 @@ import * as crmApi from '../../../../services/crm';
 import backgroundImg from '../../../../assets/images/background/panel/crm.jpg';
 
 // utils
-import toast from '../../../../utils/toast';
 import language from '../../../../utils/language';
 
 // components
 import Panel from '../../../../components/Panel';
 import BoxData from '../../../../components/BoxData';
 import CardList from '../../../../components/CardList';
-import ListEmpty from '../../../../components/ListEmpty';
 
 const languagePage = language['page.crm'];
 
@@ -87,7 +85,11 @@ function ListMailingCrm() {
       subtitle={languagePage.mailingTitle}
     >
       <Panel.Body>
-        {details && <BoxData useDirection {...details} />}
+        {details && (
+          <div className={styles.container}>
+            <BoxData useDirection {...details} />
+          </div>
+        )}
         <CardList data={renderDataset} />
       </Panel.Body>
     </Panel>

@@ -170,7 +170,7 @@ function Panel({
   }, [children, openSearch, navigator.window.size]);
 
   const renderActionsHeader = useMemo(() => {
-    const actionsHeader = [...actions];
+    const actionsHeader = Array.isArray(actions) ? [...actions] : [];
 
     if (typeof onSearch === 'function') {
       actionsHeader.push({

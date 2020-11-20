@@ -1,14 +1,14 @@
 .container {
-  top: -8rem;
   display: flex;
   flex-wrap: wrap;
+  padding: 1rem 0;
   position: relative;
   flex-direction: row;
-  padding-bottom: 2rem;
+  justify-content: center;
 }
 
 .container > div {
-  margin: 1rem 0;
+  margin: 1rem auto;
 }
 
 .container > div:first-child {
@@ -184,10 +184,11 @@
 
 .modal li > img,
 .modal li > div {
-  left: 1rem;
+  left: 50%;
   user-select: none;
   position: absolute;
-  width: calc(100% - 2rem);
+  transform: translateX(-50%);
+  max-width: calc(100% - 2rem);
 }
 
 .modal li > div {
