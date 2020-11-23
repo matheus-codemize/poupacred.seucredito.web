@@ -42,7 +42,7 @@
   flex-direction: column;
   border: 1px solid #999;
   bottom: calc(60px + 4rem);
-  width: calc(100vw - 4rem);
+  max-height: calc(100vh - 60px - 6rem);
   background-color: rgb(var(--color-white));
 }
 
@@ -96,6 +96,7 @@
   overflow-x: hidden;
   border-top: 1px solid #999;
   border-bottom: 1px solid #999;
+  max-height: calc(100vh - 60px - 18rem);
 }
 
 .chat .body img {
