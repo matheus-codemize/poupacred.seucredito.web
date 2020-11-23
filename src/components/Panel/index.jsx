@@ -50,6 +50,27 @@ function Panel({
   const [searchSizeTotal, setSearchSizeTotal] = useState(0);
 
   useEffect(() => {
+    adjustBody();
+  }, []);
+
+  useEffect(() => {
+    adjustBody(400);
+  });
+
+  useEffect(() => {
+    $(window).scrollTop(0);
+  }, []);
+
+  useEffect(() => {
+    window.removeEventListener('scroll', blockActions);
+    window.addEventListener('scroll', blockActions);
+
+    return () => {
+      window.removeEventListener('scroll', blockActions);
+    };
+  }, [topOfActions]);
+
+  function adjustBody(time = 0) {
     if (header.current) {
       /**
        * ajuste do elemento ´div search´
@@ -74,23 +95,10 @@ function Panel({
               showAction ? ' - 7rem' : ''
             })`;
           }
-        }, 0);
+        }, time);
       }
     }
-  });
-
-  useEffect(() => {
-    $(window).scrollTop(0);
-  }, []);
-
-  useEffect(() => {
-    window.removeEventListener('scroll', blockActions);
-    window.addEventListener('scroll', blockActions);
-
-    return () => {
-      window.removeEventListener('scroll', blockActions);
-    };
-  }, [topOfActions]);
+  }
 
   function blockActions() {
     const action = document.getElementById('section_action');

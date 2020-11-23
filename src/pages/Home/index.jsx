@@ -21,7 +21,7 @@ function Home() {
   const dispatch = useDispatch();
 
   // redux state
-  const { locale, currency } = useSelector(state => state.language);
+  const auth = useSelector(state => state.auth);
 
   // component state
   const [data, setData] = useState({
@@ -86,18 +86,21 @@ function Home() {
       <div className={styles.navbar} />
       {renderHeader}
       <div className={styles.report}>
-        {languagePage.reports.map((report, index) => (
+        {languagePage.items[auth.type].map((report, index) => (
           <Link
             key={index}
             to={{
               pathname: report.path,
-              state: {
-                report: {
-                  key: report.key,
-                  url: report.url,
-                  title: report.title,
-                },
-              },
+              state:
+                auth.type === 'agent'
+                  ? {
+                      report: {
+                        key: report.key,
+                        url: report.url,
+                        title: report.title,
+                      },
+                    }
+                  : undefined,
             }}
           >
             <i

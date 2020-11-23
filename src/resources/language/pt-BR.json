@@ -245,49 +245,71 @@
 
   "page.home": {
     "title": "Quanto você já ganhou com a <span>Seu Crédito</span>",
-    "reports": [
-      {
-        "key": "prod_diaria",
-        "color": "#ffa726",
-        "secondColor": "#fb8c00",
-        "icon": "fas fa-calendar-day",
-        "title": "Produção Diária",
-        "subtitle": "Hoje [value].",
-        "path": "/relatorio/producao-diaria",
-        "url": "/relatorios/producao-diaria"
-      },
-      {
-        "key": "prod_produto",
-        "color": "#66bb6a",
-        "secondColor": "#43a047",
-        "icon": "fas fa-chart-pie",
-        "title": "Produção por Produto",
-        "subtitle": "[value] seu produto mais adquirido.",
-        "path": "/relatorio/producao-por-produto",
-        "empty": "Comece agora e se surpreeenda com seus ganhos.",
-        "url": "/relatorios/producao-por-produto"
-      },
-      {
-        "key": "prod_total",
-        "color": "#ef5350",
-        "secondColor": "#e53935",
-        "icon": "fas fa-chart-line",
-        "title": "Produção Total",
-        "subtitle": "Sua produção até agora [value].",
-        "path": "/relatorio/producao-total",
-        "url": "/relatorios/producao-total"
-      },
-      {
-        "key": "comissao",
-        "color": "#26c6da",
-        "secondColor": "#00acc1",
-        "icon": "fas fa-file-invoice-dollar",
-        "title": "Comissionamento",
-        "subtitle": "Sua comissão até agora [value].",
-        "path": "/relatorio/comissionamento",
-        "url": "/relatorios/comissao"
-      }
-    ]
+    "items": {
+      "agent": [
+        {
+          "key": "prod_diaria",
+          "color": "#ffa726",
+          "secondColor": "#fb8c00",
+          "icon": "fas fa-calendar-day",
+          "title": "Produção Diária",
+          "subtitle": "Hoje [value].",
+          "path": "/relatorio/producao-diaria",
+          "url": "/relatorios/producao-diaria"
+        },
+        {
+          "key": "prod_produto",
+          "color": "#66bb6a",
+          "secondColor": "#43a047",
+          "icon": "fas fa-chart-pie",
+          "title": "Produção por Produto",
+          "subtitle": "[value] seu produto mais adquirido.",
+          "path": "/relatorio/producao-por-produto",
+          "empty": "Comece agora e se surpreeenda com seus ganhos.",
+          "url": "/relatorios/producao-por-produto"
+        },
+        {
+          "key": "prod_total",
+          "color": "#ef5350",
+          "secondColor": "#e53935",
+          "icon": "fas fa-chart-line",
+          "title": "Produção Total",
+          "subtitle": "Sua produção até agora [value].",
+          "path": "/relatorio/producao-total",
+          "url": "/relatorios/producao-total"
+        },
+        {
+          "key": "comissao",
+          "color": "#26c6da",
+          "secondColor": "#00acc1",
+          "icon": "fas fa-file-invoice-dollar",
+          "title": "Comissionamento",
+          "subtitle": "Sua comissão até agora [value].",
+          "path": "/relatorio/comissionamento",
+          "url": "/relatorios/comissao"
+        }
+      ],
+      "client": [
+        {
+          "key": "simulation",
+          "color": "#ffa726",
+          "secondColor": "#fb8c00",
+          "icon": "fas fa-calculator",
+          "title": "Simulação",
+          "subtitle": "Simule agora e escolha e melhor proposta para você.",
+          "path": "/simulacao"
+        },
+        {
+          "key": "proposal",
+          "color": "#66bb6a",
+          "secondColor": "#43a047",
+          "icon": "fab fa-buffer",
+          "title": "Proposta",
+          "subtitle": "Encontre a melhor opção sem sair de casa.",
+          "path": "/proposta"
+        }
+      ]
+    }
   },
 
   "page.report": {
