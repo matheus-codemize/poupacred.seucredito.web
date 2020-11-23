@@ -77,11 +77,12 @@ function CardList({ data, pagination, onPagination, ...rest }) {
 
 CardList.defaultProps = {
   onPagination: null,
+  pagination: { total: 0, current: 1 },
 };
 
 CardList.propTypes = {
   onPagination: PropTypes.func,
-  pagination: PropTypes.object.isRequired,
+  pagination: PropTypes.object,
   data: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
 

@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import _ from 'lodash';
 import { useHistory, useLocation } from 'react-router-dom';
 import styles from './style.module.css';
 
@@ -31,8 +32,14 @@ function ContainerSuccess() {
   }, [location.state]);
 
   function handleConfirm() {
-    const { path, state = {} } = location.state;
-    if (path) history.replace(path, state);
+    const path = _.get(location, 'state.path', '');
+    const state = _.get(location, 'state.state', null);
+
+    if (path) {
+      history.replace(path, state);
+    } else {
+      history.goBack();
+    }
   }
 
   return (

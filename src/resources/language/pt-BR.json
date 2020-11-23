@@ -356,6 +356,8 @@
     "title": "CRM",
     "mailingTitle": "Atendimento (Mailing)",
     "createTitle": "Solicitação de Mailing",
+    "successAnswer": "Atendimento registrado com sucesso",
+    "successSchedule": "Atendimento agendado com sucesso",
     "success": {
       "text": "Ok, Entendi!",
       "title": "Solicitação realizada com Sucesso",

@@ -74,7 +74,7 @@ function Panel({
               showAction ? ' - 7rem' : ''
             })`;
           }
-        }, 400);
+        }, 0);
       }
     }
   });
@@ -96,7 +96,9 @@ function Panel({
     const action = document.getElementById('section_action');
 
     if (action) {
-      if (!topOfActions) return setTopOfActions(action.offsetTop);
+      if (!topOfActions) {
+        return setTopOfActions(action.offsetTop);
+      }
 
       if (window.pageYOffset >= topOfActions) {
         action.classList.add(styles.action_block);

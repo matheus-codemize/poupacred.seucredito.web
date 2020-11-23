@@ -28,6 +28,7 @@ import Textarea from '../../../../components/Textarea';
 import ListEmpty from '../../../../components/ListEmpty';
 import InputDate from '../../../../components/InputDate';
 import { convertKeys } from '../../../../components/BoxDataList';
+import toast from '../../../../utils/toast';
 
 const languagePage = language['page.crm'];
 const languageForm = language['component.form.props'];
@@ -76,6 +77,7 @@ function MailingCrm() {
     if (crm && crm.id) {
       const response = await crmApi.getAnswer(crm.id, crm.mailing.id);
       setDetails(response);
+      setRegister({ solicitacao: crm.id, cliente: crm.mailing.id });
     }
 
     dispatch(actionsContainer.close());
@@ -97,7 +99,12 @@ function MailingCrm() {
         ? actionsContainer.open({ onClose: handleMailing })
         : actionsContainer.close(),
     );
-    if (!type) setRegister({});
+    if (!type) {
+      setRegister(prevRegister => ({
+        cliente: prevRegister.cliente,
+        solicitacao: prevRegister.solicitacao,
+      }));
+    }
   }
 
   async function handleAddContact() {
@@ -165,6 +172,9 @@ function MailingCrm() {
           data: moment(register.data).format('DD/MM/YYYY'),
         })
       : crmApi.answer(register));
+    toast.success(
+      languagePage[typeModal === 1 ? 'successAnswer' : 'successSchedule'],
+    );
     handleMailing();
     dispatch(actionsContainer.close());
   }

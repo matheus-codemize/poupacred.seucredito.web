@@ -50,7 +50,7 @@ function BoxDataList({ data, pagination, onPagination, ...rest }) {
 
 BoxDataList.defaultProps = {
   onPagination: null,
-  pagination: { total: 1, current: 1 },
+  pagination: { total: 0, current: 1 },
 };
 
 BoxDataList.propTypes = {

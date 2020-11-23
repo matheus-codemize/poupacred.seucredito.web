@@ -182,11 +182,11 @@ Input.defaultProps = {
 };
 
 Input.propTypes = {
-  action: PropTypes.bool,
   help: PropTypes.string,
   label: PropTypes.string,
   required: PropTypes.bool,
   disabled: PropTypes.bool,
+  action: PropTypes.object,
   helpType: PropTypes.string,
   id: PropTypes.string.isRequired,
   onChange: PropTypes.func.isRequired,
