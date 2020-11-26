@@ -180,16 +180,18 @@ function Landing() {
     );
   }
 
-  function handleLoginClient() {
-    history.push('/login', { login: { type: 'client' } });
-  }
-
   function handleClient() {
     history.push('/cadastro/cliente');
   }
 
-  function handleAgent() {
+  function handleAgent(event) {
+    event.stopPropagation();
     history.push('/cadastro/agente');
+  }
+
+  function handleLoginClient(event) {
+    event.stopPropagation();
+    history.push('/login', { login: { type: 'client' } });
   }
 
   function handleTop() {
