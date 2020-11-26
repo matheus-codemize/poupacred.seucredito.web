@@ -1,8 +1,8 @@
 .container {
   width: 100%;
-  color: #fff;
+  overflow-x: hidden;
   position: relative;
-  font-family: 'Asap';
+  color: rgb(var(--color-white));
 }
 
 .header {
@@ -31,6 +31,53 @@
   max-width: 200px;
 }
 
+.header > i {
+  width: 30px;
+  height: 30px;
+  display: flex;
+  font-size: 2rem;
+  cursor: pointer;
+  border-radius: 50%;
+  align-items: center;
+  transition: 0.4s ease;
+  justify-content: center;
+  color: rgb(var(--color-primary));
+  background-color: rgb(var(--color-white));
+}
+
+.header > i:hover {
+  box-shadow: 0 0 5px 2px rgb(var(--color-primary));
+}
+
+.header > button {
+  width: 180px;
+}
+
+.header > button > i {
+  float: right;
+}
+
+.header > i:hover .dropdown {
+  height: 170px;
+}
+
+.dropdown {
+  top: 80%;
+  height: 0;
+  right: 2rem;
+  width: 180px;
+  display: block;
+  overflow: hidden;
+  position: absolute;
+  font-family: 'Open Sans';
+  transition: 0.4s ease-in-out;
+}
+
+.dropdown > button {
+  width: 100%;
+  margin: 5px 0;
+}
+
 .section_header {
   width: 100%;
   display: flex;
@@ -41,14 +88,7 @@
   justify-content: space-between;
 }
 
-.slider {
-  width: 100%;
-  margin: 0 auto;
-  min-height: 100vh;
-  position: relative;
-}
-
-.slider_item {
+.banner {
   top: 0;
   left: 0;
   opacity: 0;
@@ -61,58 +101,99 @@
   background-color: transparent;
 }
 
-.slider_item_active {
+.banner[data-active='true'] {
   opacity: 1;
 }
 
-.container_title {
+.banner[data-index='0'] {
+  background-position: 15%;
+}
+
+.banner[data-index='1'] {
+  background-position: 25%;
+}
+
+.banner[data-index='2'] {
+  background-position: 18%;
+}
+
+.title {
   flex: 1;
   z-index: 1;
   display: flex;
   margin: 0 auto;
-  text-align: center;
-  align-items: center;
-  padding: 8rem 0 3rem;
+  padding: 0 1rem;
+  align-items: flex-end;
   flex-direction: column;
   justify-content: center;
   width: calc(100% - 2rem);
   transition: 1s ease-in-out;
 }
 
-.container_title h1 {
-  margin: 0 1rem;
+.title > h1,
+.title > h2,
+.title > h3,
+.title > h4,
+.title > h5,
+.title > h6 {
+  width: 100%;
   font-weight: 700;
-  font-size: 5.5rem;
-  text-shadow: 0 4px 2px rgba(0, 0, 0, 0.7);
-  -webkit-text-stroke: 2px rgb(22, 89, 52);
+  line-height: 1.2;
+  text-align: center;
+  margin-bottom: 5px;
+  text-shadow: 0 2px 2px rgb(var(--color-black));
 }
 
-.container_title p {
+.title > h1 {
+  font-size: 5rem;
+  /* -webkit-text-stroke: 2px rgb(22, 89, 52); */
+}
+
+.title > h2 {
+  font-size: 4rem;
+}
+
+.title > h3 {
+  font-size: 2rem;
+}
+
+.title > button {
+  width: 100%;
+  border: none;
+  padding: 1rem;
+  margin: 0 auto;
+  cursor: pointer;
+  color: #6b4f03;
+  max-width: 540px;
   font-size: 2.5rem;
-  margin: 3rem 1rem 0;
-  text-shadow: 0 2px 1px rgba(var(--color-black), 0.2);
+  font-weight: bold;
+  border-radius: 5px;
+  background-color: #ffc100;
 }
 
-.container_selector {
+.title > button:hover {
+  opacity: 0.8;
+}
+
+.selector {
   z-index: 1;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
-.selector_item {
+.selector > div {
   width: 4rem;
   margin: 2rem;
   height: 0.5rem;
   cursor: pointer;
   border-radius: 4px;
   transition: 1s ease-in-out;
-  box-shadow: rgb(var(--color-black));
   background-color: rgb(var(--color-white));
+  box-shadow: 0 2px 2px rgb(var(--color-black));
 }
 
-.selector_item_active {
-  box-shadow: rgb(var(--color-white));
+.selector > div[data-active='true'] {
   background-color: rgb(var(--color-black));
 }
 
@@ -342,17 +423,40 @@
   color: rgb(var(--color-black));
 }
 
+@media screen and (min-width: 500px) {
+  .header > button:hover .dropdown {
+    height: 115px;
+  }
+
+  .dropdown {
+    right: 0;
+    top: 100%;
+    padding-top: 10px;
+  }
+}
+
 @media (min-width: 700px) {
   .section_content {
     background-position: 0;
   }
 
-  .container_title {
-    width: 60%;
+  .banner[data-active] {
+    max-width: 100%;
+    background-position: center;
   }
 
-  .slider_item {
-    max-width: 100%;
+  .title > h1,
+  .title > h2,
+  .title > h3,
+  .title > h4,
+  .title > h5,
+  .title > h6 {
+    max-width: 540px;
+    text-align: left;
+  }
+
+  .title > button {
+    margin: 0;
   }
 
   .container_action button {

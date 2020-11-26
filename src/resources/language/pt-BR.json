@@ -134,6 +134,38 @@
 
   "header.button.sigin.text": "Entrar",
 
+  "page.landing": {
+    "label": {
+      "login": "Entrar",
+      "agent": "Seja um Agente",
+      "client": "Já sou Cliente",
+      "simulation": "FAÇA UMA SIMULAÇÃO AGORA"
+    },
+    "banners": [
+      {
+        "titles": [
+          "SIMULE",
+          "SEU EMPRÉSTIMO AGORA",
+          "E RECEBA AS MELHORES TAXAS EM POUCOS MINUTOS"
+        ]
+      },
+      {
+        "titles": [
+          "CRÉDITO PESSOAL E CONSIGNADO:",
+          "",
+          "AQUI É VOCÊ QUEM ESCOLHE A TAXA IDEAL"
+        ]
+      },
+      {
+        "titles": [
+          "DINHEIRO RÁPIDO",
+          "",
+          "PARA MILITARES E SERVIDORES PÚBLICOS"
+        ]
+      }
+    ]
+  },
+
   "landing.banners": [
     {
       "position": "30%",

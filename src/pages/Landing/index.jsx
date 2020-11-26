@@ -20,10 +20,12 @@ import language from '../../utils/language';
 import Term from '../../assets/documents/politica_privacidade.pdf';
 import Polity from '../../assets/documents/politica_privacidade.pdf';
 
-const bannersDesktop = [
-  require('../../assets/images/landing/desktop/banner1.jpg'),
-  require('../../assets/images/landing/desktop/banner2.jpg'),
-  require('../../assets/images/landing/desktop/banner3.jpg'),
+const languagePage = language['page.landing'];
+
+const banners = [
+  require('../../assets/images/landing/banner1.png'),
+  require('../../assets/images/landing/banner2.png'),
+  require('../../assets/images/landing/banner3.png'),
 ];
 
 function Landing() {
@@ -36,15 +38,13 @@ function Landing() {
 
   // redux state
   const auth = useSelector(state => state.auth);
+  const navigator = useSelector(state => state.navigator);
 
   // component state
-  /**
-   * State para controle das animações JS
-   */
-  const [indexBanner, setIndexBanner] = useState(0);
-  const [intervalBanner, setIntervalBanner] = useState(null);
   const [indexStep, setIndexStep] = useState(0);
+  const [indexBanner, setIndexBanner] = useState(0);
   const [intervalStep, setIntervalStep] = useState(null);
+  const [intervalBanner, setIntervalBanner] = useState(null);
 
   const [scroll, setScroll] = useState(0);
   const [width, setWidth] = useState(window.innerWidth);
@@ -71,21 +71,7 @@ function Landing() {
       window.removeEventListener('resize', resizeWindow);
       window.removeEventListener('scroll', scrollWindow);
     };
-  }, [navigator.userAgent]);
-
-  useEffect(() => {
-    const selectors = ['slider_item', 'selector_item'];
-
-    selectors.forEach(selector =>
-      $(`.${styles[selector]}`).each(function (i) {
-        if (i === indexBanner) {
-          $(this).addClass(styles[`${selector}_active`]);
-        } else {
-          $(this).removeClass(styles[`${selector}_active`]);
-        }
-      }),
-    );
-  }, [indexBanner]);
+  }, [navigator.type]);
 
   useEffect(() => {
     const { step_number, step_number_active } = styles;
@@ -135,7 +121,7 @@ function Landing() {
       return window.scrollY;
     });
 
-    if (!navigator.userAgent.toLowerCase().includes('mobile')) {
+    if (navigator.type === 'desktop') {
       classes.forEach(classSelector => {
         $(`.${classSelector}`).each(function () {
           const top_of_object = $(this).offset().top;
@@ -168,7 +154,7 @@ function Landing() {
     }
 
     setIndexBanner(prevIndex =>
-      prevIndex === bannersDesktop.length - 1 ? 0 : prevIndex + 1,
+      prevIndex === banners.length - 1 ? 0 : prevIndex + 1,
     );
   }
 
@@ -215,81 +201,65 @@ function Landing() {
   }
 
   const renderTitle = useMemo(() => {
-    if (indexBanner < language['landing.banners'].length) {
-      const { title, subtitle, position } = language['landing.banners'][
-        indexBanner
-      ];
+    if (indexBanner < languagePage.banners.length) {
+      const { titles = [] } = languagePage.banners[indexBanner];
+
       return (
-        <div
-          id="container-title"
-          className={styles.container_title}
-          style={
-            width >= 700
-              ? {
-                  transform: `translateX(${position})`,
-                }
-              : {}
-          }
-        >
-          <h1>{title}</h1>
-          {/* {subtitle && <p>{subtitle}</p>} */}
+        <div id="container-title" className={styles.title}>
+          {titles.map((title, index) =>
+            React.createElement(`h${index + 1}`, { children: title }),
+          )}
+          <button onClick={handleClient}>
+            {languagePage.label.simulation}
+          </button>
         </div>
       );
     }
+
     return <></>;
-  }, [width, indexBanner]);
-
-  const bannerPosition = useMemo(() => {
-    if (navigator.userAgent.toLowerCase().includes('mobile')) {
-      // mobile
-      switch (indexBanner) {
-        case 0:
-          return '15%';
-
-        case 1:
-          return '20%';
-
-        case 2:
-          return '70%';
-
-        default:
-          break;
-      }
-    } else {
-      // desktop
-      switch (indexBanner) {
-        case 1:
-          return '30%';
-
-        case 2:
-          return '70%';
-
-        default:
-          break;
-      }
-    }
-    return 0;
   }, [indexBanner]);
+
+  const renderActions = useMemo(() => {
+    const dropdown = (
+      <div className={styles.dropdown}>
+        {navigator.window.size.x < 500 && (
+          <Button onClick={handleLogin}>{languagePage.label.login}</Button>
+        )}
+        <Button onClick={handleLoginClient}>{languagePage.label.client}</Button>
+        <Button type="secondary" onClick={handleAgent}>
+          {languagePage.label.agent}
+        </Button>
+      </div>
+    );
+
+    return navigator.window.size.x < 500 ? (
+      <i className="fas fa-caret-down">{dropdown}</i>
+    ) : (
+      <Button onClick={handleLogin} icon="fas fa-caret-down">
+        {languagePage.label.login}
+        {dropdown}
+      </Button>
+    );
+  }, [navigator.window.size.x]);
 
   return (
     <div className={styles.container}>
-      <head ref={headerRef} className={styles.header}>
+      <header ref={headerRef} className={styles.header}>
         <img src={logo} onClick={handleTop} />
-        <Button onClick={handleLogin} {...language['component.button.login']} />
-      </head>
+        {renderActions}
+      </header>
       <section className={styles.section_header}>
-        {bannersDesktop.map((banner, index) => (
+        {banners.map((banner, index) => (
           <div
             key={index}
-            className={styles.slider_item}
-            style={{
-              backgroundImage: `url(${banner})`,
-              backgroundPosition: bannerPosition,
-            }}
+            data-index={index}
+            className={styles.banner}
+            data-active={index === indexBanner}
+            style={{ backgroundImage: `url(${banner})` }}
           />
         ))}
         {renderTitle}
-        <div className={styles.container_action}>
+        {/* <div className={styles.container_action}>
           <Button icon="fa fa-calculator" onClick={handleClient}>
             {language['landing.button.simulation.text']}
           </Button>
@@ -304,13 +274,13 @@ function Landing() {
           >
             {language['landing.button.agent.text']}
           </Button>
-        </div>
-        <div className={styles.container_selector}>
-          {bannersDesktop.map((_banner, index) => (
+        </div> */}
+        <div className={styles.selector}>
+          {banners.map((_banner, index) => (
             <div
               key={index}
               onClick={() => setBanner(index)}
-              className={styles.selector_item}
+              data-active={index === indexBanner}
             />
           ))}
         </div>
