@@ -32,6 +32,7 @@ function ProposalSimulation() {
   const dispatch = useDispatch();
 
   // redux state
+  const auth = useSelector(state => state.auth);
   const simulation = useSelector(state => state.simulation);
   const { steps, register } = simulation;
 
@@ -64,8 +65,16 @@ function ProposalSimulation() {
     }
   }
 
+  function handleCancel() {
+    history.push(auth.uid ? '/simulacao' : '/');
+  }
+
   async function handleChoose(card) {
     try {
+      if (!auth.uid) {
+        return history.push('/login');
+      }
+
       dispatch(actionsContainer.loading());
 
       const response = await propostaApi.getFields({
@@ -115,7 +124,7 @@ function ProposalSimulation() {
           icon: language['component.button.register'].icon,
         },
         {
-          onClick: () => history.push('/simulacao'),
+          onClick: handleCancel,
           ...language['component.button.cancel'],
         },
       ]}

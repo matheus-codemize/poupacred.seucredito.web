@@ -1,13 +1,27 @@
 export const routesAgent = [
-  { path: '/inicio', component: 'Home', name: 'Início', icon: 'fa fa-home' },
-  { path: '/crm', component: 'Crm', name: 'CRM', icon: 'fa fa-users' },
   {
+    key: 'home',
+    path: '/inicio',
+    component: 'Home',
+    name: 'Início',
+    icon: 'fa fa-home',
+  },
+  {
+    key: 'crm',
+    path: '/crm',
+    component: 'Crm',
+    name: 'CRM',
+    icon: 'fa fa-users',
+  },
+  {
+    key: 'proposal',
     path: '/proposta',
     component: 'Proposal',
     name: 'Propostas',
     icon: 'fab fa-buffer',
   },
   {
+    key: 'simulation',
     path: '/simulacao',
     component: 'Simulation',
     name: 'Simulação',
@@ -16,14 +30,22 @@ export const routesAgent = [
 ];
 
 export const routesClient = [
-  { path: '/inicio', component: 'Home', name: 'Início', icon: 'fa fa-home' },
   {
+    key: 'home',
+    path: '/inicio',
+    component: 'Home',
+    name: 'Início',
+    icon: 'fa fa-home',
+  },
+  {
+    key: 'proposal',
     path: '/proposta',
     component: 'Proposal',
     name: 'Propostas',
     icon: 'fab fa-buffer',
   },
   {
+    key: 'simulation',
     path: '/simulacao',
     component: 'Simulation',
     name: 'Simulação',

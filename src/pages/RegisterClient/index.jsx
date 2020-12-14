@@ -4,6 +4,9 @@ import { useHistory } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import styles from './style.module.css';
 
+// assets
+import backgroundImg from '../../assets/images/background/panel/cadastro.jpg';
+
 // redux
 import actionsAuth from '../../redux/actions/auth';
 import actionsContainer from '../../redux/actions/container';
@@ -192,123 +195,121 @@ function RegisterClient() {
   }, [step, register, errors]);
 
   return (
-    <div>
-      <Panel useDivider title={languagePage.title}>
-        <Panel.Body>
-          <form
-            data-step={step}
-            onSubmit={handleSave}
-            className={styles.container}
+    <Panel useDivider background={backgroundImg} title={languagePage.title}>
+      <Panel.Body>
+        <form
+          data-step={step}
+          onSubmit={handleSave}
+          className={styles.container}
+        >
+          <Box
+            onBack={handleBack}
+            size={step && navigator.window.size.x >= 500 ? 'sm' : 'lg'}
           >
-            <Box
-              onBack={handleBack}
-              size={step && navigator.window.size.x >= 500 ? 'sm' : 'lg'}
-            >
-              <h1>{languagePage.stepTitles[step]}</h1>
-              <Carousel step={step}>
-                <Carousel.Step>
-                  <div className={styles.form}>
-                    <Input
-                      id="nome"
-                      col={getCol}
-                      helpType="error"
-                      onBlur={handleBlur}
-                      value={register.nome}
-                      onChange={handleChange}
-                      help={errors.nome || ''}
-                      {...languageForm.nome}
-                    />
-                    <Input
-                      id="cpf"
-                      type="cpf"
-                      col={getCol}
-                      helpType="error"
-                      onBlur={handleBlur}
-                      value={register.cpf}
-                      onChange={handleChange}
-                      help={errors.cpf || ''}
-                      {...languageForm.cpf}
-                    />
-                    <Input
-                      col={getCol}
-                      id="nascimento"
-                      type="birthday"
-                      helpType="error"
-                      onBlur={handleBlur}
-                      onChange={handleChange}
-                      value={register.nascimento}
-                      help={errors.nascimento || ''}
-                      {...languageForm.nascimento}
-                    />
-                    <Input
-                      id="celular"
-                      type="phone"
-                      col={getCol}
-                      helpType="error"
-                      onBlur={handleBlur}
-                      onChange={handleChange}
-                      value={register.celular}
-                      help={errors.celular || ''}
-                      {...languageForm.celular}
-                    />
-                    <Input
-                      id="email"
-                      col={getCol}
-                      htmlType="email"
-                      helpType="error"
-                      onBlur={handleBlur}
-                      value={register.email}
-                      onChange={handleChange}
-                      help={errors.email || ''}
-                      {...languageForm.email}
-                    />
-                    <RadioGroup
-                      id="sexo"
-                      col={getCol}
-                      value={register.sexo}
-                      onChange={handleChange}
-                      options={[
-                        { value: 1, label: 'Masculino' },
-                        { value: 2, label: 'Feminino' },
-                      ]}
-                      {...languageForm.sexo}
-                    />
-                  </div>
-                </Carousel.Step>
-                <Carousel.Step>
+            <h1>{languagePage.stepTitles[step]}</h1>
+            <Carousel step={step}>
+              <Carousel.Step>
+                <div className={styles.form}>
                   <Input
-                    id="senha"
+                    id="nome"
+                    col={getCol}
                     helpType="error"
-                    htmlType="password"
                     onBlur={handleBlur}
+                    value={register.nome}
                     onChange={handleChange}
-                    help={errors.senha || ''}
-                    value={register.senha || ''}
-                    placeholder={languageForm.senha.placeholder}
+                    help={errors.nome || ''}
+                    {...languageForm.nome}
                   />
                   <Input
+                    id="cpf"
+                    type="cpf"
+                    col={getCol}
                     helpType="error"
-                    id="confirma_senha"
-                    htmlType="password"
+                    onBlur={handleBlur}
+                    value={register.cpf}
+                    onChange={handleChange}
+                    help={errors.cpf || ''}
+                    {...languageForm.cpf}
+                  />
+                  <Input
+                    col={getCol}
+                    id="nascimento"
+                    type="birthday"
+                    helpType="error"
                     onBlur={handleBlur}
                     onChange={handleChange}
-                    value={register.confirma_senha}
-                    help={errors.confirma_senha || ''}
-                    placeholder={languageForm.confirmaSenha.placeholder}
+                    value={register.nascimento}
+                    help={errors.nascimento || ''}
+                    {...languageForm.nascimento}
                   />
-                  <TermPolity />
-                </Carousel.Step>
-              </Carousel>
-              <Button
-                htmlType="submit"
-                disabled={disabledBtnSubmit}
-                {...language[`component.button.${step ? 'register' : 'next'}`]}
-              />
-            </Box>
-          </form>
-        </Panel.Body>
-      </Panel>
-    </div>
+                  <Input
+                    id="celular"
+                    type="phone"
+                    col={getCol}
+                    helpType="error"
+                    onBlur={handleBlur}
+                    onChange={handleChange}
+                    value={register.celular}
+                    help={errors.celular || ''}
+                    {...languageForm.celular}
+                  />
+                  <Input
+                    id="email"
+                    col={getCol}
+                    htmlType="email"
+                    helpType="error"
+                    onBlur={handleBlur}
+                    value={register.email}
+                    onChange={handleChange}
+                    help={errors.email || ''}
+                    {...languageForm.email}
+                  />
+                  <RadioGroup
+                    id="sexo"
+                    col={getCol}
+                    value={register.sexo}
+                    onChange={handleChange}
+                    options={[
+                      { value: 1, label: 'Masculino' },
+                      { value: 2, label: 'Feminino' },
+                    ]}
+                    {...languageForm.sexo}
+                  />
+                </div>
+              </Carousel.Step>
+              <Carousel.Step>
+                <Input
+                  id="senha"
+                  helpType="error"
+                  htmlType="password"
+                  onBlur={handleBlur}
+                  onChange={handleChange}
+                  help={errors.senha || ''}
+                  value={register.senha || ''}
+                  placeholder={languageForm.senha.placeholder}
+                />
+                <Input
+                  helpType="error"
+                  id="confirma_senha"
+                  htmlType="password"
+                  onBlur={handleBlur}
+                  onChange={handleChange}
+                  value={register.confirma_senha}
+                  help={errors.confirma_senha || ''}
+                  placeholder={languageForm.confirmaSenha.placeholder}
+                />
+                <TermPolity />
+              </Carousel.Step>
+            </Carousel>
+            <Button
+              htmlType="submit"
+              disabled={disabledBtnSubmit}
+              {...language[`component.button.${step ? 'register' : 'next'}`]}
+            />
+          </Box>
+        </form>
+      </Panel.Body>
+    </Panel>
   );
 }
 

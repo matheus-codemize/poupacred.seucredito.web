@@ -63,7 +63,7 @@ const reducers = (state = inital_state, action) => {
 
     case actionsTypes.BLOCKSTEP:
       Object.assign(state, payload);
-      console.log(state.stepBlock === -1, state);
+      
       if (state.stepBlock === -1) {
         state.step++;
         state.stepBlock = state.step;

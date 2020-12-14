@@ -162,7 +162,9 @@ function CreateSimulation({ ...rest }) {
         step === Object.keys(registerDefault).length - 1)
     ) {
       unlockStep();
-      return history.goBack();
+      return auth.uid || isResimulation || isProposal
+        ? history.goBack()
+        : history.replace('/');
     }
     dispatch(actions.backStep());
   }
@@ -370,7 +372,9 @@ function CreateSimulation({ ...rest }) {
       background={backgroundImg}
       title={
         languagePage[
-          isResimulation
+          !auth.uid
+            ? 'title'
+            : isResimulation
             ? 'resimulationTitle'
             : isProposal
             ? 'choosePropostalTitle'

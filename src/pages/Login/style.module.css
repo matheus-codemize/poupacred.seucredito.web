@@ -61,8 +61,12 @@
   margin-bottom: 2rem;
 }
 
-.form button[type='submit'] {
-  width: 100%;
+.form button[type='button'] {
+  font-size: 16px;
+}
+
+.form button[type='button']:hover {
+  color: rgb(var(--color-primary));
 }
 
 .form_type {

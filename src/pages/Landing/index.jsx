@@ -4,11 +4,9 @@ import { useHistory } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import styles from './style.module.css';
 
-// assets
-import logo from '../../assets/images/logo.png';
-
 // redux
 import actionsAuth from '../../redux/actions/auth';
+import actionsSimulation from '../../redux/actions/simulation';
 
 // components
 import Button from '../../components/Button';
@@ -17,6 +15,7 @@ import Button from '../../components/Button';
 import language from '../../utils/language';
 
 // assets
+import logo from '../../assets/images/logo.png';
 import Term from '../../assets/documents/politica_privacidade.pdf';
 import Polity from '../../assets/documents/politica_privacidade.pdf';
 
@@ -180,8 +179,9 @@ function Landing() {
     );
   }
 
-  function handleClient() {
-    history.push('/cadastro/cliente');
+  function handleSimulation() {
+    dispatch(actionsSimulation.init());
+    history.push('/simulacao');
   }
 
   function handleAgent(event) {
@@ -211,7 +211,7 @@ function Landing() {
           {titles.map((title, index) =>
             React.createElement(`h${index + 1}`, { children: title }),
           )}
-          <button onClick={handleClient}>
+          <button type="button" onClick={handleSimulation}>
             {languagePage.label.simulation}
           </button>
         </div>
@@ -261,22 +261,6 @@ function Landing() {
           />
         ))}
         {renderTitle}
-        {/* <div className={styles.container_action}>
-          <Button icon="fa fa-calculator" onClick={handleClient}>
-            {language['landing.button.simulation.text']}
-          </Button>
-          <Button icon="fa fa-user" onClick={handleLoginClient}>
-            {language['landing.button.client.text']}
-          </Button>
-          <Button
-            gradient
-            type="secondary"
-            icon="fa fa-user-tie"
-            onClick={handleAgent}
-          >
-            {language['landing.button.agent.text']}
-          </Button>
-        </div> */}
         <div className={styles.selector}>
           {banners.map((_banner, index) => (
             <div
@@ -345,7 +329,7 @@ function Landing() {
         </div>
         <div className={styles.container_contacts}>
           {language['landing.footer'].contacts.map((contact, index) => (
-            <div className={styles.contact} key={index}>
+            <div key={index} className={styles.contact}>
               <i className={`fa ${contact.icon}`} />
               <div dangerouslySetInnerHTML={{ __html: contact.text }} />
             </div>

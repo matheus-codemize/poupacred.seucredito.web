@@ -1,8 +1,11 @@
 import React, { useMemo, useEffect, useState, useCallback } from 'react';
 import _ from 'lodash';
+import { useHistory } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import { useHistory, useLocation } from 'react-router-dom';
 import styles from './style.module.css';
+
+// assets
+import backgroundImg from '../../assets/images/background/panel/cadastro.jpg';
 
 // redux
 import actionsAuth from '../../redux/actions/auth';
@@ -42,7 +45,7 @@ const languageForm = language['component.form.props'];
 const keysByStep = {
   0: ['cpf', 'sexo', 'nome', 'email', 'celular', 'nascimento', 'rg_cnh'],
   1: ['cep', 'bairro', 'cidade', 'endereco', 'comprovante_endereco'],
-  2: ['certificacao', 'curriculo'],
+  2: ['curriculo'],
 };
 
 function RegisterAgent() {
@@ -99,6 +102,19 @@ function RegisterAgent() {
           [id]: value,
           cidade: '',
         }));
+
+      case 'rg_cnh':
+        if (value && !languageForm.rg_cnh.accept.includes(value.type)) {
+          return setErrors(prevErrors => ({
+            ...prevErrors,
+            [id]: errorsLanguage.typeFile.replace(
+              '[field]',
+              languageForm.rg_cnh.accept
+                .replace('image/', '.')
+                .replace('application/', '.'),
+            ),
+          }));
+        }
 
       default:
         break;
@@ -231,7 +247,7 @@ function RegisterAgent() {
   }, [step, register, errors, container.loading]);
 
   return (
-    <Panel useDivider title={languagePage.title}>
+    <Panel useDivider background={backgroundImg} title={languagePage.title}>
       <Panel.Body>
         <form
           data-step={step}
@@ -303,6 +319,7 @@ function RegisterAgent() {
                     helpType="error"
                     onChange={handleChange}
                     help={errors.rg_cnh || ''}
+                    value={register.rg_cnh || ''}
                     {...languageForm.rg_cnh}
                   />
                   <RadioGroup

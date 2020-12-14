@@ -14,6 +14,7 @@ function InputFile({
   id,
   help,
   label,
+  value,
   display,
   required,
   disabled,
@@ -22,19 +23,10 @@ function InputFile({
   onChange,
   useCamera,
   placeholder,
-  value: valueProps,
 
   col, // to width
   ...rest
 }) {
-  const [value, setValue] = useState(multiple ? [] : null);
-
-  useEffect(() => {
-    if (typeof onChange === 'function' && (multiple ? value.length : value)) {
-      onChange({ target: { id, value } });
-    }
-  }, [value]);
-
   async function handleChange(event) {
     const { files } = event.target;
 
@@ -52,20 +44,25 @@ function InputFile({
     let valueSelected = multiple
       ? await Promise.all(
           Object.keys(files)
-            .filter(key => !isNaN(parseInt(key)))
-            .map(async key => ({
+            .filter(i => !isNaN(parseInt(i)))
+            .map(async i => ({
+              ...files[i],
               isFile: true,
-              name: files[key].name,
-              data: await fileToBase64(files[key]),
+              name: files[i].name,
+              type: files[i].type,
+              data: await fileToBase64(files[i]),
             })),
         )
       : {
           isFile: true,
           name: files[0].name,
+          type: files[0].type,
           data: await fileToBase64(files[0]),
         };
 
-    setValue(valueSelected);
+    if (typeof onChange === 'function') {
+      onChange({ target: { id, value: valueSelected } });
+    }
   }
 
   function selectFile() {
@@ -75,16 +72,14 @@ function InputFile({
   function openCamera() {}
 
   const renderValueSelected = useMemo(() => {
-    const valueSelected = value || valueProps;
-
-    if (valueSelected) {
+    if (value && typeof value === 'object') {
       return multiple
-        ? `${valueSelected.length} arquivo(s) selecionado(s)`
-        : valueSelected.name;
+        ? `${value.length} arquivo(s) selecionado(s)`
+        : value.name;
     }
 
     return placeholder;
-  }, [value, multiple, placeholder, valueProps]);
+  }, [value, multiple, placeholder]);
 
   const renderLabel = useMemo(() => {
     return (
@@ -117,6 +112,7 @@ function InputFile({
       data-col={typeof col === 'function' ? col(id) : col}
     >
       <input
+        {...rest}
         id={id}
         value=""
         type="file"
@@ -164,6 +160,11 @@ InputFile.propTypes = {
   onChange: PropTypes.func.isRequired,
   display: PropTypes.oneOf(['vertical', 'horizontal']),
   col: PropTypes.oneOfType([PropTypes.func, PropTypes.number]),
+  value: PropTypes.oneOfType([
+    PropTypes.array,
+    PropTypes.object,
+    PropTypes.string,
+  ]).isRequired,
 };
 
 export default InputFile;

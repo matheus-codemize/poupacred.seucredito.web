@@ -47,10 +47,10 @@ function Simulation() {
   const [pagination, setPagination] = useState({ current: 1, total: 0 });
 
   useEffect(() => {
-    if (location.pathname === '/simulacao') {
+    if (location.pathname === '/simulacao' && auth.uid) {
       initComponent();
     }
-  }, [pagination.current, location.pathname]);
+  }, [auth, pagination.current, location.pathname]);
 
   async function initComponent() {
     dispatch(actionsContainer.loading());
@@ -100,6 +100,7 @@ function Simulation() {
             break;
 
           case 2:
+            // Processando Margem - nada acontece
             break;
 
           case 3: // Finalizado - redireciona para a tela de propostas pós simulação
@@ -138,7 +139,7 @@ function Simulation() {
           <p>{item.status}</p>
         </div>
       ),
-      disabled: item.status === '',
+      disabled: item.status_id === 2,
       onClick: () => handleClickSimulation(item),
     }));
   }, [dataset]);
@@ -147,7 +148,7 @@ function Simulation() {
     return <Proposal />;
   }
 
-  if (location.pathname !== '/simulacao') {
+  if (location.pathname !== '/simulacao' || !auth.uid) {
     return <Create />;
   }
 

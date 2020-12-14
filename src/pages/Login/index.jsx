@@ -185,6 +185,10 @@ function Login() {
     dispatch(actions.logout());
   }
 
+  function handleRegister() {
+    history.push(`/cadastro/${type}e`);
+  }
+
   const disabledBtnLogin = useMemo(() => {
     return (
       Object.keys(error).filter(key => error[key]).length > 0 ||
@@ -306,15 +310,20 @@ function Login() {
             </Carousel.Step>
           </Carousel>
           {step > 0 && (
-            <Button
-              light
-              data-unique
-              htmlType="submit"
-              disabled={disabledBtnLogin}
-              {...language[
-                `component.button.${step <= 1 ? 'login' : 'register'}`
-              ]}
-            />
+            <>
+              <Button
+                light
+                data-unique
+                htmlType="submit"
+                disabled={disabledBtnLogin}
+                {...language[
+                  `component.button.${step <= 1 ? 'login' : 'register'}`
+                ]}
+              />
+              <Button type="link" onClick={handleRegister}>
+                {languagePage.register}
+              </Button>
+            </>
           )}
         </Box>
       </form>

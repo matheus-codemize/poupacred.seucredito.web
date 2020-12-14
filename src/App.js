@@ -16,6 +16,7 @@ import 'react-toastify/dist/ReactToastify.css';
 
 // components
 import Chat from './components/Chat';
+import Header from './components/Header';
 import Sidebar from './components/Sidebar';
 import BoxHelp from './components/BoxHelp';
 import Container from './components/Container';
@@ -44,7 +45,6 @@ const pages = {
   Crm,
   Home,
   Proposal,
-  Simulation,
 };
 
 function App() {
@@ -99,6 +99,7 @@ function App() {
   return (
     <Router>
       <Container />
+      {/* {!auth.uid && <Header />} */}
       {routes.length > 0 && <Sidebar />}
       {!!auth.uid && !auth.primeiro_acesso && (
         <>
@@ -132,18 +133,23 @@ function App() {
             <Login />
           )}
         </Route>
+        <Route path="/simulacao">
+          <Simulation />
+        </Route>
         {!!auth.uid && !auth.primeiro_acesso && auth.type === 'agent' && (
           <Route path="/relatorio">
             <Report />
           </Route>
         )}
-        {routes.map((route, index) => (
-          <Route
-            key={index}
-            path={route.path}
-            component={pages[route.component]}
-          />
-        ))}
+        {routes
+          .filter(route => route.key !== 'simulation')
+          .map((route, index) => (
+            <Route
+              key={index}
+              path={route.path}
+              component={pages[route.component]}
+            />
+          ))}
         <Route>
           <Redirect to={auth.uid ? '/inicio' : '/'} />
         </Route>

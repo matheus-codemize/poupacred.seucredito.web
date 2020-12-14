@@ -1,11 +1,7 @@
-import React, { useMemo, useEffect, useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { useHistory, useLocation, Link } from 'react-router-dom';
-
-// redux
-import actionsSidebar from '../../redux/actions/sidebar';
-
-// css
+import React, { useRef, useMemo, useEffect, useState } from 'react';
+import $ from 'jquery';
+import { useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 import styles from './style.module.css';
 
 // utils
@@ -17,101 +13,107 @@ import logo from '../../assets/images/logo.png';
 // components
 import Button from '../Button';
 
+const languageComp = language['component.header'];
+
 function Header() {
+  // references
+  const headerRef = useRef(null);
+
+  // resources hooks
   const history = useHistory();
-  const location = useLocation();
-  const dispatch = useDispatch();
 
-  const auth = useSelector(state => state.auth);
+  // redux state
+  const navigator = useSelector(state => state.navigator);
 
-  const [opactity, setOpactity] = useState(0);
-  const [loadLogo, setLoadLogo] = useState(true);
+  // component state
+  const [scroll, setScroll] = useState(0);
 
   useEffect(() => {
-    window.removeEventListener('scroll', this);
-    window.addEventListener('scroll', () => {
-      const scroll = Math.min(100, window.scrollY);
-      const value = scroll / 100;
-      if (!value || opactity - value > 0.1 || opactity - value < -0.1) {
-        setOpactity(value);
-      }
-    });
-  }, [opactity]);
+    window.addEventListener('scroll', scrollWindow);
 
-  function handleSidebar() {
-    dispatch(actionsSidebar.open());
+    return () => {
+      window.removeEventListener('scroll', scrollWindow);
+    };
+  }, [navigator.type]);
+
+  function handleAgent(event) {
+    event.stopPropagation();
+    history.push('/cadastro/agente');
   }
 
-  const renderLogo = useMemo(() => {
-    if (location.pathname !== '/') {
-      if (auth.uid) {
-        return auth.primeiro_acesso ? (
-          <></>
-        ) : (
-          <button
-            onClick={handleSidebar}
-            className={styles.btn_open_sidebar}
-            style={{
-              color:
-                opactity >= 0.5
-                  ? `rgba(var(--color-primary), ${opactity})`
-                  : 'rgb(var(--color-white))',
-              borderColor:
-                opactity >= 0.5
-                  ? `rgba(var(--color-primary), ${opactity})`
-                  : 'rgb(var(--color-white))',
-            }}
-          >
-            <i className="fa fa-bars" />
-          </button>
-        );
+  function handleLoginClient(event) {
+    event.stopPropagation();
+    history.push('/login', { login: { type: 'client' } });
+  }
+
+  function handleTop() {
+    $('html, body').animate({ scrollTop: 0 });
+  }
+
+  function handleLogin() {
+    history.push('/login');
+  }
+
+  function scrollWindow() {
+    const { advantage_title, advantage, animation_visible } = styles;
+    const classes = [advantage_title, advantage];
+
+    setScroll(prevScroll => {
+      if (headerRef.current) {
+        if (!window.scrollY) {
+          headerRef.current.style.top = 0;
+          headerRef.current.style.position = 'absolute';
+        } else {
+          setTimeout(() => {
+            headerRef.current.style.position = 'fixed';
+          }, 400);
+
+          if (prevScroll > window.scrollY) {
+            headerRef.current.style.top = 0;
+          } else {
+            headerRef.current.style.top = `-${
+              headerRef.current.offsetHeight + 5
+            }px`;
+          }
+        }
+
+        if (prevScroll > 80) {
+          headerRef.current.classList.add(styles.header_block);
+        } else {
+          headerRef.current.classList.remove(styles.header_block);
+        }
       }
-    }
+      return window.scrollY;
+    });
+  }
 
-    return (
-      <Link to={location.pathname.includes('success') ? '#' : '/'}>
-        {loadLogo ? (
-          <img
-            src={logo}
-            alt="logo"
-            className={styles.logo}
-            onError={() => setLoadLogo(false)}
-          />
-        ) : (
-          <h2>{language['title']}</h2>
+  const renderActions = useMemo(() => {
+    const dropdown = (
+      <div className={styles.dropdown}>
+        {navigator.window.size.x < 500 && (
+          <Button onClick={handleLogin}>{languageComp.label.login}</Button>
         )}
-      </Link>
+        <Button onClick={handleLoginClient}>{languageComp.label.client}</Button>
+        <Button type="secondary" onClick={handleAgent}>
+          {languageComp.label.agent}
+        </Button>
+      </div>
     );
-  }, [opactity, auth, auth.uid, loadLogo, location]);
 
-  const renderButtonSignin = useMemo(() => {
-    if (
-      location.pathname.includes('login') ||
-      location.pathname.includes('success') ||
-      location.pathname.includes('register') ||
-      (auth.uid && location.pathname !== '/')
-    )
-      return <></>;
-    return (
-      <Button icon="fa fa-sign-in-alt" onClick={() => history.push('/login')}>
-        {language['header.button.sigin.text']}
+    return navigator.window.size.x < 500 ? (
+      <i className="fas fa-caret-down">{dropdown}</i>
+    ) : (
+      <Button onClick={handleLogin} icon="fas fa-caret-down">
+        {languageComp.label.login}
+        {dropdown}
       </Button>
     );
-  }, [opactity, auth, auth.uid, location.pathname]);
+  }, [navigator.window.size.x]);
 
   return (
-    <header
-      className={styles.header}
-      style={{
-        backgroundColor: `rgba(var(--color-white), ${opactity})`,
-        boxShadow:
-          opactity === 1
-            ? '0px 1px 3px 1px rgba(var(--color-black), 0.2)'
-            : undefined,
-      }}
-    >
-      {renderLogo}
-      {renderButtonSignin}
+    <header ref={headerRef} className={styles.header}>
+      <img src={logo} onClick={handleTop} />
+      {renderActions}
     </header>
   );
 }

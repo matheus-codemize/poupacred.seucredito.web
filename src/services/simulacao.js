@@ -132,3 +132,19 @@ export async function find(id) {
   }
   return null;
 }
+
+/**
+ * Função para gerar margem (quando o usuário não sabe a margem)
+ * @param {object} data
+ */
+export async function margin(data) {
+  try {
+    const url = '/simulacoes/margem/processar';
+    const response = await api.post(url, data);
+    return response;
+  } catch (err) {
+    const message = _.get(err, 'response.data.erro', err.message);
+    toast.error(message);
+  }
+  return null;
+}

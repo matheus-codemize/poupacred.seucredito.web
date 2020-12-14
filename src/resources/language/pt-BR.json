@@ -11,6 +11,9 @@
   "component.listempty": {
     "text": "Nenhum registro encontrado."
   },
+  "component.header": {
+    "client": ""
+  },
   "component.header.user": {
     "logout": "Sair",
     "edit": "Editar dados",
@@ -52,7 +55,9 @@
   },
 
   "component.margin": {
-    "btn_not": "Não Sei a Margem"
+    "not": "Não Sei a Margem",
+    "login": "Para continuar, é preciso realizar login/cadastro",
+    "margin": "A margem será processada em instantes. Acompanhe sua simulação no painel do usuário"
   },
 
   "component.button.login": {
@@ -272,7 +277,8 @@
     "helpLogin": [
       "Informe um CPF válido e existente.",
       "Senha deve ter pelo menos 6 caracteres."
-    ]
+    ],
+    "register": "Ainda não tem cadastro?"
   },
 
   "page.home": {
@@ -529,8 +535,8 @@
     },
     "rg_cnh": {
       "label": "RG / CNH",
-      "accept": ".png, .jpeg, .jpg, .pdf",
-      "placeholder": "Selecione um documento"
+      "placeholder": "Selecione um documento",
+      "accept": "image/png, image/jpeg, image/jpg, application/pdf"
     },
     "cep": {
       "label": "CEP",
