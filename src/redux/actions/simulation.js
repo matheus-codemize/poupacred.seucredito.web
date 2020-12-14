@@ -1,6 +1,18 @@
 import actionsTypes from '../constants/simulation';
 
 const actions = {
+  on: () => ({
+    type: actionsTypes.UPDATE,
+    payload: { off: false },
+  }),
+  off: () => ({
+    type: actionsTypes.UPDATE,
+    payload: { off: true },
+  }),
+  proposals: (data = []) => ({
+    type: actionsTypes.UPDATE,
+    payload: { proposals: data },
+  }),
   init: () => ({
     type: actionsTypes.INIT,
   }),

@@ -83,9 +83,10 @@ BoxData.propTypes = {
   useDirection: PropTypes.bool,
   details: PropTypes.arrayOf(
     PropTypes.shape({
-      title: PropTypes.string.isRequired,
-      value: PropTypes.string.isRequired,
       isDescription: PropTypes.bool,
+      title: PropTypes.string.isRequired,
+      value: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
+        .isRequired,
     }),
   ),
 };
