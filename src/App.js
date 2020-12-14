@@ -53,6 +53,7 @@ function App() {
 
   // redux state
   const auth = useSelector(state => state.auth);
+  const simulation = useSelector(state => state.simulation);
 
   /**
    * esse efeito tem por objetivo salvar no redux o tamanho da tela
@@ -128,7 +129,11 @@ function App() {
         </Route>
         <Route path="/login">
           {auth.uid && !auth.primeiro_acesso ? (
-            <Redirect push from="/login" to="/inicio" />
+            <Redirect
+              push
+              from="/login"
+              to={simulation.off ? '/simulacao/propostas' : '/inicio'}
+            />
           ) : (
             <Login />
           )}

@@ -1,4 +1,4 @@
-import React, { useMemo, useEffect } from 'react';
+import React, { useMemo } from 'react';
 import _ from 'lodash';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, useLocation } from 'react-router-dom';
@@ -28,20 +28,12 @@ const languagePage = language['page.simulation'];
 function ProposalSimulation() {
   // resources hooks
   const history = useHistory();
-  const location = useLocation();
   const dispatch = useDispatch();
 
   // redux state
   const auth = useSelector(state => state.auth);
   const simulation = useSelector(state => state.simulation);
-  const { steps, register } = simulation;
-
-  useEffect(() => {
-    if (!register.simulacao_id) {
-      const simulacao_id = _.get(location, 'state.simulation.simulacao_id', 0);
-      dispatch(actions.register({ ...simulation.register, simulacao_id }));
-    }
-  }, [location.state]);
+  const { steps, register, proposals } = simulation;
 
   async function handleOtherSimulation() {
     try {
@@ -72,6 +64,7 @@ function ProposalSimulation() {
   async function handleChoose(card) {
     try {
       if (!auth.uid) {
+        dispatch(actions.off());
         return history.push('/login');
       }
 
@@ -100,17 +93,15 @@ function ProposalSimulation() {
   }
 
   const renderData = useMemo(() => {
-    const cards = _.get(location, 'state.simulation.cards', []);
-
-    return cards.map(item => {
-      item.footer = (
+    return proposals.map(item => ({
+      ...item,
+      footer: (
         <Button gradient onClick={() => handleChoose(item)}>
           {languagePage.proposalChoose}
         </Button>
-      );
-      return item;
-    });
-  }, [simulation, location.state]);
+      ),
+    }));
+  }, [simulation]);
 
   return (
     <Panel

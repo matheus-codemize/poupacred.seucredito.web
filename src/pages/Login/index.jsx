@@ -46,6 +46,7 @@ function Login() {
   // redux state
   const auth = useSelector(state => state.auth);
   const navigator = useSelector(state => state.navigator);
+  const simulation = useSelector(state => state.simulation);
 
   // component style
   const [step, setStep] = useState(0);
@@ -78,7 +79,9 @@ function Login() {
   }, [step, auth.primeiro_acesso]);
 
   function handleBack() {
-    if (!step) return history.replace('/');
+    if (!step) {
+      return history.replace(simulation.off ? '/simulacao/propostas' : '/');
+    }
     setStep(prevStep => prevStep - 1);
   }
 
@@ -138,16 +141,18 @@ function Login() {
         : `/${type}es/login`;
       const request = await api.post(url, data);
 
-      return auth.primeiro_acesso
-        ? dispatch(actions.first())
-        : dispatch(
-            actions.signIn({
-              ...request,
-              type,
-              login: register.login,
-              senha: hash.encrypt(register.senha),
-            }),
-          );
+      if (auth.primeiro_acesso) {
+        dispatch(actions.first());
+      } else {
+        dispatch(
+          actions.signIn({
+            ...request,
+            type,
+            login: register.login,
+            senha: hash.encrypt(register.senha),
+          }),
+        );
+      }
     } catch (err) {
       const responseErro = _.get(err, 'response.data', err.message);
 
@@ -197,16 +202,6 @@ function Login() {
         : !register.novaSenha || !register.confirmaSenha)
     );
   }, [step, error, register]);
-
-  const renderHelp = (
-    <div className={styles.help}>
-      <ul>
-        {languagePage.helpLogin.map((help, index) => (
-          <li key={index}>{help}</li>
-        ))}
-      </ul>
-    </div>
-  );
 
   const renderBanner = useMemo(() => {
     return (

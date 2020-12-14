@@ -7,6 +7,8 @@ const inital_state = {
   step: 0,
   register,
   steps: [],
+  off: false,
+  proposals: [],
   stepBlock: -1,
   isProposal: false,
   isResimulation: false,
@@ -20,7 +22,7 @@ const reducers = (state = inital_state, action) => {
       return { ...inital_state };
 
     case actionsTypes.UPDATE:
-      return Object.assign({}, state, payload);
+      return { ...state, ...payload };
 
     case actionsTypes.BACKSTEP:
       state.step = state.step - 1;
@@ -63,7 +65,7 @@ const reducers = (state = inital_state, action) => {
 
     case actionsTypes.BLOCKSTEP:
       Object.assign(state, payload);
-      
+
       if (state.stepBlock === -1) {
         state.step++;
         state.stepBlock = state.step;

@@ -1,7 +1,7 @@
-import React, { useState, useMemo, useEffect, useCallback } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import _ from 'lodash';
+import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { useHistory, useLocation } from 'react-router-dom';
 import styles from './style.module.css';
 
 // redux
@@ -55,7 +55,6 @@ const components = {
 function CreateSimulation({ ...rest }) {
   // resources hooks
   const history = useHistory();
-  const location = useLocation();
   const dispatch = useDispatch();
 
   // redux state
@@ -233,12 +232,18 @@ function CreateSimulation({ ...rest }) {
           nascimento: moment(register.nascimento).format('DD/MM/YYYY'),
         });
         path = '/simulacao/propostas';
-        state = { simulation: response };
+        dispatch(actions.proposals(response.cards));
+        dispatch(
+          actions.register({
+            ...register,
+            simulacao_id: response.simulacao_id,
+          }),
+        );
       }
 
-      if (response) {
+      if (path) {
         unlockStep();
-        history.push(path, state);
+        history.push(path, state || null);
       }
     } catch (err) {
       const message = _.get(err, 'response.data.erro', err.message);

@@ -108,18 +108,6 @@
   background-color: rgb(var(--color-secondary));
 }
 
-.help {
-  color: grey;
-  padding-left: 2rem;
-  text-align: justify;
-}
-
-.help > ul > li {
-  padding-left: 1rem;
-  margin-bottom: 2rem;
-  list-style-type: upper-roman;
-}
-
 .banner {
   left: 0;
   bottom: 0;

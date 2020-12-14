@@ -53,6 +53,7 @@ function Simulation() {
   }, [auth, pagination.current, location.pathname]);
 
   async function initComponent() {
+    dispatch(actions.on());
     dispatch(actionsContainer.loading());
     await Promise.all([getStatus()]).then(getDados);
   }
@@ -86,8 +87,8 @@ function Simulation() {
   }
 
   function handleCreate() {
-    history.push('/simulacao/novo');
     dispatch(actions.init());
+    history.push('/simulacao/novo');
   }
 
   async function handleClickSimulation(item) {
