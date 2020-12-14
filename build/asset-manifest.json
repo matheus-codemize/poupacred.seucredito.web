@@ -1,22 +1,23 @@
 {
   "files": {
-    "main.css": "/static/css/main.b27df29d.chunk.css",
-    "main.js": "/static/js/main.3e61c299.chunk.js",
-    "main.js.map": "/static/js/main.3e61c299.chunk.js.map",
+    "main.css": "/static/css/main.08863d52.chunk.css",
+    "main.js": "/static/js/main.36d01795.chunk.js",
+    "main.js.map": "/static/js/main.36d01795.chunk.js.map",
     "runtime-main.js": "/static/js/runtime-main.dab86743.js",
     "runtime-main.js.map": "/static/js/runtime-main.dab86743.js.map",
     "static/css/2.d34346ea.chunk.css": "/static/css/2.d34346ea.chunk.css",
-    "static/js/2.0c4d254a.chunk.js": "/static/js/2.0c4d254a.chunk.js",
-    "static/js/2.0c4d254a.chunk.js.map": "/static/js/2.0c4d254a.chunk.js.map",
+    "static/js/2.db35d4f0.chunk.js": "/static/js/2.db35d4f0.chunk.js",
+    "static/js/2.db35d4f0.chunk.js.map": "/static/js/2.db35d4f0.chunk.js.map",
     "index.html": "/index.html",
-    "precache-manifest.a6067c7360d97aa4fecbfdab7510d8bd.js": "/precache-manifest.a6067c7360d97aa4fecbfdab7510d8bd.js",
+    "precache-manifest.a8e4cbab48349924a82d4fb8fa78815f.js": "/precache-manifest.a8e4cbab48349924a82d4fb8fa78815f.js",
     "service-worker.js": "/service-worker.js",
     "static/css/2.d34346ea.chunk.css.map": "/static/css/2.d34346ea.chunk.css.map",
-    "static/css/main.b27df29d.chunk.css.map": "/static/css/main.b27df29d.chunk.css.map",
-    "static/js/2.0c4d254a.chunk.js.LICENSE.txt": "/static/js/2.0c4d254a.chunk.js.LICENSE.txt",
+    "static/css/main.08863d52.chunk.css.map": "/static/css/main.08863d52.chunk.css.map",
+    "static/js/2.db35d4f0.chunk.js.LICENSE.txt": "/static/js/2.db35d4f0.chunk.js.LICENSE.txt",
     "static/media/banner1.png": "/static/media/banner1.6631b759.png",
     "static/media/banner2.png": "/static/media/banner2.d0ac8824.png",
     "static/media/banner3.png": "/static/media/banner3.2252d9d7.png",
+    "static/media/cadastro.jpg": "/static/media/cadastro.17c91874.jpg",
     "static/media/crm.jpg": "/static/media/crm.0c38d839.jpg",
     "static/media/login-bg-mobile.jpg": "/static/media/login-bg-mobile.37851098.jpg",
     "static/media/login-bg.jpg": "/static/media/login-bg.73527a54.jpg",
@@ -29,8 +30,8 @@
   "entrypoints": [
     "static/js/runtime-main.dab86743.js",
     "static/css/2.d34346ea.chunk.css",
-    "static/js/2.0c4d254a.chunk.js",
-    "static/css/main.b27df29d.chunk.css",
-    "static/js/main.3e61c299.chunk.js"
+    "static/js/2.db35d4f0.chunk.js",
+    "static/css/main.08863d52.chunk.css",
+    "static/js/main.36d01795.chunk.js"
   ]
 }
